@@ -1,18 +1,18 @@
 <template>
-  
-  
-  
-  
-  
+
+
+
+
+
    <div>
         <textarea  type="text"
-                   class="form-control docs-input th-bottom h-font autoresize"
+                   class="form-control docs-input th-bottom h-font ns-font-family autoresize"
                    :class="{'bg-white' : isWhite}"
                    rows = '1'
                    style='line-height:2.6;font-size:.88em;'
                    :placeholder= 'placeholder'
                    onfocus = "this.style.height = 'auto'; this.style.height = (this.scrollHeight) + 'px';"
-                   onfocusout = "this.style.height = 'auto'"  
+                   onfocusout = "this.style.height = 'auto'"
                    v-model="input"
          ></textarea>
     </div>
@@ -32,7 +32,7 @@
                 timeout: 0,
            }
        },
-       created(){ 
+       created(){
            this.initFirst()
            setTimeout(()=> {
                     $(window).trigger("autoresize")
@@ -79,7 +79,7 @@
                })
            }
         }
-        
+
     }
 </script>
 <style>
@@ -87,7 +87,7 @@
       font-family: 'Roboto', sans-serif;
       color: rgba(0,0,0,85);
   }
- 
+
   .h-border{
       border:1px solid transparent;
       transition: all .1s;

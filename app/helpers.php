@@ -1,5 +1,6 @@
 <?php
 
+
 function getUrl(){
     return  \Illuminate\Support\Facades\URL::full();
 }
@@ -22,11 +23,15 @@ function getTestFolder(){
 
 function userRoutes()
 {
+    // ['route' => '', 'icon' => 'nc-icon nc-diamond', 'name' => 'Skills'],
+    //     ['route' => '', 'icon' => 'nc-icon nc-pin-3', 'name' => 'Location'],
+
     return [
         ['route' => 'user.home', 'icon' => 'nc-icon nc-bank', 'name' => 'Home'],
-        ['route' => '', 'icon' => 'nc-icon nc-diamond', 'name' => 'Skills'],
-        ['route' => '', 'icon' => 'nc-icon nc-pin-3', 'name' => 'Location'],
-        ['route' => 'user.profile', 'icon' => 'nc-icon nc-single-02', 'name' => 'Profile']
+        ['route' => 'user.profile', 'icon' => 'nc-icon nc-single-02', 'name' => 'Profile'],
+        ['route' => 'user.mydocs', 'icon' => 'nc-icon nc-single-copy-04', 'name' => 'My docs'],
+        ['route' => 'user.questions', 'icon' => 'nc-icon nc-tap-01', 'name' => 'questions']
+
     ];
 }
 
@@ -39,8 +44,16 @@ function adminRoutes()
 }
 
 
+function collapsedRoutes(){
+    return [
+        'user.home', 'user.profile', 'user.mydocs', 'admin.blog'
+    ];
+}
 
 
+function dval($a){
+    return doubleval($a);
+}
 
 
 

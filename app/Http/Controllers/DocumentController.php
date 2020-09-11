@@ -10,7 +10,7 @@ class DocumentController extends Controller
 {
 
     public function index(){
-        $docs = Docs::select('id','title', 'type','image', 'required')->get();
+        $docs = Docs::select('id','title', 'type','image','index', 'required')->orderBy('index','asc')->get();
         foreach ($docs as $doc){
              $doc->rels;
              $doc->image = $doc->getImage();
@@ -79,6 +79,27 @@ class DocumentController extends Controller
 
         if ($data['change'] == 1){
             $docs->rels()->delete();
+        }
+
+        return response('success', 200);
+    }
+
+    public function updateIndex(Request $request){
+    
+        $data = request()->validate([
+            'data' => ['array', 'required'],
+            'data.*' => 'integer'
+        ]);   
+
+        if (!$data || !$data['data']) return response('no data', '401');
+        $data = $data['data'];
+
+        $docs = Docs::all();
+        foreach ($docs as $doc){
+            if ($doc->index != $data[$doc->id]){
+                $doc->index = $data[$doc->id];
+                $doc->save();
+            }
         }
 
         return response('success', 200);

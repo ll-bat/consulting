@@ -2217,6 +2217,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "HeaderComponent",
   props: ['object', 'nselected', 'index'],
@@ -2236,6 +2252,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     hideSpinner: function hideSpinner() {
       this.saving = false;
+    },
+    clickCheckIcon: function clickCheckIcon() {
+      this.$parent.clickCheckIcon(this.object, this.index);
     }
   },
   created: function created() {
@@ -2428,6 +2447,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['object', 'nselected', 'index'],
   data: function data() {
@@ -2499,6 +2525,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {};
@@ -2524,6 +2552,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -18202,7 +18231,7 @@ return jQuery;
   var undefined;
 
   /** Used as the semantic version number. */
-  var VERSION = '4.17.15';
+  var VERSION = '4.17.20';
 
   /** Used as the size to enable large array optimizations. */
   var LARGE_ARRAY_SIZE = 200;
@@ -21909,8 +21938,21 @@ return jQuery;
      * @returns {Array} Returns the new sorted array.
      */
     function baseOrderBy(collection, iteratees, orders) {
+      if (iteratees.length) {
+        iteratees = arrayMap(iteratees, function(iteratee) {
+          if (isArray(iteratee)) {
+            return function(value) {
+              return baseGet(value, iteratee.length === 1 ? iteratee[0] : iteratee);
+            }
+          }
+          return iteratee;
+        });
+      } else {
+        iteratees = [identity];
+      }
+
       var index = -1;
-      iteratees = arrayMap(iteratees.length ? iteratees : [identity], baseUnary(getIteratee()));
+      iteratees = arrayMap(iteratees, baseUnary(getIteratee()));
 
       var result = baseMap(collection, function(value, key, collection) {
         var criteria = arrayMap(iteratees, function(iteratee) {
@@ -22167,6 +22209,10 @@ return jQuery;
         var key = toKey(path[index]),
             newValue = value;
 
+        if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+          return object;
+        }
+
         if (index != lastIndex) {
           var objValue = nested[key];
           newValue = customizer ? customizer(objValue, key, nested) : undefined;
@@ -22319,11 +22365,14 @@ return jQuery;
      *  into `array`.
      */
     function baseSortedIndexBy(array, value, iteratee, retHighest) {
-      value = iteratee(value);
-
       var low = 0,
-          high = array == null ? 0 : array.length,
-          valIsNaN = value !== value,
+          high = array == null ? 0 : array.length;
+      if (high === 0) {
+        return 0;
+      }
+
+      value = iteratee(value);
+      var valIsNaN = value !== value,
           valIsNull = value === null,
           valIsSymbol = isSymbol(value),
           valIsUndefined = value === undefined;
@@ -23808,10 +23857,11 @@ return jQuery;
       if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
         return false;
       }
-      // Assume cyclic values are equal.
-      var stacked = stack.get(array);
-      if (stacked && stack.get(other)) {
-        return stacked == other;
+      // Check that cyclic values are equal.
+      var arrStacked = stack.get(array);
+      var othStacked = stack.get(other);
+      if (arrStacked && othStacked) {
+        return arrStacked == other && othStacked == array;
       }
       var index = -1,
           result = true,
@@ -23973,10 +24023,11 @@ return jQuery;
           return false;
         }
       }
-      // Assume cyclic values are equal.
-      var stacked = stack.get(object);
-      if (stacked && stack.get(other)) {
-        return stacked == other;
+      // Check that cyclic values are equal.
+      var objStacked = stack.get(object);
+      var othStacked = stack.get(other);
+      if (objStacked && othStacked) {
+        return objStacked == other && othStacked == object;
       }
       var result = true;
       stack.set(object, other);
@@ -27357,6 +27408,10 @@ return jQuery;
      * // The `_.property` iteratee shorthand.
      * _.filter(users, 'active');
      * // => objects for ['barney']
+     *
+     * // Combining several predicates using `_.overEvery` or `_.overSome`.
+     * _.filter(users, _.overSome([{ 'age': 36 }, ['age', 40]]));
+     * // => objects for ['fred', 'barney']
      */
     function filter(collection, predicate) {
       var func = isArray(collection) ? arrayFilter : baseFilter;
@@ -28106,15 +28161,15 @@ return jQuery;
      * var users = [
      *   { 'user': 'fred',   'age': 48 },
      *   { 'user': 'barney', 'age': 36 },
-     *   { 'user': 'fred',   'age': 40 },
+     *   { 'user': 'fred',   'age': 30 },
      *   { 'user': 'barney', 'age': 34 }
      * ];
      *
      * _.sortBy(users, [function(o) { return o.user; }]);
-     * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 40]]
+     * // => objects for [['barney', 36], ['barney', 34], ['fred', 48], ['fred', 30]]
      *
      * _.sortBy(users, ['user', 'age']);
-     * // => objects for [['barney', 34], ['barney', 36], ['fred', 40], ['fred', 48]]
+     * // => objects for [['barney', 34], ['barney', 36], ['fred', 30], ['fred', 48]]
      */
     var sortBy = baseRest(function(collection, iteratees) {
       if (collection == null) {
@@ -32989,11 +33044,11 @@ return jQuery;
 
       // Use a sourceURL for easier debugging.
       // The sourceURL gets injected into the source that's eval-ed, so be careful
-      // with lookup (in case of e.g. prototype pollution), and strip newlines if any.
-      // A newline wouldn't be a valid sourceURL anyway, and it'd enable code injection.
+      // to normalize all kinds of whitespace, so e.g. newlines (and unicode versions of it) can't sneak in
+      // and escape the comment, thus injecting code that gets evaled.
       var sourceURL = '//# sourceURL=' +
         (hasOwnProperty.call(options, 'sourceURL')
-          ? (options.sourceURL + '').replace(/[\r\n]/g, ' ')
+          ? (options.sourceURL + '').replace(/\s/g, ' ')
           : ('lodash.templateSources[' + (++templateCounter) + ']')
         ) + '\n';
 
@@ -33026,8 +33081,6 @@ return jQuery;
 
       // If `variable` is not specified wrap a with-statement around the generated
       // code to add the data object to the top of the scope chain.
-      // Like with sourceURL, we take care to not check the option's prototype,
-      // as this configuration is a code injection vector.
       var variable = hasOwnProperty.call(options, 'variable') && options.variable;
       if (!variable) {
         source = 'with (obj) {\n' + source + '\n}\n';
@@ -33734,6 +33787,9 @@ return jQuery;
      * values against any array or object value, respectively. See `_.isEqual`
      * for a list of supported value comparisons.
      *
+     * **Note:** Multiple values can be checked by combining several matchers
+     * using `_.overSome`
+     *
      * @static
      * @memberOf _
      * @since 3.0.0
@@ -33749,6 +33805,10 @@ return jQuery;
      *
      * _.filter(objects, _.matches({ 'a': 4, 'c': 6 }));
      * // => [{ 'a': 4, 'b': 5, 'c': 6 }]
+     *
+     * // Checking for several possible values
+     * _.filter(objects, _.overSome([_.matches({ 'a': 1 }), _.matches({ 'a': 4 })]));
+     * // => [{ 'a': 1, 'b': 2, 'c': 3 }, { 'a': 4, 'b': 5, 'c': 6 }]
      */
     function matches(source) {
       return baseMatches(baseClone(source, CLONE_DEEP_FLAG));
@@ -33762,6 +33822,9 @@ return jQuery;
      * **Note:** Partial comparisons will match empty array and empty object
      * `srcValue` values against any array or object value, respectively. See
      * `_.isEqual` for a list of supported value comparisons.
+     *
+     * **Note:** Multiple values can be checked by combining several matchers
+     * using `_.overSome`
      *
      * @static
      * @memberOf _
@@ -33779,6 +33842,10 @@ return jQuery;
      *
      * _.find(objects, _.matchesProperty('a', 4));
      * // => { 'a': 4, 'b': 5, 'c': 6 }
+     *
+     * // Checking for several possible values
+     * _.filter(objects, _.overSome([_.matchesProperty('a', 1), _.matchesProperty('a', 4)]));
+     * // => [{ 'a': 1, 'b': 2, 'c': 3 }, { 'a': 4, 'b': 5, 'c': 6 }]
      */
     function matchesProperty(path, srcValue) {
       return baseMatchesProperty(path, baseClone(srcValue, CLONE_DEEP_FLAG));
@@ -34002,6 +34069,10 @@ return jQuery;
      * Creates a function that checks if **all** of the `predicates` return
      * truthy when invoked with the arguments it receives.
      *
+     * Following shorthands are possible for providing predicates.
+     * Pass an `Object` and it will be used as an parameter for `_.matches` to create the predicate.
+     * Pass an `Array` of parameters for `_.matchesProperty` and the predicate will be created using them.
+     *
      * @static
      * @memberOf _
      * @since 4.0.0
@@ -34028,6 +34099,10 @@ return jQuery;
      * Creates a function that checks if **any** of the `predicates` return
      * truthy when invoked with the arguments it receives.
      *
+     * Following shorthands are possible for providing predicates.
+     * Pass an `Object` and it will be used as an parameter for `_.matches` to create the predicate.
+     * Pass an `Array` of parameters for `_.matchesProperty` and the predicate will be created using them.
+     *
      * @static
      * @memberOf _
      * @since 4.0.0
@@ -34047,6 +34122,9 @@ return jQuery;
      *
      * func(NaN);
      * // => false
+     *
+     * var matchesFunc = _.overSome([{ 'a': 1 }, { 'a': 2 }])
+     * var matchesPropertyFunc = _.overSome([['a', 1], ['a', 2]])
      */
     var overSome = createOver(arraySome);
 
@@ -39109,7 +39187,8 @@ var render = function() {
           expression: "input"
         }
       ],
-      staticClass: "form-control docs-input th-bottom h-font autoresize",
+      staticClass:
+        "form-control docs-input th-bottom h-font ns-font-family autoresize",
       class: { "bg-white": _vm.isWhite },
       staticStyle: { "line-height": "2.6", "font-size": ".88em" },
       attrs: {
@@ -39228,7 +39307,7 @@ var render = function() {
         }
       ],
       staticClass:
-        "form-control docs-input tk-bottom font-weight-bold autoresize",
+        "form-control docs-input tk-bottom font-weight-bold ns-font-family autoresize",
       attrs: {
         type: "text",
         rows: "1",
@@ -39316,7 +39395,11 @@ var render = function() {
               _c("delete-component", {
                 on: {
                   delete: function($event) {
-                    return _vm.$parent.$emit("delete", _vm.object.id)
+                    return _vm.$parent.$emit(
+                      "delete",
+                      _vm.object.id,
+                      _vm.object.index
+                    )
                   }
                 }
               })
@@ -39372,6 +39455,65 @@ var render = function() {
               _c("div", {
                 staticClass: "spinner-border text-info",
                 staticStyle: { height: "20px", width: "20px" }
+              })
+            ]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "float-left ml-3" }, [
+        _c("div", { staticClass: "d-flex" }, [
+          _c(
+            "p",
+            { staticClass: "text-primary font-weight-bolder text-sm pl-1" },
+            [_vm._v("N: ")]
+          ),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.object.newindex,
+                expression: "object.newindex"
+              }
+            ],
+            staticClass:
+              "form-control ns-index-border text-primary font-weight-bolder ml-1",
+            staticStyle: { width: "45px", "margin-top": "-.47rem" },
+            attrs: { type: "text" },
+            domProps: { value: _vm.object.newindex },
+            on: {
+              click: function($event) {
+                return _vm.$parent.activeCheckIcon(_vm.index)
+              },
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.$set(_vm.object, "newindex", $event.target.value)
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "d-none edit-index created pointer",
+              on: {
+                click: function($event) {
+                  return _vm.clickCheckIcon()
+                }
+              }
+            },
+            [
+              _c("i", {
+                staticClass:
+                  "fa fa-check position-absolute text-success edit-index-bg rounded-pill p-2",
+                staticStyle: {
+                  "margin-top": "-.16rem",
+                  "margin-left": "-.3rem"
+                }
               })
             ]
           )
@@ -39612,42 +39754,48 @@ var render = function() {
       staticStyle: { width: "100%" }
     },
     [
-      _c("div", { staticClass: "my-2" }, [
-        _c(
-          "button",
-          {
-            staticClass: "bg-white",
-            staticStyle: { cursor: "pointer", border: "none", outline: "none" },
-            attrs: { title: "Add new Question" },
-            on: {
-              click: function($event) {
-                return _vm.newQuestion()
+      _c("div", { staticClass: "d-flex d-md-block" }, [
+        _c("div", { staticClass: "my-2" }, [
+          _c(
+            "button",
+            {
+              staticClass: "bg-white",
+              staticStyle: {
+                cursor: "pointer",
+                border: "none",
+                outline: "none"
+              },
+              attrs: { title: "Add new Question" },
+              on: {
+                click: function($event) {
+                  return _vm.newQuestion()
+                }
               }
-            }
-          },
-          [_c("i", { staticClass: "fa fa-plus text-secondary h-dif" })]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "my-2" }, [
-        _c(
-          "button",
-          {
-            staticClass: "bg-white",
-            staticStyle: { cursor: "pointer", border: "none", outline: "0" },
-            attrs: { title: "Add new title and description" },
-            on: {
-              click: function($event) {
-                return _vm.newHeader()
+            },
+            [_c("i", { staticClass: "fa fa-plus text-secondary h-dif" })]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "my-2" }, [
+          _c(
+            "button",
+            {
+              staticClass: "bg-white",
+              staticStyle: { cursor: "pointer", border: "none", outline: "0" },
+              attrs: { title: "Add new title and description" },
+              on: {
+                click: function($event) {
+                  return _vm.newHeader()
+                }
               }
-            }
-          },
-          [
-            _c("i", {
-              staticClass: "nc-icon nc-caps-small text-secondary h-dif"
-            })
-          ]
-        )
+            },
+            [
+              _c("i", {
+                staticClass: "nc-icon nc-caps-small text-secondary h-dif"
+              })
+            ]
+          )
+        ])
       ])
     ]
   )
@@ -39677,7 +39825,7 @@ var render = function() {
   return _c(
     "div",
     {
-      staticClass: "card text-left rounded-10 ns-box-shadow",
+      staticClass: "card text-left ns-box-shadow",
       class: {
         "shadow-none leftBorder": _vm.nselected,
         "colorLeftBorder ns-border-bottom": !_vm.nselected
@@ -52083,7 +52231,11 @@ var app = new Vue({
   },
   data: {
     components: [],
-    ns: -1
+    inds: [],
+    ns: 0,
+    loading: true,
+    creating: false,
+    updating: false
   },
   methods: {
     setns: function setns(id) {
@@ -52099,8 +52251,14 @@ var app = new Vue({
     createComponent: function createComponent(type) {
       var _this = this;
 
+      if (this.creating) return;
+      this.creating = true;
       var qt = type == 'header' ? type : 'select';
       var comp = this.chooseType(type);
+      Forms.fset(comp, {
+        index: this.components.length + 1,
+        newindex: this.components.length + 1
+      });
       Forms.submit('post', "docs/create-".concat(qt), {
         'type': 'radio'
       }).then(function (res) {
@@ -52108,14 +52266,18 @@ var app = new Vue({
       })["catch"](function (err) {
         _this.components.pop();
       });
-      setTimeout(function () {
+      tout(function () {
         _this.components.push(comp);
       }, 200);
+      tout(function () {
+        _this.creating = false;
+      }, 400);
     },
-    deleteComponent: function deleteComponent(id) {
+    deleteComponent: function deleteComponent(id, ind) {
       Forms.submit("delete", "docs/delete-component/".concat(id), {}).then(function (res) {})["catch"](function (err) {});
-      setTimeout(function () {
+      tout(function () {
         app.components = app.components.filter(function (comp) {
+          if (comp.index > ind) comp.index = comp.newindex = comp.index - 1;
           return comp.id !== id;
         });
       }, 200);
@@ -52123,12 +52285,18 @@ var app = new Vue({
     processData: function processData(data) {
       var _this2 = this;
 
-      data.map(function (rel) {
+      data.map(function (rel, index) {
         var type = rel['type'];
 
         var comp = _this2.chooseType(type);
 
         comp.setData(rel);
+        Forms.fset(comp, {
+          index: index + 1,
+          newindex: index + 1
+        });
+
+        _this2.inds.push(index + 1);
 
         _this2.components.push(comp);
       });
@@ -52196,6 +52364,54 @@ var app = new Vue({
     },
     changeShadow: function changeShadow(index) {
       this.setns(index);
+    },
+    activeCheckIcon: function activeCheckIcon(index) {
+      $('.edit-index')[index].className = 'd-inline-block created pointer edit-index';
+    },
+    clickCheckIcon: function clickCheckIcon(comp, index) {
+      $('.edit-index')[index].className = 'd-none created pointer edit-index';
+      var newind = parseInt(comp.newindex);
+      var ind = comp.index;
+
+      if (newind < 1 || isNaN(newind)) {
+        comp.newindex = comp.index;
+        return;
+      }
+
+      if (newind > this.components.length) {
+        newind = this.components.length;
+      }
+
+      this.sortItems(newind, ind, comp);
+    },
+    sortItems: function sortItems(newind, ind, comp) {
+      this.components = this.components.filter(function (comp) {
+        return comp.index != ind;
+      });
+      this.components.insert(newind - 1, Forms.fset(comp, {
+        index: newind,
+        newindex: newind
+      }));
+
+      if (newind != ind) {
+        var k = -1,
+            t = -1;
+
+        if (newind < ind) {
+          k = 1;
+          t = 0;
+        }
+
+        for (var i = min(newind, ind); i < max(newind, ind); i++) {
+          this.components[i + t].index += k;
+          this.components[i + t].newindex += k;
+        }
+      }
+    },
+    update: function update() {
+      if (this.updating) return;
+      this.updating = true;
+      Forms.update(this);
     }
   },
   created: function created() {
@@ -52204,13 +52420,18 @@ var app = new Vue({
     Event.$on('new-element', function (type) {
       _this3.createComponent(type);
     });
-    this.$on("delete", function (id) {
-      _this3.deleteComponent(id);
+    this.$on("delete", function (id, ind) {
+      _this3.deleteComponent(id, ind);
     });
+    var b = dom.body;
+    cl(b, 'ns-loading', this, true);
     axios.get('docs/all').then(function (res) {
       _this3.processData(res.data);
+
+      cl(b, '', _this3, false);
     })["catch"](function (err) {
-      return console.log(err.response.data);
+      console.log(err.response.data);
+      cl(b, '', _this3, false);
     });
   }
 });
@@ -52282,23 +52503,36 @@ var Form = /*#__PURE__*/function () {
   function Form() {
     _classCallCheck(this, Form);
 
-    this.shared = ['id', 'title', 'hasImage', 'image', 'required'];
+    this.shared = ['id', 'title', 'hasImage', 'image', 'index', 'newindex', 'required'];
   }
 
   _createClass(Form, [{
     key: "submit",
     value: function submit(type, url, data) {
       var saving = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [true];
+      var obj = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
+      var loading = arguments.length > 5 ? arguments[5] : undefined;
+      if (saving == null) saving = [true];
       return new Promise(function (resolve, reject) {
         axios[type](url, data).then(function (res) {
           saving[0] = false;
+          obj[loading] = false;
           resolve(res.data);
         })["catch"](function (errors) {
           saving[0] = false;
+          obj[loading] = false;
           alert('Unfortunately, error occured. Please check the console tab');
           console.log(errors.response.data);
           reject(errors.response.data);
         });
+      });
+    }
+  }, {
+    key: "send",
+    value: function send(type, url, data, obj) {
+      var saving = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 'updating';
+      this.submit(type, url, data, null, obj, saving).then(function (res) {
+        return console.log(res);
       });
     }
   }, {
@@ -52314,6 +52548,24 @@ var Form = /*#__PURE__*/function () {
     value: function deleteUpload(obj) {
       obj.hasImage = false;
       obj.image = '';
+    }
+  }, {
+    key: "update",
+    value: function update(obj) {
+      var comps = obj.components;
+      var data = {};
+      comps.forEach(function (comp) {
+        data[comp.id] = comp.index;
+      });
+      this.send('post', '../user/docs/update', {
+        data: data
+      }, obj);
+    }
+  }, {
+    key: "setData",
+    value: function setData(comp, data) {
+      comp.index = data.index;
+      comp.newindex = data.index;
     }
   }, {
     key: "fset",

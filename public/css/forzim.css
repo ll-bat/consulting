@@ -58,3 +58,137 @@
 .pointer{
     cursor:pointer !important;
 }
+
+.ns-border-bottom {
+    border-bottom: 2px inset rgb(163, 164, 223);
+}
+
+.top-left-radius-0 {
+    border-top-left-radius: 0;
+}
+
+.bottom-left-radius-0 {
+    border-bottom-left-radius: 0;
+}
+
+.top-right-radius-0 {
+    border-top-right-radius: 0;
+}
+
+.bottom-right-radius-0 {
+    border-bottom-right-radius: 0;
+}
+
+
+.this-button {
+    transition: all .3s ease-in;
+}
+
+.this-div {
+    cursor:pointer;
+}
+
+.this-div:hover .this-button {
+    width:.5rem !important;
+}
+
+.this-div:hover .this-color {
+    font-weight:bolder;
+    color: #003366 !important;
+}
+
+.this-color {
+    font-size: .8rem;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+.ns-border-left {
+    border-left: 5px solid orange;
+}
+
+@keyframes _borderLeft{
+    from {border-color:transparent;}
+    to {}
+}
+.animated-border-left {
+    border-left: 5px solid orange;
+    animation: _borderLeft 1s ease-out;
+}
+
+@keyframes _w {
+    0% {width:0%}
+    10% {width:10%}
+    20% {width:20%}
+    30% {width:30%}
+    40% {width:40%}
+    50% {width:50%}
+    60% {width:60%}
+    70% {width:70%}
+    80% {width:80%}
+    90% {width:90%}
+    100% {width:100%}
+
+}
+
+.anim-width {
+    animation: _w .8s ease-out
+}
+
+
+@keyframes _hw {
+    50% {width:50%}
+    60% {width:60%}
+    70% {width:70%}
+    80% {width:80%}
+    90% {width:90%}
+    100% {width:100%}
+}
+
+.anim-half-width {
+    animation: _hw .3s ease-out
+}
+
+
+@keyframes _h {
+    0%  {height:0%}
+    10% {height:10%}
+    20% {height:20%}
+    30% {height:30%}
+    40% {height:40%}
+    50% {height:50%}
+    60% {height:60%}
+    70% {height:70%}
+    80% {height:80%}
+    90% {height:90%}
+    100%{height:100%}
+}
+
+.anim-height {
+    animation: _h .8s ease-out
+}
+
+
+@keyframes _wh{
+    from {height:0; width:0}
+}
+
+.anim-width-height {
+    animation: _wh .8s ease-out;
+}
+
+
+
+@keyframes _ml {
+    from {margin-left:30%;}
+}
+
+.anim-margin {
+    animation: _ml .4s ease-out;
+}
+
+.text-lg {
+    font-size: 1.3rem;
+}

@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center ns-font-family">
-        <div class="col-md-8">
+        <div class="col-lg-8 col-md-12">
             <div class="mt-3">
 {{--                <div class="card-header">{{ __('Login') }}</div>--}}
 
@@ -82,7 +82,7 @@
                                 </button>
 
                                 @if (Route::has('password.request'))
-                                    <a class="ml-3" href="{{ route('password.request') }}">
+                                    <a class="ml-3 text-info" href="{{ route('password.request') }}">
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif

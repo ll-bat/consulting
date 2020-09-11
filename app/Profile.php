@@ -10,7 +10,7 @@ class Profile extends Model
 
     public function pathAvatar(){
         $path = $this->avatar ?? '';
-        if ($path == '') $path='/avatars/avatar.png';
+        if ($path == '') return '/icons/user.png';
         return asset('storage/'.$path);
     }
 

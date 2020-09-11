@@ -10,6 +10,7 @@
     <div class="form-group" style='max-width:40%;'>
          <label for="sel1">Select list:</label>
          <select class="form-control" id="sel1" name="{{$q->name}}" @if($q->required) required @endif>
+             <option class="p-5" selected disabled>choose one</option>
             @foreach($q->rels as $ind => $rel)
                 <option class='p-5'
                         value="{{$rel->id}}"

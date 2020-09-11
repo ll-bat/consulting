@@ -1,3 +1,3 @@
-<div class='card-body'> 
+<div class='card-body text-sm'>
     <p> {{$q->rel->value }}</p>
 </div>

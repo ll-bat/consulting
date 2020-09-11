@@ -7,7 +7,7 @@
 <?php
    $categories = \App\Category::all();
    $badges = ['primary', 'secondary', 'success', 'danger', 'warning', 'info' , 'light', 'dark'];
-   $bcolor = ['blue', 'grey', 'green', 'red', 'orangered', 'blue', 'lightgrey', 'black'];
+   $bcolor = ['blue', 'grey', 'green', 'red', 'orangered', 'blue', 'black', 'black'];
 ?>
 @section('header')
 

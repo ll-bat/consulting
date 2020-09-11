@@ -29,7 +29,7 @@
     </div>
 </div>
 
-<div class="team-area">
+<div class="team-area mb-5 pb-5">
     <div class="container">
         <div class="row">
             <div class="cl-xl-7 col-lg-8 col-md-10">
@@ -45,7 +45,7 @@
             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
                 <div class="single-team mb-30">
                     <div class="team-img">
-                        <img src="{{url('/img/gallery/team3.png')}}" alt="">
+                        <!-- <img src="{{url('/img/gallery/team3.png')}}" alt=""> -->
                     </div>
                     <div class="team-caption">
                         <h3><a href="#">Ethan Welch</a></h3>
@@ -56,7 +56,7 @@
             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
                 <div class="single-team mb-30">
                     <div class="team-img">
-                        <img src="{{url('/img/gallery/team2.png')}}" alt="">
+                        <!-- <img src="{{url('/img/gallery/team2.png')}}" alt=""> -->
                     </div>
                     <div class="team-caption">
                         <h3><a href="#">Ethan Welch</a></h3>
@@ -67,7 +67,7 @@
             <div class="col-xl-4 col-lg-4 col-md-6 col-sm-">
                 <div class="single-team mb-30">
                     <div class="team-img">
-                        <img src="{{url('/img/gallery/team1.png')}}" alt="">
+                        <!-- <img src="{{testBack()}}" alt=""> -->
                     </div>
                     <div class="team-caption">
                         <h3><a href="#">Ethan Welch</a></h3>

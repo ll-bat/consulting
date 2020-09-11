@@ -1,18 +1,18 @@
 <template>
-  
-  
-  
-  
-  
+
+
+
+
+
 
     <div class="form-group">
            <textarea type="text"
                      rows='1'
-                     class="form-control docs-input tk-bottom font-weight-bold autoresize"
+                     class="form-control docs-input tk-bottom font-weight-bold ns-font-family autoresize"
                      placeholder="Add title"
                      v-model = "input"
                      onfocus = "this.style.height = 'auto'; this.style.height = (this.scrollHeight) + 'px';"
-                     
+
            ></textarea>
      </div>
 </template>
@@ -28,7 +28,7 @@
                 timeout: 0,
            }
        },
-       created(){ 
+       created(){
            this.initFirst()
        },
        methods: {
@@ -58,7 +58,7 @@
                if (newVal == this.testvar)
                {
                    this.testvar = '     .'
-                   return 
+                   return
                }
 
                this.$emit('saving')
@@ -73,6 +73,6 @@
                })
            }
         }
-        
+
     }
 </script>

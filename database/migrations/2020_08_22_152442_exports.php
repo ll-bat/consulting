@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddCategoryIdToBlogsTable extends Migration
+class Exports extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,15 @@ class AddCategoryIdToBlogsTable extends Migration
      */
     public function up()
     {
-        Schema::table('blogs', function (Blueprint $table) {
-            $table->unsignedBigInteger('category_id')->default(0);
+        Schema::create('exports', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->string('filename');
+            $table->timestamps();
 
-            $table->foreign('category_id')
+            $table->foreign('user_id')
                 ->references('id')
-                ->on('categories')
+                ->on('users')
                 ->onDelete('cascade');
         });
     }
@@ -30,8 +33,6 @@ class AddCategoryIdToBlogsTable extends Migration
      */
     public function down()
     {
-        Schema::table('blogs', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('exports');
     }
 }

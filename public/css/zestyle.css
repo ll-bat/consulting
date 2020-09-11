@@ -81,7 +81,7 @@
   }
 
   /* Create a custom radio button */
-  .checkmark, .chbox-checkmark {
+  .checkmark, .chbox-checkmark, .mod-chbox-checkmark {
     position: absolute;
     top: 0;
     left: 0;
@@ -92,8 +92,49 @@
     border:2px solid lightgrey;
   }
 
-  .chbox-checkmark {
+  .chbox-checkmark, .mod-chbox-checkmark {
     border-radius:5px;
+  }
+
+  .ns-container .mod-chbox-checkmark {
+    transition:all .8s ease;
+  }
+
+  .ns-container:hover .mod-chbox-checkmark {
+    border:2px solid grey;
+  }
+
+  .hovered-checkmark {
+    border:2px solid rgba(0, 191, 255, 1) !important;
+  }
+  
+  .checked {
+    position: absolute;
+  }
+
+  .checked-circle {
+    position: absolute;
+  }
+
+  .mod-chbox-checkmark .checked {
+    left: 6px;
+    top: 3px;
+    width: 5px;
+    height: 10px;
+    border: solid rgba(0, 191, 255, 1);
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+  .mod-chbox-checkmark .checked-circle {
+    left: 3px;
+    top: 3px;
+    width: 10px;
+    height: 10px;
+    background-color: rgba(0, 191, 255, 1);
+    border-radius:50%;
   }
 
   /* On mouse-over, add a grey background color */
@@ -102,9 +143,57 @@
   }
 
   .ns-container:hover input ~ .chbox-checkmark {
-    background-color: lightgrey;
+    /* background-color: lightgrey; */
+    border:2px solid grey;
   }
 
+  .hover-chbox {
+    position:absolute;
+    left:0;
+    width:20px;
+    height:20px;
+    background-color: white;
+    visibility: hidden;
+    transform:rotate(45deg);
+  }
+
+
+  .ns-container:hover .hover-chbox {
+    transition: all .8s ease-in;
+    visibility: visible;
+    width:0;
+    height:0;
+    transform:rotate(135deg);
+  }
+
+  .ns-container:hover .hovered-checkmark ~ .hover-chbox {
+    visibility: hidden;
+  }
+
+  .chbox-checkmark-sm {
+    position:absolute;
+    left:4px;
+    top:4px;
+    width:12px;
+    height:12px;
+    border:1px solid grey;
+    border-radius:2px;
+  }
+
+  .hover-chbox-small {
+    position:absolute;
+    left:3px;
+    bottom:6px;
+    width:14px;
+    height:14px;
+    background-color: white;
+  }
+
+  .ns-container:hover input ~ .hover-chbox-small{
+    transition: all .9s ease-in-out;
+    height: 0;
+    bottom:0;
+  }
   /* When the radio button is checked, add a blue background */
   .ns-container input:checked ~ .checkmark {
     transition: all .21s ease-in;
@@ -176,20 +265,29 @@
     outline: 0;
 }
 .ns-underline {
-    background: rgba(0,0,0,0.12);
+    background: rgba(0,0,0,0.12) !important;
     height: 1px;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
 }
 .ns-underline.active {
-    background: #673ab7;
-    height: 2px;
+    background-color: #673ab7 !important;
+    height: 2px !important;
     animation-name: _underline;
     animation-duration: .3s;
     animation-timing-function: ease;
     animation-fill-mode: forwards;
 }
+.ns-test-underline {
+    background-color: #673ab7 !important;
+    height: 2px !important;
+    animation-name: _underline;
+    animation-duration: .3s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+}
+
 @keyframes _underline {
     0%   {width:0}
     100% {width:96%}
@@ -213,4 +311,8 @@
 
 .ns-font-normal {
     font-size: 12px;
+}
+
+.rounded-10 {
+    border-radius: 10px;
 }

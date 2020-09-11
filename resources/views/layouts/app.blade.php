@@ -8,7 +8,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
@@ -22,117 +21,130 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-{{--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">--}}
-    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css" /> 
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <!-- Styles -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>  
 
     <link href="/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
     <link rel="stylesheet" href="/css/custom.css" />
     <link rel="stylesheet" href="/css/zestyle.css" />
     <link rel="stylesheet" href="/css/flaticon.css">
 
+    <link rel="stylesheet" href="/css/dif/owl.carousel.min.css">
+	<link rel="stylesheet" href="/css/dif/slicknav.css">
+	<link rel="stylesheet" href="/css/dif/flaticon.css">
+	<link rel="stylesheet" href="/css/dif/animate.min.css">
+	<link rel="stylesheet" href="/css/dif/magnific-popup.css">
+	<link rel="stylesheet" href="/css/dif/fontawesome-all.min.css">
+	<link rel="stylesheet" href="/css/dif/themify-icons.css">
+	<link rel="stylesheet" href="/css/dif/slick.css">
+	<link rel="stylesheet" href="/css/dif/nice-select.css">
+	<link rel="stylesheet" href="/css/dif/style.css">
+
     <script type='application/javascript' src="/js/custom.js"></script>
     @yield('css')
+
+    <style>
+        
+        .nav-link {
+            transition: .3s ease-in;
+        }
+        .nav-link:hover {
+            opacity: .8 !important;
+        }
+
+        .borderdown {
+            width:0;
+            height:.1rem;
+            background-color: black;
+            margin-left:.1rem;
+            margin-right:.1rem;
+            transition: all .3s ease-in;
+            margin-left:50%;
+        }
+
+        .hoverable:hover .borderdown {
+            margin-left:0;
+            width: 100%;
+        }
+
+        .text-red-white {
+            color:red !important;
+        }
+
+        .text-red-white: hover {
+            color: white;
+        }
+
+        .login-btn {
+            padding-left:1.2rem !important;
+            padding-right:1.2rem !important;
+        }
+    </style>
 </head>
-<body class="">
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm sticky-top">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="{{ url('/') }}">
-{{--                    {{ config('app.name', 'Laravel') }}--}}
-                    <img src="/img/logo/logo.png" />
-                </a>
-                <button class="navbar-toggler mr-2 border-0"
-                        type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                        aria-controls="navbarSupportedContent" aria-expanded="false"
-                        aria-label="{{ __('Toggle navigation') }}"
-
-                >
-                    <span class="navbar-toggler-bar bg-info" style="margin-left:-5px;height:2px;"></span>
-                    <span class="navbar-toggler-bar bg-warning" style="margin-top:5px;margin-left:-5px;height:2px;"></span>
-                    <span class="navbar-toggler-bar bg-primary" style="margin-top:5px;margin-left:-5px;height:2px;"></span>
-                </button>
-
-                <div class="collapse navbar-collapse p-0" id="navbarSupportedContent">
-
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto mr-3 fadeLeft" style="font-family: 'Segoe UI';margin-bottom: -10px;">
-                        <!-- Authentication Links -->
-                        <li class="nav-item p-md-0 p-lg-2">
-                            <a class="nav-link text-dark"  href="{{route('check')}}" > Home</a>
-                        </li>
-{{--                        <li class="nav-item dropdown p-2">--}}
-{{--                            <a href="{{route('services')}}" id="services" style="display: none"></a>--}}
-{{--                            <a class="nav-link text-dark" href="/"--}}
-{{--                               id="navbardrop" data-toggle="dropdown" onclick="document.getElementById('services').click()">--}}
-{{--                                Services--}}
-{{--                            </a>--}}
-{{--                            <div class="dropdown-menu" style="margin-top:0; ">--}}
-{{--                                <a class="dropdown-item" href="#">კონსულტირება</a>--}}
-{{--                                <a class="dropdown-item" href="#">დოკუმენტის ექსპერტიზა</a>--}}
-{{--                                <a class="dropdown-item" href="#">არქ. პროექტის ექსპერტიზა</a>--}}
-{{--                                <a class="dropdown-item" href="#">დოკუმენტაციის შემუშავება</a>--}}
-{{--                                <a class="dropdown-item" href="#">სამუშაო გარემოს კითხვარი</a>--}}
-{{--                                <a class="dropdown-item" href="#">რისკების შეფასება</a>--}}
-{{--                            </div>--}}
-{{--                        </li>--}}
-
-                        <li class="nav-item p-2">
-                            <a class="nav-link text-dark" href="{{route('docs')}}" > Docs</a>
-                        </li>
-
-                        <li class="nav-item p-2">
-                            <a class="nav-link text-dark" href="{{route('blog')}}" > Blog</a>
-                        </li>
-
-                        <li class="nav-item p-2">
-                            <a class="nav-link text-dark" href="{{route('about')}}" > About</a>
-                        </li>
-
-
-{{--                        <li class="nav-item">--}}
-{{--                            <a class="nav-link text-dark" href="#" > Blog</a>--}}
-{{--                            <ul class="submenu bg-danger">--}}
-{{--                                <li><a href="blog.html">Blog</a></li>--}}
-{{--                                <li><a href="blog_details.html">Blog Details</a></li>--}}
-{{--                                <li><a href="elements.html">Element</a></li>--}}
-{{--                            </ul>--}}
-{{--                        </li>--}}
-
-{{--                        <li class="nav-item p-2">--}}
-{{--                            <a class="nav-link text-dark" href="#" > Documents</a>--}}
-{{--                        </li>--}}
-                        <li class="nav-item p-2">
-                            <a class="nav-link text-dark" href="{{route('contact')}}" > Contact</a>
-                        </li>
-
-                        @auth
-                            <div class="nav-item p-2 pointer" style="border:none;">
-                                <a class="nav-link text-dark"
-                                   href="user/home"
-                                   style="margin-top:-10px;">
-                                    <img class="d-md-block d-none" src="/icons/user.png" width="40">
-                                    <span class="d-md-none d-block">My profile</span>
-                                </a>
+<body class="" @if ($current_route == '') style='background-color:rgba(0,0,0,.04)' @endif>
+<header>
+    <div class="header-area">
+        <div class="main-header">
+            <div class="header-bottom  header-sticky">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-xl-2 col-lg-2">
+                            <div class="logo">
+                                <a href="/"><img src="/img/logo/logo.png" alt=""></a>
                             </div>
-                        @endauth
-                    </ul>
+                        </div>
+                        <div class="col-xl-10 col-lg-10">
+                            <div class="menu-wrapper  d-flex align-items-center justify-content-end">
+                                <div class="main-menu d-none d-lg-block">
+                                    <nav> 
+                                        <ul id="navigation">                                                                                          
+                                            <li>
+                                               <a href="/" class='nav-link'>Home</a>
+                                            </li>
+                                            <li><a href="{{route('about')}}" class='nav-link'>About</a></li>
+                                            <li><a href="{{route('blog')}}" class='nav-link'>Blogs</a></li>
+                                            <li><a href="{{route('services')}}" class='nav-link'>Services</a>
+                                                <ul class="submenu">
+                                                    <li><a href="#">service 1</a></li>
+                                                    <li><a href="#">service 2</a></li>
+                                                    <li><a href="#">service 3</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="{{route('contact')}}" class='nav-link'>Contact</a></li>
+                                            @auth
+                                               <li><a href="{{route('user.home')}}" class='d-md-flex d-lg-block'>
+                                                   <img src='{{current_user()->pathAvatar()}}' class='rounded-pill' width='40' height='40' />
+                                                   <span class='d-lg-none d-block p-2'> My profile </span>
+                                                  </a>
+                                                </li>
+                                           @endauth
+                                           @guest 
+                                             <li class='position-lg-absolute position-md-relative' style='right:-1rem;'>
+                                                 <a href="{{route('login')}}" class='btn btn-outline-danger login-btn text-red-white' style='padding-top:.5rem !important; padding-bottom:.5rem !important;'>Login</a>
+                                            </li>
+                                           @endguest
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="col-12">
+                            <div class="mobile_menu d-block d-lg-none"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </nav>
+        </div>
+    </div>
+</header>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
-        <script>
+  <main class="">
+      @yield('content')
+  </main>
+  <script>
             function showComments(k){
 
                 let c = $$('comments')[k].style.display
@@ -161,32 +173,32 @@
                         body: $$('postComment')[k].value
                     },
                     success: function (res) {
-                        $$('error-message')[k].innerHTML = ''
-                        renderComment($$('postComment')[k].value, k)
-                        $$('postComment')[k].value = ''
+                        
                     },
                     error: function (request, status, error) {
                         set(request.responseText);
                     }
                 });
 
-                // window.location.href ='blog?top='+Math.floor(window.scrollY)
+                    $$('error-message')[k].innerHTML = ''
+                    renderComment($$('postComment')[k].value, k)
+                    $$('postComment')[k].value = ''
+
 
                 function set(res) {
-                    message = JSON.parse(res);
-                    $$('error-message')[k].innerHTML = message['message'];
+                    $$('error-message')[k].innerHTML = 'გთხოვთ შეიყვანოთ ტექსტი'
                 }
             }
 
             function renderComment(body, i) {
-                // alert(i)
+                if (body == '') return
                 let result = `
-                               <div class="media p-3 mb-4 ml-3 border-left bg-grey" style="width: 100%; ">
-                                  <img src="{{getAvatar()}}" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:30px;height:30px">
+                               <div class="media p-3 mb-4 ml-3" style="width: 100%; ">
+                                  <img src="{{getAvatar()}}" class="mr-3 mt-3 rounded-circle" style="width:40px;height:40px">
                                   <div class="media-body" style="padding-bottom:-1px;">
                                         <h6>@ <b class="text-info">{{auth()->user()->username ?? false}}</b> said..</h6>
-                                        <p class="mycolor font-weight-bolder"
-                                           style="font-size:.8em;line-height: 2em;">${body}...</p>
+                                        <p class="text-muted font-weight-bolder ns-font-family"
+                                           style="font-size:.9em;line-height: 2em;">${body}...</p>
                                           </div>
                                          </div> `
                 $$("all-comments")[i].innerHTML += result
@@ -200,15 +212,15 @@
                  this.style.height =
                      (this.scrollHeight) + 'px';
              });
-        })
-        </script>
-    </div>
+  })
+  </script>
 
+    <br /><br /><br />
     <div class="footer" style="background-color: rgb(8, 11, 18);">
         <div style="margin-left:50px;margin-top:20px;margin-right:50px;">
             <hr style="border:none; border-top:1px solid rgba(35, 49, 72,1);">
             <p class="text-white" style="font-family: 'Yu Gothic'"> Copyright ©2020 All rights reserved |
-                This template isn't made by <span style="color:red">Me</span></p>
+                This template is made by <span style="color:red">Colorlib</span></p>
             <div class="float-right pb-2">
                 <a href="#" class="pl-3"><i class="fab fa-twitter" ></i></a>
                 <a href="#" class="pl-3"><i class="fab fa-facebook"></i></a>
@@ -217,6 +229,24 @@
             </div>
         </div>
     </div>
-    @yield('script')
+
+    <script src="/js/dif/jquery.slicknav.min.js"></script>
+    <script src="/js/dif/jquery.nice-select.min.js"></script>
+    <script src="/js/dif/jquery.sticky.js"></script>
+
+    <script src="/js/dif/owl.carousel.min.js"></script>
+    <script src="/js/dif/slick.min.js"></script>
+
+    <script src="/js/dif/wow.min.js"></script>
+    <script src="/js/dif/animated.headline.js"></script>
+    <script src="/js/dif/jquery.magnific-popup.js"></script>
+
+    <script src="/js/dif/jquery.counterup.min.js"></script>
+    <script src="/js/dif/jquery.ajaxchimp.min.js"></script>
+
+    <script src="/js/dif/plugins.js"></script>
+    <script src="/js/dif/main.js"></script>
+
+     @yield('script') 
 </body>
 </html>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Blog;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
 
@@ -27,5 +28,11 @@ class HomeController extends Controller
         return redirect('user/home');
 //        $user = User::find(1);
 //        dd($user);
+    }
+
+    public function show() {
+        $blogs = Blog::where('is_public', 1)->latest()->take(2)->get();
+
+        return view('home', compact('blogs'));
     }
 }

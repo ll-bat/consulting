@@ -60,20 +60,21 @@
         }
         .bg-docs{
             background-color: rgba(69, 97, 144,.06);
+            /* background-color: #f5f7f8; */
         }
         .ns-bottom{
-            border-bottom:1px solid rgba(70, 73, 75,.1);
-            box-shadow:1px 1px 1px rgba(70, 73, 75,.4);
+            /* border-bottom:1px solid rgba(0,0,0,.3); */
+            box-shadow: 4px 0 5px lightgrey;
         }
     </style>
 </head>
 
-<body class="@if ($route == 'admin.docs') bg-docs @else bg-normal @endif" style="">
+<body class="@if (!in_array($route,collapsedRoutes())) bg-docs @else bg-normal @endif" style="@if ($route == 'user.questions') background-color:rgba(0, 255, 128, 0.035); @endif">
   <div class="wrapper" @if ($route == 'admin.docs') id='app' @endif>
       <nav class="fixed-top navbar-transparent" id="mainNavbar">
           <div class="container-fluid">
               <div class="sidebar-wrapper">
-                  <div class="sidebar @if ($route == 'admin.docs') partial-sidebar @endif" data-color="white" data-active-color="danger" id="sidebar">
+                  <div class="sidebar @if (!in_array($route,collapsedRoutes())) partial-sidebar @endif" data-color="white" data-active-color="danger" id="sidebar">
                       <div class="logo">
                           <a href="" class="simple-text logo-mini">
                               <div class="logo-image-small">
@@ -122,9 +123,9 @@
           </div>
       </nav>
 
-    <div class="main-panel @if ($route == 'admin.docs') bg-white ns-bottom  @endif" id="main-panel" style="height:65px; @if ($route == 'admin.docs') width:calc(100% - 70px);@endif">
+    <div class="main-panel @if (!in_array($route,collapsedRoutes())) bg-white ns-bottom  @endif" id="main-panel" style="height:65px; @if (!in_array($route,collapsedRoutes())) width:calc(100% - 70px);@endif">
         <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent @if ($route == 'admin.docs' || $route == 'admin.blog') border-bottom-0 @endif" style="">
+        <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent @if ((!in_array($route,collapsedRoutes())) || $route == 'admin.blog') border-bottom-0 @endif" style="">
             <div class="container-fluid">
                 <div class="navbar-wrapper">
                     <div class="navbar-toggle" id="navbar-toggle">
@@ -235,7 +236,13 @@
                         >
                             <a class="dropdown-item c-dropdown-item c-top-radius py-2" href="/">Go to main page</a>
                             <a class="dropdown-item c-dropdown-item py-2" href="#">Another</a>
-                            <a class="dropdown-item c-dropdown-item c-bottom-radius py-2" href="#">Another action</a>
+                            <a class="dropdown-item c-dropdown-item c-bottom-radius py-2" 
+                               onclick="$1('signOut').submit()" >Sign out
+                            </a>
+
+                            <form method='post' action='/logout' class='d-none' id='signOut'>
+                                 @csrf
+                            </form>
                         </div>
                     </li>
                 </ul>
@@ -269,7 +276,7 @@
             function toggleButtonClick() {
                 $1('mainNavbar').style.display = 'block'
 
-                setTimeout(()=>{
+                tout(()=>{
                       $1('sidebar').className="sidebar collapsed show"
                       let height = window.innerHeight + 10
                       $('#sidebar').css({'height':height+'px', "margin-top":"-10px", "margin-left": "260px"})
@@ -279,7 +286,7 @@
 
 
             function adjustScreen(){
-                @if ($route == 'admin.docs')
+                @if ((!in_array($route,collapsedRoutes())))
                     let width = window.innerWidth
                     if (width < 992) {
                         $1('main-panel').style.width = '100%'
@@ -302,7 +309,7 @@
 
             $(window).resize(()=>{
                  $('#sidebar').css({'height': '', "margin-top": '', 'margin-left':''})
-                 $1('sidebar').className="sidebar @if ($route == 'admin.docs') partial-sidebar @endif"
+                 $1('sidebar').className="sidebar @if (!in_array($route,collapsedRoutes())) partial-sidebar @endif"
 
                  adjustScreen()
             })
@@ -327,12 +334,23 @@
                     dom.body.removeEventListener('click',clear)
                 }
             }
+
+            tout(() => {
+                $(window).trigger('autoresize')
+            }, 200)
+
         </script>
         @yield('script')
   </div>
   @if ($route == 'admin.docs')
-   <script type='application/javascript' src="/js/app.js"></script>
+   <script type='application/javascript' src="/js/proc.js"></script>
+  @elseif ($route == 'admin.check')
+   <script type='application/javascript' src="/js/ch.js"></script>
+  @elseif ($route == 'user.questions')
+   <script type='application/javascript' src="/js/q.js"></script>
   @endif
+
+  <br /><br /><br />
 </body>
 
 </html>

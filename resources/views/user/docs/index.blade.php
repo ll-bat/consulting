@@ -46,6 +46,21 @@
          font-weight: 500;
      }
 
+    .ns-header-border {
+        border-left: 5px solid orange;
+    }
+
+    .border-bottom {
+        border-bottom: 1px dotted lightgrey !important;
+    }
+
+    .border-bottom:focus {
+        border-color: transparent !important;
+    }
+    .slow-changing {
+        transition: all .3s ease-in;
+    }
+
  </style>
 
 @endsection
@@ -58,31 +73,35 @@
          <form method='post' action='docs/submit' enctype="multipart/form-data">
             @csrf
             <div class='row justify-content-center'>
-                <div class='col-xl-7 col-lg-8 col-md-9 col-sm-12 col-xs-12  col-12'>
+                <div class='col-xl-7 col-lg-8 col-md-9 col-sm-12 col-xs-12 col-12 slow-changing'>
                     @if (count($errors) > 0)
                        <p class="alert alert-warning">
                            <b> Please, fill up all necessary fields </b>
                        </p>
                     @endif
                     @foreach($ques as $ind => $q)
-                       <div class='card my-3 p-2 ns-border-grey ns-font-family ns-dark-color @if ($ind == 0) ns-border-top @endif shadow-none' style='border-radius:7px;'>
-                          <div class="card-title pl-3 pt-3">
+                       <div class="card ns-border-grey ns-font-family ns-dark-color my-3 p-2
+                             @if ($ind == 0 && $q->type != 'header') ns-border-top @endif
+                             shadow-none
+                            @if ($q->type == 'header') ns-header-border @endif"
+                            style='border-radius:7px;'>
+                          <div class="card-title pl-4 @if ($q->type != 'header') pt-4 @else pt-2 @endif">
                                 <p class="d-inline"> {{$q->title}}  </p>
                                 @if ($q->required) <span class="text-danger text-lg pl-2"> * </span> @endif
                           </div>
                           @if ($q->hasImage())
-                            <div class='card-image p-2'>
+                            <div class='card-image p-4'>
                                  <img src="{{$q->getImage()}}"/>
                              </div>
                           @endif
                              <div @if ($q->required && $q->type == 'checkbox') class='' @endif
                                    @if (!$q->hasImage()) style='margin-top:-20px;' @endif>
-                                <div class="mt-1">
+                                <div class="pt-1 pl-2">
                                    @include("user/docs/_$q->type", compact('q', 'ind'))
                                 </div>
                              </div>
                              @error($q->name)
-                               <p class='ml-2 text-danger text-sm'>
+                               <p class='position-absolute ml-4 text-danger text-sm' style='bottom:-.5rem;'>
                                    @if ($q->type == 'upload') * Please upload an image
                                    @else * This field is required
                                    @endif
@@ -90,8 +109,8 @@
                              @enderror
 
                              @if ($q->required)
-                                <span class="ns-color ns-middle-weight text-right text-sm pr-2">
-                                    required
+                                <span class="ns-color ns-middle-weight text-warning text-right text-sm pr-2">
+                                    <b>required</b>
                                 </span>
                              @endif
                        </div>

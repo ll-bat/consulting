@@ -18,14 +18,20 @@ class CreateBlogsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('title');
             $table->string("excerpt");
-            $table->string("body");
+            $table->longText("body");
             $table->string("image")->nullable();
+            $table->unsignedBigInteger('category_id')->default(0);
             $table->timestamps();
 
             $table->foreign("user_id")
                 ->references("id")
                 ->on("users")
                 ->onDelete("cascade");
+
+            $table->foreign('category_id')
+                ->references('id')
+                ->on('categories')
+                ->onDelete('cascade');
         });
     }
 

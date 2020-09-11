@@ -21,6 +21,20 @@
             margin: 5px !important;;
         }
 
+        .hover-comment {
+            transition: all .3s ease-in;
+        }
+        .hover-comment:hover {
+             color: #423e47 !important;
+        }
+
+        .comment-image {
+            transition: all .4s ease-in;
+        }
+        .hoverable:hover .comment-image {
+            transform: rotate(-30deg);
+        }
+
     </style>
 @endsection
 
@@ -47,21 +61,21 @@
 
                             <div class="blog_details">
                                 <a class="d-inline-block" href="blog/{{$blog->id}}">
-                                    <h2>{{$blog->excerpt}}</h2>
+                                    <h2>{{$blog->title}}</h2>
                                 </a>
-                                <!-- <div style='height:100px;'>
+                                <div style=''>
                                    <p style='position:relative;'>
-                                     {!! $blog->body !!}
+                                     {{ $blog->excerpt }}
                                    </p>
-                                 </div> -->
-                                <div class="blog-info-link">
-                                    <p class="cursor grey" onclick="showComments({{$index}})"><i class="fa fa-comments" style="font-size:.9em;"></i>
+                                 </div>
+                                <div class="blog-info-link mt-0">
+                                    <p class="cursor text-secondary hover-comment" onclick="showComments({{$index}})"><i class="fa fa-comments" style="font-size:.9em;"></i>
                                             {{count($blog->comments)}} comments
                                     </p>
                                     <div class="comm" style="margin-top:-10px;">
                                       <div class="comments" style="display:none;">
                                           <div class="main mt-3 all-comments">
-                                              @foreach($blog->comments->take(3) as $comment)
+                                              @foreach($blog->getLastThree() as $comment)
                                                   @include('_comment')
                                               @endforeach
                                           </div>
@@ -94,7 +108,7 @@
                        </h4>
                     @endif
 
-                    <div class="" style="margin-left:50%">
+                    <div class="" style="margin-left:calc(50% - 100px)">
                         {{ $blogs->links() }}
                     </div>
 

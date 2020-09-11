@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return redirect('/check');
-});
+Route::get('/', 'HomeController@show');
 
 Auth::routes();
 
@@ -29,7 +27,7 @@ Route::post('/comment/{blog}', 'CommentController@store');
 Route::delete('/comment/{comment}/delete', 'CommentController@delete');
 
 Route::get('/docs', 'UserDocsController@index')->name('docs');
-Route::post('/docs/submit', 'UserDocsController@submit');
+Route::post('/docs/submit', 'UserDocsController@submit')->middleware('auth');
 
 
 Route::get('/about', function(){return view('about');})->name('about');
@@ -40,18 +38,34 @@ Route::get('/check', function(){
     if (!Auth::user())
         return view('check');
 
-    return view('home');
+    return redirect()->to('home');
 })->name('check');
+
 
 
 Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
     Route::get('/home', function (){return view('user.home');})->name('user.home');
 
     Route::get('/profile','ProfileController@show' )->name('user.profile');
+    Route::get('/mydocs', 'MyDocsController@index')->name('user.mydocs');
+
+    Route::get('docs/all-data', 'DocController@getAll');
+    Route::get('docs/other-data', 'DocController@otherData');
+
+    Route::get('/questions', 'UserDocsController@show')->name('user.questions');
+    Route::post('docs/submit', 'DocController@submit');
+    Route::post('docs/save-docs', 'DocController@saveData');
+    Route::get('docs/show-data', 'DocController@showData');
 
     Route::patch('/account','UserController@update');
     Route::patch('/profile','ProfileController@update');
     Route::patch('/profileImage', 'ProfileController@store');
+
+    Route::group(['prefix' => 'doc'], function(){
+         Route::get('{export}', 'MyDocsController@show');
+         Route::get('{export}/download', 'MyDocsController@download');
+
+    });
 
     Route::group(["middleware" => 'App\Http\Middleware\AdminMiddleware'], function()
     {
@@ -73,25 +87,67 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
         });
 
         Route::group(['prefix' => 'docs'], function(){
-            Route::get('', 'DocumentController@show')->name('admin.docs');
-            Route::get('/all', 'DocumentController@index');
+            // Route::get('', 'DocumentController@show')->name('admin.docs');
+            // Route::get('/all', 'DocumentController@index');
 
-            Route::post('/create-header', 'HeaderController@create');
-            Route::delete('/delete-component/{questions}', 'DocumentController@delete');
-            // Route::get('/delete-header/{questions}', 'DocumentController@delete');
+            // Route::post('/create-header', 'HeaderController@create');
+            // Route::delete('/delete-component/{questions}', 'DocumentController@delete');
 
-            Route::post('/create-select', 'DocumentController@create');
+            // Route::post('/create-select', 'DocumentController@create');
+            // Route::post('/create-rels', 'RelsController@create');
+            // Route::delete('/remove-rels/{rels}', 'RelsController@remove');
 
-            Route::post('/create-rels', 'RelsController@create');
-            Route::delete('/remove-rels/{rels}', 'RelsController@remove');
+            // Route::post('/{docs}/upload', 'DocumentController@upload');
+            // Route::delete('/upload/{docs}/remove', 'DocumentController@deleteUpload');
+            // Route::patch('/change-quest/{docs}', 'DocumentController@update');
+            // Route::post('/save-quest', 'DocumentController@save');
+            // Route::post('/save-rels', 'RelsController@save');
+            // Route::post('/update', 'DocumentController@updateIndex');
+            Route::get('', 'DocController@index')->name('admin.docs');
+            Route::get('new-danger', 'DangerController@show');
+            Route::post('new-danger', 'DangerController@create');
+            Route::get('new-control', 'ControlController@newControl');
+            Route::post('new-control', 'ControlController@createControl');
+            Route::get('all-ploss', 'PlossController@index');
+            Route::post('new-ploss', 'PlossController@create');
+            Route::post('save-ploss', 'PlossController@save');
+            Route::delete('ploss/{ploss}/delete', 'PlossController@delete');
+            Route::get('all-udanger', 'UdangerController@index');
+            Route::post('new-udanger', 'UdangerController@create');
+            Route::post('save-udanger', 'UdangerController@save');
+            Route::delete('udanger/{udanger}/delete', 'UdangerController@delete');
+           
+            Route::get('danger/{danger}/edit', 'DangerController@edit'); 
+            Route::post('danger/{danger}/update', 'DangerController@update');     
+            Route::delete('danger/{danger}/delete', 'DangerController@delete');          
+            Route::get('danger/{danger}/copy', 'DangerController@copy');   
+            Route::get('danger/{danger}/edit/{control}/detach', 'DangerController@detach');
+            Route::get('danger/{danger}/edit/{control}/attach', 'DangerController@attach');       
 
-            Route::post('/{docs}/upload', 'DocumentController@upload');
-            Route::delete('/upload/{docs}/remove', 'DocumentController@deleteUpload');
-            Route::patch('/change-quest/{docs}', 'DocumentController@update');
-            Route::post('/save-quest', 'DocumentController@save');
-            Route::post('/save-rels', 'RelsController@save');
+            Route::get('control/{control}/edit', 'ControlController@edit'); 
+            Route::post('control/{control}/update', 'ControlController@update');     
+            Route::delete('control/{control}/delete', 'ControlController@delete'); 
+
+            Route::post('add-process', 'ProcessController@addProcess');
+            Route::get('process/{process}/edit', 'ProcessController@edit');
+            Route::post('process/{process}/update', 'ProcessController@update');
+            Route::delete('process/{process}/delete', 'ProcessController@delete');
+            Route::get('process/{process}/copy', 'ProcessController@copy');
+            Route::get('process/{process}/edit/{danger}/detach', 'ProcessController@detach');
+            Route::get('process/{process}/edit/{danger}/attach', 'ProcessController@attach');
+
+            Route::get('check', 'DocController@show')->name('admin.check');
+
+
+
         });
 
+        Route::delete('/doc/{export}/delete', 'MyDocsController@delete');
     });
+});
+
+
+Route::get('test-form', function(){
+    return view('user.docs.form');
 });
 

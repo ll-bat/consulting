@@ -4,15 +4,13 @@
  <style>
 
      @keyframes blog-buttons{
-         0% {opacity:0; margin-top:20px;}
-         70% {opacity:.5; margin-top:5px;}
-         90% {opacity:.8; }
+         0% {opacity:0; margin-top:20px; transform: rotateX(-130deg);height:0}
+         70% {opacity:.5; margin-top:5px;height:70%;}
+         90% {opacity:.8; height:90%;}
          100% {opacity: 1;}
      }
      .animate-buttons{
-         animation-name: blog-buttons;
-         animation-duration:.31s;
-         animation-timing-function: ease-out;
+         animation: blog-buttons .31s ease-in;
      }
      .blur{
          /*color: transparent;*/
@@ -29,7 +27,7 @@
  <div class="row">
      @foreach($blogs as $index => $blog)
    <div class="col-md-6 col-lg-6 col-xl-4 col-sm-6 blog-content">
-    <div class="card card-user"
+    <div class="card"
          style="border-radius: 15px; width:100%;cursor:pointer"
          onclick="$$('blog-url')[{{$index}}].click()"
          onmouseover="showBlogButtons({{$index}})"
@@ -37,11 +35,10 @@
         <div class="image blog-image" style="min-height:150px;max-height:500px; background-color: rgba(244, 243, 239,1);">
             <img src="{{$blog->path()}}" style="border-bottom-left-radius: 0; border-bottom-right-radius: 0;" />
         </div>
-        <div class="card-body mb-3" style="max-height:150px;">
+        <div class="card-body overflow-hidden mb-3" style="height:5rem;">
             <div class="text-info">
                 <a href="{{route('show', $blog->id)}}"
-                   class="blog-url"
-                   style="display: none;"
+                   class="blog-url d-none"
                 ></a>
                     <h5 class="title blog-title">{{$blog->title}}</h5>
 
@@ -52,11 +49,10 @@
 {{--                </p>--}}
 {{--            </div>--}}
         </div>
-        <div class="card-footer" style="margin-top:-130px;">
+        <div class="card-footer" style="margin-top:0px;">
             <p class="text-{{$blog->isPublic() ? 'success' : 'danger'}} text-sm font-weight-bolder text-left position-absolute" style="margin-top:-20px;">
                 <span class="blog-status"> status: {{$blog->isPublic() ? 'public' : 'hidden'}} </span>
             </p>
-{{--            <hr class="@if ($blog->isPublic()) border-info @else border-danger @endif">--}}
             <div class="button-container blog-buttons" style="margin-top:-40px;">
                <div class="invisible blog-invisible position-absolute" style="left:50%;">
                    <div class="position-relative" style="left:-50%">

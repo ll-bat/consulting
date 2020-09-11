@@ -139,11 +139,19 @@
 
                     <div class="form-group">
                         <label class="" style="font-size:.8em;">password</label>
-                        <input type="password" class="form-control"
-                               placeholder="Password"
-                               name="password"
-                               ondblclick="this.type = 'text'"
-                        />
+                        <div style="display:flex">
+                            <input type="password" class="form-control" id="pass01"
+                                   placeholder="Password"
+                                   name="password"
+                            />
+                            <span class="position-absolute mt-1 pointer"
+                                  style="right:10px;"
+                                  onclick="togglePassVisibility()"
+                            >
+                                <i class="fa fa-eye-slash text-info" id="eye01"></i>
+                            </span>
+                        </div>
+
                         @error('password')
                            <p class="text-danger text-sm">{{$message}}</p>
                         @enderror
@@ -318,6 +326,16 @@
                              $1(imgId).style.opacity = '1';
                      }
 
+                     function togglePassVisibility(){
+                         if ($1('pass01').type == 'password'){
+                             $1('pass01').type  = 'text'
+                             $1('eye01').className = 'fa fa-eye text-info'
+                         }
+                         else {
+                             $1('pass01').type  = 'password'
+                             $1('eye01').className = 'fa fa-eye-slash text-info'
+                         }
+                     }
 
                  </script>
                 </div>

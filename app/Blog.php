@@ -17,6 +17,11 @@ class Blog extends Model
     public function comments(){
         return $this->hasMany(Comment::class);
     }
+
+    public function getLastThree(){
+        return Comment::where('blog_id', $this->id)->latest()->take(3)->get()->reverse();
+    }
+
     public function user(){
         return $this->belongsTo(User::class);
     }

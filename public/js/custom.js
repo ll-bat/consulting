@@ -8,12 +8,15 @@ function $$(cname){
 }
 
 
-function imageLoad(event, id){
+function imageLoad(event, id, fn){
     let input = event.target
     let reader = new FileReader();
     reader.onload = function(){
         let dataURL = reader.result;
         $1(id).src = dataURL
+        if (fn){
+            fn(dataURL)
+        }
     };
     reader.readAsDataURL(input.files[0]);
 }
@@ -23,6 +26,9 @@ let u = {
     ts : 'transition',
     bg : 'background-color',
     bc : 'border-color',
+    bb : 'border-bottom',
+    btc: 'border-bottom-color',
+    br : 'border',
     o  : 'opacity',
     b  : 'bottom',
     t  : 'top',
@@ -73,3 +79,46 @@ let st = (o, d)=>{
 let tout = (fn,t) => {
     setTimeout(fn,t)
 }
+
+let cnst = ''
+function cl(el,c, t,  pr){
+    if (c == '')
+        el.className = cnst
+    else {
+        cnst = el.className
+        el.className += (' ' + c)
+    }
+    t.loading = pr
+}
+
+function min(a,b){
+    return Math.min(a,b)
+}
+
+function max(a,b){
+    return Math.max(a,b)
+}
+
+function sin(a){
+    return Math.sin(a)
+}
+
+function cos(a){
+    return Math.cos(a)
+}
+
+function rand(n){
+    return Math.floor(Math.random()*n)
+}
+
+function random(n){
+    return Math.random()*n
+}
+
+function floor(n){
+    return Math.floor(n)
+}
+
+Array.prototype.insert = function ( index, item ) {
+    this.splice( index, 0, item );
+};

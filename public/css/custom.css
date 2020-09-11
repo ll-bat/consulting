@@ -257,3 +257,11 @@ body {
     background-color: white;
     color:black !important;
 }
+
+
+.text-white-black {
+    color:white !important;
+}
+.text-white-black:hover {
+    color:black !important;
+}

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAlbumsTable extends Migration
+class CreateControlDangersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,19 @@ class CreateAlbumsTable extends Migration
      */
     public function up()
     {
-        Schema::create('albums', function (Blueprint $table) {
+        Schema::create('control_dangers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->string('name')->unique();
+            $table->unsignedBigInteger('control_id');
+            $table->unsignedBigInteger('danger_id');
             $table->timestamps();
 
-            $table->foreign('user_id')
+            $table->foreign('control_id')
+               ->references('id')
+               ->on('controls');
+
+            $table->foreign('danger_id')
                 ->references('id')
-                ->on('users')
-                ->onDelete('cascade');
+                ->on('dangers');
         });
     }
 
@@ -33,6 +36,6 @@ class CreateAlbumsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('albums');
+        Schema::dropIfExists('control_dangers');
     }
 }
