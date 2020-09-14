@@ -38,7 +38,7 @@ class User extends Authenticatable
     ];
 
     public function isAdmin(){
-        return $this->is_admin === 1;
+        return $this->is_admin == 1;
     }
 
 //    public function setPasswordAttribute($value){
@@ -53,9 +53,6 @@ class User extends Authenticatable
         return $this->profile->pathAvatar();
     }
 
-    public function credentials(){
-        return $this->hasOne(Credential::class);
-    }
 
 
 
