@@ -73,7 +73,6 @@ class RegisterController extends Controller
         ]);
 
         $profile = Profile::create(['user_id' => $user->id]);
-        $cr      = Credential::create(['user_id' => $user->id, 'unique_id' => uniqid()]);
 
         return $user;
     }
