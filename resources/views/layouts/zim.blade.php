@@ -112,11 +112,6 @@
                                @endif
                           </ul>
 
-{{--                          <div class= "ml-4" style="position: fixed;bottom:45px;cursor:pointer;">--}}
-{{--                                <i class="nc-icon nc-refresh-69 font-weight-bolder"></i>--}}
-{{--                                <a  href="{{route('blog')}}"--}}
-{{--                                    class="pl-3 text-danger font-weight-bolder overflow-hidden"> Return to Home pg</a>--}}
-{{--                          </div>--}}
                       </div>
                  </div>
               </div>
@@ -168,18 +163,6 @@
                      </div>
 
                 </div>
-{{--                <button class="navbar-toggler"--}}
-{{--                        type="button"--}}
-{{--                        data-toggle="collapse"--}}
-{{--                        data-target="#navigation"--}}
-{{--                        aria-controls="navigation-index"--}}
-{{--                        aria-expanded="false"--}}
-{{--                        aria-label="Toggle navigation">--}}
-
-{{--                    <span class="navbar-toggler-bar navbar-kebab"></span>--}}
-{{--                    <span class="navbar-toggler-bar navbar-kebab"></span>--}}
-{{--                    <span class="navbar-toggler-bar navbar-kebab"></span>--}}
-{{--                </button>--}}
                 <div class="collapse navbar-collapse justify-content-end" style="background-color: #F5F4F0" id="navigation">
                     <form method="get" action="{{$path}}">
                         <div class="input-group no-border">
@@ -197,27 +180,6 @@
                             </div>
                         </div>
                     </form>
-{{--                    <ul class="navbar-nav pointer">--}}
-{{--                        <li class="nav-item btn-rotate dropdown c-parent-dropdown">--}}
-{{--                            <a class="nav-link dropdown-toggle"--}}
-{{--                               id="navbarDropdownMenuLink"--}}
-{{--                               onclick="dropDown()"--}}
-{{--                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">--}}
-{{--                                <i class="nc-icon nc-bell-55"></i>--}}
-{{--                                <p>--}}
-{{--                                    <span class="d-lg-none d-md-block">Some Actions</span>--}}
-{{--                                </p>--}}
-{{--                            </a>--}}
-{{--                            <div class="c-dropdown-menu dropdown-menu-right pb-0 pt-0 pl-0 border-0"--}}
-{{--                                 id = 'c-dropdown-menu'--}}
-{{--                                 style="border-radius:14px;"--}}
-{{--                            >--}}
-{{--                                <a class="dropdown-item c-dropdown-item c-top-radius py-2" href="/">Go to main page</a>--}}
-{{--                                <a class="dropdown-item c-dropdown-item py-2" href="#">Another</a>--}}
-{{--                                <a class="dropdown-item c-dropdown-item c-bottom-radius py-2" href="#">Another action</a>--}}
-{{--                            </div>--}}
-{{--                        </li>--}}
-{{--                    </ul>--}}
                 </div>
                 <ul class="navbar-nav pointer">
                     <li class="nav-item btn-rotate dropdown c-parent-dropdown">
@@ -226,9 +188,6 @@
                            onclick="dropDown()"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="nc-icon nc-bell-55"></i>
-{{--                            <p>--}}
-{{--                                <span class="d-lg-none d-md-block">Some Actions</span>--}}
-{{--                            </p>--}}
                         </a>
                         <div class="c-dropdown-menu dropdown-menu-right pb-0 pt-0 pl-0 border-0"
                              id = 'c-dropdown-menu'
@@ -342,9 +301,7 @@
         </script>
         @yield('script')
   </div>
-  @if ($route == 'admin.docs')
-   <script type='application/javascript' src="/js/proc.js"></script>
-  @elseif ($route == 'admin.check')
+  @if ($route == 'admin.check')
    <script type='application/javascript' src="/js/ch.js"></script>
   @elseif ($route == 'user.questions')
    <script type='application/javascript' src="/js/q.js"></script>

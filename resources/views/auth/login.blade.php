@@ -24,7 +24,7 @@
                                        class="form-control
                                        @error('email') is-invalid @enderror"
                                        name="email"
-                                       placeholder="Username"
+                                       placeholder="Email address"
                                        value="{{ old('email') }}"
                                        required autocomplete="email"
                                        autofocus>

@@ -25,5 +25,11 @@ class PdfController extends Controller
         //   $response = Response::make($file, 200);
         //   $response->header('Content-Type', 'application/pdf');
         //   return $response;
+
+        //   $headers = array(
+        //       'Content-Type: application/pdf',
+        //   );
+
+        //   return Response::download(storage_path("app/public/exports/$filename"), 'result.pdf', $headers);
     }
 }

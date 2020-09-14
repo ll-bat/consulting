@@ -13,4 +13,8 @@ class Export extends Model
       public function path(){
           return 'exports/'.$this->filename;
       }
+
+      public function dateCreated(){
+        return  $this->created_at->format('yy-M-d');
+    }
 }

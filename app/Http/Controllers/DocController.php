@@ -45,7 +45,7 @@ class DocController extends Controller
           }
 
           $control = Control::select('id','name')->get();
-          
+
           return [$process,$danger,$control];
       }
 
@@ -70,7 +70,7 @@ class DocController extends Controller
             if (!isset($d['data'])) continue;
             $d = $d['data'];
             if ($d['hasImage'])
-               $rule[$d['imageName']] = 'required|image';
+               $rule[$d['imageName']] = 'required|image|mimes:jpeg,png,jpg|max:2048';
         }
 
         $obj = new Data($data);
@@ -116,24 +116,22 @@ class DocController extends Controller
 
           $links    = $this->qualify($countAll, $object);
 
-        //   dd($links);
-        
           $jsonData = [$object,$links, $countAll];
           $object = new Obj($object, $links, $countAll);
-          
+
           $json = new Json();
-          $json->save($jsonData);
+          $docId =  $json->save($jsonData);
 
         //   dd($object->getControl(0,0));
 
-          return view('user.docs.form',compact('countAll', 'object'));
+          return redirect()->route('user.export', ['export' => $docId]);
       }
 
       public function qualify($all, $object){
           $link       = [];
 
           $newProcess = true;
-          $newDanger    = true; 
+          $newDanger    = true;
 
           $currentProcessMax = $object[0]['max'];
           $currentProcessInd = 0;
@@ -142,7 +140,7 @@ class DocController extends Controller
           $currentElement    = 0;
 
           $link[] = ['process' => 0, 'danger' => 0, 'element' => 0, 'hasNewProcess' => true, 'hasNewDanger' => true];
-          
+
           for ($i = 2; $i <= $all; $i++){
               $newProcess = null;
               $newDanger  = null;
@@ -170,7 +168,7 @@ class DocController extends Controller
                   $currentElement++;
               }
 
-              $link[] = ['process' => $currentProcessInd, 
+              $link[] = ['process' => $currentProcessInd,
                          'danger'  => $currentDangerInd,
                          'element' => $currentElement,
                          'hasNewProcess' => $newProcess,
@@ -240,18 +238,18 @@ class DocController extends Controller
             $o['result'] = $calculator->getResult();
 
             $obj[$ind] = ['pid' => $processId, 'did' => $dangerId,
-                          'data' => $o, 
+                          'data' => $o,
                           'processName' => $process->name,
                           'dangerName'  => $danger->name
                         ];
             $object[$links[$pkey]][] = $obj[$ind];
          }
 
-         
+
             $object = $this->countData($object);
 
             // dd($object);
-             
+
             return $object;
       }
 

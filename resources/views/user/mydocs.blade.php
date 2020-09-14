@@ -32,24 +32,27 @@
                             <a href="doc/{{$doc->id}}" style="text-decoration: none !important;">
                                 <div class="mydocs-item pointer d-flex">
                                     <div>
-                                        <img src="/icons/pdf.png" style="width:3rem;"/>
+                                        <img src="/icons/document2.png" style="width:3rem;"/>
                                     </div>
                                     <div class="mt-2">
-                                        <span
-                                            class="pl-2 mydocs-text text-primary font-weight-bolder" style="">{{ $doc->filename }}</span>
+                                        <span class="pl-2 mydocs-text text-primary font-weight-bolder" style=""> ჩემი დოკუმენტი {{ $index + 1 }}</span>
                                         <div class="mydocs-border mt-2 ml-2"></div>
                                     </div>
                                 </div>
                             </a>
+
+                            <div class='text-muted text-sm mt-4 ml-2'>
+                                <b> Created At: </b> {{ $doc->dateCreated() }}
+                            </div>
                         </div>
                         <div class="col-md-4 col-sm-4 col-10">
                             <div class="d-flex mt-2 mt-sm-0">
                                 <div class="mr-1">
-                                    <a href="doc/{{$doc->id}}/download" class="btn btn-outline-success rounded-pill text-sm">Download</a>
+                                    <a href="doc/{{$doc->id}}/download" class="btn btn-outline-success rounded-pill text-sm border-0"> გადმოწერა </a>
                                 </div>
                                 <div class="">
-                                    <button class="btn btn-outline-danger rounded-pill text-sm" onclick="$1('doc-delete{{$index}}').submit()">
-                                        Delete
+                                    <button class="btn btn-outline-danger rounded-pill text-sm border-0" onclick="$1('doc-delete{{$index}}').submit()">
+                                        წაშლა
                                     </button>
 
                                     <form method="post" action="doc/{{$doc->id}}/delete"  class="d-none" id="doc-delete{{$index}}">

@@ -11,9 +11,6 @@ use Illuminate\Support\Facades\Storage;
 
 class UserDocsController extends Controller
 {
-    
-
-
 
     public function show(){
         return view('user.questions.index');

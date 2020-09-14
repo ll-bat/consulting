@@ -62,8 +62,9 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
     Route::patch('/profileImage', 'ProfileController@store');
 
     Route::group(['prefix' => 'doc'], function(){
-         Route::get('{export}', 'MyDocsController@show');
-         Route::get('{export}/download', 'MyDocsController@download');
+         Route::get('{export}', 'MyDocsController@show')->name('user.export');
+         Route::get('{export}/export', 'MyDocsController@export');
+        //  Route::get('{export}/download', 'MyDocsController@download');
 
     });
 
@@ -116,17 +117,17 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
             Route::post('new-udanger', 'UdangerController@create');
             Route::post('save-udanger', 'UdangerController@save');
             Route::delete('udanger/{udanger}/delete', 'UdangerController@delete');
-           
-            Route::get('danger/{danger}/edit', 'DangerController@edit'); 
-            Route::post('danger/{danger}/update', 'DangerController@update');     
-            Route::delete('danger/{danger}/delete', 'DangerController@delete');          
-            Route::get('danger/{danger}/copy', 'DangerController@copy');   
-            Route::get('danger/{danger}/edit/{control}/detach', 'DangerController@detach');
-            Route::get('danger/{danger}/edit/{control}/attach', 'DangerController@attach');       
 
-            Route::get('control/{control}/edit', 'ControlController@edit'); 
-            Route::post('control/{control}/update', 'ControlController@update');     
-            Route::delete('control/{control}/delete', 'ControlController@delete'); 
+            Route::get('danger/{danger}/edit', 'DangerController@edit');
+            Route::post('danger/{danger}/update', 'DangerController@update');
+            Route::delete('danger/{danger}/delete', 'DangerController@delete');
+            Route::get('danger/{danger}/copy', 'DangerController@copy');
+            Route::get('danger/{danger}/edit/{control}/detach', 'DangerController@detach');
+            Route::get('danger/{danger}/edit/{control}/attach', 'DangerController@attach');
+
+            Route::get('control/{control}/edit', 'ControlController@edit');
+            Route::post('control/{control}/update', 'ControlController@update');
+            Route::delete('control/{control}/delete', 'ControlController@delete');
 
             Route::post('add-process', 'ProcessController@addProcess');
             Route::get('process/{process}/edit', 'ProcessController@edit');
@@ -146,8 +147,11 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
     });
 });
 
+Route::get('test', 'TestsController@index');
 
 Route::get('test-form', function(){
     return view('user.docs.form');
 });
+
+Route::get('test-excel', 'ExportsController@excel');
 

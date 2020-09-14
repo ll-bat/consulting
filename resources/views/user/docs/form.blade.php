@@ -33,22 +33,24 @@
           border: 1px solid lightgrey;
        }
 
-       .bg-dlight {
-          background-color: rgba(0,0,0,.1);
-          border-bottom-color:rgba(0,0,0,.1);
+       .bg-purple {
+          background-color:transparent;
        }
 
-       .bg-purple {
-          background-color:purple;
-          border-bottom-color: purple
+       .bg-dlight {
+          background-color: #D9D9D9;
+          border: 1px solid lightgrey !important;
        }
 
        .bg-primary {
-          border-bottom-color:rgb(0, 122, 254);
+          background-color: #0070C0 !important;
+          border: 1px solid lightgrey !important;
+          color:white !important;
        }
 
        .bg-warning {
-          border-bottom-color:rgb(255, 255, 0);
+          background-color: #FFFF00 !important;
+          border: 1px solid lightgrey !important;
        }
 
        .hoverable-image {
@@ -60,7 +62,7 @@
           min-height:5rem;
           height:5rem;
           transition: all .41s ease-in;
-          z-index: 99 !important;
+          z-index: 1;
        }
 
        .hoverable-image:hover {
@@ -69,116 +71,97 @@
           min-width:20rem;
           min-height:20rem;
           border-radius:10px;
-          z-index: 1;
+          z-index: 99;
+       }
+       
+       .hover-grey {
+          transition:all .5s ease-in;
        }
 
+       .hover-grey:hover {
+         background-color:rgba(0,0,0,.1) !important;
+       }
+
+       .border {
+          border-width: .15rem !important;
+       }
+
+       .border-success {
+          border-width: .15rem !important;
+          border-color: lightseagreen !important;
+       }
       
    </style>
 @endsection
 
 @section('content')
 
-      <img src='' class='position-absolute' 
-                  id='hovered-image'
-                  onmouseout='minImage(event)' 
-                  style='max-width:20rem; max-heigth:30rem;z-index:1'/>
+
       
-       <div class='container-fluid mt-5'>
-           <table class='table-striped border w-100'>
-              <thead>
-                  <tr>
-                     <td rowspan='2'> პროცესი </td>
-                     <td rowspan='2'> საფრთხე </td>
-                     <td rowspan='2'> საფრთ.ამს.ფოტო </td>
-                     <td rowspan='2'> პოტენციური ზიანი </td>
-                     <td rowspan='2'> ვინ იმყოფება რისკის ქვეშ </td>
-                     <td rowspan='2'> არსებული კონტროლის ზომები </td>
-                     <td colspan='3' class='text-danger'> საწყისი რისკი </td>
-                     <td rowspan='2' class='smaller'> გასატარებელ. ღონისძიებები. დამატებითი კონტროლის ზომები </td>
-                     <td colspan='3' class='text-success'> ნარჩენი რისკი </td>
-                     <td rowspan='2'> პასუხისმგებელი პირი </td>
-                     <td rowspan='2'> შესრ.ვადა </td>
-                  </tr>
-                  <tr>
-                     <td> ალბათობა</td>
-                     <td> შედეგი</td>
-                     <td> რისკის დონე</td>
-                     <td> ალბათობა</td>
-                     <td> შედეგი</td>
-                     <td> რისკის დონე</td>
-                  </tr>
-              <thead>
-
-              <tbody>
-                 @for ($i = 0; $i < $countAll; $i++)
-                    <tr>
-                       @if ($object->hasNewProcess($i))
-                       <td rowspan="{{ $object->getProcessMax($i) }}" class='smaller'>
-                           {{ $object->getProcessName($i) }}
-                       </td>
-                       @endif 
-                       @if ($object->hasNewDanger($i))
-                       <td rowspan="{{ $object->getDangerMax($i) }}" class='smaller'>
-                           {{ $object->getDangerName($i) }}                       
-                       </td>
-                       <td rowspan="{{ $object->getDangerMax($i) }}" class='position-relative @if (!$object->hasImage($i)) bg-purple @endif' style='@if ($object->hasImage($i)) height:5rem; width:7rem; @endif'> 
-                         @if ($object->hasImage($i))
-                           <img src="{{ $object->getImageName($i) }}" 
-                                class='hoverable-image' 
-                                onmouseover="maximImage(event, '{{$object->getImageName($i)}}')"
-                                style='max-width:7rem;max-height:5rem;' />
-                         @endif 
-                       </td>
-                       @endif 
-                       <td class='small1'> 
-                         {{ $object->getArrayElement('ploss', $i)}}
-                       </td>
-                       <td class='small1'> 
-                         {{ $object->getArrayElement('udanger', $i)}}
-                        </td>
-                       <td class='smaller'> 
-                         {{ $object->getControl(0, $i)}} 
-                       </td>
-                       @if ($object->hasNewDanger($i))
-                       <td rowspan="{{ $object->getDangerMax($i) }}" class='bg-primary'>
-                        {{$object->getResult('first_probability', $i)}}
-                        </td>
-                       <td rowspan="{{ $object->getDangerMax($i) }}" class='bg-dlight'>
-                         {{$object->getResult('first_result', $i)}} 
-                        </td>
-                       <td rowspan="{{ $object->getDangerMax($i) }}" class='bg-warning border-warning'>
-                         {{$object->getResult('first_level', $i)}} 
-                        </td>
-                       @endif 
-                       <td class='smaller'> 
-                         {{ $object->getControl(1, $i)}} 
-                       </td>
-                       @if ($object->hasNewDanger($i))
-                       <td rowspan="{{ $object->getDangerMax($i) }}" class='bg-primary'>
-                         {{$object->getResult('second_probability', $i)}}
-                        </td>
-                       <td rowspan="{{ $object->getDangerMax($i) }}" class='bg-dlight'>
-                         {{$object->getResult('second_result', $i)}}
-                        </td>
-                       <td rowspan="{{ $object->getDangerMax($i) }}" class='bg-warning border-warning'> 
-                         {{$object->getResult('second_level', $i)}}
-                       </td>
-                       <td rowspan="{{ $object->getDangerMax($i) }}" class='small'> 
-                         {{ $object->getStringElement('rperson', $i)}}
-                       </td>
-                       <td rowspan="{{ $object->getDangerMax($i) }}"> 
-                         {{ $object->getStringElement('etime', $i)}}
-                        </td>
-                       @endif 
-                    </tr>
-                 @endfor
-
-           
-              </tbody>
-           </table>
+       <div class='container-fluid mt-5' id='table-data'>
+           @include('user/docs/_table', compact('countAll', 'object'))
+           <!-- <div class='form-group'>
+               <button class='btn btn-primary' onclick='exportData()'> Export </button>
+           </div> -->
+         
+           <div class='d-block position-relative' style='margin-top:5rem;'>
+               <span class='mt-4 mr-3'> შეინახეთ დოკუმენტი როგორც: </span>
+               
+               <div class='d-block mt-3 m-4'>
+                   <div class='d-flex'>
+                       <div class='bg-white border rounded-10 p-2 pointer hover-grey' onclick="select(this,'pdf')" style=''>
+                         <img  src='/icons/pdf.png' width='60'/>
+                       </div>
+                       <div class='bg-white border rounded-10 p-2 ml-4 pointer hover-grey' onclick="select(this,'excel')" style=''>
+                         <img  src='/icons/excel.png' width='60'/>
+                       </div> 
+                   </div>
+                   <button class = 'btn btn-primary border-0 capitalize px-4 py-1 mt-4' 
+                      onclick='exportData(event)'>Export 
+                    </button>
+               </div>              
+           </div>
        </div>
 
+       <a href='{{ $docId }}/export' class='d-none' id='export'></a>
+
+       @include('user.docs._modal')
  <script>
     st(dom.body, 'bg: rgba(32, 113, 99, .04')
+
+    let selected = '';
+    function select(obj, type){
+       if (!$(obj).hasClass('border-success')){
+           $('.border-success').removeClass('border-success')
+           $(obj).addClass('border-success')
+           selected = type
+           console.log(selected)
+       }
+    }
+
+    function exportData(event){
+        let pdf   = selected == 'pdf'
+        let excel = selected == 'excel'
+
+        if (!(pdf | excel)) {
+           $1('forms-modal').click()
+           return
+        } 
+
+        if (pdf){
+           $1('export').href = "{{$docId}}/export?pdf=1"
+           $1('export').click()
+        }
+
+        else if (excel){
+           $1('export').href = "{{$docId}}/export?excel=1"
+           $1('export').click()
+        }
+    }
+
+    @if (count($errors) > 0)
+      $1('forms-modal').click()
+    @endif 
+
  </script>
 @endsection

@@ -27,9 +27,10 @@ class Json {
 
         $id = uniqid();
         $path = "storage/exports/{$id}.json";
-        Export::create(['user_id' => current_user()->id, 'filename' => $path]);
+        $export = Export::create(['user_id' => current_user()->id, 'filename' => $path]);
 
         File::put("{$path}", $json);
+        return $export->id;
     }
 }
 
