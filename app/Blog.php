@@ -26,7 +26,7 @@ class Blog extends Model
         return $this->belongsTo(User::class);
     }
     public function isPublic(){
-        return $this->is_public === 1;
+        return $this->is_public == 1;
     }
     public function togglePublic(){
         if ($this->isPublic())
