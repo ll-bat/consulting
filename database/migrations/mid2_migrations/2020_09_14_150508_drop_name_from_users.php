@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddRequiredToDocsTable extends Migration
+class DropNameFromUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class AddRequiredToDocsTable extends Migration
      */
     public function up()
     {
-        Schema::table('docs', function (Blueprint $table) {
-             $table->string("image")->default('null')->after('type');
-             $table->boolean('required')->default(false)->after('image');
+        Schema::table('users', function (Blueprint $table) {
+              $table->dropColumn('name');
+              $table->boolean('is_admin')->default(0);
         });
     }
 
@@ -26,7 +26,7 @@ class AddRequiredToDocsTable extends Migration
      */
     public function down()
     {
-        Schema::table('docs', function (Blueprint $table) {
+        Schema::table('users', function (Blueprint $table) {
             //
         });
     }
