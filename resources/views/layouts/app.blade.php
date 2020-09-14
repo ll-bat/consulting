@@ -190,8 +190,14 @@
                 }
             }
 
+            function encodeHTML(s) {
+                   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+            }
+
             function renderComment(body, i) {
                 if (body == '') return
+                body = encodeHTML(body)
+                
                 let result = `
                                <div class="media p-3 mb-4 ml-3" style="width: 100%; ">
                                   <img src="{{getAvatar()}}" class="mr-3 mt-3 rounded-circle" style="width:40px;height:40px">
