@@ -2,8 +2,9 @@
 
 namespace App\Helperclass;
 
-use App\HelperClass\Json;
-use App\HelperClass\Obj;
+use App\Helperclass\Json;
+use App\Helperclass\Obj;
+
 class Content {
 
     protected $data = [];
