@@ -42,12 +42,10 @@ const app = new Vue({
     methods:{
 
         chboxId(d, i, n){
-            if (!n) n = 'cc'
             return `chboxId${d}_${n}_${i}`
         },
 
         checkedId(d,i, n){
-            if (!n) n = 'cc'
             return `checkedId${d}_${n}_${i}`
         },
         choose(){
@@ -167,12 +165,11 @@ const app = new Vue({
             // el.values[i] = (el.values[i] + 1) % 2
             el.value = i
 
-            this.toggleInput(id,i, 'abc', cls)
+            this.toggleInput(id,i, 'control', cls)
         },
 
-        toggleInput(id, i, n, cls){
-            if (!n) n = 'cc'
-            let sym = `${id}_${n}_${i}`
+        toggleInput(id, i, type, cls){
+            let sym = `${id}_${type}_${i}`
 
             if (!cls) cls = 'checked'
 
@@ -205,7 +202,7 @@ const app = new Vue({
                el.value = (el.value + 1) % 2
             },20)
 
-            this.toggleInput(el.id, 0)
+            this.toggleInput(el.id, 0, 'ploss')
         },
 
         checkUdanger(i,id){
@@ -226,7 +223,7 @@ const app = new Vue({
                el.value = (el.value + 1) % 2
             },20)
 
-            this.toggleInput(el.id, 0)
+            this.toggleInput(el.id, 0, 'udanger')
         },
 
 
@@ -251,7 +248,8 @@ const app = new Vue({
                 text: 'აირჩიეთ პოტენციური ზიანი',
                 data: this.ploss,
                 update: this.togglePloss,
-                check: this.checkPloss
+                check: this.checkPloss,
+                type: 'ploss'
             })
             this.combined.push({
                 class: 'pb-0',
@@ -259,7 +257,8 @@ const app = new Vue({
                 text: 'ვინ იმყოფება საფრთხის ქვეშ',
                 data: this.udanger,
                 update: this.toggleUdanger,
-                check: this.checkUdanger
+                check: this.checkUdanger,
+                type: 'udanger'
             })
         },
 

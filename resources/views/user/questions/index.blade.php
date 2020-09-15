@@ -203,8 +203,8 @@
                                               <span class='text-dark font-weight-bolder' style='font-size:1em' >@{{v.text}} </span>
                                               <span clasas='text-muted text-sm'>@{{v.label}} </span>
                                               <!-- <input type="checkbox" class='control-to-be-checked' :checked='checkControl(o.id,0)'/> -->
-                                              <div class="mod-chbox-checkmark" :class="{'hovered-checkmark': checkControl(o.id,ind)}" :id="chboxId(o.id, ind, 'abc')" style='border-radius:50%'>
-                                                   <span class='' :class="{'checked-circle': checkControl(o.id,ind)}" :id="checkedId(o.id, ind, 'abc')"></span>
+                                              <div class="mod-chbox-checkmark" :class="{'hovered-checkmark': checkControl(o.id,ind)}" :id="chboxId(o.id, ind, 'control')" style='border-radius:50%'>
+                                                   <span class='' :class="{'checked-circle': checkControl(o.id,ind)}" :id="checkedId(o.id, ind, 'control')"></span>
                                               </div>
                                           </label>
                                     </div>
@@ -262,8 +262,8 @@
                                             <p class='mb-5 text-lg'> @{{c.text}} </p>
                                             <div v-for = '(d,i) in c.data'>
                                                 <label class="ns-container mt-3" @mousedown='c.update(i,0)' style='font-size:.95em; color:rgba(0,0,0,.8);'>@{{d.name}}
-                                                    <div class="mod-chbox-checkmark" :class="{'hovered-checkmark' : c.check(i, d.id)}" :id='chboxId(d.id,0)'>
-                                                        <span :class="{'checked' : c.check(i, d.id)}" :id='checkedId(d.id,0)'></span>
+                                                    <div class="mod-chbox-checkmark" :class="{'hovered-checkmark' : c.check(i, d.id)}" :id='chboxId(d.id,0, c.type)'>
+                                                        <span :class="{'checked' : c.check(i, d.id)}" :id='checkedId(d.id,0,c.type)'></span>
                                                     </div>
                                                     <span class='hover-chbox'></span>
                                                </label>

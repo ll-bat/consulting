@@ -49801,11 +49801,9 @@ var app = new Vue({
   },
   methods: {
     chboxId: function chboxId(d, i, n) {
-      if (!n) n = 'cc';
       return "chboxId".concat(d, "_").concat(n, "_").concat(i);
     },
     checkedId: function checkedId(d, i, n) {
-      if (!n) n = 'cc';
       return "checkedId".concat(d, "_").concat(n, "_").concat(i);
     },
     choose: function choose() {
@@ -49927,11 +49925,10 @@ var app = new Vue({
       }); // el.values[i] = (el.values[i] + 1) % 2
 
       el.value = i;
-      this.toggleInput(id, i, 'abc', cls);
+      this.toggleInput(id, i, 'control', cls);
     },
-    toggleInput: function toggleInput(id, i, n, cls) {
-      if (!n) n = 'cc';
-      var sym = "".concat(id, "_").concat(n, "_").concat(i);
+    toggleInput: function toggleInput(id, i, type, cls) {
+      var sym = "".concat(id, "_").concat(type, "_").concat(i);
       if (!cls) cls = 'checked';
 
       if (!$("#chboxId".concat(sym)).hasClass('hovered-checkmark')) {
@@ -49964,7 +49961,7 @@ var app = new Vue({
       tout(function () {
         el.value = (el.value + 1) % 2;
       }, 20);
-      this.toggleInput(el.id, 0);
+      this.toggleInput(el.id, 0, 'ploss');
     },
     checkUdanger: function checkUdanger(i, id) {
       var el = this.data.udanger.find(function (e) {
@@ -49987,7 +49984,7 @@ var app = new Vue({
       tout(function () {
         el.value = (el.value + 1) % 2;
       }, 20);
-      this.toggleInput(el.id, 0);
+      this.toggleInput(el.id, 0, 'udanger');
     },
     chainedAnim: function chainedAnim(cname, len, c) {
       if (c >= len) return;
@@ -50009,7 +50006,8 @@ var app = new Vue({
         text: 'აირჩიეთ პოტენციური ზიანი',
         data: this.ploss,
         update: this.togglePloss,
-        check: this.checkPloss
+        check: this.checkPloss,
+        type: 'ploss'
       });
       this.combined.push({
         "class": 'pb-0',
@@ -50017,7 +50015,8 @@ var app = new Vue({
         text: 'ვინ იმყოფება საფრთხის ქვეშ',
         data: this.udanger,
         update: this.toggleUdanger,
-        check: this.checkUdanger
+        check: this.checkUdanger,
+        type: 'udanger'
       });
     },
     submit: function submit() {
