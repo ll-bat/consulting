@@ -11,16 +11,16 @@
 ?>
 
 @section('content')
-    <section class="blog_area section-padding">
+    <section class="blog_area mt-5">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 mb-5 mb-lg-0">
+                <div class="col-lg-8 mb-lg-0 mt-0">
                     <div class="blog_left_sidebar">
                         <article class="blog_item offset-1">
-                            <a href="{{  $route }}" class="mt-2">
+                            <a href="{{  $route }}" class="mb-2 btn btn-outline-info text-primary" style='background-color:transparent !important;'>
                                 Back
                             </a>
-                            <div class="blog_area">
+                            <div class="blog_area mt-5">
                                 <h1>{{$blog->title}}</h1>
                                 <p class="pt-2 text-muted" style="font-size:1.1em;">
                                     <i class="fas fa-user lightgrey pr-1"></i>
