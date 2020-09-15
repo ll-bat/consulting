@@ -14,7 +14,7 @@ class AddDataToExportsTable extends Migration
     public function up()
     {
         Schema::table('exports', function (Blueprint $table) {
-              $table->longText('data');
+              $table->longText('data')->nullable();
         });
     }
 
