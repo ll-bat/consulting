@@ -66,5 +66,14 @@
                 </div>
             </div>
         @endforeach
+
+        @if ($docs->count() == 0)
+
+            <div class = 'alert aler-info text-white' style='background-color:rgba(0,0,200, .5)'>
+                <p> თქვენ არ გაქვთ დოკუმენტები. შეავსეთ 
+                    <a href='questions' class='text-white font-weight-bolder'>  კითქვარი  </a>
+                </p>
+            </div>
+        @endif
     </div>
 @endsection
