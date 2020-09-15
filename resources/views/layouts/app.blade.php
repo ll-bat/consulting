@@ -117,7 +117,7 @@
                                             </li>
                                             <li><a href="{{route('contact')}}" class='nav-link'>Contact</a></li>
                                             @auth
-                                               <li><a href="{{route('user.home')}}" class='d-md-flex d-lg-block'>
+                                               <li><a href="{{route('user.home')}}" class='d-flex d-lg-block'>
                                                    <img src='{{current_user()->pathAvatar()}}' class='rounded-pill' width='40' height='40' />
                                                    <span class='d-lg-none d-block p-2'> My profile </span>
                                                   </a>
