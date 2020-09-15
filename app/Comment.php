@@ -9,7 +9,7 @@ class Comment extends Model
     protected $guarded = [];
 
     public function isLiked(){
-        return $this->is_liked === 1;
+        return $this->is_liked == 1;
     }
     public function state(bool $s){
         $this->is_liked = $s;
