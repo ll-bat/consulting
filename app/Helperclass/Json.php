@@ -14,22 +14,24 @@ class Json {
 
     }
 
-    public function load($path){
-        $json = File::get($path);
-        $data = json_decode($json, true);
+    public function load($export){
+        // $json = File::get($path);
+        $data = json_decode($export->data, true);
         
         return $data;
     }
 
     public function save($data){
 
-        $json = json_encode($data);
+        $data = json_encode($data);
 
-        $id = uniqid();
-        $path = "storage/exports/{$id}.json";
-        $export = Export::create(['user_id' => current_user()->id, 'filename' => $path]);
+        $name = md5(uniqid());
+        $path = "$name.json";
+        // $filename = cloudinary()->upload($json)->getSecurePath(); 
+        
+        $export = Export::create(['user_id' => current_user()->id, 'filename' => $path, 'data' => $data]);
 
-        File::put("{$path}", $json);
+        // File::put("{$path}", $json);
         return $export->id;
     }
 }

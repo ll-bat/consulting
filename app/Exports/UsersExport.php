@@ -16,17 +16,17 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class UsersExport implements FromView,WithDrawings,ShouldAutoSize
 {
-    protected $exportFilename = null;
+    protected $export = null;
     protected $data           = null;
     protected $all            = null;
 
-    public function __construct($exportFilename){
-        $this->exportFilename = $exportFilename;
+    public function __construct($export){
+        $this->export = $export;
         $this->init();
     }
 
     public function init(){
-        $con = new Content($this->exportFilename);
+        $con = new Content($this->export);
         $con = $con->getData();
         $this->data = $con[1];
         $this->all  = $con[0];
@@ -42,7 +42,8 @@ class UsersExport implements FromView,WithDrawings,ShouldAutoSize
 
     public function drawings()
     {
-        $all = $this->data->getImages();
+        // $all = $this->data->getImages();
+        $all = [];
         $images = [];
         $c = 7;
 

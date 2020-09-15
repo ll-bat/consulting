@@ -11,12 +11,14 @@ class Profile extends Model
     public function pathAvatar(){
         $path = $this->avatar ?? '';
         if ($path == '') return '/icons/user.png';
-        return asset('storage/'.$path);
+        // return asset('storage/'.$path);
+        return $path;
     }
 
     public function pathBack(){
         $path = $this->background ?? '';
         if ($path == '') $path = '/backgrounds/background.png';
-        return asset('storage/'.$path);
+        // return asset('storage/'.$path);
+        return $path;
     }
 }

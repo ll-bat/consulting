@@ -108,8 +108,8 @@ class Obj {
         $obj  = $this->getObject($i);
         $path = $obj['imageName'];
 
-        if ($type == 'full')
-          $path = asset("storage/{$obj['imageName']}");
+    //1 --    // if ($type == 'full')
+        //   $path = asset("storage/{$obj['imageName']}");  --1 //
 
         // $file = Storage::get("{$obj['imageName']}");
         // dd($file);
@@ -119,9 +119,13 @@ class Obj {
 
     public function getImageContent($i){
         $obj  = $this->getObject($i);
-        $path = asset("storage/{$obj['imageName']}");
+        // $path = asset("storage/{$obj['imageName']}");
 
-        $file = Storage::get("{$obj['imageName']}");
+        $path = $obj['imageName'];
+
+        // $file = Storage::get("{$obj['imageName']}");
+        
+        $file = file_get_contents($path);
 
         return $file;
     }
@@ -135,7 +139,9 @@ class Obj {
 
             if ($has){
                 $path = $this->getImageName($i, 'partial');
-                $path = public_path("storage/$path");
+                // $path = public_path("storage/$path");
+                // $path = public_path("$path");
+
             }
 
             $pid  = $this->getProcessId($i);

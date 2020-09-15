@@ -45,7 +45,8 @@ class ProfileController extends Controller
                 if (file_exists('storage/'.$profile->avatar))
                     unlink('storage/'.$profile->avatar);
 
-            $data['avatar'] = request('avatar')->store('avatars');
+            // $data['avatar'] = request('avatar')->store('avatars');
+            $data['avatar'] = cloudinary()->upload(request()->file('avatar')->getRealPath())->getSecurePath();            
         }
 
         if (isset($data['background'])){
@@ -53,7 +54,7 @@ class ProfileController extends Controller
                 if (file_exists('storage/'.$profile->background))
                    unlink('storage/'.$profile->background);
 
-            $data['background'] = request('background')->store('backgrounds');
+                   $data['background'] = cloudinary()->upload(request()->file('background')->getRealPath())->getSecurePath(); 
         }
 
         $profile->update($data);

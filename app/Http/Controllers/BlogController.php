@@ -107,7 +107,8 @@ class BlogController extends Controller
         }
 
         if (isset($data['image'])){
-            $data['image'] = request('image')->store('blogs');
+            // $data['image'] = request('image')->store('blogs');
+             $data['image'] =  cloudinary()->upload(request()->file('image')->getRealPath())->getSecurePath(); 
         }
         $data['user_id'] = current_user()->id;
         return $data;

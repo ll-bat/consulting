@@ -301,7 +301,9 @@
         </script>
         @yield('script')
   </div>
-  @if ($route == 'admin.check')
+  @if ($route == 'admin.docs')
+   <script type='application/javascript' src="/js/proc.js"></script>
+  @elseif ($route == 'admin.check')
    <script type='application/javascript' src="/js/ch.js"></script>
   @elseif ($route == 'user.questions')
    <script type='application/javascript' src="/js/q.js"></script>

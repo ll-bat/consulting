@@ -6,17 +6,26 @@ use App\Helperclass\Obj;
 use App\Helperclass\Content;
 use App\Export;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+
 
 class TestsController extends Controller
 {
       public function index(){
-          $export = Export::first();
+          
+        
+      //      $path  = Cloudder::getPublicId();
+       
+      //       dd($path);
 
-          $con  = new Content($export->filename);
-          $con = $con->getData();
+      //      $path = 'v1600114482/gpcl0oagroaqbjn1tgds.jpg';
 
-          $obj  = $con[1];
+      //      $data = File::get('/icons/pdf.png');
+      //      dd($data);
 
-          $obj->getImageContent(0);
-      }
+      //      $url = Storage::disk('cloudinary')->put($data, 'mydata');
+
+      //      dd($url);
+      // }
 }

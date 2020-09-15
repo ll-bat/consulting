@@ -88,22 +88,6 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
         });
 
         Route::group(['prefix' => 'docs'], function(){
-            // Route::get('', 'DocumentController@show')->name('admin.docs');
-            // Route::get('/all', 'DocumentController@index');
-
-            // Route::post('/create-header', 'HeaderController@create');
-            // Route::delete('/delete-component/{questions}', 'DocumentController@delete');
-
-            // Route::post('/create-select', 'DocumentController@create');
-            // Route::post('/create-rels', 'RelsController@create');
-            // Route::delete('/remove-rels/{rels}', 'RelsController@remove');
-
-            // Route::post('/{docs}/upload', 'DocumentController@upload');
-            // Route::delete('/upload/{docs}/remove', 'DocumentController@deleteUpload');
-            // Route::patch('/change-quest/{docs}', 'DocumentController@update');
-            // Route::post('/save-quest', 'DocumentController@save');
-            // Route::post('/save-rels', 'RelsController@save');
-            // Route::post('/update', 'DocumentController@updateIndex');
             Route::get('', 'DocController@index')->name('admin.docs');
             Route::get('new-danger', 'DangerController@show');
             Route::post('new-danger', 'DangerController@create');
@@ -149,9 +133,9 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
 
 Route::get('test', 'TestsController@index');
 
-Route::get('test-form', function(){
-    return view('user.docs.form');
-});
+// Route::get('test-form', function(){
+//     return view('user.docs.form');
+// });
 
-Route::get('test-excel', 'ExportsController@excel');
+// Route::get('test-excel', 'ExportsController@excel');
 

@@ -93,7 +93,9 @@ class DocController extends Controller
               if (!isset($d['data'])) continue;
               $d = $d['data'];
               if ($d['hasImage']){
-                  $name = request($d['imageName'])->store('testing');
+                //   $name = request($d['imageName'])->store('testing');
+                  $name = cloudinary()->upload(request($d['imageName'])->getRealPath())->getSecurePath(); 
+
                   $data[$ind]['data']['imageName'] = $name;
               }
           }

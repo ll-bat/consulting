@@ -11,7 +11,8 @@ class Blog extends Model
     public function path(){
         if ($this->image == '')
              return testBack();
-        return asset('storage/'.$this->image);
+        // return asset('storage/'.$this->image);
+        return $this->image;
     }
 
     public function comments(){

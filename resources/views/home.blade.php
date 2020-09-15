@@ -231,7 +231,7 @@
                  </div>
                  <div class="row">
                      @foreach ($blogs as $blog)
-                     <div class="col-xl-6 col-lg-6 col-md-6 invisible">
+                     <div class="col-xl-6 col-lg-6 col-md-6">
                          <div class="home-blog-single mb-30">
                              <div class="blog-img-cap">
                                  <div class="blog-img">
