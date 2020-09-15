@@ -115,7 +115,7 @@
                                     <br> გაიარო <a href='' class='authorization font-weight-bolder'>  ავტორიზაცია </a>, ან <a href='' class='registration font-weight-bolder' style=''>დარეგისტრირდე </a> ახლავე.</p> -->
                     
                                     <div class='mb-5' data-animation="fadeInLeft" data-delay="2s" style='font-size:1.3rem;'> 
-                                        <div class='d-flex'>
+                                        <div class='d-md-flex d-none'>
                                            <div class='position-relative hoverable'>
                                                <a href="{{route('login')}}" class='font-weight-bolder authorization'>  
                                                    ავტორიზაცია 
@@ -132,6 +132,24 @@
                                                <div class='ns-border position-absolute' style=''></div>
                                             </div>
                                         </div>
+
+                                        <div class='row d-block d-md-none'>
+                                             <div class='col text-left'>
+                                                <div class='position-relative hoverable'>
+                                                    <a href="{{route('login')}}" class='font-weight-bolder authorization'>  
+                                                        ავტორიზაცია 
+                                                    </a> 
+                                                 </div>
+                                             </div>
+                                             <div class='col'>
+                                                 <div class='position-relative hoverable mt-2'>
+                                                     <a href="{{route('register')}}" class='font-weight-bolder registration'
+                                                        style=''>რეგისტრაცია 
+                                                     </a> 
+                                                 </div>
+                                             </div>
+                                        </div>
+
                                     </div>
                                     <div class="hero__btn" data-animation="fadeInLeft" data-delay="1.6s">
                                         <a href="{{route('services')}}" class="btn hero-btn py-4 px-3" style='font-size:1rem;border-radius:0;font-weight:normal;'>ჩვენი სერვისები</a>

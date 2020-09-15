@@ -10,13 +10,18 @@
     <img src="{{$comment->user->pathAvatar()}}" alt="Author" class="mr-3 mt-3 rounded-circle comment-image" style="width:50px; height:50px;">
     <div class="media-body" style="padding-bottom:-1px;">
 
-        <h6>@ <b class="text-info">{{$comment->user->username}}</b><span class="text-muted"> said.. </span>
-            <small class="float-right">
-                <i><span class="font-weight-bolder">Posted on </span>
-                    {{$comment->postDate()}}
-                </i>
-            </small>
-        </h6>
+        <div class='row'>
+            <div class='col'>
+                 <h6>@ <b class="text-info">{{$comment->user->username}}</b><span class="text-muted"> said.. </span></h6>
+            </div>
+            <div class='col d-none d-md-block'>
+                <small class="float-right">
+                        <i><span class="font-weight-bolder">Posted on </span>
+                            {{$comment->postDate()}}
+                        </i>
+                </small>
+           </div>
+        </div>
 
         <p class="mycolor font-weight-bold"
            style="font-size:.9em;
