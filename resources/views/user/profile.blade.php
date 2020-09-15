@@ -340,30 +340,6 @@
                  </script>
                 </div>
             </div>
-            @if (current_user()->isAdmin())
-              <div class="">
-                <div class="card rounded-40" style="border:none;border-radius:10px;">
-                    <div class="card-body">
-                           <div class="row">
-                               @foreach($users as $user)
-                                  <div class="col-md-3 col-3">
-                                     <div class="m-4 mr-2">
-                                         <div class="avatar" style="">
-                                             <img class=""
-                                                  src = "{{$user->profile->pathAvatar()}}"
-                                                  style="width:50px;" />
-                                         </div>
-                                         <div class="content text-muted" style="margin-top:-5px;font-family: 'Comic Sans MS'">
-                                             <p>{{substr($user->username,0, 7)}}..</p>
-                                         </div>
-                                     </div>
-                                  </div>
-                               @endforeach
-                           </div>
-                    </div>
-                </div>
-               </div>
-             @endif
         </div>
     </div>
 @endsection

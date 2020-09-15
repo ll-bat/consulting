@@ -70,7 +70,7 @@
                                  </div>
                                 <div class="blog-info-link mt-0">
                                     <p class="cursor text-secondary hover-comment" onclick="showComments({{$index}})"><i class="fa fa-comments" style="font-size:.9em;"></i>
-                                            {{count($blog->comments)}} comments
+                                         <span id='comments-count{{$index}}'> {{count($blog->comments)}} </span> comments
                                     </p>
                                     <div class="comm" style="margin-top:-10px;">
                                       <div class="comments" style="display:none;">
@@ -81,7 +81,7 @@
                                           </div>
 
                                           @auth
-                                              @include('_write-comment')
+                                              @include('_write-comment', compact('index'))
                                           @endauth
                                           @guest()
                                               @if (count($blog->comments) == 0)

@@ -21,7 +21,7 @@
                   rows="2"
         ></textarea>
         <button class="btn btn-info rounded ml-4 mr-3 mt-0 mb-5  pl-3 pr-3 py-2 grey grey-h float-right"
-           onclick = "postComment({{$index}}, {{$blog->id}})"
+           onclick = "postComment({{$index}}, {{$blog->id}}, 'comments-count{{$index}}')"
         >Post</button>
         <div class="message">
             <p class="error-message red"></p>

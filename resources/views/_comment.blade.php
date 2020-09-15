@@ -28,10 +28,11 @@
 
         <div class="" style="margin-top:-10px;">
            @can('update-best-comment', $blog)
-                   <a href="/bestcomment/{{$comment->id}}" class="">
-                       <i class="fa fa-heart  <?php if ($comment->isLiked()) echo 'red'; else echo 'lightgrey' ?>"></i>
-                       <span class=""></span>
-                   </a>
+                   <button class="pointer border-0 bg-transparent"  onclick="toggleCommentLike('/bestcomment/{{$comment->id}}',this)" style=''>
+                       <i class="fa fa-heart @if ($comment->isLiked()) ns-red @else ns-lightgrey @endif"></i>
+                    <span class=""></span>
+
+                    </button>
                    <a href="" class="pl-2 mytest" style="color:grey;">
                        <i class="fa fa-comment lightgrey"></i>
                        <span class="pl-1 "></span>
@@ -44,13 +45,19 @@
            @endguest
            @can('edit-staff', $comment)
                <div class="float-right text-secondary">
-                   <form method="post" action="../comment/{{$comment->id}}/delete">
-                       @csrf
-                       @method('delete')
-                       <button class="btn btn-default grey grey-h radius-40"
+                   <div>
+                       <button class="border-0 grey grey-h px-3 py-2 rounded-pill text-black d-none d-md-block"
+                               onclick="deleteComment('../comment/{{$comment->id}}/delete', this)"
+                               style=""
+                       >
+                        <i class='fa fa-trash text-danger' style='font-size:1rem;'></i>
+                       </button>
+
+                       <button class="btn btn-default grey grey-h radius-40 d-block d-md-none"
+                               onclick="deleteComment('../comment/{{$comment->id}}/delete', this)"
                                style="font-size:.8em;"
                        >remove</button>
-                   </form>
+                    </div>
                </div>
            @endcan
         </div>

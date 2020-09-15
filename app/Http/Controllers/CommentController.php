@@ -17,18 +17,22 @@ class CommentController extends Controller
             die('Something went wrong');
         }
 
-        $data = request()->validate(['body' => 'required|min:1|max:255']);
+        $data = request()->validate([
+            'body' => 'required|string|min:1|max:755']);
 
         $comment = Comment::create(['user_id' => $user->id, 'blog_id' => $blog->id, 'body' => $data['body']]);
-        $comment->save();
+        // $comment->save();
 
-        return 'stored';
+        return $comment->id;
     }
 
     public function delete(Comment $comment){
         $this->authorize('edit-staff',$comment);
 
+        // return response($comment->id, 200);
+
         $comment->delete();
-        return back();
+
+        return response('done', 200);
     }
 }

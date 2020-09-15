@@ -16,6 +16,6 @@ class BestCommentController extends Controller
         else
              $comment->state(true);
 
-        return back();
+        return response('done', 200);
     }
 }

@@ -22,9 +22,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/blog','BlogController@index')->name('blog');
 
 Route::get('/blog/{blog}','BlogController@show')->name('show');
-Route::get('/bestcomment/{comment}', 'BestCommentController@edit');
-Route::post('/comment/{blog}', 'CommentController@store');
-Route::delete('/comment/{comment}/delete', 'CommentController@delete');
+Route::get('/bestcomment/{comment}', 'BestCommentController@edit')->middleware('auth');
+Route::post('/comment/{blog}', 'CommentController@store')->middleware('auth');
+Route::delete('/comment/{comment}/delete', 'CommentController@delete')->middleware('auth');
 
 Route::get('/docs', 'UserDocsController@index')->name('docs');
 Route::post('/docs/submit', 'UserDocsController@submit')->middleware('auth');

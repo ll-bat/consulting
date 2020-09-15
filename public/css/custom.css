@@ -265,3 +265,15 @@ body {
 .text-white-black:hover {
     color:black !important;
 }
+
+.ns-red {
+    color:red !important;
+}
+
+.ns-lightgrey {
+    color: lightgrey !important;
+}
+
+.ns-lightgrey:hover {
+    color: red;
+}

@@ -26,6 +26,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>  
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <link href="/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
     <link rel="stylesheet" href="/css/custom.css" />
@@ -82,6 +83,7 @@
             padding-left:1.2rem !important;
             padding-right:1.2rem !important;
         }
+        
     </style>
 </head>
 <body class="" @if ($current_route == '') style='background-color:rgba(0,0,0,.04)' @endif>
@@ -163,7 +165,7 @@
                 }
             });
 
-            function postComment(k,i) {
+            function postComment(k,i, j) {
                 $.ajax({
                     url: '/comment/' + i,
                     type: 'post',
@@ -173,7 +175,7 @@
                         body: $$('postComment')[k].value
                     },
                     success: function (res) {
-                        
+                        fset(res, j)
                     },
                     error: function (request, status, error) {
                         set(request.responseText);
@@ -188,6 +190,31 @@
                 function set(res) {
                     $$('error-message')[k].innerHTML = 'გთხოვთ შეიყვანოთ ტექსტი'
                 }
+
+                function fset(res) {
+                    let result = 
+                    `
+                       <button class="border-0 grey grey-h px-3 py-2 rounded-pill text-black d-none d-md-block"
+                               onclick="deleteComment('../comment/${res}/delete', this)"
+                               style=""
+                       >
+                        <i class='fa fa-trash text-danger' style='font-size:1rem;'></i>
+                       </button>
+
+                       <button class="btn btn-default grey grey-h radius-40 d-block d-md-none"
+                               onclick="deleteComment('../comment/${res}/delete', this)"
+                               style="font-size:.8em;"
+                       >remove</button>
+                    
+                    `
+
+                    $1('render-result').innerHTML = result 
+                    $1('render-result').id = ''
+
+                    @if ($current_route == 'blog')
+                       $1(j).innerHTML = parseInt($1(j).innerHTML) + 1
+                    @endif
+                }
             }
 
             function encodeHTML(s) {
@@ -199,26 +226,61 @@
                 body = encodeHTML(body)
                 
                 let result = `
-                               <div class="media p-3 mb-4 ml-3" style="width: 100%; ">
-                                  <img src="{{getAvatar()}}" class="mr-3 mt-3 rounded-circle" style="width:40px;height:40px">
+                               <div class="media p-3 mb-4 ml-3 ns-font-family hoverable" style="width: 100%; ">
+                                  <img src="{{getAvatar()}}" class="mr-3 mt-3 rounded-circle comment-image" style="width:50px;height:50px">
                                   <div class="media-body" style="padding-bottom:-1px;">
-                                        <h6>@ <b class="text-info">{{auth()->user()->username ?? false}}</b> said..</h6>
-                                        <p class="text-muted font-weight-bolder ns-font-family"
-                                           style="font-size:.9em;line-height: 2em;">${body}...</p>
+                                          <h6>@ <b class="text-info">{{auth()->user()->username ?? false}}</b><span class='text-muted'> says.. </span>
+                                              <small class="float-right">
+                                                  <i><span class="font-weight-bolder">Posted on </span>
+                                                     Today
+                                                  </i>
+                                              </small>
+                                          </h6>
+                                             
+                                          <p class="mycolor font-weight-bold"
+                                             style="font-size:.9em;
+                                             font-family: 'Comic Sans MS';
+                                             max-width: 500px;
+                                             word-wrap: break-word;
+                                             line-height: 2em;">${body}...
+                                          </p>
+
+                                          <div class="" style="margin-top:-10px;">
+                                               <div class="float-right text-secondary">
+                                                   <div id="render-result">
+
+                                                   </div>
+                                               </div>
                                           </div>
-                                         </div> `
+                                     </div>
+                                 </div> `
                 $$("all-comments")[i].innerHTML += result
                 // console.log($$('all-comments')[i])
             }
 
             $(window).on('autoresize', function(){
-             $('.autoresize').on('input', function () {
-                 this.style.height = 'auto';
+               $('.autoresize').on('input', function () {
+                   this.style.height = 'auto';
 
-                 this.style.height =
+                   this.style.height =
                      (this.scrollHeight) + 'px';
-             });
-  })
+               });
+            })
+
+            
+            function toggleCommentLike(url, obj){
+                if ($(obj).children().first().hasClass('ns-red'))
+                     $(obj).children().first().removeClass('ns-red').addClass('ns-lightgrey')
+               else 
+                    $(obj).children().first().removeClass('ns-lightgrey').addClass('ns-red')
+                       
+                axios['get'](url)
+            }
+
+            function deleteComment(url,obj){
+                $(obj).parent().parent().parent().parent().parent().remove()
+                axios['delete'](url)
+            }
   </script>
 
     <br /><br /><br />
