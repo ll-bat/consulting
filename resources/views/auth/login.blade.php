@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container" style='margin-bottom:50px;'>
+<div class="container" style='margin-bottom:20rem'>
     <div class="row justify-content-center ns-font-family">
         <div class="col-lg-8 col-md-12">
             <div class="mt-3">
