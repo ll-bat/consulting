@@ -14,18 +14,13 @@ class TestsController extends Controller
 {
       public function index(){
           
-        
-      //      $path  = Cloudder::getPublicId();
-       
-      //       dd($path);
+          $data = [];
+          $ch = call_user_func([static::class, 'isString'], $data);
+          dd($ch);
 
-      //      $path = 'v1600114482/gpcl0oagroaqbjn1tgds.jpg';
+      }
 
-      //      $data = File::get('/icons/pdf.png');
-      //      dd($data);
-
-      //      $url = Storage::disk('cloudinary')->put($data, 'mydata');
-
-      //      dd($url);
-      // }
+      public function isString($val){ 
+            return is_string($val);
+      }
 }

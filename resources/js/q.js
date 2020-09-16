@@ -134,21 +134,14 @@ const app = new Vue({
             this.data.imageName = '' 
         },
 
-        addControl(){
-            this.data.newControls.push({value: ''})
+        addInArray(type){
+            this.data[type].push({value: ''})
         },
 
-        removeControl(i){
-            this.data.newControls = this.data.newControls.filter((d,ix) => ix != i)
+        removeFromArray(type,i){
+            this.data[type] = this.data[type].filter((d,ix) => ix != i)
         },
 
-        addUdanger(){
-            this.data.newUdangers.push({value: ''})
-        },
-
-        removeUdanger(i){
-            this.data.newUdangers = this.data.newUdangers.filter((d,ix) => ix != i)
-        },
 
         checkControl(id,i){
             let el = this.data.control.find(e => e.id == id)

@@ -49602,6 +49602,12 @@ var Data = /*#__PURE__*/function () {
     this.newUdangers = [{
       value: ''
     }];
+    this.rpersons = [{
+      value: ''
+    }];
+    this.etimes = [{
+      value: ''
+    }];
   }
 
   _createClass(Data, [{
@@ -49886,23 +49892,13 @@ var app = new Vue({
       this.fm["delete"](this.data.imageName);
       this.data.imageName = '';
     },
-    addControl: function addControl() {
-      this.data.newControls.push({
+    addInArray: function addInArray(type) {
+      this.data[type].push({
         value: ''
       });
     },
-    removeControl: function removeControl(i) {
-      this.data.newControls = this.data.newControls.filter(function (d, ix) {
-        return ix != i;
-      });
-    },
-    addUdanger: function addUdanger() {
-      this.data.newUdangers.push({
-        value: ''
-      });
-    },
-    removeUdanger: function removeUdanger(i) {
-      this.data.newUdangers = this.data.newUdangers.filter(function (d, ix) {
+    removeFromArray: function removeFromArray(type, i) {
+      this.data[type] = this.data[type].filter(function (d, ix) {
         return ix != i;
       });
     },

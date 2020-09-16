@@ -26,6 +26,8 @@ Route::get('/bestcomment/{comment}', 'BestCommentController@edit')->middleware('
 Route::post('/comment/{blog}', 'CommentController@store')->middleware('auth');
 Route::delete('/comment/{comment}/delete', 'CommentController@delete')->middleware('auth');
 
+Route::post('/contact', 'ContactController@store')->middleware('auth');
+
 Route::get('/docs', 'UserDocsController@index')->name('docs');
 Route::post('/docs/submit', 'UserDocsController@submit')->middleware('auth');
 
@@ -64,6 +66,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
     Route::group(['prefix' => 'doc'], function(){
          Route::get('{export}', 'MyDocsController@show')->name('user.export');
          Route::get('{export}/export', 'MyDocsController@export');
+         Route::delete('{export}/delete', 'MyDocsController@delete');
         //  Route::get('{export}/download', 'MyDocsController@download');
 
     });
@@ -126,8 +129,6 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
 
 
         });
-
-        Route::delete('/doc/{export}/delete', 'MyDocsController@delete');
     });
 });
 

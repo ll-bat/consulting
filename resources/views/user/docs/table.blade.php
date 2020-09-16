@@ -84,7 +84,7 @@
                        </td>
                        @if ($object->hasNewDanger($i))
                        <td rowspan="{{ $object->getDangerMax($i) }}" 
-                           align='center' valign='middle' style='margin-top:0; top:0;font-size: 10px;background-color:#0070C0;border:7px solid #b8b894'
+                           align='center' valign='middle' style='font-size: 10px;background-color:#0070C0;border:7px solid #b8b894'
                        >
                         {{$object->getResult('first_probability', $i)}}
                         </td>
@@ -99,7 +99,7 @@
                          {{$object->getResult('first_level', $i)}} 
                         </td>
                        @endif 
-                       <td class='' align='center' valign='middle' style='font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'> 
+                       <td class='' valign='middle' align='center' style='font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'> 
                          {{ $object->getControl(1, $i)}} 
                        </td>
                        @if ($object->hasNewDanger($i))
@@ -113,19 +113,21 @@
                          {{$object->getResult('second_result', $i)}}
                         </td>
                        <td rowspan="{{ $object->getDangerMax($i) }}" 
-                          align='center' valign='middle' style='background-color:#FFFF00;border:7px solid #b8b894'
+                          valign='middle' align='center'  style='background-color:#FFFF00;border:7px solid #b8b894'
                        > 
                          {{$object->getResult('second_level', $i)}}
                        </td>
-                       <td rowspan="{{ $object->getDangerMax($i) }}" 
-                         align='center' valign='middle' style='font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'
-                       > 
-                         {{ $object->getStringElement('rperson', $i)}}
-                       </td>
-                       <td rowspan="{{ $object->getDangerMax($i) }}" align='center' valign='middle' style='border:7px solid #b8b894;background-color:#EAECEB'> 
-                         {{ $object->getStringElement('etime', $i)}}
-                        </td>
                        @endif 
+
+                       <td class='small' 
+                           align='center' style='font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'> 
+                         {{ $object->getOptionalArrayElement('rpersons', $i)}}
+                       </td>
+
+                       <td class='small'
+                           align='center' style='font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'> 
+                         {{ $object->getOptionalArrayElement('etimes', $i)}}
+                        </td>
                     </tr>
                  @endfor
 

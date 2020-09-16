@@ -64,6 +64,20 @@ class Obj {
         return '----';
     }
 
+    public function getOptionalArrayElement($type, $i){
+        $obj = $this->getObject($i);
+        $elm = $this->getElementId($i);
+
+        if (count($obj[$type]) > $elm)
+        {
+             $el = $obj[$type][$elm]['value'];
+             $el = $this->shrink($el);
+             return $el;
+        }
+
+        return "----";
+    }
+
     public function getStringElement($name,$i){
         $obj = $this->getObject($i);
 
@@ -141,7 +155,6 @@ class Obj {
                 $path = $this->getImageName($i, 'partial');
                 // $path = public_path("storage/$path");
                 // $path = public_path("$path");
-
             }
 
             $pid  = $this->getProcessId($i);

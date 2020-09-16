@@ -32,6 +32,7 @@ class MyDocsController extends Controller
          $con = new Content($export);
          $con = $con->getData();
 
+        //  dd($con);
 
          $id  = $export->id;
 
@@ -94,10 +95,10 @@ class MyDocsController extends Controller
            $dompdf->loadHtml($view);
            $dompdf->render();
 
-           return $dompdf->stream();
+           $dompdf->stream();
       }
 
-      public function delete(Export $export){
+      public function delete(Export $export){          
           $this->authorize('show-doc', $export);
 
           $export->delete();

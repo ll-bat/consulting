@@ -134,15 +134,13 @@
                        >
                          {{$object->getResult('second_level', $i)}}
                        </td>
-                       <td rowspan="{{ $object->getDangerMax($i) }}"
-                       >
-                         {{ $object->getStringElement('rperson', $i)}}
-                       </td>
-                       <td rowspan="{{ $object->getDangerMax($i) }}"
-                       >
-                         {{ $object->getStringElement('etime', $i)}}
-                        </td>
                        @endif
+                       <td class='small'> 
+                         {{ $object->getOptionalArrayElement('rpersons', $i)}}
+                       </td>
+                       <td class='small'> 
+                          {{ $object->getOptionalArrayElement('etimes', $i)}}
+                        </td>
                     </tr>
 
                  @endfor

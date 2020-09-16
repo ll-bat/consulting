@@ -89,10 +89,22 @@
         color:purple;
     }
 
+    .text-blue {
+        color: blue;
+    }
+
     .bg-purple {
         background-color: purple;
     }
 
+    .bg-blue {
+        background-color: blue;
+    }
+
+    .ns-card {
+        border-radius: 0 !important;
+        border-top: 10px solid blue !important;
+    }
 
 
    </style>
@@ -224,12 +236,12 @@
                                       (<span class='text-muted text-sm'>არასავალდებულო<span>) </p>
                                 </div>
                                <div class='m-2 mt-4 mr-1 hoverable' style='width:15%;min-width:100px;'>
-                                   <button v-if='idx == data.newControls.length-1' class='text-orange bg-white px-2 py-1 m-btn' @click='addControl()'
+                                   <button v-if='idx == data.newControls.length-1' class='text-orange bg-white px-2 py-1 m-btn' @click="addInArray('newControls')"
                                            style='border:0 !important;'
                                     ><i class='fa fa-plus pr-2'></i>ახალი
                                     </button>
 
-                                    <button v-else class='bg-white px-2 py-1 m-btn text-danger' @click='removeControl(idx)'
+                                    <button v-else class='bg-white px-2 py-1 m-btn text-danger' @click="removeFromArray('newControls', idx)"
                                            style='border:0 !important;'
                                     ><i class='fa fa-remove pr-2'></i>წაშლა
                                     </button>
@@ -274,8 +286,8 @@
                         </div>
 
                         <div>
-                           <div class="card rounded-10 ns-font-family ns-dark-color my-4 p-2 shadow-none"
-                                style='border-radius:0 !important;border-top:10px solid purple;box-shadow:2px 2px 4px lightgrey !important'
+                           <div class="card rounded-10 ns-font-family ns-dark-color my-4 p-2 ns-card partial-shadow"
+                                style='border-top:10px solid purple !important;'
                                 v-for = '(u,idx) in data.newUdangers'
                                 >
                                 <div class='d-flex'>
@@ -285,12 +297,12 @@
                                           (<span class='text-muted text-sm'>არასავალდებულო<span>) </p>
                                     </div>
                                    <div class='m-2 mt-4 mr-1 hoverable' style='width:15%;min-width:100px;'>
-                                       <button v-if='idx == data.newUdangers.length-1' class='bg-white px-2 py-1 m-btn text-purple' @click='addUdanger()'
+                                       <button v-if='idx == data.newUdangers.length-1' class='bg-white px-2 py-1 m-btn text-purple' @click="addInArray('newUdangers')"
                                                style='border:0 !important;'
                                         ><i class='fa fa-plus pr-2'></i>ახალი
                                         </button>
 
-                                        <button v-else class='bg-white px-2 py-1 m-btn text-danger' @click='removeUdanger(idx)'
+                                        <button v-else class='bg-white px-2 py-1 m-btn text-danger' @click="removeFromArray('newUdangers',idx)"
                                                style='border:0 !important;'
                                         ><i class='fa fa-remove pr-2'></i>წაშლა
                                         </button>
@@ -313,29 +325,75 @@
                              </div>
                         </div>
 
-                         <div class="card rounded-10 ns-font-family ns-dark-color my-4 p-2 shadow-none" style='border-radius:0 !important;border-top:10px solid blue;box-shadow:2px 2px 4px lightgrey !important'>
-                               <p class='p-4 pb-0 mb-0 text-secondary' style='font-size:1.2rem;'>დაამატეთ პასუხისმგებელი პირი  </p>
+                        <div v-for = '(p,idx) in data.rpersons'>
+                         <div class="card rounded-10 ns-font-family ns-dark-color ns-card partial-shadow my-4 p-2" style=''>
+                               <!-- <p class='p-4 pb-0 mb-0 text-secondary' style='font-size:1.2rem;'>დაამატეთ პასუხისმგებელი პირი  </p> -->
+                               
+                               <div class='d-flex'>
+                                   <div style='width:85%'>
+                                       <p class='p-4 pb-0 mb-0 text-secondary'
+                                          style='font-size:1.2rem;'> დაამატეთ პასუხისმგებელი პირი </p>
+                                    </div>
+                                   <div class='m-2 mt-4 mr-1 hoverable' style='width:15%;min-width:100px;'>
+                                       <button v-if='idx == data.rpersons.length-1' class='bg-white px-2 py-1 m-btn text-blue' @click="addInArray('rpersons')"
+                                               style='border:0 !important;'
+                                        ><i class='fa fa-plus pr-2'></i>ახალი
+                                        </button>
+
+                                        <button v-else class='bg-white px-2 py-1 m-btn text-danger' @click="removeFromArray('rpersons',idx)"
+                                               style='border:0 !important;'
+                                        ><i class='fa fa-remove pr-2'></i>წაშლა
+                                        </button>
+
+                                        <div class='hoverable-underline' :class="{'bg-danger' : idx != data.rpersons.length -1, 'bg-blue': idx == data.rpersons.length -1}"></div>
+                                    </div>
+                                </div>
+                               
                                <div class='card-body ns-input-container pl-4 pb-4'>
                                        <textarea type="text"
                                                  rows='1'
                                                  class="form-control docs-input border-0  ns-textarea ns-font-family border-bottom bg-white autoresize"
                                                  placeholder='Your answer here'
-                                                 v-model='data.rperson'
+                                                 v-model='p.value'
                                                  onclick="$(this).next().addClass('ns-test-underline')"
                                                  onblur ="$(this).next().removeClass('ns-test-underline')"
                                                  ></textarea>
                                        <div class="ns-underline" id='test-underline'></div>
                                  </div>
                          </div>
+                        </div>
 
+                        <div v-for = '(e,idx) in data.etimes'>
+                         <div class="card rounded-10 ns-font-family ns-dark-color ns-card partial-shadow my-4 p-2" style=''>
+                                 <!-- <p class='p-4 pb-0 mb-0 ns-font-family text-lg'> მიუთითეთ შესრულების ვადა </p> -->
+                                
+                                 <div class='d-flex'>
+                                   <div style='width:85%'>
+                                       <p class='p-4 pb-0 mb-0 text-secondary'
+                                          style='font-size:1.2rem;'> დაამატეთ შესრულების ვადა </p>
+                                    </div>
+                                   <div class='m-2 mt-4 mr-1 hoverable' style='width:15%;min-width:100px;'>
+                                       <button v-if='idx == data.etimes.length-1' class='bg-white px-2 py-1 m-btn text-blue' @click="addInArray('etimes')"
+                                               style='border:0 !important;'
+                                        ><i class='fa fa-plus pr-2'></i>ახალი
+                                        </button>
 
-                         <div class="card rounded-10 ns-font-family ns-dark-color my-4 p-2 shadow-none" style='border-radius:0 !important;border-top:10px solid blue;box-shadow:2px 2px 4px lightgrey !important'>
-                                 <p class='p-4 pb-0 mb-0 ns-font-family text-lg'> მიუთითეთ შესრულების ვადა </p>
+                                        <button v-else class='bg-white px-2 py-1 m-btn text-danger' @click="removeFromArray('etimes',idx)"
+                                               style='border:0 !important;'
+                                        ><i class='fa fa-remove pr-2'></i>წაშლა
+                                        </button>
+
+                                        <div class='hoverable-underline' :class="{'bg-danger' : idx != data.etimes.length -1, 'bg-blue': idx == data.etimes.length -1}"></div>
+                                    </div>
+                                </div>
+                                
+                                
                                  <div class='card-body ns-input-container pl-4 pb-4'>
                                        <div class='input-group date' id='datetimepicker1'>
-                                           <input type='date' v-model='data.etime' class="form-control w-50" />
+                                           <input type='date' v-model='e.value' class="form-control w-50" />
                                        </div>
                                  </div>
+                         </div>
                         </div>
                    </div>
 

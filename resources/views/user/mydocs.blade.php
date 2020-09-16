@@ -18,6 +18,21 @@
        .mydocs-item:hover .mydocs-text {
            text-shadow: .4rem .4rem .4rem lightgrey;
        }
+
+       .hoverable {
+           border: 2px solid transparent;
+           border-radius:10px;
+           transition:all .4s ease-out;
+       }
+
+       .hoverable:hover {
+           border: 2px solid lightgrey;
+       }
+
+       .link:active .hoverable {
+           border: 2px solid grey;
+           background-color:grey;
+       }
    </style>
 @endsection
 @section('content')
@@ -48,10 +63,14 @@
                         <div class="col-md-4 col-sm-4 col-10">
                             <div class="d-flex mt-2 mt-sm-0">
                                 <div class="mr-1">
-                                    <a href="doc/{{$doc->id}}/download" class="btn btn-outline-success rounded-pill text-sm border-0"> გადმოწერა </a>
+                                    <button class="btn btn-outline-success rounded-pill text-sm border-0"
+                                            onclick='showDownloadModal("download-modal{{$doc->id}}")'  >
+                                     გადმოწერა 
+                                    </button>
                                 </div>
                                 <div class="">
-                                    <button class="btn btn-outline-danger rounded-pill text-sm border-0" onclick="$1('doc-delete{{$index}}').submit()">
+                                    <button class="btn btn-outline-danger rounded-pill text-sm border-0"
+                                            onclick="$1('doc-delete{{$index}}').submit()">
                                         წაშლა
                                     </button>
 
@@ -60,6 +79,8 @@
                                         @csrf
                                     </form>
                                 </div>
+
+                                @include('user._downloadModal', ['id' => $doc->id, 'buttonId' => $doc->id])
                             </div>
                         </div>
                     </div>
@@ -77,3 +98,15 @@
         @endif
     </div>
 @endsection
+
+<script>
+     function showDownloadModal(id){
+            $1(id).click()
+     }
+
+     function downloadFile(id){
+         tout(() => {
+            $1(`close-modal-${id}`).click()
+         }, 300)
+     }
+</script>

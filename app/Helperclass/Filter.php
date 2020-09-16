@@ -87,31 +87,34 @@ class Filter {
          }
 
 
-         $data['newControls'] = [];
-         if (gettype($o['newControls']) == 'array'){
-              foreach ($o['newControls'] as $n){
-                  if (!isset($n['value']) || !$this->isString($n['value'])) continue;
-                  $data['newControls'][] = ['value' => $n['value']];
-              }
-         }
+         $types = ['newControls' => 'isString', 
+                   'newUdangers' => 'isString', 
+                   'rpersons'    => 'isString',
+                   'etimes'      => 'isDate'
+                  ];
 
-         $data['newUdangers'] = [];
-         if (gettype($o['newUdangers']) == 'array'){
-              foreach ($o['newUdangers'] as $n){
-                  if (!isset($n['value']) || !$this->isString($n['value'])) continue;
-                  $data['newUdangers'][] = ['value' => $n['value']];
-              }
+         foreach ($types as $type => $filter){
+             $data[$type] = [];
+             if (gettype($o[$type]) == 'array'){
+                foreach ($o[$type] as $n){
+                    if (isset($n['value']))
+                        if(call_user_func([static::class, $filter], $n['value']))
+                            $data[$type][] = ['value' => $n['value']];
+                }
+             }
          }
+         
+
         
-         $data['rperson'] = '';
-         if (isset($o['rperson']) && $o['rperson'] != '')
-            $data['rperson'] = $o['rperson'];
+        //  $data['rperson'] = '';
+        //  if (isset($o['rperson']) && $o['rperson'] != '')
+        //     $data['rperson'] = $o['rperson'];
 
 
-         $data['etime'] = '';
-         if (isset($o['etime'])){
-             if ($this->isDate($o['etime']))  $data['etime'] = $o['etime'];
-         }
+        //  $data['etime'] = '';
+        //  if (isset($o['etime'])){
+        //      if ($this->isDate($o['etime']))  $data['etime'] = $o['etime'];
+        //  }
 
          $obj['data'] = $data;
          

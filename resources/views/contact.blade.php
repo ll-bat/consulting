@@ -20,17 +20,26 @@
         </div>
     </div>
     <div class="container mt-5">
+        @if (session()->has('message'))
+           <p class='alert text-white mb-5' style='background-color:#19303B !important'> {{session('message')}} </p>
+        @endif
         <h4> Get in touch</h4>
         <div class="row">
             <div class="col-xl-8 col-md-12">
-                  <form method="POST">
+                  <form method="POST" action='contact'>
+                       @csrf
                        <div class="form-group">
                            <label for="body"></label>
                            <textarea class="form-control"
                                      rows="7"
+                                     name='message'
                                      placeholder="Enter message"
                                      style="font-size:1em;"
                            ></textarea>
+
+                           @error('message')
+                              <p class='text-danger text-sm'> {{$message}} </p>
+                           @enderror
                        </div>
 
                       <div class="row">
@@ -39,11 +48,18 @@
                                      class="form-control"
                                      id="name" style="font-size: 1rem; height:3rem;"
                                      placeholder="Enter name" name="name">
+                           
+                             @error('name')
+                                <p class='text-danger text-sm'> {{$message}} </p>
+                             @enderror
                           </div>
                           <div class="col mt-10">
                               <input type="email"
                                      class="form-control" style="font-size: 1rem; height:3rem;"
-                                     placeholder="Email" name="email">
+                                     placeholder="Email" name="mail" />
+                              @error('mail')
+                                  <p class='text-danger text-sm'> {{$message}} </p>
+                              @enderror
                           </div>
                       </div>
 
@@ -51,8 +67,13 @@
                           <label for="subject"></label>
                           <input type="text"
                                  class="form-control"
+                                 name='subject'
                                  placeholder="Subject"
-                                 style="font-size:1rem;height:3rem;">
+                                 style="font-size:1rem;height:3rem;" />
+
+                          @error('subject')
+                              <p class='text-danger text-sm'> {{$message}} </p>
+                          @enderror
                       </div>
 
                       <input type="submit" class="boxed-btn text-dark mt-4" />
