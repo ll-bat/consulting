@@ -24,8 +24,8 @@ class ContactController extends Controller
           ]);
 
          
-          Mail::to('admin@example.com')
-              ->send(new ContactMe(request('message'),request('name'), request('mail'), request('subject')));
+        //   Mail::to('admin@example.com')
+        //       ->send(new ContactMe(request('message'),request('name'), request('mail'), request('subject')));
 
           return redirect('/contact')->with('message', 'მეილი წარმატებით გაიგზავნა');
       }
