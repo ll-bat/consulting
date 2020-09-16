@@ -23,6 +23,7 @@ class PlossController extends Controller
               'k' => 'string'
           ]);
 
+          if ($data['name'] == '') $data['name'] = ' ';
           $ploss = Ploss::find($data['id']);
           $ploss->update($data);
 

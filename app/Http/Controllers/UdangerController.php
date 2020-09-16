@@ -22,6 +22,8 @@ class UdangerController extends Controller
             'name' => 'nullable|string',
         ]);
 
+        if ($data['name'] == '') $data['name'] = ' ';
+
         $udanger = Udanger::find($data['id']);
         $udanger->update($data);
 

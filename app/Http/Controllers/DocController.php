@@ -51,7 +51,14 @@ class DocController extends Controller
 
       public function otherData(){
           $ploss = Ploss::select('id','name')->get();
+          foreach ($ploss as $p){
+              if ($p->name == ' ') $p->name ='';
+          }
+
           $udanger =  Udanger::select('id', 'name')->get();
+          foreach ($udanger as $u){
+              if ($u->name == ' ') $u->name = '';
+          }
 
           return [$ploss,$udanger];
       }
