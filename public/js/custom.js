@@ -7,6 +7,10 @@ function $$(cname){
     return document.getElementsByClassName(cname);
 }
 
+function $2(cname){
+    return document.getElementsByClassName(cname);
+}
+
 
 function imageLoad(event, id, fn){
     let input = event.target
@@ -89,6 +93,27 @@ function cl(el,c, t,  pr){
         el.className += (' ' + c)
     }
     t.loading = pr
+}
+
+function tgclass(el, c, t){
+    let cls = el.className 
+    el.className += ' ' + c 
+    tout(() => {
+        el.className = cls
+    }, t)
+}
+
+function has(el, c){
+    let cls = el.className.split(' ')
+    return cls.includes(c)
+}
+
+function add(el, c){
+    el.className += ' ' + c 
+}
+
+function remove(el,c){
+    el.className = el.className.split(' ').filter(n => n != c).join(' ')
 }
 
 function min(a,b){

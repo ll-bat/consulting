@@ -85,6 +85,24 @@
            background-color: #C55161 !important;
        }
 
+       @keyframes _myAnimation{
+           from {transform: translateY(125px) rotateX(40deg) scaleX(.9) scaleY(.8);}
+           to {opacity: 1}
+       }
+
+       .my-animation-d1 {
+           animation: _myAnimation 1s ease-out;
+       }
+       .my-animation-d2 {
+           animation: _myAnimation 1.5s ease-out;
+       }
+       .my-animation-d3 {
+           animation: _myAnimation 2s ease-out;
+       }
+       
+       .wall {
+           transition: all 1s ease-out;
+       }
     </style>
 @endsection
 
@@ -169,13 +187,13 @@
                     <div class="col-lg-10">
                         <!-- Section Tittle -->
                         <div class="section-tittle mb-70">
-                            <span>Our Top Services</span>
-                            <p class='font-weight-bolder' style='font-size:3em;line-height:1em;'>ჩვენი საუკეთესო სერვისები</p>
+                            <span class='ns-anim-0'>Our Top Services</span>
+                            <p class='font-weight-bolder ns-animation-d2' style='font-size:3em;line-height:1em;'>ჩვენი საუკეთესო სერვისები</p>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="col-lg-4 col-md-6 col-sm-6 anim-d1">
                         <div class="single-cat text-center mb-50">
                             <div class="cat-icon">
                                 <span class="flaticon-team"></span>
@@ -186,7 +204,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="col-lg-4 col-md-6 col-sm-6 anim-d2">
                         <div class="single-cat text-center mb-50">
                             <div class="cat-icon">
                                 <span class="flaticon-result"></span>
@@ -197,7 +215,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6">
+                    <div class="col-lg-4 col-md-6 col-sm-6 anim-d3">
                         <div class="single-cat text-center mb-50">
                             <div class="cat-icon">
                                 <span class="flaticon-development"></span>
@@ -215,10 +233,18 @@
          <!-- rgba(0,0,0,.04) -->
 
          @if ($blogs->count() > 0)
-           <div class="home-blog-area section-padding30 position-relative" 
-             style='background-color:rgba(0,0,0,.04);padding-top:10rem;margin-bottom:7rem;'
-             >
-                      
+         <div class='position-relative'>
+                 <div class='position-absolute bg-info wall wall-1'
+                          style='width:100%; height:100%;bottom:30px;left:50px;box-shadow:0 0 0 white, -2px -2px 8px grey;'>
+                 </div>
+
+                 <div class='position-absolute bg-warning  wall wall-2'
+                          style='width:100%; height:100%;bottom:20px;left:20px;box-shadow:0 0 0 white, -2px -2px 8px grey; wih:97%'>
+                 </div>
+     
+                <div class="home-blog-area section-padding30 position-relative" 
+                  style='background-color:#F5F5F5;padding-top:10rem;margin-bottom:7rem;box-shadow:2px 2px 4px lightgrey, -2px -2px 8px grey;width:99.2%;'>
+                                   
                 <div class='position-absolute'
                     style = 'right:.5rem;bottom:.5rem;' id='sprays-area'>
                     <img src='/img/testit/spray-6.png' class='spray' id='spray999' />
@@ -230,6 +256,7 @@
                <div class='position-absolute left-border d-none d-sm-block d-lg-none' 
                    style='left:0;top:0;height:100%;'></div>
                 
+       
                
                <div class="container">
                  <!-- Section Tittle -->
@@ -241,16 +268,16 @@
                          </div>
 
                          <div class="section-tittle mb-100 ml-5 position-relative">
-                             <span> სიახლეები </span>
-                             <p class='font-weight-bolder mt-3' 
+                             <span class='ns-animation-d2'> სიახლეები </span>
+                             <p class='font-weight-bolder ns-animation-d3 mt-3' 
                                 style="font-size:3rem; line-height:3rem;">ჩვენი უახლესი ბლოგები </p>
                          </div>
                      </div>
                  </div>
                  <div class="row">
-                     @foreach ($blogs as $blog)
+                     @foreach ($blogs as $ind=>$blog)
                      <div class="col-xl-6 col-lg-6 col-md-6">
-                         <div class="home-blog-single mb-30">
+                         <div class="home-blog-single mb-30 ">
                              <div class="blog-img-cap">
                                  <div class="blog-img">
                                      <img src="{{$blog->path()}}" style='height:20rem;' alt="">
@@ -269,9 +296,15 @@
                          </div>
                      </div>
                     @endforeach
-                 </div>
+                 </div> 
             </div>
+
+            <div class='position-absolute has-animation d-none d-lg-block' style='top:-55px;right:10%'>
+                 <img src='/icons/clip-3.png' width='180' />
+            </div>
+
            @endif
+           </div>
         </div>
    </main>
 
@@ -288,6 +321,54 @@
 
         createSpray()
 
+
+        function isVisible(el) {
+                const rect = el.getBoundingClientRect();
+                return (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            
+                );
+            }
+         
+        tout(() => {
+            $(dom).on('scroll', (ev) => {
+                 let elms =[ $2('ns-animation-d1') , $2('ns-animation-d2'), $2('ns-animation-d3')]
+
+
+                 for (let t = 1; t<=elms.length; t++)
+                    for (let i=0; i<elms[t-1].length; i++){
+                        if (isVisible(elms[t-1][i]))
+                           if (!has(elms[t-1][i], `my-animation-d${t}`))
+                                   add(elms[t-1][i], `my-animation-d${t}`)
+                    }
+
+                 let el = $2('has-animation')[0]
+
+                 if (isVisible(el)){
+                     if (!has(el, 'is-animated')){
+                         st($2('wall-1')[0], 'tr: rotate(6deg)')
+                         st($2('wall-2')[0], 'tr: rotate(3deg)')
+                     }
+                 }
+
+                 el = $2('ns-anim-0')[0]
+
+                 if (isVisible(el)){
+                     if (!has(el, 'is-animated')){
+                         add(el, 'is-animated my-animation-d2')
+
+                         tout(() => {
+                             for (let i=1; i<=3; i++){
+                                 add($2(`anim-d${i}`)[0], `my-animation-d${i}`)
+                             }
+                         }, 50)
+                     }
+                 }
+            })
+        }, 200) 
 
     </script>
 @endsection

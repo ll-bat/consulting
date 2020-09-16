@@ -287,6 +287,7 @@
                 $(obj).parent().parent().parent().parent().parent().remove()
                 axios['delete'](url)
             }
+
   </script>
 
     <br /><br /><br />

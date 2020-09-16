@@ -152,6 +152,7 @@
                          @elseif ($route == 'blog.categories')
                            <a
                                class="btn btn-info shadow text-white rounded-pill"
+                               style='margin-top:0px;'
                                onclick = 'createCategory()'
                            >
                                <i class="fa fa-plus"></i> New
