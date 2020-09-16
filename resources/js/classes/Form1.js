@@ -10,6 +10,9 @@ export class Form1 {
      
     getPloss(obj){
         this.send('get', 'docs/all-ploss', null, null).then((res) => {
+            res.forEach(p => {
+                if (p.name == ' ') p.name = ''
+            })
             obj.ploss = res
             obj.created = false
         })
@@ -21,7 +24,12 @@ export class Form1 {
 
 
     getUdanger(obj){
-        this.send('get', 'docs/all-udanger', null, null).then((res) => obj.udanger = res)
+        this.send('get', 'docs/all-udanger', null, null).then((res) => {
+            res.forEach(u => {
+                if (u.name == ' ') u.name = ''
+            })
+            obj.udanger = res
+        })
     }
 
     createUdanger(fn){

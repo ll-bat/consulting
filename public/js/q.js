@@ -49657,6 +49657,9 @@ var Form1 = /*#__PURE__*/function () {
     key: "getPloss",
     value: function getPloss(obj) {
       this.send('get', 'docs/all-ploss', null, null).then(function (res) {
+        res.forEach(function (p) {
+          if (p.name == ' ') p.name = '';
+        });
         obj.ploss = res;
         obj.created = false;
       });
@@ -49672,7 +49675,10 @@ var Form1 = /*#__PURE__*/function () {
     key: "getUdanger",
     value: function getUdanger(obj) {
       this.send('get', 'docs/all-udanger', null, null).then(function (res) {
-        return obj.udanger = res;
+        res.forEach(function (u) {
+          if (u.name == ' ') u.name = '';
+        });
+        obj.udanger = res;
       });
     }
   }, {
