@@ -19,7 +19,7 @@ class UdangerController extends Controller
 
         $data = \request()->validate([
             'id' => 'integer|required|exists:udangers,id',
-            'name' => 'required|string',
+            'name' => 'nullable|string',
         ]);
 
         $udanger = Udanger::find($data['id']);

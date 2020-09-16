@@ -19,7 +19,7 @@ class PlossController extends Controller
 
           $data = \request()->validate([
               'id' => 'integer|required|exists:plosses,id',
-              'name' => 'required|string',
+              'name' => 'nullable|string',
               'k' => 'string'
           ]);
 
