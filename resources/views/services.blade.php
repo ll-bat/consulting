@@ -36,8 +36,7 @@
                         <div class="col-lg-4 col-md-6 col-sm-6 myIcon">
                             <div class="single-cat text-center mb-50">
                                 <div class="cat-icon">
-{{--                                    <span class="flaticon-development"></span>--}}
-                                    <i class="fas fa-cog" style="font-size:4em; padding-bottom:56px;"></i>
+                                     <span class="flaticon-development"></span>
                                 </div>
                                 <div class="cat-cap">
                                    <h5><a href="#">Strategy planning</a></h5>
