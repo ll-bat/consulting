@@ -17,6 +17,7 @@ class Spray {
         let scy     = random(2)
         let k       = rand(90)
         let p       = rand(90) + 10
+        
 
         return [radius, speed, tx, ty, scx, scy, k, p]
     }
