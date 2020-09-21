@@ -86,7 +86,7 @@
        }
 
        @keyframes _myAnimation{
-           from {transform: translateY(125px) rotateX(40deg) scaleX(.9) scaleY(.8);}
+           from {opacity: .5; transform: translateY(125px) rotateX(40deg) scaleX(.9) scaleY(.8) rotate(5deg);}
            to {opacity: 1}
        }
 
@@ -233,17 +233,17 @@
          <!-- rgba(0,0,0,.04) -->
 
          @if ($blogs->count() > 0)
-         <div class='position-relative'>
+         <div class='position-relative' style=''>
                  <div class='position-absolute bg-info wall wall-1'
-                          style='width:100%; height:100%;bottom:30px;left:50px;box-shadow:0 0 0 white, -2px -2px 8px grey;'>
+                          style='width:91%; height:100%;bottom:30px;left:50px;box-shadow:0 0 0 white, -2px -2px 8px grey;'>
                  </div>
 
                  <div class='position-absolute bg-warning  wall wall-2'
-                          style='width:100%; height:100%;bottom:20px;left:20px;box-shadow:0 0 0 white, -2px -2px 8px grey; wih:97%'>
+                          style='width:91%; height:100%;bottom:20px;left:20px;box-shadow:0 0 0 white, -2px -2px 8px grey; wih:97%'>
                  </div>
      
                 <div class="home-blog-area section-padding30 position-relative" 
-                  style='background-color:#F5F5F5;padding-top:10rem;margin-bottom:7rem;box-shadow:2px 2px 4px lightgrey, -2px -2px 8px grey;width:99.2%;'>
+                  style='background-color:#F5F5F5;padding-top:10rem;margin-bottom:7rem;box-shadow:2px 2px 4px lightgrey, -2px -2px 8px grey;width:100%;'>
                                    
                 <div class='position-absolute'
                     style = 'right:.5rem;bottom:.5rem;' id='sprays-area'>
@@ -314,8 +314,8 @@
         function createSpray(){
             let spray = new Spray()
             spray.create(['/img/testit/spray-0.png', 'spray0','sprays-area'])
-            spray.addRoute([100, 200, 1, 1, 2, 1, 90])
-            spray.addRoute([100, 200, -1, -1, 1.4, 1.6])
+            spray.addRoute([100, 2.5, -1, 1, 1, 1, 0, 100])
+            // spray.addRoute([100, 2.5, 1, -1, 1, 1, 0])
             spray.start()
         }
 

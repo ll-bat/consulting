@@ -269,8 +269,13 @@
                              </div>
                          </div>
                        @endforeach
+
+                       @if ($procs->count() == 0)
+                                   <p class='text-secondary ml-3'> თქვენ არ გაქვთ პროცესები </p>
+                       @endif
                      </div>
                 </div>
+
 
                 <div class='card mt-3 text-left rounded-10 shadow-none left-colored-border ns-border-bottom' onclick="$('#potential-loss').removeClass('d-none')">
                      <div class='card-title mb-2 mt-3 pointer'>

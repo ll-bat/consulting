@@ -124,8 +124,11 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
             Route::get('process/{process}/edit/{danger}/detach', 'ProcessController@detach');
             Route::get('process/{process}/edit/{danger}/attach', 'ProcessController@attach');
 
+            // Route::post('import/process', 'ImportsController@importProcess');
+            Route::post('import/danger', 'ImportsController@importDanger');
+            Route::post('import/controls/{danger}', 'ImportsController@importControl');
+            
             Route::get('check', 'DocController@show')->name('admin.check');
-
 
 
         });

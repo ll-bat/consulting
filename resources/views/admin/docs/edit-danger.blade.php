@@ -73,7 +73,7 @@
                  
                     <div class='card pb-2 rounded-10 shadow-none top-left-radius-0 bottom-left-radius-0' style='border-left:5px solid rgba(255,100,0,1);'>
                         <div class="card-body text-left">
-                            <p class='mt-2 mb-4 text-primary font-weight-bolder'> აირჩიეთ პროცესი (<span class='text-muted'>მინ: 1</span>) </p>
+                            <p class='mt-2 mb-4 text-primary font-weight-bolder'> აირჩიეთ პროცესი </p>
                             @foreach($procs as $proc)
                             <label class="ns-container mt-3 text-secondary" style='font-size:.95em; color:rgba(0,0,0,.8);'>{{$proc->name}}
                                 <input type="checkbox"
@@ -85,18 +85,22 @@
                            </label>
                             @endforeach
 
+                            @if ($procs->count() == 0)
+                                <p class='text-secondary pl-3'> პროცესები არ არის </p>
+                            @endif
+
                             @error('process')
                                <p class='text-sm text-danger mt-2 mb-0 pb-0'> {{$message}} </p>
                             @enderror
                         </div>
                     </div>
                     
-                    <div class='d-md-flex d-block'>
-                         <div class='text-left'>
+                    <div class='d-flex'>
+                         <div class=''>
                               <button class='btn btn-primary border-info'> Update </button>    
                          </div>
      
-                         <div class='text-left ml-md-2 ml-0'>
+                         <div class='ml-2'>
                               <button class='btn btn-outline-danger' onclick="event.preventDefault();$1('danger-delete').submit(); "> Delete </button>    
                          </div>
                     </div>
@@ -106,16 +110,30 @@
                                     @method('delete')
                 </form>
 
+                
+                <div class='text-right' style='margin-top:-50px;'>
+                          <form method='post' action='../../../docs/import/controls/{{$danger->id}}' enctype="multipart/form-data">
+                               @csrf 
+                               <input type='file' class='d-none' id='import_excel' name='control' onchange='this.parentNode.submit()'/>
+                               <button class='btn btn-success border-0 py-1 px-3' onclick="$1('import_excel').click(); event.preventDefault()"> Import </button>
+                          </form>
+                          @if ($errors->has('control'))
+                               <p class='text-danger text-sm'> გთხოვთ, ატვირთოთ ექსელის დოკუმენტი </p>
+                          @endif
+                </div>
+
                 <div class='card mt-4 text-left ns-font-family  shadow-none rounded-10 ns-border-bottom' style='border-top:10px solid blue'>
                     <h4 class='p-3'> ყველა შემავალი კონტროლის ზომა </h4>
                     <div class='card-body pl-2 pt-2'>
                          @foreach ($ycontrol as $ind => $d)
-                             <div class='d-flex'>
+                             <div class='d-flex my-2'>
                                     <div style='width:85%;'>
                                          <a href='../../control/{{$d->id}}/edit' class='mt-1 pb-2 pl-2 text-muted'> <b>{{$ind + 1}}.</b> {{$d->name}} </a>
                                     </div>
                                     <div style='width:15%'>
-                                         <a href='edit/{{$d->id}}/detach'  class='btn btn-outline-danger text-danger text-sm rounded-pill capitalize px-3 py-1' style='font-size:.7em;'> Uncheck </a>
+                                         <a href='edit/{{$d->id}}/detach'  
+                                            class='btn btn-outline-danger text-danger text-sm rounded-pill capitalize px-md-3 px-0 py-1' 
+                                            style='font-size:.7em;min-width:70px !important;'> Uncheck </a>
                                     </div>
                             </div>
                          @endforeach
@@ -126,7 +144,7 @@
                     <h4 class='p-3 text-danger' style='text-shadow:1px 1px 3px lightgrey;'> სხვა </h4>   
                     <div class='card-body pl-2 pt-2'>
                          @foreach ($ncontrol as $ind => $d)
-                             <div class='d-flex'>
+                             <div class='d-flex my-2'>
                                     <div style='width:85%;'>
                                          <a href='../../control/{{$d->id}}/edit' class='mt-1 pb-2 pl-2 text-muted'><b>{{$ind + 1}}.</b> {{$d->name}} </a>
                                     </div>

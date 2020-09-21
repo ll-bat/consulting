@@ -85,7 +85,9 @@
                                          <a href='../../danger/{{$d->id}}/edit' class='mt-1 pb-2 pl-2 text-muted'> <b>{{$ind + 1}}.</b> {{$d->name}} </a>
                                     </div>
                                     <div style='wdith:15%'>
-                                         <a href='edit/{{$d->id}}/detach'  class='btn btn-outline-danger text-danger text-sm rounded-pill capitalize px-3 py-1' style='font-size:.7em;'> Uncheck </a>
+                                         <a href='edit/{{$d->id}}/detach'  
+                                            class='btn btn-outline-danger text-danger text-sm rounded-pill capitalize px-md-3 mx-0 py-1' 
+                                            style='font-size:.7em;min-width:70px !important;'> Uncheck </a>
                                     </div>
                             </div>
                          @endforeach

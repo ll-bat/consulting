@@ -1,14 +1,5 @@
 @extends('layouts/zim')
 
-
-
-
-
-
-
-
-
-
 @section('header')
     <style>
        
@@ -45,36 +36,21 @@
                    </p>
                 @endif
 
+                @if (Session('error'))
+                   <p class='alert alert-danger text-left text-white'> 
+                         {{Session('error')}} 
+                   </p>
+                @endif
+
+
                 <div class='card card-user mt-3 text-left rounded-10 shadow-none left-colored-border top-left-radius-0 bottom-left-radius-0' style='border-left:5px solid #7733ff'>
-                     <div class='card-title mb-2 mt-3 pointer' onclick='toggleCollapse()'>
+                     <div class='card-title mb-2 mt-3 pointer' onclick="toggleCollapse(this, 'new-danger')">
                           <i class='fa fa-plus float-left ml-3 mt-1'></i>
-                          <p class='pl-5 font-weight-bold' style='color:#7733ff'> ყველა საფრთხე </p>
+                          <p class='pl-5 font-weight-bold' style='color:#7733ff'> დაამატეთ ახალი საფრთხე </p>
                      </div>
-                     
-                     <div class='pl-4' style=''>
-                           @foreach($dangers as $ind => $danger)
-                           <div class='d-none dangers-panel pb-1'>
-                                  <div style='width:80%'>
-                                       <p class="text-muted @if(Session('created') && $ind == $dangers->count()-1) font-weight-bolder @endif"> {{$ind + 1}}. {{$danger->name}} </p>
-                                  </div>
-                                  <div class='d-flex' style='width:20%'>
-
-                                      <a href='danger/{{$danger->id}}/copy' class='px-2 py-1 pointer'>
-                                          <i class='fa fa-clone this-icon' style='color:#7733ff'></i>
-                                       </a>
-                                       <div class='w-100 h-100 this-div'>
-                                            <a class='btn this-color' href='danger/{{$danger->id}}/edit'
-                                                    style='margin-top:-.1rem;background-color:transparent !important;color:blue'> edit 
-                                            </a>
-                                       </div>
-                                  </div>
-                             </div>
-                           @endforeach
-                         </div>
-
                 </div>
 
-                   <form method='post' action='new-danger'>
+                <form method='post' action='new-danger' class='d-none' id='new-danger'>
                     @csrf
                 
                     <div class='card' style='border-left:5px solid #7733ff !important;'>
@@ -115,6 +91,10 @@
                            </label>
                             @endforeach
 
+                            @if ($procs->count() == 0)
+                                   <p class='text-secondary font-weight-bolder ml-3'> პროცესები არ არის </p>
+                            @endif
+
                             @error('process')
                                <p class='text-sm text-danger mt-2 mb-0 pb-0'> {{$message}} </p>
                             @enderror
@@ -125,15 +105,68 @@
                          <button class='btn btn-primary border-0'> create </button>    
                     </div>
                 </form>
+
+                <div class='card card-user mt-3 text-left rounded-10 shadow-none left-colored-border top-left-radius-0 bottom-left-radius-0' style='border-left:5px solid #7733ff'>
+                     <div class='card-title mb-2 mt-3 pointer' onclick='toggleCollapse()'>
+                          <i class='fa fa-plus float-left ml-3 mt-1'></i>
+                          <p class='pl-5 font-weight-bold' style='color:#7733ff'> ყველა საფრთხე </p>
+                     </div>
+                     
+                     <div class='pl-4' style=''>
+                           @foreach($dangers as $ind => $danger)
+                           <div class='d-none dangers-panel pb-1'>
+                                  <div style='width:80%'>
+                                       <p class="@if(Session('created') && $ind == $dangers->count()-1) text-black font-weight-bolder @else text-muted @endif"> {{$ind + 1}}. {{$danger->name}} </p>
+                                  </div>
+                                  <div class='d-flex' style='width:20%'>
+
+                                      <a href='danger/{{$danger->id}}/copy' class='px-2 py-1 pointer'>
+                                          <i class='fa fa-clone this-icon' style='color:#7733ff'></i>
+                                       </a>
+                                       <div class='w-100 h-100 this-div'>
+                                            <a class='btn this-color' href='danger/{{$danger->id}}/edit'
+                                                    style='margin-top:-.1rem;background-color:transparent !important;color:blue'> edit 
+                                            </a>
+                                       </div>
+                                  </div>
+                             </div>
+                           @endforeach
+                           @if ($dangers->count() == 0)
+                              <div class='d-none dangers-panel pb-1'>
+                                 <p class='text-secondary'> თქვენ ჯერ არ გაქვთ საფრთხეები </p>
+                              </div>
+                           @endif
+                         </div> 
+                     </div>
+
+                     <div class='text-left my-4'>
+                          <form method='post' action='../docs/import/danger' enctype="multipart/form-data">
+                               @csrf 
+                               <input type='file' class='d-none' id='import_excel' name='danger' onchange='this.parentNode.submit()'/>
+                               <button class='btn btn-success border-0 py-1 px-3' onclick="$1('import_excel').click(); event.preventDefault()"> Import </button>
+                          </form>
+                          @if ($errors->has('danger'))
+                               <p class='text-danger text-sm'> გთხოვთ, ატვირთოთ ექსელის დოკუმენტი </p>
+                          @endif
+                      </div>
+
         </div>
     </div>
 </div>
 
 <script type="application/javascript">
-      function toggleCollapse(){
+      function toggleCollapse(obj, id){
+         if (obj){
+            obj.parentNode.remove()
+            remove($1(id), 'd-none')
+            return 
+         }
+
+
          if ($('.dangers-panel').hasClass('d-none'))
             $('.dangers-panel').removeClass('d-none').addClass('d-flex')
          else  $('.dangers-panel').removeClass('d-flex').addClass('d-none')
+
       }
 
       @if (Session('message'))

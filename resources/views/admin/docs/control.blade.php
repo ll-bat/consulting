@@ -16,7 +16,7 @@
 
 @section('content')
 
-<div class="container text-center position-absolute">
+<div class="container text-center position-absolute my-5">
         <div class="row justify-content-center">
             
         <div class='position-absolute ml-3 ml-md-0 mb-3' style='left:0;'>
@@ -34,36 +34,16 @@
                          {{Session('message')}} 
                    </p>
                 @endif
-                 
-                <div class='card card-user mt-3 text-left rounded-10 shadow-none left-colored-border top-left-radius-0 bottom-left-radius-0' style='border-left:5px solid #003366'>
-                     <div class='card-title mb-2 mt-3 pointer' onclick='toggleCollapse()'>
+
+                  <div class='card card-user mt-3 text-left rounded-10 shadow-none left-colored-border top-left-radius-0 bottom-left-radius-0' style='border-left:5px solid #003366'>
+                     <div class='card-title mb-2 mt-3 pointer' onclick="toggleCollapse(this,'add-new-control')">
                           <i class='fa fa-plus float-left ml-3 mt-1'></i>
-                          <p class='pl-5 font-weight-bold'> ყველა კონტროლის ზომა </p>
+                          <p class='pl-5 font-weight-bold'> ახალი კონტროლის ზომა </p>
                      </div>
-                     
-                     <div class='pl-4' style=''>
-                           @foreach($controls as $ind => $control)
-                           <div class='d-none controls-panel pb-1'>
-                                  <div style='width:85%'>
-                                       <p class="@if(Session('created') && $ind == $control->count()-1) font-weight-bolder @else text-muted @endif"> {{$ind + 1}}. {{$control->name}} </p>
-                                  </div>
-                                  <div class='d-flex' style='width:15%'>
-                                                                           
-                                       <div class='w-100 h-100 this-div'>
-                                            <div class='position-absolute this-button' style='width:.2rem;height:2rem;background-color:#003366'></div>
-                                            <a class='btn this-color' href='control/{{$control->id}}/edit'
-                                                    style='margin-top:-.1rem;background-color:transparent !important;color:blue'> edit 
-                                            </a>
-                                       </div>
-                                  </div>
-            
-                             </div>
-                           @endforeach
-                         </div>
                   </div>
 
-                <form method='post' action='new-control'>
-                   @csrf
+                  <form method='post' action='new-control' class='d-none' id='add-new-control'>
+                     @csrf
 
                       <div class='card shadow-none' style='border-left:5px solid #003366'>
                              <div class='d-flex'>
@@ -112,6 +92,10 @@
                                 </label>
                                 @endforeach
 
+                                @if ($dangers->count() == 0)
+                                   <p class='text-secondary font-weight-bolder ml-3'> საფრთხეები არ არის </p>
+                                @endif
+
                                 @error('danger')
                                      <p class='text-sm text-danger mt-2 mb-0 pb-0'> {{$message}} </p>
                                 @enderror
@@ -124,12 +108,50 @@
 
                 </form>
 
+                <div class='card card-user mt-3 text-left rounded-10 shadow-none left-colored-border top-left-radius-0 bottom-left-radius-0' style='border-left:5px solid #003366'>
+                     <div class='card-title mb-2 mt-3 pointer' onclick='toggleCollapse()'>
+                          <i class='fa fa-plus float-left ml-3 mt-1'></i>
+                          <p class='pl-5 font-weight-bold'> ყველა კონტროლის ზომა </p>
+                     </div>
+                     
+                     <div class='pl-4' style=''>
+                           @foreach($controls as $ind => $control)
+                           <div class='d-none controls-panel pb-1'>
+                                  <div style='width:85%'>
+                                       <p class="@if(Session('created') && $ind == $control->count()-1) font-weight-bolder @else text-muted @endif"> {{$ind + 1}}. {{$control->name}} </p>
+                                  </div>
+                                  <div class='d-flex' style='width:15%'>
+                                                                           
+                                       <div class='w-100 h-100 this-div'>
+                                            <div class='position-absolute this-button' style='width:.2rem;height:2rem;background-color:#003366'></div>
+                                            <a class='btn this-color' href='control/{{$control->id}}/edit'
+                                                    style='margin-top:-.1rem;background-color:transparent !important;color:blue'> edit 
+                                            </a>
+                                       </div>
+                                  </div>
+                             </div>
+                           @endforeach
+
+                           @if ($controls->count() == 0)
+                               <div class='d-none controls-panel pb-1'>
+                                   <p class='text-secondary'> თქვენ არ გაქვთ კონტროლის ზომები </p>
+                                </div>                     
+                           @endif
+                         </div>
+                  </div>
+
            </div>
     </div>
 </div>
 
 <script type="application/javascript">
-      function toggleCollapse(){
+      function toggleCollapse(obj, id){
+         if (obj){
+             obj.parentNode.remove()
+             remove($1(id), 'd-none')
+             return
+         }
+
          if ($('.controls-panel').hasClass('d-none'))
            $('.controls-panel').removeClass('d-none').addClass('d-flex')
          else  $('.controls-panel').removeClass('d-flex').addClass('d-none')

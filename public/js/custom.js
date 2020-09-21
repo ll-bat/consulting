@@ -132,6 +132,14 @@ function cos(a){
     return Math.cos(a)
 }
 
+function sqrt(a) {
+    return Math.sqrt(a)
+}
+
+function floor(a) {
+    return Math.floor(a)
+}
+
 function rand(n){
     return Math.floor(Math.random()*n)
 }

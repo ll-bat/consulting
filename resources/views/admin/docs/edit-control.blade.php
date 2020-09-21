@@ -84,6 +84,10 @@
                                 </label>
                                 @endforeach
 
+                                @if ($dangers->count() == 0)
+                                   <p class='text-secondary font-weight-bolder ml-3'> საფრთხეები არ არის </p>
+                                @endif
+
                                 @error('danger')
                                      <p class='text-sm text-danger mt-2 mb-0 pb-0'> {{$message}} </p>
                                 @enderror
