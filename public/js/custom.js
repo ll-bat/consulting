@@ -136,6 +136,10 @@ function sqrt(a) {
     return Math.sqrt(a)
 }
 
+function abs(a){
+    return Math.abs(a)
+}
+
 function floor(a) {
     return Math.floor(a)
 }

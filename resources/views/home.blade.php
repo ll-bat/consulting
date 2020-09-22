@@ -310,16 +310,37 @@
 
     <script src='js/spray.js'></script>
     <script>
-
-        function createSpray(){
-            let spray = new Spray()
-            spray.create(['/img/testit/spray-0.png', 'spray0','sprays-area'])
-            spray.addRoute([100, 2.5, -1, 1, 1, 1, 0, 100])
-            // spray.addRoute([100, 2.5, 1, -1, 1, 1, 0])
-            spray.start()
+        
+        let sprays = []
+        
+        function moveAway(i){
+            sprays[i].moveAway()
+        }
+        
+        function slowDown(i){
+            sprays[i].slowDown()
         }
 
-        createSpray()
+        function createSpray(i, p){
+            let spray = new Spray()
+            sprays.push(spray)
+            spray.create([`/img/testit/spray-${i}.png`, `spray${i}`,'sprays-area'])
+            spray.addRoute([300, 2.5, -1, 1, 1, 1, -75, p])
+            spray.start()
+
+            tout(() => {
+               $1(`spray${i}`).setAttribute('onmouseover', `moveAway(${i})`)
+               $1(`spray${i}`).setAttribute('onmouseout', `slowDown(${i})`)
+            },200)
+        }
+
+        function createSprays(n){
+            for (let i=0; i<n; i++){
+                createSpray(i, (i+1)*100 / n)
+            }
+        }
+
+        createSprays(6)
 
 
         function isVisible(el) {

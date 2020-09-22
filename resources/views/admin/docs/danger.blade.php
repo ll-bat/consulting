@@ -44,7 +44,7 @@
 
 
                 <div class='card card-user mt-3 text-left rounded-10 shadow-none left-colored-border top-left-radius-0 bottom-left-radius-0' style='border-left:5px solid #7733ff'>
-                     <div class='card-title mb-2 mt-3 pointer' onclick="toggleCollapse(this, 'new-danger')">
+                     <div class='card-title mb-2 mt-3 pointer' id='add-new-danger' onclick="toggleCollapse(this, 'new-danger')">
                           <i class='fa fa-plus float-left ml-3 mt-1'></i>
                           <p class='pl-5 font-weight-bold' style='color:#7733ff'> დაამატეთ ახალი საფრთხე </p>
                      </div>
@@ -101,12 +101,13 @@
                         </div>
                     </div>
                     
-                    <div class='text-left'>
+                    <div class='text-left d-flex'>
                          <button class='btn btn-primary border-0'> create </button>    
                     </div>
                 </form>
 
-                <div class='card card-user mt-3 text-left rounded-10 shadow-none left-colored-border top-left-radius-0 bottom-left-radius-0' style='border-left:5px solid #7733ff'>
+                <div class='card card-user mt-3 text-left shadow-none left-colored-border top-left-radius-0' 
+                     style='border-left:5px solid #7733ff; border-top-right-radius:30px !important;border-bottom-left-radius:8px !important;'>
                      <div class='card-title mb-2 mt-3 pointer' onclick='toggleCollapse()'>
                           <i class='fa fa-plus float-left ml-3 mt-1'></i>
                           <p class='pl-5 font-weight-bold' style='color:#7733ff'> ყველა საფრთხე </p>
@@ -143,7 +144,7 @@
                           <form method='post' action='../docs/import/danger' enctype="multipart/form-data">
                                @csrf 
                                <input type='file' class='d-none' id='import_excel' name='danger' onchange='this.parentNode.submit()'/>
-                               <button class='btn btn-success border-0 py-1 px-3' onclick="$1('import_excel').click(); event.preventDefault()"> Import </button>
+                               <button class='btn btn-success border-0 py-1 px-3' onclick="$1('import_excel').click(); event.preventDefault()"> <i class='fa fa-plus'></i> საფრთხეები </button>
                           </form>
                           @if ($errors->has('danger'))
                                <p class='text-danger text-sm'> გთხოვთ, ატვირთოთ ექსელის დოკუმენტი </p>
@@ -171,6 +172,8 @@
 
       @if (Session('message'))
          toggleCollapse()
+      @elseif ($errors->count() > 0)
+         toggleCollapse($1('add-new-danger'), 'new-danger')
       @endif
 
 </script>

@@ -87,6 +87,8 @@ class ImportsController extends Controller
         request()->validate([
             'control'   => 'required|mimes:csv,xls,xlsx'
         ]);
+
+        $route = 'danger.show';
     
         $data = Excel::toArray(new ProcessesImport, request('control'));      
         
@@ -97,7 +99,7 @@ class ImportsController extends Controller
 
         foreach ($data as $d){
 
-            if (count($d) != 3) return back()->with('error', 'ინფორმაციის განლაგება ექსელის დოკუმენტში არასწორია');
+            if (count($d) != 3) return redirect()->route($route, [$danger->id])->with('error', 'ინფორმაციის განლაგება ექსელის დოკუმენტში არასწორია');
  
             if (!isset($controls[$d[0]])){
                 $control = Control::where('name', $d[0])->first();
@@ -120,6 +122,6 @@ class ImportsController extends Controller
                ControlDanger::create(['control_id' => $controls[$d[0]], 'danger_id' => $danger->id]);
         }        
 
-        return back()->with('message', 'ოპერაცია წარმატებით დასრულდა');
+        return redirect()->route($route, [$danger->id])->with('message', 'ოპერაცია წარმატებით დასრულდა');
    }
 }

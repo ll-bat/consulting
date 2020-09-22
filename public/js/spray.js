@@ -2,6 +2,8 @@ class Spray {
     constructor(){
         this.current = [0,0]
         this.routes = []
+        this.goFaster = false
+        this.limits = [window.innerWidth, min(window.innerHeight, 800)]
     }
     
     addRoute(route){
@@ -17,7 +19,7 @@ class Spray {
         let scy     = random(2)
         let k       = rand(90)
         let p       = rand(90) + 10
-        
+    
 
         return [radius, speed, tx, ty, scx, scy, k, p]
     }
@@ -31,6 +33,8 @@ class Spray {
     }  
 
     async start(){
+         if (this.routes.length == 0) this.routes.push(this.addNewRoute())
+
          for (let i=0; i<this.routes.length;){
              let status = await this.run(this.routes[i])
              if (status == true) {
@@ -63,6 +67,11 @@ class Spray {
         let self = this
         let itsway = 180 * (p / 100)
         let x,y
+        let fx, fy
+
+        let revx = false, revy = false
+        let medx = 0, medy = 0
+        let ksc  = 0
 
         return new Promise(resolve => {
            self.runAnimation(() => {
@@ -73,30 +82,23 @@ class Spray {
                     return true 
                 }
 
-                else if (dist[0] + self.current[0] >= window.innerWidth || (dist[0] + self.current[0] < 0)){
-                   
-                    self.current[0] += dist[0]
-                    self.current[1] += dist[1]
+                else if (dist[0] + self.current[0] >= window.innerWidth  - 100 || (dist[0] + self.current[0] < 0)){
+                
+                    if (self.current[0] + dist[0] < 0 || (self.current[0] + dist[0] >= window.innerWidth - 100)) {
+                        revx = true
+                    }
 
-                    if (self.current[0] < 0) self.current[0] += 10
-                    if (self.current[0] >= window.innerWidth) self.current[0] -= 10
-                    resolve(true)
-                    return true
                 }
 
-                else if (dist[1] + self.current[1] >= 800 || (dist[1] + self.current[1] <= -50)){
-                    
-                    self.current[0] += dist[0]
-                    self.current[1] += dist[1]
+                else if (dist[1] + self.current[1] >= 800 || (dist[1] + self.current[1] <= 0)){
 
-                    if (self.current[1] <= -50) self.current[1] += 10
-                    if (self.current[1] >= 800) self.current[1] -= 10
-                    resolve(true)
-                    return true
+                    if (self.current[1] + dist[1] <= 0 || (self.current[1] + dist[1] >= 800)) {
+                        revy = true
+                    }
+
                 }
 
-                // let y  = radius * sin(currentDegree / 57)
-                // let x  = radius * (1 - cos(currentDegree / 57))
+                if (this.goFaster) currentDegree += degree
 
                 let hyp2 = 2 * radius * radius * (1 - cos(currentDegree / 57))
                 let hyp  = sqrt(hyp2) 
@@ -107,17 +109,43 @@ class Spray {
                 x = hyp * cos(deg / 57)
                 y = hyp * sin(deg / 57)
 
+
+                scx += ksc
+                scy += ksc
+
                 x = tx * x * scx 
                 y = ty * y * scy 
+
+                
+                if (revx){
+                    if (medx == 0) medx = x
+                    revx = !revx
+                }
+
+                if (medx != 0) {
+                    let dif = x - medx
+                    x = medx - dif
+                    if (x + self.current[0] < 0) x = max(medx + dif, medx - dif)
+                    else if (x + self.current[0] > window.innerWidth) x = min(medx + dif, medx - dif)
+                }
+
+                if (revy){
+                    if (medy == 0) medy = y 
+                    revy = !revy
+                }
+
+                if (medy != 0) {
+                    let dif = y - medy
+                    y = medy - dif
+                    if (y + self.current[1] < 0) y = max(medy + dif , medy - dif)
+                    else if (y + self.current[1] > 800) y = min(medy + dif, medy - dif)
+                }
 
                 dist[0] = x
                 dist[1] = y
                 
                 st($1(self.element), 
                     `tr:rotate(180deg) translateX(${x + self.current[0]}px) translateY(${y + self.current[1]}px)`)
-
-                // st($1(self.element), 
-                //     `l:-${x + self.current[0]}px; r:-${y + self.current[1]}px`)
 
                 currentDegree += degree / 40
                 currentDegree += degree * sin(currentStep / 57)
@@ -129,12 +157,22 @@ class Spray {
         })
     }
 
+    moveAway(){
+        this.goFaster = true
+    }
+
+    slowDown(){
+        this.goFaster = false
+    }
+
+
     create(params){
         let [imagePath, uniqueId, parent] = params
         this.element = uniqueId 
 
+        let self = this
         let c = `<div class='position-absolute'>
-                       <img src='${imagePath}' class='spray' id='${uniqueId}' />
+                       <img src='${imagePath}' class='spray' id='${uniqueId}'/>
                   </div>`
 
         $1(parent).innerHTML = c + $1(parent).innerHTML

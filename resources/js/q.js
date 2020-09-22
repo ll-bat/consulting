@@ -272,6 +272,11 @@ const app = new Vue({
                 return ys
             })
 
+            if (this.info.length == 0) {
+                alert('Please, fill up the form')
+                return 
+            }
+
             // console.log(this.info)
             $('#data-processing').removeClass('d-none')
             $('#data-submit').addClass('disabled')

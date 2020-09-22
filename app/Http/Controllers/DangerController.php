@@ -23,9 +23,9 @@ class DangerController extends Controller
             'name' => 'required|string',
             'k'   => 'numeric|nullable',
             'process' => 'array',
-            'process.*' => 'integer|exists:processes,id'
+            'process.*' => 'integer|exists:processes,id',
         ]);
-
+        
         $data['k'] = $data['k'] ?? 1;
         
         $danger = Danger::create($data);

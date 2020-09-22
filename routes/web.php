@@ -93,7 +93,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
         Route::group(['prefix' => 'docs'], function(){
             Route::get('', 'DocController@index')->name('admin.docs');
             Route::get('new-danger', 'DangerController@show');
-            Route::post('new-danger', 'DangerController@create');
+            Route::post('new-danger', 'DangerController@create')->name('danger.create');
             Route::get('new-control', 'ControlController@newControl');
             Route::post('new-control', 'ControlController@createControl');
             Route::get('all-ploss', 'PlossController@index');
@@ -105,7 +105,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
             Route::post('save-udanger', 'UdangerController@save');
             Route::delete('udanger/{udanger}/delete', 'UdangerController@delete');
 
-            Route::get('danger/{danger}/edit', 'DangerController@edit');
+            Route::get('danger/{danger}/edit', 'DangerController@edit')->name('danger.show');
             Route::post('danger/{danger}/update', 'DangerController@update');
             Route::delete('danger/{danger}/delete', 'DangerController@delete');
             Route::get('danger/{danger}/copy', 'DangerController@copy');
@@ -126,7 +126,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
 
             // Route::post('import/process', 'ImportsController@importProcess');
             Route::post('import/danger', 'ImportsController@importDanger');
-            Route::post('import/controls/{danger}', 'ImportsController@importControl');
+            Route::post('import/controls/{danger}', 'ImportsController@importControl')->name('danger.importControls');
             
             Route::get('check', 'DocController@show')->name('admin.check');
 

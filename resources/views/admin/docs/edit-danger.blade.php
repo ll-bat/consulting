@@ -115,7 +115,7 @@
                           <form method='post' action='../../../docs/import/controls/{{$danger->id}}' enctype="multipart/form-data">
                                @csrf 
                                <input type='file' class='d-none' id='import_excel' name='control' onchange='this.parentNode.submit()'/>
-                               <button class='btn btn-success border-0 py-1 px-3' onclick="$1('import_excel').click(); event.preventDefault()"> Import </button>
+                               <button class='btn btn-success border-0 py-1 px-3' onclick="$1('import_excel').click(); event.preventDefault()"><i class='fa fa-plus'></i> კონტრ.ზომები </button>
                           </form>
                           @if ($errors->has('control'))
                                <p class='text-danger text-sm'> გთხოვთ, ატვირთოთ ექსელის დოკუმენტი </p>
