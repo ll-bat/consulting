@@ -69,7 +69,7 @@ class Spray {
         let x,y
 
         let revx = false, revy = false
-        let medx = 0, medy = 0
+        let medx = -999, medy = -999
         let ksc  = 0
 
         return new Promise(resolve => {
@@ -117,28 +117,30 @@ class Spray {
 
                 
                 if (revx){
-                    if (medx == 0) medx = x
+                    if (medx == -999) medx = x
                     revx = !revx
                 }
 
-                if (medx != 0) {
+                if (medx != -999) {
                     let dif = x - medx
-                    x = medx - dif
-                    if (x + self.current[0] < 0) x = max(medx + dif, medx - dif)
-                    else if (x + self.current[0] > window.innerWidth) x = min(medx + dif, medx - dif)
+                    x = medx - dif 
                 }
 
+                if (x + self.current[0] < 0) x += 1
+                else if (x + self.current[0] > window.innerWidth) x-=1
+
                 if (revy){
-                    if (medy == 0) medy = y 
+                    if (medy == -999) medy = y 
                     revy = !revy
                 }
 
-                if (medy != 0) {
+                if (medy != -999) {
                     let dif = y - medy
                     y = medy - dif
-                    if (y + self.current[1] < 0) y = max(medy + dif , medy - dif)
-                    else if (y + self.current[1] > 800) y = min(medy + dif, medy - dif)
                 }
+
+                if (y + self.current[1] < 0) y += 1
+                else if (y + self.current[1] > 800) y -= 1
 
                 dist[0] = x
                 dist[1] = y
