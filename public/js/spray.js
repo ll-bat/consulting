@@ -67,7 +67,6 @@ class Spray {
         let self = this
         let itsway = 180 * (p / 100)
         let x,y
-        let fx, fy
 
         let revx = false, revy = false
         let medx = 0, medy = 0
@@ -160,6 +159,7 @@ class Spray {
     moveAway(){
         this.goFaster = true
     }
+
 
     slowDown(){
         this.goFaster = false
