@@ -274,6 +274,7 @@ const app = new Vue({
 
             if (this.info.length == 0) {
                 alert('Please, fill up the form')
+                window.location = ''
                 return 
             }
 
