@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helperclass\Obj;
+use App\Helperclass\Json;
 use App\Helperclass\Content;
 use App\Export;
 use Illuminate\Http\Request;
@@ -14,9 +15,9 @@ class TestsController extends Controller
 {
       public function index(){
           
-          $data = [];
-          $ch = call_user_func([static::class, 'isString'], $data);
-          dd($ch);
+          $test = Export::latest()->first();
+
+          dd(Json::sload($test));
 
       }
 

@@ -247,7 +247,7 @@
                                    
                 <div class='position-absolute'
                     style = 'right:.5rem;bottom:.5rem;' id='sprays-area'>
-                    <img src='/img/testit/spray-6.png' class='spray' id='spray999' />
+                    <img src='/img/testit/spray-6.png' class='spray invisible' id='spray999' />
                 </div>
 
                <div class='position-absolute left-border sizeable-border d-none d-lg-block' 
@@ -324,7 +324,7 @@
         function createSpray(i, p){
             let spray = new Spray()
             sprays.push(spray)
-            spray.create([`/img/testit/spray-${i}.png`, `spray${i}`,'sprays-area'])
+            spray.create([`/img/testit/spray-${i%7}.png`, `spray${i}`,'sprays-area'])
             spray.addRoute([300, 2.5, -1, 1, 1, 1, -75, p])
             spray.start()
 
@@ -340,7 +340,7 @@
             }
         }
 
-        createSprays(6)
+        createSprays(12)
 
 
         function isVisible(el) {

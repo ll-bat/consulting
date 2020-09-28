@@ -192,3 +192,19 @@
 .text-lg {
     font-size: 1.3rem;
 }
+
+.partial-shadow {
+    box-shadow: 2px 2px 4px lightgrey !important;
+}
+
+.full-shadow {
+    box-shadow: 2px 2px 4px lightgrey, -2px -2px 4px lightgrey !important;
+}
+
+.text-purple {
+    color: rgb(85, 8, 85);
+}
+
+.text-lightblack {
+    color: rgb(83, 73, 73);
+}

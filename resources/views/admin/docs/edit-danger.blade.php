@@ -110,8 +110,8 @@
                                     @method('delete')
                 </form>
 
-                
-                <div class='text-right' style='margin-top:-50px;'>
+                <div style='margin-top:-50px'>
+                     <div class='text-right mt-md-0 mt-5'>
                           <form method='post' action='../../../docs/import/controls/{{$danger->id}}' enctype="multipart/form-data">
                                @csrf 
                                <input type='file' class='d-none' id='import_excel' name='control' onchange='this.parentNode.submit()'/>
@@ -120,8 +120,8 @@
                           @if ($errors->has('control'))
                                <p class='text-danger text-sm'> გთხოვთ, ატვირთოთ ექსელის დოკუმენტი </p>
                           @endif
+                    </div>
                 </div>
-
                 <div class='card mt-4 text-left ns-font-family  shadow-none rounded-10 ns-border-bottom' style='border-top:10px solid blue'>
                     <h4 class='p-3'> ყველა შემავალი კონტროლის ზომა </h4>
                     <div class='card-body pl-2 pt-2'>
@@ -141,14 +141,21 @@
                 </div>
 
                 <div class='card text-left mt-2 pb-3 shadow-none rounded-10 ns-border-bottom' style='border-top:10px solid rgb(250,0,0);'>
-                    <h4 class='p-3 text-danger' style='text-shadow:1px 1px 3px lightgrey;'> სხვა </h4>   
-                    <div class='card-body pl-2 pt-2'>
+                    <div class='d-flex'>
+                      <h4 class='p-3 text-danger' style='text-shadow:1px 1px 3px lightgrey;'> სხვა </h4>   
+                      <div class='ml-auto pr-4 pt-2'>
+                          <button class='btn btn-outline-primary px-3 py-1 rounded-pill capitalize'
+                                  onclick="toggleCollapseClick(this, 'other-controls')"
+                          > show </button>
+                      </div>
+                    </div>
+                    <div class='card-body pl-2 pt-2 d-none' id='other-controls'>
                          @foreach ($ncontrol as $ind => $d)
                              <div class='d-flex my-2'>
                                     <div style='width:85%;'>
                                          <a href='../../control/{{$d->id}}/edit' class='mt-1 pb-2 pl-2 text-muted'><b>{{$ind + 1}}.</b> {{$d->name}} </a>
                                     </div>
-                                    <div style='wdith:15%'>
+                                    <div class='ml-auto' style='wdith:15%'>
                                          <a href='edit/{{$d->id}}/attach'  class='btn btn-outline-success text-success text-sm rounded-pill capitalize px-3 py-1 ml-1' style='font-size:.7em;'> Check </a>
                                     </div>
                             </div>
@@ -161,7 +168,18 @@
 </div>
 
 <script type="application/javascript">
-      
+      function toggleCollapseClick(obj, id){
+            if (has($1(id), 'd-none')){
+                 $(`#${id}`).removeClass('d-none')
+                 $(obj).removeClass("btn-outline-primary").addClass('btn-outline-danger')
+                 $(obj).text('hide')
+            }
+            else {
+                 $(`#${id}`).addClass('d-none')
+                 $(obj).removeClass("btn-outline-danger").addClass('btn-outline-primary')
+                 $(obj).text('show')
+            }
+      }
 
 </script>
 

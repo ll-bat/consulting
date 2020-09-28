@@ -84,7 +84,7 @@ class ControlController extends Controller
 
         $control->update($data);
 
-        return back()->with('message', 'კონტროლის სია წარმატებით განახლდა');
+        return back()->with('message', 'კონტროლის ზომა წარმატებით განახლდა');
     }
 
     public function delete(Control $control){

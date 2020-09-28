@@ -95,8 +95,15 @@
                 </div>
 
                 <div class='card text-left mt-2 pb-3 shadow-none rounded-10 ns-border-bottom' style='border-top:5px solid rgb(200,0,0);'>
-                    <h4 class='p-3 text-danger'> სხვა </h4>   
-                    <div class='card-body pl-2 pt-2'>
+                <div class='d-flex'>
+                      <h4 class='p-3 text-danger' style='text-shadow:1px 1px 3px lightgrey;'> სხვა </h4>   
+                      <div class='ml-auto pr-4 pt-2'>
+                          <button class='btn btn-outline-primary px-3 py-1 rounded-pill capitalize'
+                                  onclick="toggleCollapseClick(this, 'other-dangers')"
+                          > show </button>
+                      </div>
+                    </div>
+                    <div class='card-body pl-2 pt-2 d-none' id='other-dangers'>
                          @foreach ($ndanger as $ind => $d)
                              <div class='d-flex'>
                                     <div style='width:85%;'>

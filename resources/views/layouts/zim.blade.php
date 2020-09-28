@@ -270,7 +270,6 @@
             $(window).resize(()=>{
                  $('#sidebar').css({'height': '', "margin-top": '', 'margin-left':''})
                  $1('sidebar').className="sidebar @if (!in_array($route,collapsedRoutes())) partial-sidebar @endif"
-
                  adjustScreen()
             })
 
@@ -283,21 +282,35 @@
                  this.style.height =
                      (this.scrollHeight) + 'px';
              });
-        })
+            })
 
-            function dropDown(){
-                st($1('c-dropdown-menu'),'d:block')
-                dom.body.addEventListener('click', clear)
+            // function dropDown(){
+            //     st($1('c-dropdown-menu'),'d:block')
+            //     dom.body.addEventListener('click', clear)
 
-                function clear(){
-                    st($1('c-dropdown-menu'), 'd:none')
-                    dom.body.removeEventListener('click',clear)
-                }
-            }
+            //     function clear(){
+            //         st($1('c-dropdown-menu'), 'd:none')
+            //         dom.body.removeEventListener('click',clear)
+            //     }
+            // }
 
             tout(() => {
                 $(window).trigger('autoresize')
             }, 200)
+
+
+            function toggleCollapseClick(obj, id){
+                   if (has($1(id), 'd-none')){
+                        $(`#${id}`).removeClass('d-none')
+                        $(obj).removeClass("btn-outline-primary").addClass('btn-outline-danger')
+                        $(obj).text('hide')
+                   }
+                   else {
+                        $(`#${id}`).addClass('d-none')
+                        $(obj).removeClass("btn-outline-danger").addClass('btn-outline-primary')
+                        $(obj).text('show')
+                   }
+             }
 
         </script>
         @yield('script')

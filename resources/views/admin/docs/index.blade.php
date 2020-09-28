@@ -228,6 +228,11 @@
                       <i class='fa fa-plus'></i>
                       კონტროლის ზომა
                     </a>
+
+                    <a href='docs/added-by-users' class='btn rounded-pill' style='border:0 !important'>
+                      <i class='fa fa-plus'></i>
+                      დამატებული(<b>{{$cnt}}</b>)
+                    </a>
                     
                     <a href='docs/check' class='btn btn-outline-secondary rounded-pill border-0' style='border-width:2px;'>
                       <i class='fa fa-pencil'></i>

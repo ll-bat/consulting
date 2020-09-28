@@ -102,7 +102,7 @@
                     </div>
                     
                     <div class='text-left d-flex'>
-                         <button class='btn btn-primary border-0'> create </button>    
+                         <button class='btn btn-primary border-0'> შექმნა </button>    
                     </div>
                 </form>
 

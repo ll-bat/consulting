@@ -14,6 +14,12 @@ class Json {
 
     }
 
+    public static function sload($export){
+        $data = json_decode($export->data, true);
+
+        return $data;
+    }
+
     public function load($export){
         // $json = File::get($path);
         $data = json_decode($export->data, true);
