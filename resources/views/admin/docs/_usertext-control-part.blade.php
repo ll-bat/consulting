@@ -10,7 +10,7 @@
        @foreach ($dangers as $key => $d)
            <div class='mt-2 mb-4 mr-2 ml-4' id='danger{{$d[0]->danger_id}}'>
                <a href='danger/{{$d[0]->danger_id}}/edit'>
-                  <h6 class='text-lightblack py-2 px-0 is-moving'> {{$key}} </h4>
+                  <h6 class='text-lightblack text-lowercase py-2 px-0 is-moving'> {{$key}} </h4>
                </a>
                @foreach ($d as $ind => $c)
                   <div class='d-flex py-1 px-2 is-moving' id='full-control{{$c->id}}'>
