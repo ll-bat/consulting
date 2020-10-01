@@ -24,7 +24,7 @@ class DocController extends Controller
       public function index()
       {
            $cnt = UserText::count();
-           $procs = Process::all();
+           $procs = Process::orderBy('created_at', 'asc')->get();
 
            return view('admin.docs.index', compact('procs', 'cnt'));
       }

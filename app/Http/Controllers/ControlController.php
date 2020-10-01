@@ -12,7 +12,7 @@ class ControlController extends Controller
       
     public function newControl(){
         $dangers  = Danger::all();
-        $controls = Control::all();
+        $controls = Control::orderBy('created_at','asc')->get();
         return view("admin.docs.control", compact('dangers', 'controls'));
     }
 

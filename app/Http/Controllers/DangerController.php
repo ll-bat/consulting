@@ -14,7 +14,7 @@ class DangerController extends Controller
     public function show(){
         return view('admin.docs.danger', [
             'procs' => Process::all(),
-            'dangers' => Danger::all()
+            'dangers' => Danger::orderBy('created_at','asc')->get()
         ]);
     }
 
