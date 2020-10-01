@@ -269,7 +269,7 @@
 
                          <div class="section-tittle mb-100 ml-5 position-relative">
                              <span class='ns-animation-d2'> სიახლეები </span>
-                             <p class='font-weight-bolder ns-animation-d3 ns-attached attached-d1 attached-d2 mt-3' 
+                             <p class='font-weight-bolder ns-animation-d3 ns-attached attached-d2 attached-d3 mt-3' 
                                 style="font-size:3rem; line-height:3rem;">ჩვენი უახლესი ბლოგები </p>
                          </div>
                      </div>
