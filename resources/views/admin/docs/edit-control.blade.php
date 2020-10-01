@@ -104,7 +104,7 @@
                          </div>
                     </div>
                 </form>
-                <form method='post' action='delete' id='control-delete'>
+                <form method='post' action='rdelete' id='control-delete'>
                                    @csrf 
                                    @method('delete')
                 </form>

@@ -88,10 +88,13 @@ class ControlController extends Controller
     }
 
     public function delete(Control $control){
-
         ControlDanger::where('control_id', $control->id)->delete();
         $control->delete();
+        return response('done', 200);
+    }
 
+    public function rdelete(Control $control){
+        $this->delete($control);
         return redirect()->to('user/docs/new-control')->with('message', 'კონტროლის ზომა წარმატებით წაიშალა');
     }
 }

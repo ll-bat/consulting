@@ -8,7 +8,14 @@
 
 @section('header')
     <style>
+       .button-dropdown {
+           border-radius:4px !important;
+           border:1px solid grey;
+       }
 
+       .slowly {
+            transition: all .25s ease-in;
+       }
    </style>
 @endsection
 
@@ -114,14 +121,15 @@
                           <p class='pl-5 font-weight-bold'> ყველა კონტროლის ზომა </p>
                      </div>
                      
-                     <div class='pl-4' style=''>
+                     <div class='pl-4' id='clickable' style=''>
                            @foreach($controls as $ind => $control)
-                           <div class='d-none controls-panel pb-1'>
-                                  <div style='width:85%'>
-                                       <p class="@if(Session('created') && $ind == $control->count()-1) font-weight-bolder @else text-muted @endif"> {{$ind + 1}}. {{$control->name}} </p>
+                           <div class='d-none controls-panel pb-1 slowly' id='removable-control{{$control->id}}'>
+                                  <div style='width:85%' class='pointer' onmousedown="hasClick(event,'removable-control{{$control->id}}', {{$control->id}})">
+                                       <p class="@if(Session('created') && $ind == $control->count()-1) font-weight-bolder @else text-muted @endif"> 
+                                          {{$ind + 1}}. {{$control->name}} 
+                                       </p>
                                   </div>
-                                  <div class='d-flex' style='width:15%'>
-                                                                           
+                                  <div class='d-flex' style='width:15%'>                          
                                        <div class='w-100 h-100 this-div'>
                                             <div class='position-absolute this-button' style='width:.2rem;height:2rem;background-color:#003366'></div>
                                             <a class='btn this-color' href='control/{{$control->id}}/edit'
@@ -144,7 +152,43 @@
     </div>
 </div>
 
+<div class='position-absolute' id='button-dropdown' style='left:0;top:0;display:none;'>
+      <button class='btn btn-outline-secondary bg-white capitalize px-4' onclick='buttonClick(event)'>Delete </button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script type="application/javascript">
+      class Obj {
+           constructor(){}
+
+           click(){
+               $1(this.getId()).remove()
+               this.delete()
+           }
+           delete(){
+                axios['delete'](`control/${this.cid}/delete`)
+                    .then(res => {})
+                    .catch(err => {
+                         alert(err.response.data)
+                         console.log(err.response.data)
+                    })
+           }
+          
+           setId(id, cid){
+               this.id  = id
+               this.cid = cid
+           }
+
+           getId(){
+                return this.id
+           }
+
+           getCid(){
+                return this.cid
+           }
+      }
+
+
       function toggleCollapse(obj, id){
          if (obj){
              obj.parentNode.remove()
@@ -159,6 +203,30 @@
 
       @if (Session('created')) toggleCollapse() @endif
 
+      let obj = new Obj()
+
+      function hasClick(ev, id, cid){
+          let rightclick = ev.which == 3 || ev.button == 2
+          if (rightclick){
+              let l = ev.pageX - 60, r = ev.pageY 
+              st($1('button-dropdown'), `l:${l}px;t:${r}px;d:block`)
+              st($1(id), 'o:.3')
+              obj.setId(id,cid)
+              dom.addEventListener('click', clickEvent)
+          }
+      }
+      
+      function clickEvent(e){
+           st($1('button-dropdown'), 'd:none');
+           $('.slowly').css({'opacity': '1'})
+      }
+
+      function buttonClick(e){
+           obj.click()
+      }
+     
+      $1('clickable').addEventListener('contextmenu', event => event.preventDefault());
+      
 </script>
 
 @endsection

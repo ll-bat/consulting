@@ -86,7 +86,7 @@
        }
 
        @keyframes _myAnimation{
-           from {opacity: .5; transform: translateY(125px) rotateX(40deg) scaleX(.9) scaleY(.8) rotate(5deg);}
+           from {opacity: .5; transform: translateY(125px)  scaleX(.9) scaleY(.8);}
            to {opacity: 1}
        }
 

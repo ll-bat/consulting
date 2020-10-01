@@ -114,6 +114,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
 
             Route::get('control/{control}/edit', 'ControlController@edit');
             Route::post('control/{control}/update', 'ControlController@update');
+            Route::delete('control/{control}/rdelete', 'ControlController@rdelete');
             Route::delete('control/{control}/delete', 'ControlController@delete');
 
             Route::post('add-process', 'ProcessController@addProcess');
@@ -140,7 +141,6 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
 
             
             Route::get('check', 'DocController@show')->name('admin.check');
-
 
         });
     });
