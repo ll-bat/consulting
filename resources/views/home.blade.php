@@ -86,7 +86,7 @@
        }
 
        @keyframes _myAnimation{
-           from {opacity: .5; transform: translateY(125px)  scaleX(.9) scaleY(.8);}
+           from { transform: translateY(125px)  scaleX(.9) scaleY(.8);}
            to {opacity: 1}
        }
 
@@ -269,7 +269,7 @@
 
                          <div class="section-tittle mb-100 ml-5 position-relative">
                              <span class='ns-animation-d2'> სიახლეები </span>
-                             <p class='font-weight-bolder ns-animation-d3 mt-3' 
+                             <p class='font-weight-bolder ns-animation-d3 ns-attached attached-d1 attached-d2 mt-3' 
                                 style="font-size:3rem; line-height:3rem;">ჩვენი უახლესი ბლოგები </p>
                          </div>
                      </div>
@@ -277,7 +277,7 @@
                  <div class="row">
                      @foreach ($blogs as $ind=>$blog)
                      <div class="col-xl-6 col-lg-6 col-md-6">
-                         <div class="home-blog-single mb-30 ">
+                         <div class="home-blog-single mb-30 d{{($ind+2) % 4}}">
                              <div class="blog-img-cap">
                                  <div class="blog-img">
                                      <img src="{{$blog->path()}}" style='height:20rem;' alt="">
@@ -350,7 +350,6 @@
                     rect.left >= 0 &&
                     rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
                     rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-            
                 );
             }
          
@@ -362,8 +361,16 @@
                  for (let t = 1; t<=elms.length; t++)
                     for (let i=0; i<elms[t-1].length; i++){
                         if (isVisible(elms[t-1][i]))
-                           if (!has(elms[t-1][i], `my-animation-d${t}`))
+                           if (!has(elms[t-1][i], `my-animation-d${t}`)){
                                    add(elms[t-1][i], `my-animation-d${t}`)
+                                   if (has(elms[t-1][i]), 'ns-attached'){
+                                       let all = elms[t-1][i].className.split(' ').filter((e => e.includes('-') && e.split('-')[0] == 'attached'))
+                                                 .map(e => e.split('-')[1])
+                                                 .forEach(e => {
+                                                     $(`.${e}`).addClass(`my-animation-${e}`)
+                                                 })
+                                   }
+                           }
                     }
 
                  let el = $2('has-animation')[0]
