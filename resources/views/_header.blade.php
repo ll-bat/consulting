@@ -14,7 +14,7 @@
 
 <main>
     <div class="slider-area2" 
-         style='background-image:url(/{{$modifies->getImageName($route)}});height:auto; min-height:500px; max-height:900px;'>
+         style='background-image:url({{$modifies->getImageName($route)}});height:auto; min-height:500px; max-height:900px;'>
         <div class="slider-height2  d-flex align-items-center" style='background:transparent'>
             <div class="container">
                 <div class="row">
