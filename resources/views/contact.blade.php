@@ -1,24 +1,18 @@
 @extends('layouts/app')
 
+<?php 
+  $route = Request::route()->getName();
+?>
+
 @section('css')
     <link rel="stylesheet" href="css/style.css" />
 @endsection
 
 @section('content')
 <main class='mb-5 pb-5'>
-    <div class="slider-area2">
-        <div class="slider-height2 hero-overly2 d-flex align-items-center">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="hero-cap hero-cap2 text-center">
-                            <h2>Contact Us</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+    @include('_header', ['page' => 'contact'])
+
     <div class="container mt-5">
         @if (session()->has('message'))
            <p class='alert text-white mb-5' style='background-color:#19303B !important'> {{session('message')}} </p>
@@ -102,7 +96,6 @@
         </div>
     </div>
 </main>
-    <br />
-    <br />
-    <br />
+    <br /><br />  <br />
+    <br /><br />  <br />
 @endsection

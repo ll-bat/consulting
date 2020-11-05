@@ -1,5 +1,7 @@
 <?php
   $current_route = Request::path();
+  $route = Request::route()->getName();
+  $modifies = $modifies ?? false;
 ?>
 
 <!doctype html>
@@ -104,22 +106,25 @@
                                     <nav> 
                                         <ul id="navigation">                                                                                          
                                             <li>
-                                               <a href="/" class='nav-link'>Home</a>
+                                               <a href="/" class='nav-link'>მთავარი</a>
                                             </li>
-                                            <li><a href="{{route('about')}}" class='nav-link'>About</a></li>
-                                            <li><a href="{{route('blog')}}" class='nav-link'>Blogs</a></li>
-                                            <li><a href="{{route('services')}}" class='nav-link'>Services</a>
+                                            <li><a href="{{route('site.blogs')}}" class='nav-link'>ბლოგები</a></li>
+                                            <li><a href="{{route('site.services')}}" class='nav-link'>სერვისები</a>
+                                                @if ($modifies)
                                                 <ul class="submenu">
-                                                    <li><a href="#">service 1</a></li>
-                                                    <li><a href="#">service 2</a></li>
-                                                    <li><a href="#">service 3</a></li>
+                                                    @foreach ($modifies->services->getServices() as $service)
+                                                          <li><a href="{{route('site.services')}}">{{$service['title']}}</a></li>
+                                                    @endforeach
                                                 </ul>
+                                                @endif
                                             </li>
-                                            <li><a href="{{route('contact')}}" class='nav-link'>Contact</a></li>
+                                            <li><a href="{{route('site.about')}}" class='nav-link'>შესახებ</a></li>
+
+                                            <li><a href="{{route('site.contact')}}" class='nav-link'>კონტაქტი</a></li>
                                             @auth
                                                <li><a href="{{route('user.home')}}" class='d-flex d-lg-block'>
-                                                   <img src='{{current_user()->pathAvatar()}}' class='rounded-pill' width='40' height='40' />
-                                                   <span class='d-lg-none d-block p-2'> My profile </span>
+                                                   <img src='/icons/user-profile-2.png' class='rounded-pill' width='40' />
+                                                   <span class='d-lg-none d-block p-2'> ჩემი პროფილი </span>
                                                   </a>
                                                 </li>
                                            @endauth
@@ -290,7 +295,10 @@
 
   </script>
 
-    <br /><br /><br />
+  <div class='d-block d-md-none my-5'>
+      <br /> <br /> <br />
+  </div>
+  
     <div class="footer" style="background-color: rgb(8, 11, 18);">
         <div style="margin-left:50px;margin-top:20px;margin-right:50px;">
             <hr style="border:none; border-top:1px solid rgba(35, 49, 72,1);">

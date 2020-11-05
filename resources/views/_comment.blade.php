@@ -4,7 +4,6 @@
 
 
 
-{{--//border-left bg-grey--}}
 <div class="media p-3 mb-4 ml-3 ns-font-family hoverable" style="width: 100%; ">
 
     <img src="{{$comment->user->pathAvatar()}}" alt="Author" class="mr-3 mt-3 rounded-circle comment-image" style="width:50px; height:50px;">
@@ -38,10 +37,6 @@
                     <span class=""></span>
 
                     </button>
-                   <a href="" class="pl-2 mytest" style="color:grey;">
-                       <i class="fa fa-comment lightgrey"></i>
-                       <span class="pl-1 "></span>
-                   </a>
            @endcan
            @guest
              @if ($comment->isLiked())

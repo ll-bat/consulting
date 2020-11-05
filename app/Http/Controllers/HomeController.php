@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Blog;
+use App\Helperclass\Customizable;
+use App\Helperclass\Texts;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -32,7 +34,27 @@ class HomeController extends Controller
 
     public function show() {
         $blogs = Blog::where('is_public', 1)->latest()->take(2)->get();
+        $modifies = new Customizable('no-inherit');
 
-        return view('home', compact('blogs'));
+        return view('home', compact('blogs', 'modifies'));
+    }
+
+    public function about(){
+        $modifies = new Customizable();
+
+        return view('about', compact('modifies'));
+    }
+
+    public function service(){
+        return view('services', [
+            'modifies' => new Customizable('no-inherit')
+        ]);
+    }
+
+
+    public function contact(){
+        return view('contact', [
+            'modifies' => new Customizable('no-inherit')
+        ]);
     }
 }

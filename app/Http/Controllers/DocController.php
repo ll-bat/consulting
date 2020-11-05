@@ -108,7 +108,7 @@ class DocController extends Controller
               }
 
               foreach ($d['newUdangers'] as $nc){
-                    $model = UserText::where(['danger_id' => $did, 'name' => $nc['value'], 'type' => 'udanger'])->first();
+                    $model = UserText::where(['name' => $nc['value'], 'type' => 'udanger'])->first();
                    
                     if (!$model){
                           UserText::create(['user_id' => current_user()->id, 

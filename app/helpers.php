@@ -27,10 +27,10 @@ function userRoutes()
     //     ['route' => '', 'icon' => 'nc-icon nc-pin-3', 'name' => 'Location'],
 
     return [
-        ['route' => 'user.home', 'icon' => 'nc-icon nc-bank', 'name' => 'Home'],
-        ['route' => 'user.profile', 'icon' => 'nc-icon nc-single-02', 'name' => 'Profile'],
-        ['route' => 'user.mydocs', 'icon' => 'nc-icon nc-single-copy-04', 'name' => 'My docs'],
-        ['route' => 'user.questions', 'icon' => 'nc-icon nc-tap-01', 'name' => 'questions']
+        ['route' => 'user.home', 'icon' => 'nc-icon nc-bank', 'name' => 'მთავარი'],
+        ['route' => 'user.profile', 'icon' => 'nc-icon nc-single-02', 'name' => 'პროფილი'],
+        ['route' => 'user.mydocs', 'icon' => 'nc-icon nc-single-copy-04', 'name' => 'ჩემი დოკუმენტ.'],
+        ['route' => 'user.questions', 'icon' => 'nc-icon nc-tap-01', 'name' => 'კითხვარი']
 
     ];
 }
@@ -38,8 +38,9 @@ function userRoutes()
 function adminRoutes()
 {
     return [
-        ['route' => 'admin.docs', 'icon' => 'nc-icon nc-paper', 'name' => 'docs'],
-        ['route' => 'admin.blog', 'icon' => 'nc-icon nc-tag-content', 'name' => 'Blogs']
+        ['route' => 'admin.docs', 'icon' => 'nc-icon nc-paper', 'name' => 'დოკუმენტები'],
+        ['route' => 'admin.blog', 'icon' => 'nc-icon nc-tag-content', 'name' => 'ბლოგები'],
+        ['route' => 'admin.customize', 'icon' => 'nc-icon nc-ruler-pencil', 'name' => 'საიტის შეცვლა'],
     ];
 }
 

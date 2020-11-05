@@ -6,7 +6,7 @@
 
 
 
-
+   $route = Request::route()->getName();
    $catid = request('categoryId') ?? -1;
 ?>
 
@@ -42,7 +42,7 @@
 @section('content')
 
 
-    @include('_header', ['name' => 'blog'])
+    @include('_header', ['page' => 'blogs'])
 
     <section class="blog_area section-padding">
         <div class="container">
@@ -133,4 +133,7 @@
             </div>
         </div>
     </section>
+
+    <br /> <br /> <br />
+    <br /> <br /> <br />
 @endsection

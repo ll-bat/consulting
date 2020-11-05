@@ -107,6 +107,7 @@
                 </form>
                 <form method='post' action='delete' id='control-delete'>
                                    @csrf 
+
                 </form>
 
            </div>

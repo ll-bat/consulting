@@ -30,14 +30,6 @@
         border-bottom:5px solid rgba(0,0,0,.1) !important;
     }
 
-    .partial-shadow {
-        box-shadow: 2px 2px 4px lightgrey !important;
-    }
-
-    .full-shadow {
-        box-shadow: 2px 2px 4px lightgrey, -2px -2px 4px lightgrey !important;
-    }
-
     .hovered-ns-button {
         background-color:#673ab7 !important;
     }

@@ -34,14 +34,12 @@ html {
     min-height: 100%;
 }
 body {
-    margin-bottom: 60px;
+    /* margin-bottom: 60px; */
 }
 .footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    margin-top:50px;
-    padding-top:0px;
 }
 
 .dropdown:hover>.dropdown-menu {
@@ -277,4 +275,16 @@ body {
 
 .ns-lightgrey:hover {
     color: red;
+}
+
+.cap {
+    position: absolute;
+    content: "";
+    width: 70px;
+    height: 2px;
+    background: #eb566c;
+    top: 0;
+    left: 0px;
+    top: 50%;
+    transform: translateY(-50%);
 }

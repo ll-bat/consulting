@@ -17,7 +17,7 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="form-group" style="clear:both;">
-                            <h5 form="title">Title</h5>
+                            <h5 form="title">სათაური</h5>
                             <input type="text" class="form-control"
                                    style="font-size: 1em;"
                                    placeholder="Add title"
@@ -33,7 +33,7 @@
                     </div>
                     <div class="col-md-4">
                         <div class="form-group">
-                            <h5 for="Category" class="pr-3">Category</h5>
+                            <h5 for="Category" class="pr-3">კატეგორია</h5>
                             <select class="form-control" name="category_id">
                                 @foreach($categories as $category)
                                     <option
@@ -47,7 +47,7 @@
                 </div>
 
                 <div class="form-group">
-                    <h5 form="excerpt">Excerpt</h5>
+                    <h5 form="excerpt">ნაწყვეტი</h5>
                     <input type="text"
                            class="form-control" style="font-size:1em;"
                            placeholder="Enter excerpt"
@@ -62,7 +62,7 @@
                 </div>
 
                 <div class="form-group">
-                    <h5 for="excerpt">Body</h5>
+                    <h5 for="excerpt">ტექსტი</h5>
                     <textarea
                         class="form-control"
                         id = "article-editor"
@@ -89,7 +89,7 @@
                 </p>
                 @enderror
 
-                <button class="btn btn-info mt-5" style="border-radius: 20px;">Create</button>
+                <button class="btn btn-info mt-5" style="border-radius: 20px;">შექმნა</button>
 
             </div>
         </div>

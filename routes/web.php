@@ -13,13 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController@show');
+Route::get('/', 'HomeController@show')->name('site.home');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/blog','BlogController@index')->name('blog');
+Route::get('/blog','BlogController@index')->name('site.blogs');
 
 Route::get('/blog/{blog}','BlogController@show')->name('show');
 Route::get('/bestcomment/{comment}', 'BestCommentController@edit')->middleware('auth');
@@ -32,9 +32,9 @@ Route::get('/docs', 'UserDocsController@index')->name('docs');
 Route::post('/docs/submit', 'UserDocsController@submit')->middleware('auth');
 
 
-Route::get('/about', function(){return view('about');})->name('about');
-Route::get('/services', function(){ return view('services');})->name('services');
-Route::get('/contact', function(){return view('contact');})->name('contact');
+Route::get('/about', 'HomeController@about')->name('site.about');
+Route::get('/services', 'HomeController@service')->name('site.services');
+Route::get('/contact', 'HomeController@contact')->name('site.contact');
 
 Route::get('/check', function(){
     if (!Auth::user())
@@ -73,6 +73,18 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
 
     Route::group(["middleware" => 'App\Http\Middleware\AdminMiddleware'], function()
     {
+
+        Route::group(['prefix' => 'modify'], function(){
+             Route::get("", 'CustomizeController@index')->name("admin.customize");
+             Route::post("/upload-image", "CustomizeController@upload");
+             Route::post("/save-texts", "CustomizeController@store");
+             Route::post("/services", "ServiceController@store");
+             Route::post('delete-service', 'ServiceController@delete');
+             Route::post('new-service', 'ServiceController@create');
+             Route::get("/get-services", "ServiceController@index");
+
+        });
+
         Route::group(['prefix' => 'blogs'], function(){
              Route::get('', 'BlogController@all')->name('admin.blog');
              Route::get('/create', function (){return view('admin.blog.create'); })->name('blog.create');
@@ -87,7 +99,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
             Route::get('/{blog:id}/edit', 'BlogController@edit')->name('blog.edit');
             Route::get('/{blog:id}/toggle', 'BlogController@toggle');
             Route::patch('/{blog:id}/edit', 'BlogController@update');
-            Route::get('/{blog}/delete', 'BlogController@delete');
+            Route::delete('/{blog}/delete', 'BlogController@delete');
         });
 
         Route::group(['prefix' => 'docs'], function(){
@@ -146,7 +158,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
     });
 });
 
-Route::get('test', 'TestsController@index');
+Route::get('tests', 'TestsController@index');
 
 // Route::get('test-form', function(){
 //     return view('user.docs.form');

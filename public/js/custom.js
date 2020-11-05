@@ -17,7 +17,9 @@ function imageLoad(event, id, fn){
     let reader = new FileReader();
     reader.onload = function(){
         let dataURL = reader.result;
-        $1(id).src = dataURL
+        
+        if (id)
+            $1(id).src = dataURL
         if (fn){
             fn(dataURL)
         }
@@ -58,7 +60,9 @@ let st = (o, d)=>{
         let keys = Object.keys(d)
 
         keys.forEach(key => {
-            o.style[u[key]] = d[key]
+            if (u[key])
+              o.style[u[key]] = d[key]
+            else o.style[key] = d[key]
         })
     }
 
@@ -159,3 +163,13 @@ function floor(n){
 Array.prototype.insert = function ( index, item ) {
     this.splice( index, 0, item );
 };
+
+function get_uuid(){
+    var dt = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx'.replace(/[x]/g, function(c) {
+        var r = (dt + Math.random()*16)%16 | 0;
+        dt = Math.floor(dt/16);
+        return (c=='x' ? r :(r&0x3|0x8)).toString(16);
+    });
+    return uuid;
+}

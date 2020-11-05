@@ -16,9 +16,10 @@
 
 <head>
     <meta charset="utf-8" />
-{{--    <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">--}}
-{{--    <link rel="icon" type="image/png" href="./assets/img/favicon.png">--}}
+
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>
         Home
     </title>
@@ -118,9 +119,12 @@
           </div>
       </nav>
 
-    <div class="main-panel @if (!in_array($route,collapsedRoutes())) bg-white ns-bottom  @endif" id="main-panel" style="height:65px; @if (!in_array($route,collapsedRoutes())) width:calc(100% - 70px);@endif">
+    <div class="main-panel @if (!in_array($route,collapsedRoutes())) bg-white ns-bottom  @endif" 
+         id="main-panel" 
+         style="height:65px; @if (!in_array($route,collapsedRoutes())) width:calc(100% - 70px);@endif">
         <!-- Navbar -->
-        <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent @if ((!in_array($route,collapsedRoutes())) || $route == 'admin.blog') border-bottom-0 @endif" style="">
+        <nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent @if ((!in_array($route,collapsedRoutes())) || $route == 'admin.blog') border-bottom-0 @endif" 
+             style="">
             <div class="container-fluid">
                 <div class="navbar-wrapper">
                     <div class="navbar-toggle" id="navbar-toggle">
@@ -159,7 +163,7 @@
                            </a>
 
                         @else
-                        <p>My page</p>
+                           @yield('toolbar')
                        @endif
                      </div>
 
@@ -194,10 +198,9 @@
                              id = 'c-dropdown-menu'
                              style="border-radius:14px;"
                         >
-                            <a class="dropdown-item c-dropdown-item c-top-radius py-2" href="/">Go to main page</a>
-                            <a class="dropdown-item c-dropdown-item py-2" href="#">Another</a>
+                            <a class="dropdown-item c-dropdown-item c-top-radius py-2" href="/">მთავარი გვერდი</a>
                             <a class="dropdown-item c-dropdown-item c-bottom-radius py-2" 
-                               onclick="$1('signOut').submit()" >Sign out
+                               onclick="$1('signOut').submit()" >გამოსვლა
                             </a>
 
                             <form method='post' action='/logout' class='d-none' id='signOut'>

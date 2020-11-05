@@ -17,6 +17,7 @@ class DocumentController extends Controller
         }
         return $docs;
     }
+    
 
     public function show(){
         return view('admin.docs');

@@ -20,7 +20,6 @@ class CreateBlogsTable extends Migration
             $table->string("excerpt");
             $table->longText("body");
             $table->string("image")->nullable();
-            $table->boolean('is_public')->default(0);
             $table->unsignedBigInteger('category_id')->default(0);
             $table->timestamps();
 

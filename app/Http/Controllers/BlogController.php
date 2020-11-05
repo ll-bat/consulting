@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Blog;
 use App\Category;
+use App\Helperclass\Customizable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -28,7 +29,8 @@ class BlogController extends Controller
 
         return view('blog' ,[
             'blogs' => $blogs,
-            'categories' => $categories
+            'categories' => $categories,
+            'modifies' => new Customizable()
         ]);
     }
 
@@ -96,8 +98,8 @@ class BlogController extends Controller
 
     public function validateBlog(){
         $data = request()->validate([
-            'title' => ['required', 'max:75', 'string'],
-            'excerpt' => ['required', 'max:220', 'string'],
+            'title' => ['required', 'max:155', 'string'],
+            'excerpt' => ['required', 'max:420', 'string'],
             'body' => ['required', 'string'],
             'category_id' => ['integer', 'exists:categories,id'],
             'image'  => ['image']

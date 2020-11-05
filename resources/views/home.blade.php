@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+<?php 
+  $route = Request::route()->getName();
+?>
 
 @section('css')
 
@@ -49,7 +52,11 @@
        }
        .registration:hover {
            opacity:.9;
-           color:purple;
+           color:white !important;
+       }
+
+       .hoverable:hover .registration{
+           color: white !important;
        }
 
        .ns-border {
@@ -103,7 +110,21 @@
        .wall {
            transition: all 1s ease-out;
        }
+
+       .services-hoverable{
+           height: 400px;
+           overflow:hidden;
+       }
+
+       .serices-hoverable:hover{
+           overflow: visible;
+           height:auto !important;
+           min-height:400px !important;
+           max-height:800px !important;
+       }
     </style>
+
+
 @endsection
 
 @section('content')
@@ -118,7 +139,7 @@
     </div>
 </div>
    <main>
-       <div class="slider-area ">
+       <div class="slider-area" style='background-image:url({{$modifies->getImageName($route)}});'>
             <div class="slider-active" >
                 <div class="single-slider slider-height d-flex align-items-center" style=''>
                     <div class="container">
@@ -126,28 +147,48 @@
                             <div class="col-xl-8 col-lg-7 col-md-8">
             
                                 <div class="hero__caption" style=''>
-                                    <span data-animation="fadeInLeft" data-delay="1.6s">Committed to success</span>
-                                    <p style='color:darkcyan;text-shadow:.1rem .1rem .1rem black;font-size:3rem;line-height:4rem;' 
-                                       data-animation="fadeInLeft" data-delay="1.8s" >ჩვენ წარმატების მიღწევაში გეხმარებით</p>
-                                    <!-- <p class='d-md-block d-sm-none text-secondary' style='color:rgba(0,0,0,.5)' data-animation="fadeInUp" data-delay=".9s"> ჩვენი სერვისებით სარგებლობისათვის, აუცილებელია  
-                                    <br> გაიარო <a href='' class='authorization font-weight-bolder'>  ავტორიზაცია </a>, ან <a href='' class='registration font-weight-bolder' style=''>დარეგისტრირდე </a> ახლავე.</p> -->
+                                    <div  style="{{$modifies->getStyleFor('home', 'small-title')}}"
+                                           data-animation="fadeInLeft" data-delay="1.6s">
+<!-- 
+                                            <small class='cap' 
+                                              style=';background: orange; color:orange;'>
+                                             </small> --> 
+
+                                            {{$modifies->getTextFor('home','small-title') ?? 'Committed to success'}} 
+                                           
+                                    </div>
+
+                                    <p style="{{$modifies->getStyleFor('home', 'title')}};line-height:4rem;"
+                                       data-animation="fadeInLeft" data-delay="1.8s" >
+                                       {{$modifies->getTextFor('home', 'title') ?? 'ჩვენ წარმატების მიღწევაში გეხმარებით'}}
+                                    </p>
+
+                                    <p class='d-md-block d-sm-none' 
+                                       style="{{$modifies->getStyleFor('home', 'description')}};'"
+                                       data-animation="fadeInLeft" data-delay="2s"> 
+
+                                       {{$modifies->getTextFor('home', 'description') ?? ''}}
+
+                                    </p>
                     
-                                    <div class='mb-5' data-animation="fadeInLeft" data-delay="2s" style='font-size:1.3rem;'> 
+                                    <div class='mb-5' data-animation="fadeInLeft" data-delay="2.2s" style='font-size:1.3rem;'> 
                                         <div class='d-md-flex d-none'>
                                            <div class='position-relative hoverable'>
-                                               <a href="{{route('login')}}" class='font-weight-bolder authorization'>  
+                                               <a href="{{route('login')}}"
+                                                 class='btn btn-outline-danger text-white font-weight-bolder authorization'>  
                                                    ავტორიზაცია 
                                                </a> 
-                                               <div class='ns-underline position-absolute' style='background-color:#EB566C !important'></div>
-                                               <div class='ns-border position-absolute'></div>
+                                               <!-- <div class='ns-underline position-absolute' style='background-color:#EB566C !important'></div> -->
+                                               <!-- <div class='ns-border position-absolute'></div> -->
                                             </div>
                                             
                                             <div class='position-relative hoverable ml-3'>
-                                                <a href="{{route('register')}}" class='font-weight-bolder registration'
+                                                <a href="{{route('register')}}" 
+                                                   class='btn btn-outline-primary text-primary font-weight-bolder registration'
                                                    style=''>რეგისტრაცია 
                                                 </a> 
-                                               <div class='ns-underline position-absolute' style=''></div>
-                                               <div class='ns-border position-absolute' style=''></div>
+                                               <!-- <div class='ns-underline position-absolute' style=''></div> -->
+                                               <!-- <div class='ns-border position-absolute' style=''></div> -->
                                             </div>
                                         </div>
 
@@ -169,9 +210,9 @@
                                         </div>
 
                                     </div>
-                                    <div class="hero__btn" data-animation="fadeInLeft" data-delay="1.6s">
-                                        <a href="{{route('services')}}" class="btn hero-btn py-4 px-3" style='font-size:1rem;border-radius:0;font-weight:normal;'>ჩვენი სერვისები</a>
-                                    </div>
+                                    <!-- <div class="hero__btn" data-animation="fadeInLeft" data-delay="2.6s">
+                                        <a href="{{route('site.services')}}" class="btn hero-btn py-4 px-3" style='font-size:1rem;border-radius:0;font-weight:normal;'>ჩვენი სერვისები</a>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>
@@ -187,50 +228,35 @@
                     <div class="col-lg-10">
                         <!-- Section Tittle -->
                         <div class="section-tittle mb-70">
-                            <span class='ns-anim-0'>Our Top Services</span>
+                            <span class='ns-anim-0'> ტოპ სერვისები </span>
                             <p class='font-weight-bolder ns-animation-d2' style='font-size:3em;line-height:1em;'>ჩვენი საუკეთესო სერვისები</p>
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
-                    <div class="col-lg-4 col-md-6 col-sm-6 anim-d1">
-                        <div class="single-cat text-center mb-50">
-                            <div class="cat-icon">
-                                <span class="flaticon-team"></span>
-                            </div>
-                            <div class="cat-cap">
-                                <h5><a href=""> კონსულტირება </a></h5>
-                                <p>There are many variations of passages of lorem Ipsum available but the new majority have suffered.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 anim-d2">
-                        <div class="single-cat text-center mb-50">
-                            <div class="cat-icon">
-                                <span class="flaticon-result"></span>
-                            </div>
-                            <div class="cat-cap">
-                                <h5><a href=""> დოკუმენტის ექსპერტიზა </a></h5>
-                                <p>There are many variations of passages of lorem Ipsum available but the new majority have suffered.</p>
+                    <?php $ind = 1; ?>
+                    @foreach ($modifies->services->whereShown() as $id => $obj)
+                        <div class="col-lg-4 col-md-6 col-sm-6 anim-d{{$ind}}">
+                            <div class="single-cat text-center services-hoverable  mb-50" style=''>
+                                <div class="cat-icon">
+                                    <!-- <span class="flaticon-team"></span> -->
+                                    <img src="{{$obj['image']}}" height='70' class='mb-5' />
+                                    <!-- <i class='fa fa-plus mb-5' style='font-size: 5rem;color:#eb566c;'></i> -->
+                                </div>
+                                <div class="cat-cap" style='max-height:200px !important;overflow:hidden !important;'>
+                                    <h5><a href=""> {{$obj['title']}} </a></h5>
+                                    <p class='mb-5'> {{$obj['description']}} ... </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6 col-sm-6 anim-d3">
-                        <div class="single-cat text-center mb-50">
-                            <div class="cat-icon">
-                                <span class="flaticon-development"></span>
-                            </div>
-                            <div class="cat-cap">
-                                <h5><a href=""> რისკების შეფასება </a></h5>
-                                <p>There are many variations of passages of lorem Ipsum available but the new majority have suffered.</p>
-                            </div>
-                        </div>
-                    </div>
+                        <?php $ind++; if ($ind > 3) $ind = 1 ?>
+                    @endforeach
+
                 </div>
             </div>
-         </div>  
+         </div> 
 
-         <!-- rgba(0,0,0,.04) -->
 
          @if ($blogs->count() > 0)
          <div class='position-relative' style=''>
@@ -268,9 +294,9 @@
                          </div>
 
                          <div class="section-tittle mb-100 ml-5 position-relative">
-                             <span class='ns-animation-d2'> სიახლეები </span>
+                             <span class='ns-animation-d2'> consulting </span>
                              <p class='font-weight-bolder ns-animation-d3 ns-attached attached-d2 attached-d3 mt-3' 
-                                style="font-size:3rem; line-height:3rem;">ჩვენი უახლესი ბლოგები </p>
+                                style="font-size:3rem; line-height:3rem;"> სიახლეები </p>
                          </div>
                      </div>
                  </div>
@@ -306,6 +332,8 @@
            @endif
            </div>
         </div>
+        <br /> <br /> <br />
+        <br /> <br /> <br />
    </main>
 
     <script src='js/spray.js'></script>
@@ -340,7 +368,8 @@
             }
         }
 
-        createSprays(12)
+        if (window.innerWidth > 900)
+        createSprays(7)
 
 
         function isVisible(el) {
