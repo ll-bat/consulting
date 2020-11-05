@@ -299,7 +299,7 @@
                         add(btn.children[0].children[0], 'd-none')
                     })
                     .catch(err => {
-                        alert(err.response.data)
+                        alert('სამწუხაროდ შეცდომა დაფიქსირდა, გთხოვთ სცადოთ თავიდან')
                         console.log(err)
                         btn.disabled = false
                         self[name].delete('image')
