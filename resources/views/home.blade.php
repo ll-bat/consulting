@@ -157,7 +157,7 @@
                                         <?php $smt = $modifies->getTextFor('home','small-title') ?>
 
                                         @if ($smt != '')
-                                            <span> {{$smt}}}  </span>
+                                            <span> {{$smt}}  </span>
                                         @endif
                                     </div>
 
