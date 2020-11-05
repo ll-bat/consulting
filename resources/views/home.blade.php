@@ -153,9 +153,12 @@
                                             <small class='cap' 
                                               style=';background: orange; color:orange;'>
                                              </small> --> 
+                                        
+                                        <?php $smt = $modifies->getTextFor('home','small-title') ?>
 
-                                            {{$modifies->getTextFor('home','small-title') ?? 'Committed to success'}} 
-                                           
+                                        @if ($smt != '')
+                                            <span> {{$smt}}}  </span>
+                                        @endif
                                     </div>
 
                                     <p style="{{$modifies->getStyleFor('home', 'title')}};line-height:4rem;"
