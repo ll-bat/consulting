@@ -25,7 +25,7 @@ class Customizable extends SiteJson{
               return $this->data['images'][$name];
           }
 
-          return "";
+          return "/icons/no-image.png";
       }
 
       public function hasImage($name){
