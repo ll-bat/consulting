@@ -175,7 +175,7 @@
                                         <div class='d-md-flex d-none'>
                                            <div class='position-relative hoverable'>
                                                <a href="{{route('login')}}"
-                                                 class='btn btn-outline-danger text-white font-weight-bolder authorization'>  
+                                                 class='btn btn-danger text-white font-weight-bolder authorization'>  
                                                    ავტორიზაცია 
                                                </a> 
                                                <!-- <div class='ns-underline position-absolute' style='background-color:#EB566C !important'></div> -->
@@ -184,7 +184,7 @@
                                             
                                             <div class='position-relative hoverable ml-3'>
                                                 <a href="{{route('register')}}" 
-                                                   class='btn btn-outline-primary text-primary font-weight-bolder registration'
+                                                   class='btn btn-primary text-white font-weight-bolder registration'
                                                    style=''>რეგისტრაცია 
                                                 </a> 
                                                <!-- <div class='ns-underline position-absolute' style=''></div> -->
