@@ -1,5 +1,6 @@
 <?php
 
+use App\Helperclass\SiteJson;
 
 function getUrl(){
     return  \Illuminate\Support\Facades\URL::full();
@@ -56,5 +57,16 @@ function dval($a){
     return doubleval($a);
 }
 
+function siteLogo(){
+    if (session()->has('site-logo')){
+        return session()->get('site-logo');
+    }
+    
+    $logo = (new SiteJson())->siteLogo();
+
+    session()->put('site-logo', $logo);
+
+    return $logo;
+}
 
 

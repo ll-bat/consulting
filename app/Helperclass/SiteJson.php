@@ -29,6 +29,14 @@ class SiteJson {
    public function getData(){
        return $this->data;
    }
+
+   public function siteLogo(){
+       if (isset($this->data['images'])){
+           if (isset($this->data['images']['logo']))
+              return $this->data['images']['logo'];
+       }
+       return '/icons/no-image.pdf';
+   }
 }
 
 

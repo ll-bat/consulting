@@ -97,7 +97,7 @@
                     <div class="row align-items-center">
                         <div class="col-xl-2 col-lg-2">
                             <div class="logo">
-                                <a href="/"><img src="{{$modifies->getImageName('site.logo')}}" alt=""></a>
+                                <a href="/"><img src="{{siteLogo()}}" alt=""></a>
                             </div>
                         </div>
                         <div class="col-xl-10 col-lg-10">

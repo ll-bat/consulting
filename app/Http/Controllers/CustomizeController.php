@@ -42,6 +42,9 @@ class CustomizeController extends Controller
                 $data['images'][$req['name']] = $imageName;
 
                 $model->saveData($data);
+
+                if ($req['name'] == 'logo')
+                   session()->put('site-logo', $imageName);
             }
 
             else {
