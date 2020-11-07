@@ -23,12 +23,12 @@
 
 @section('content')
 
-<div class="container text-center position-absolute my-5">
+<div class="container text-center position-absolute">
         <div class="row justify-content-center">
             
         <div class='position-absolute ml-3 ml-md-0 mb-3' style='left:0;'>
                <div class='position-md-absolute position-sm-relative position-relative' style='z-index:1;left:0;margin-top:-.5rem;'>
-                     <a class='btn btn-outline-secondary' href="/user/docs">
+                     <a class='btn btn-outline-secondary' href="javascript:history.back()">
                          Back 
                      </a>
                 </div>

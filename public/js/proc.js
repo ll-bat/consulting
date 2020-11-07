@@ -6461,7 +6461,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.option-remove{\n     font-size:1.2em;font-weight:bold;color:grey;\n}\n.h-ntest{\n     padding:12px;\n     border-radius:45%;\n     cursor: pointer;\n     transition: all .3s;\n     opacity:.6;\n}\n.h-ntest:hover{\n     background-color:whitesmoke;\n     border-radius:50%;\n     color:#602b92;\n     opacity:1;\n}\n@keyframes  testanim {\nfrom {opacity: .8; transform: rotate(-90deg); padding:1px; background-color:lightblue; border-radius:50%;}\nto {}\n}\n.testit{\n    animation-name:testanim;\n    animation-duration: .5s;\n}\n", ""]);
+exports.push([module.i, "\ninput::-webkit-outer-spin-button,\n input::-webkit-inner-spin-button {\n   -webkit-appearance: none;\n   margin: 0;\n}\n \n /* Firefox */\ninput[type=number] {\n   -moz-appearance: textfield;\n}\n.option-remove{\n     font-size:1.2em;font-weight:bold;color:grey;\n}\n.h-ntest{\n     padding:12px;\n     border-radius:45%;\n     cursor: pointer;\n     transition: all .3s;\n     opacity:.6;\n}\n.h-ntest:hover{\n     background-color:whitesmoke;\n     border-radius:50%;\n     color:#602b92;\n     opacity:1;\n}\n@keyframes  testanim {\nfrom {opacity: .8; transform: rotate(-90deg); padding:1px; background-color:lightblue; border-radius:50%;}\nto {}\n}\n.testit{\n    animation-name:testanim;\n    animation-duration: .5s;\n}\n", ""]);
 
 // exports
 
@@ -38299,13 +38299,13 @@ var render = function() {
                   expression: "k"
                 }
               ],
-              staticClass: "form-control border-0",
+              staticClass: "form-control border-0 w-100",
               staticStyle: {
                 width: "3rem",
                 "border-bottom": "1px solid orange !important",
                 "border-radius": "0"
               },
-              attrs: { type: "text", placeholder: "K:1" },
+              attrs: { type: "number", placeholder: "K:1" },
               domProps: { value: _vm.k },
               on: {
                 input: [

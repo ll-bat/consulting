@@ -194,7 +194,8 @@
                                    'ბლოგები' => 'blogs', 
                                    'სერვისები' => 'services', 
                                    'შესახებ' => 'about', 
-                                   'კონტაქტი' => 'contact'
+                                   'კონტაქტი' => 'contact',
+                                   'საიტის ლოგო' => 'logo'
                                    ] 
                                    as $name => $val)
 
@@ -265,7 +266,7 @@
     <script type='application/javascript'>
            class Obj {
                 constructor(){
-                    for (let a of ['home', 'blogs', 'services', 'about', 'contact']){
+                    for (let a of ['home', 'blogs', 'services', 'about', 'contact', 'logo']){
                        this[a] = new FormData()
                        this[a].append('name', a)
                     }
@@ -364,9 +365,7 @@
           let obj = new Obj()
     </script>
 
-
     <script type='application/javascript'> 
-
          
          tout(() => {
              $(window).trigger('autoresize')

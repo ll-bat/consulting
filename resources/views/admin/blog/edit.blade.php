@@ -222,6 +222,6 @@
            @csrf
            @method('delete')
 
-           <button class="btn btn-danger position-absolute" style="border-radius: 20px; top:10px;"> წაშლა </button>
+           <button class="btn btn-danger position-absolute" onclick="return confirm('ნამდვილად გსურთ ამ ბლოგის წაშლა ?')" style="border-radius: 20px; top:10px;"> წაშლა </button>
      </form> 
 @endsection

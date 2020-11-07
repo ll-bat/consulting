@@ -313,9 +313,9 @@ const app = new Vue({
        
        this.setProcess()
 
-       this.controlAnswers.push({class:'mt-4', text: 'არსებული', label: '(მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა)'})
-       this.controlAnswers.push({class:'mt-4', text: 'დამატებითი', label: '(მონიშნეთ თუ სახეზეა არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია))'})
-       this.controlAnswers.push({class:'mt-2 mb-3', text: 'არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება', label: ''})
+       this.controlAnswers.push({text: 'არსებული', label: 'მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა'})
+       this.controlAnswers.push({text: 'დამატებითი', label: 'მონიშნეთ თუ სახეზე არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია)'})
+       this.controlAnswers.push({text: 'არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება', label: ''})
     },
 
 

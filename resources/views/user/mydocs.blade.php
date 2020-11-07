@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="">
                                     <button class="btn btn-outline-danger rounded-pill text-sm border-0"
-                                            onclick="$1('doc-delete{{$index}}').submit()">
+                                            onclick="if(confirm('ნამდვილად გსურთ ამ დოკუმენტის წაშლა ?')) $1('doc-delete{{$index}}').submit()">
                                         წაშლა
                                     </button>
 

@@ -25,14 +25,12 @@ class CustomizeController extends Controller
                   'image' => 'required|image'
             ]);
                                                           
-            if (in_array($req['name'], ['home', 'blogs', 'services', 'about', 'contact'])){
+            if (in_array($req['name'], ['home', 'blogs', 'services', 'about', 'contact', 'logo'])){
                 $model = new Customizable();
                 $data  = $model->getData();
 
                 if (isset($data['images']) && isset($data['images'][$req['name']])){
-                    // $name = "/storage/" . $data['images'][$req['name']];
-
-                    // unset($name);
+                    
                 }
 
                 $imageName = cloudinary()->upload(request()->file('image')->getRealPath())->getSecurePath(); 
@@ -47,7 +45,7 @@ class CustomizeController extends Controller
             }
 
             else {
-                return  response('Unknown', 404);
+                return  response('Unknown', 401);
             }
 
             return response('all-done', 200);

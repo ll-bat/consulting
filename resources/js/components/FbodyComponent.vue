@@ -11,7 +11,7 @@
       <div class='d-flex my-2'>
          <div class='ns-circle' style='width:25px;'></div>
          
-         <textarea  type="text"
+         <textarea type="text"
                    class="form-control docs-input th-bottom h-font ns-font-family autoresize ml-2 w-100"
                    rows = '1'
                    style='line-height:2.6;font-size:.88em; margin-top:-.56rem;'
@@ -22,7 +22,7 @@
 
          <div v-if = 'type == 1' style='width:20%'>
                <div class='mx-2 mt-2 text-left'>
-                     <input type='text' class='form-control border-0' 
+                     <input type='number' class='form-control border-0 w-100' 
                             placeholder='K:1'
                             v-model = 'k' 
                             @input = 'updateScore()'                          
@@ -116,6 +116,16 @@
     }
 </script>
 <style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    
+    /* Firefox */
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
     .option-remove{
         font-size:1.2em;font-weight:bold;color:grey;
     }

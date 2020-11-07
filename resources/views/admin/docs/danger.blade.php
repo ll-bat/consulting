@@ -21,15 +21,12 @@
         <div class="row justify-content-center">
            <div class='position-absolute ml-3 ml-md-0 mb-3' style='left:0;'>
                <div class='position-md-absolute position-sm-relative position-relative' style='z-index:1;left:0;margin-top:-.5rem;'>
-                     <a class='btn btn-outline-secondary' href="/user/docs">
+                     <a class='btn btn-outline-secondary' href="javascript:history.back()">
                          Back 
                      </a>
                 </div>
            </div> 
             <div class="col-lg-7 col-md-10 col-sm-12 col-12 ml-5 mr-5 mt-md-0 mt-sm-5 mt-5">
-
-           
-
                 @if (Session('message'))
                    <p class='alert alert-success text-left text-white'> 
                          {{Session('message')}} 

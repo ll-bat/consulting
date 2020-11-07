@@ -2,10 +2,6 @@
 
 
 <?php
-
-
-
-
    $route = Request::route()->getName();
    $catid = request('categoryId') ?? -1;
 ?>
@@ -136,4 +132,9 @@
 
     <br /> <br /> <br />
     <br /> <br /> <br />
+@endsection
+
+
+@section('script')
+     @include('_comment-fns')
 @endsection
