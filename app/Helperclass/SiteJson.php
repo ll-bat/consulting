@@ -35,7 +35,7 @@ class SiteJson {
            if (isset($this->data['images']['logo']))
               return $this->data['images']['logo'];
        }
-       return '/icons/no-image.pdf';
+       return '/icons/no-image.png';
    }
 }
 
