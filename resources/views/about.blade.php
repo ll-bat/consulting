@@ -1,7 +1,7 @@
 @extends('layouts/app')
 
 
-<?php 
+<?php
   $route = Request::route()->getName();
 ?>
 
@@ -18,25 +18,25 @@
     $info = [
                [
                   [
-                      'text' => $modifies->getTextFor($page, 'title-1') ?? '', 
+                      'text' => $modifies->getTextFor($page, 'title-1') ?? '',
                       'style' => $modifies->getStyleFor($page, 'title-1') ?? '',
                   ],
                   [
                       'text' => $modifies->getTextFor($page, 'description-1') ?? '',
-                      'style' => $modifies->getTextFor($page, 'description-1') ?? '',
+                      'style' => $modifies->getStyleFor($page, 'description-1') ?? '',
                   ]
-              ], 
+              ],
               [
                 [
-                    'text' => $modifies->getTextFor($page, 'title-2') ?? '', 
+                    'text' => $modifies->getTextFor($page, 'title-2') ?? '',
                     'style' => $modifies->getStyleFor($page, 'title-2') ?? '',
                 ],
                 [
                     'text' => $modifies->getTextFor($page, 'description-2') ?? '',
-                    'style' => $modifies->getTextFor($page, 'description-2') ?? '',
+                    'style' => $modifies->getStyleFor($page, 'description-2') ?? '',
                 ]
-              ], 
-            ];  
+              ],
+            ];
 
 ?>
 
