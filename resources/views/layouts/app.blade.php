@@ -23,11 +23,11 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="/css/bootstrap.min.css" /> 
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>  
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <link href="/css/paper-dashboard.css?v=2.0.1" rel="stylesheet" />
@@ -50,7 +50,7 @@
     @yield('css')
 
     <style>
-        
+
         .nav-link {
             transition: .3s ease-in;
         }
@@ -85,7 +85,7 @@
             padding-left:1.2rem !important;
             padding-right:1.2rem !important;
         }
-        
+
     </style>
 </head>
 <body class="" @if ($current_route == '') style='background-color:rgba(0,0,0,.04)' @endif>
@@ -103,8 +103,8 @@
                         <div class="col-xl-10 col-lg-10">
                             <div class="menu-wrapper  d-flex align-items-center justify-content-end">
                                 <div class="main-menu d-none d-lg-block">
-                                    <nav> 
-                                        <ul id="navigation">                                                                                          
+                                    <nav>
+                                        <ul id="navigation">
                                             <li>
                                                <a href="/" class='nav-link'>მთავარი</a>
                                             </li>
@@ -123,12 +123,12 @@
                                             <li><a href="{{route('site.contact')}}" class='nav-link'>კონტაქტი</a></li>
                                             @auth
                                                <li><a href="{{route('user.home')}}" class='d-flex d-lg-block'>
-                                                   <img src='/icons/user-profile-2.png' class='rounded-pill' width='40' />
+                                                   <img src='/icons/user_1.png' class='rounded-pill' width='40' />
                                                    <span class='d-lg-none d-block p-2'> ჩემი პროფილი </span>
                                                   </a>
                                                 </li>
                                            @endauth
-                                           @guest 
+                                           @guest
                                              <li class='position-lg-absolute position-md-relative' style='right:-1rem;'>
                                                  <a href="{{route('login')}}" class='btn btn-outline-danger login-btn text-red-white' style='padding-top:.5rem !important; padding-bottom:.5rem !important;'>Login</a>
                                             </li>
@@ -137,7 +137,7 @@
                                     </nav>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                         <div class="col-12">
                             <div class="mobile_menu d-block d-lg-none"></div>
                         </div>
@@ -153,7 +153,7 @@
   </main>
 
   <script>
- 
+
       $(window).on('autoresize', function(){
          $('.autoresize').on('input', function () {
              this.style.height = 'auto';
@@ -170,7 +170,7 @@
   <div class='d-block d-md-none my-5'>
       <br /> <br /> <br />
   </div>
-  
+
     <div class="footer" style="background-color: rgb(8, 11, 18);">
         <div style="margin-left:50px;margin-top:20px;margin-right:50px;">
             <hr style="border:none; border-top:1px solid rgba(35, 49, 72,1);">
@@ -202,6 +202,6 @@
     <script src="/js/dif/plugins.js"></script>
     <script src="/js/dif/main.js"></script>
 
-     @yield('script') 
+     @yield('script')
 </body>
 </html>
