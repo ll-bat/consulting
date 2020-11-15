@@ -161,10 +161,12 @@ $route = Request::route()->getName();
                                                                                       style=';background: orange; color:orange;'>
                                                                                      </small> -->
 
-                                        <?php $smt = $modifies->getTextFor('home', 'small-title') ?>
+                                        <?php $smt = $modifies->getTextFor('home', 'small-title');
+                                              $smst = $modifies->getStyleFor('home', 'small-title');
+                                        ?>
 
                                         @if ($smt != '')
-                                            <span> {{$smt}}  </span>
+                                            <span style="{{$smst}}"> {{$smt}}  </span>
                                         @endif
                                     </div>
 
