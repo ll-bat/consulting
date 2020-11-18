@@ -9,7 +9,8 @@
                 <select class="form-control py-2 px-2" @change="choose()" id="sel1" style='line-height:2rem;'>
                     <option class="p-5" selected disabled style='font-size:1.1rem !important'>ყველა პროცესი</option>
                        <option class='p-5' v-for='p in process' style='font-size:1.1rem !important;font-weight:400;' :value='p.id'
-                       > @{{p.name}}
+                       >
+                           <span style="max-width: 400px">@{{p.name}}</span>
                        </option>
                 </select>
            </div>

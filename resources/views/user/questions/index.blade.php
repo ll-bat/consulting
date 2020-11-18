@@ -133,18 +133,14 @@
                          style="width:7rem; height: 7rem;border-width: 1rem;"></div>
                 </div>
 
-
                 @foreach (['proccesses', 'dangers', 'danger-image', 'controls', 'add-controls'] as $view)
                     @include('user.questions._'.$view)
                 @endforeach
 
-
                 <div v-if='canShowOcon'>
-
                     @foreach (['udanger-ploss', 'add-udangers', 'add-rpersons', 'add-etimes'] as $view)
                         @include('user.questions._'.$view)
                     @endforeach
-
                 </div>
 
                 <div class='mb-4 animate-submit-button'>
@@ -162,33 +158,23 @@
                     @csrf
                 </form>
 
-
             </div>
         </div>
     </div>
-    </div>
-
     <script type="application/javascript">
-
         function uploadImage(ev, ind) {
             ev.preventDefault()
             $(`#imageupload${ind}`).click()
         }
-
         function clearUploadedImage(ind) {
             $1(`docimage${ind}`).src = ''
             $1(`imageupload${ind}`).value = ''
         }
-
         function customize(el) {
             $(el).parent().parent().removeClass('remove-control-border').addClass('add-control-border')
         }
-
         function uncustomize(el) {
             $(el).parent().parent().removeClass('add-control-border').addClass('remove-control-border')
         }
-
-
     </script>
-
 @endsection

@@ -17,7 +17,7 @@ function imageLoad(event, id, fn){
     let reader = new FileReader();
     reader.onload = function(){
         let dataURL = reader.result;
-        
+
         if (id)
             $1(id).src = dataURL
         if (fn){
@@ -78,7 +78,9 @@ let st = (o, d)=>{
         let s = d.split(';')
         s.forEach(c => {
             c = c.split(':')
-            o.style[u[c[0]]] = c[1]
+            let key = c[0]
+            if (u[key] !== undefined) key = u[key]
+            o.style[key] = c[1]
         })
 
     }
@@ -100,8 +102,8 @@ function cl(el,c, t,  pr){
 }
 
 function tgclass(el, c, t){
-    let cls = el.className 
-    el.className += ' ' + c 
+    let cls = el.className
+    el.className += ' ' + c
     tout(() => {
         el.className = cls
     }, t)
@@ -113,7 +115,7 @@ function has(el, c){
 }
 
 function add(el, c){
-    el.className += ' ' + c 
+    el.className += ' ' + c
 }
 
 function remove(el,c){

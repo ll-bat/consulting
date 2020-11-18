@@ -1,4 +1,3 @@
-
 require('./bootstrap');
 
 
@@ -12,56 +11,65 @@ window.Form = new Form1();
 
 Vue.component('fbody-component', require('./components/FbodyComponent.vue').default);
 
-import  {Form1} from "./classes/Form1";
+import {Form1} from "./classes/Form1";
 import FbodyComponent from "./components/FbodyComponent";
 import Axios from "axios";
 
 
 const app = new Vue({
     el: '#app',
-    components : {
-       FbodyComponent
+    components: {
+        FbodyComponent
     },
-    data:{
-       ploss: [], 
-       udanger: [],
-       psaving: false,
-       usaving: false,
-       created: true
+    data: {
+        ploss: [],
+        udanger: [],
+        psaving: false,
+        usaving: false,
+        created: true,
+        udangerLoading: true,
+        plossLoading: true,
     },
-    methods:{
-       addNewPloss(){
-             let data = {k:'3', name:''}
+    methods: {
+        addNewPloss() {
+            let data = {k: '3', name: ''}
 
-             Form.createPloss((id) => {
+            Form.createPloss((id) => {
                 data.id = id
-             })
-             tout(() => {
-                this.ploss.push(data)
-             }, 200)
-       },
-
-       addNewUdanger(){
-           let data = {name: ''}
-
-           Form.createUdanger((id) => {
-              data.id = id
             })
-           tout(() => {
-              this.udanger.push(data)
-           }, 200)
-       },
+            tout(() => {
+                this.ploss.push(data)
+            }, 200)
+        },
 
-       deletePloss(id,type){
+        addNewUdanger() {
+            let data = {name: ''}
+
+            Form.createUdanger((id) => {
+                data.id = id
+            })
+            tout(() => {
+                this.udanger.push(data)
+            }, 200)
+        },
+
+        deletePloss(id, type) {
             if (type == 1)
-              this.ploss =  this.ploss.filter(p => p.id != id)
-            else 
-              this.udanger =  this.udanger.filter(p => p.id != id)
-       }
+                this.ploss = this.ploss.filter(p => p.id != id)
+            else
+                this.udanger = this.udanger.filter(p => p.id != id)
+        }
     },
-    created() {
-        Form.getPloss(this)
-        Form.getUdanger(this)
+    async mounted() {
+        for (let a of [['getPloss','plossLoading','ploss'], ['getUdanger','udangerLoading','udanger']]){
+            let res = await Form[a[0]]()
+            if (res){
+                this[a[2]] = res;
+            }
+            tout(() => {
+                this[a[1]] = false
+            },400)
+        }
     },
 
 

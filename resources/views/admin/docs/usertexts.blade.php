@@ -15,7 +15,7 @@
            outline: 0;
            color:lightgrey;
            transition: .3s ease-in;
-       }     
+       }
 
        .mybtn:hover {
            color:green;
@@ -28,7 +28,7 @@
        .mybtn:active {
            color:grey;
        }
-       
+
        .mybtn:link, .mybtn:focus {
            outline: 0;
        }
@@ -36,7 +36,7 @@
        @keyframes _animSpinner {
            0% {opacity: .2; }
            100% {opacity: 1;}
-           
+
        }
 
        .anim-spinner {
@@ -78,7 +78,7 @@
        .animate-fall-dawn-fast {
            animation: _fallDown .2s ease-in;
        }
-       
+
        @keyframes _isMoving {
            from {transform: translateY(20px) rotateX(-60deg) scaleX(0.6)}
        }
@@ -93,37 +93,37 @@
    </style>
 @endsection
 
+@section('toolbar')
 
+@endsection
 
 @section('content')
 
-<div class="container text-center position-absolute mb-5">
+<div class="zim-container mb-5">
     <div class="row justify-content-center">
- 
-        <div class="col-lg-7 col-md-10 col-sm-12 col-12">
-
+        <div class="col-xl-6 col-lg-7 col-md-10 col-sm-12 col-12" id="main-part">
               @if (Session('message'))
-                         <p class='alert alert-success text-left text-white'> 
-                               {{Session('message')}} 
+                         <p class='alert alert-success text-left text-white'>
+                               {{Session('message')}}
                          </p>
                @endif
 
                @if (Session('error'))
-                         <p class='alert alert-danger text-left text-white'> 
-                               {{Session('error')}} 
+                         <p class='alert alert-danger text-left text-white'>
+                               {{Session('error')}}
                          </p>
                @endif
 
         </div>
-        
+
         <div class="col-lg-7 col-md-10 col-sm-12 col-12">
-               <div class='card rounded-10 border-0 pb-3 animate-scale'>                      
+               <div class='card rounded-10 border-0 pb-3 animate-scale'>
                     @include('admin.docs._usertext-control-part')
                 </div>
         </div>
 
         <div class="col-lg-7 col-md-10 col-sm-12 col-12" id='udangers'>
-               <div class='card rounded-10 border-0 pb-3 animate-fall-dawn' style="">           
+               <div class='card rounded-10 border-0 pb-3 animate-fall-dawn' style="">
                     @include('admin.docs._usertext-udanger-part')
                </div>
         </div>
@@ -133,7 +133,7 @@
 @section('script')
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
      <script>
-           
+
           function clickAction(method,url,id, did,remid){
               axios[method](url, {}).then(res => {
                   let cnt = res.data
@@ -148,7 +148,7 @@
           function animateAction(id1,id2,id3,id4, id5){
               $(`#${id1}`).remove()
               $(`#${id2}`).addClass("anim-spinner").removeClass('d-none')
- 
+
               tout(() => {
                  $(`#${id3}`).addClass('anim-text')
                  $(`#${id2}`).remove()
@@ -163,7 +163,7 @@
           function buttonClick(){
 
           }
-         
+
           function checkButtonClick(id, type, did){
               let st  = `${type}${id}`
               let id1 = `check-button-${st}`, id2 = `spinner-${st}`,id3 = `text-${st}`, id4 = `div-${st}` , id5 = `full-${st}`
@@ -214,7 +214,7 @@
 
           let path = '{{url()->previous()}}'
           let hs  = path.split('/').includes('added-by-users')
-          
+
           if (!hs) startAnimation()
           else $('.is-moving').css({'opacity': '1'})
 

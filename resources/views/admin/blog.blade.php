@@ -52,11 +52,10 @@
                    class="blog-url d-none"
                 ></a>
                     <h5 class="title blog-title">{{$blog->title}}</h5>
-
             </div>
         </div>
-        
-        <a class='position-absolute px-3 py-2 rounded-pill blog-hoverable' 
+
+        <a class='position-absolute px-3 py-2 rounded-pill blog-hoverable'
            href='blog/{{$blog->id}}/edit'
            style='left:-10px; top:-10px;'>
             <i class='fa fa-pencil' style='color:darkcyan;'></i>
@@ -68,7 +67,7 @@
                 <span class="blog-status"> სტატუსი: {{$blog->isPublic() ? 'საჯარო' : 'დამალული'}} </span>
             </p>
         </div>
-        
+
      </div>
    </div>
   @endforeach

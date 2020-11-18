@@ -8,7 +8,10 @@ use Illuminate\Http\Request;
 class UdangerController extends Controller
 {
      public function index(){
-         return Udanger::all();
+         return [
+             'status' => 200,
+             'data' => Udanger::all()
+         ];
      }
 
      public function create(){

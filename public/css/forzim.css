@@ -41,18 +41,18 @@
 }
 
 .c-dropdown-item:hover {
-    background-color: black;
+    background-color: #657778;
     color:white !important;
 }
 
 .c-top-radius {
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
 }
 
 .c-bottom-radius {
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
 }
 
 .pointer{
@@ -207,4 +207,10 @@
 
 .text-lightblack {
     color: rgb(83, 73, 73);
+}
+
+.zim-container {
+    width: 96%;
+    text-align: center;
+    margin: 7px;
 }

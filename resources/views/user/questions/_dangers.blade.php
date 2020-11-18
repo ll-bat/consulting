@@ -10,7 +10,7 @@
                    <label for="sel1">Select list:</label>
                    <select class="form-control py-2 px-2" @change="chooseOcon()" id="sel2" style='line-height:2rem;'>
                        <option class="p-5" selected disabled style='font-size:1.1rem !important'>ყველა საფრთხე</option>
-                          <option class='p-5' v-for='d in odan' style='font-size:1.1rem !important;font-weight:400;' :value='d.id'
+                          <option class='p-5' v-for='d in odan' style='max-width: 400px; font-size:1.1rem !important;font-weight:400;' :value='d.id'
                           > @{{d.name}}
                           </option>
                    </select>

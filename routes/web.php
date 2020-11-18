@@ -124,7 +124,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
             Route::get('danger/{danger}/edit/{control}/detach', 'DangerController@detach');
             Route::get('danger/{danger}/edit/{control}/attach', 'DangerController@attach');
 
-            Route::get('control/{control}/edit', 'ControlController@edit');
+            Route::get('control/{control}/edit', 'ControlController@edit')->name('control.edit');
             Route::post('control/{control}/update', 'ControlController@update');
             Route::delete('control/{control}/rdelete', 'ControlController@rdelete');
             Route::delete('control/{control}/delete', 'ControlController@delete');
@@ -140,7 +140,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
             // Route::post('import/process', 'ImportsController@importProcess');
             Route::post('import/danger', 'ImportsController@importDanger');
             Route::post('import/controls/{danger}', 'ImportsController@importControl')->name('danger.importControls');
-            
+
             Route::get('added-by-users', 'UserTextsController@index');
             Route::get('added-by-users/control/{UserText}/edit', 'UserTextsController@editControl');
             Route::get('added-by-users/udanger/{UserText}/edit', 'UserTextsController@editUdanger');
@@ -151,7 +151,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
             Route::post('add-control/{UserText}', 'UserTextsController@store');
             Route::post('add-udanger/{UserText}', 'UserTextsController@storeUdanger');
 
-            
+
             Route::get('check', 'DocController@show')->name('admin.check');
 
         });

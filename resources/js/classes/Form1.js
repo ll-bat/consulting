@@ -7,15 +7,23 @@
 
 export class Form1 {
 
-     
-    getPloss(obj){
-        this.send('get', 'docs/all-ploss', null, null).then((res) => {
-            res.forEach(p => {
+    callFunc(name, ...params){
+        this[name](params);
+    }
+
+    test(){
+        alert('hi there')
+    }
+
+    async getPloss(){
+        let {status,data} = await this.send('get', 'docs/all-ploss', null, null);
+        if (status === 200){
+            data.forEach(p => {
                 if (p.name == ' ') p.name = ''
             })
-            obj.ploss = res
-            obj.created = false
-        })
+            return data;
+        }
+        return null;
     }
 
     createPloss(fn){
@@ -23,13 +31,15 @@ export class Form1 {
     }
 
 
-    getUdanger(obj){
-        this.send('get', 'docs/all-udanger', null, null).then((res) => {
-            res.forEach(u => {
+    async getUdanger(obj){
+        let {status, data} = await this.send('get', 'docs/all-udanger', null, null);
+        if (status == 200){
+            data.forEach(u => {
                 if (u.name == ' ') u.name = ''
             })
-            obj.udanger = res
-        })
+            return data;
+        }
+        return null;
     }
 
     createUdanger(fn){
@@ -74,7 +84,7 @@ export class Form1 {
     getOtherData(url, obj){
         this.send('get', url, null, null).then(res => this.processOtherData(obj,res))
     }
-    
+
     process(obj, data,fn){
         obj.process = data[0]
         obj.danger  = data[1]

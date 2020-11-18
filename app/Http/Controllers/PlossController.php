@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class PlossController extends Controller
 {
       public function index(){
-          return Ploss::all();
+          return $this->response(Ploss::all(), 200);
       }
 
       public function create(){
@@ -34,5 +34,12 @@ class PlossController extends Controller
          $ploss->delete();
 
          return response('deleted', 200);
+     }
+
+     public function response($data, $status){
+          return [
+              'status' => $status,
+              'data' => $data,
+          ];
      }
 }

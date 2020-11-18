@@ -51087,7 +51087,7 @@ var app = new Vue({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\computer\sites\laratest\resources\js\services.js */"./resources/js/services.js");
+module.exports = __webpack_require__(/*! /var/www/html/consulting/resources/js/services.js */"./resources/js/services.js");
 
 
 /***/ })

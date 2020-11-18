@@ -61,7 +61,7 @@ function siteLogo(){
     if (session()->has('site-logo')){
         return session()->get('site-logo');
     }
-    
+
     $logo = (new SiteJson())->siteLogo();
 
     session()->put('site-logo', $logo);
@@ -69,4 +69,10 @@ function siteLogo(){
     return $logo;
 }
 
+function toolbarRoutes(){
+    return ['danger.show'];
+}
 
+function nbackRoutes(){
+    return ['blog.edit','home', 'user.profile'];
+}
