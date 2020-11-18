@@ -128,7 +128,7 @@
         <div class="row justify-content-center align-items-center">
             <div class="col-xl-6 col-lg-7 col-md-10 col-sm-12 col-12 mt-md-0 mt-sm-5 mt-5">
 
-                <div :class="{'d-none': !loading}" style="margin-top:30%;">
+                <div class="text-center" :class="{'d-none': !loading}" style="margin-top:30%;">
                     <div class="spinner-border text-warning"
                          style="width:7rem; height: 7rem;border-width: 1rem;"></div>
                 </div>
