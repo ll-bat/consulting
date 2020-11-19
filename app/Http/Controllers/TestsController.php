@@ -18,22 +18,28 @@ use Illuminate\Support\Facades\File;
 class TestsController extends Controller
 {
       public function index(){
-          
+
       //      $obj = new Customizable();
 
       //      dd($obj->getData());
 
             //  dd($this->getData());
 
-            $c = new Services();
-                        
+//            $c = new SiteJson();
+//
+//            dd($c->getData());
 
-            dd($c->whereShown());
-
+//              $c = new Texts();
+//
+//              $c->setElementImage('', '', '');
+//              $c->saveData();
+//
+              dd('done');
+//              dd($c->getElementImage('home', 'title'));
       }
 
       public function getData(){
- 
+
             $data = [];
 
             foreach (['1','2', '3_123'] as $val){
@@ -44,10 +50,10 @@ class TestsController extends Controller
       }
 
       public function anotherFn($el){
-            return 
+            return
                    [
                         'is-bold' => 'yes'
                    ];
-            
+
       }
 }

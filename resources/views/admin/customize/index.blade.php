@@ -78,6 +78,16 @@
           color: black !important;
       }
 
+      .box-src-image-title {
+          color: grey;
+          transition: .2s ease-in;
+      }
+
+      .box-src-image-title:hover {
+          color: #0c2646 ;
+          text-decoration: none !important;
+      }
+
       .box-item:focus {
           background-color: lightgrey !important;
           color: black !important;
@@ -154,13 +164,13 @@
 
 
     </style>
- 
-     
+
+
 
     <script type = 'application/javascript'>
           class GlobalObject {
               constructor(){
-                  
+
               }
 
               create(name, toolbox){
@@ -175,28 +185,28 @@
 @endsection
 
 
-@section('content')  
-  <div  class='container-fluid rounded-10 partial-shadow position-relative bg-light p-md-5 p-1' 
+@section('content')
+  <div  class='container-fluid rounded-10 partial-shadow position-relative bg-light p-md-5 p-1'
         id = 'this-parent'
         style='min-height:1000px'>
-       
+
         <div class='position-absolute' style='left: calc(50% - 50px); top:20%;' id='spinner'>
               <div class='spinner spinner-border' style='font-size: 5rem; color: purple; width:100px; height:100px;'></div>
-        </div> 
-   
+        </div>
+
         <div class='d-none' id='this-content'>
-              
+
               <div class='type-images'>
                     <button class='my-btn text-primary' onclick='handler(this)'> სურათების შეცვლა </button>
-      
+
                     <div class='images c-images px-4 pt-4'>
-                        @foreach (['მთავარი გვერდი' => 'home', 
-                                   'ბლოგები' => 'blogs', 
-                                   'სერვისები' => 'services', 
-                                   'შესახებ' => 'about', 
+                        @foreach (['მთავარი გვერდი' => 'home',
+                                   'ბლოგები' => 'blogs',
+                                   'სერვისები' => 'services',
+                                   'შესახებ' => 'about',
                                    'კონტაქტი' => 'contact',
                                    'საიტის ლოგო' => 'logo'
-                                   ] 
+                                   ]
                                    as $name => $val)
 
                             <div class='my-item my-3'>
@@ -208,17 +218,17 @@
                                        <div class = 'row'>
                                            <div class='col-lg-3 col-md-4 col-sm-6 col-8'>
                                                 <img src="{{ $data->getImage($val) }}" width = '80%' />
-       
+
                                                  <div class='d-flex my-5'>
                                                       <button class='btn btn-primary text-white border-0 px-3 py-1 my-2 mr-2 ml-0' onclick="$(this).next().next().click()"> ატვირთვა </button>
                                                       <button class='btn btn-warning text-white border-0 px-3 py-1 m-2' onclick="saveHandler(this,'{{$val}}')">
-                                                         <div class='d-flex'> 
+                                                         <div class='d-flex'>
                                                              <span class="spinner-border spinner-border-sm mt-1 mr-1 d-none"></span>
                                                              <span> შენახვა </span>
                                                         </div>
                                                      </button>
-                                                      
-                                                      <input type='file' 
+
+                                                      <input type='file'
                                                              class='d-none'
                                                              onchange = "imageUploadHandler(event,'{{$val}}')"/>
                                                 </div>
@@ -229,17 +239,17 @@
                         @endforeach
                     </div>
                </div>
-            
+
                <div class='type-texts'>
                     <button class='my-btn text-primary' onclick='handler(this)'> ტექსტების შეცვლა </button>
 
                     <div class='texts c-texts px-md-4 px-0 pb-2'>
-                         @foreach (['მთავარი გვერდი' => 'home', 
-                                   'ბლოგები' => 'blogs', 
-                                   'სერვისები' => 'services', 
-                                   'შესახებ' => 'about', 
+                         @foreach (['მთავარი გვერდი' => 'home',
+                                   'ბლოგები' => 'blogs',
+                                   'სერვისები' => 'services',
+                                   'შესახებ' => 'about',
                                    'კონტაქტი' => 'contact'
-                                   ] 
+                                   ]
                                    as $name => $val)
 
                             <div class='my-item my-3'>
@@ -287,10 +297,10 @@
                 send(btn, name){
                     let fm = this[name]
 
-                    btn.disabled = true 
+                    btn.disabled = true
                     remove(btn.children[0].children[0], 'd-none')
 
-                    let self = this 
+                    let self = this
 
                     axios['post']('modify/upload-image', fm)
                     .then(res => {
@@ -306,7 +316,7 @@
                         self[name].delete('image')
                         add(btn.children[0].children[0], 'd-none')
                     })
-                       
+
                 }
 
                 get(name){
@@ -365,12 +375,12 @@
           let obj = new Obj()
     </script>
 
-    <script type='application/javascript'> 
-         
+    <script type='application/javascript'>
+
          tout(() => {
              $(window).trigger('autoresize')
          },700)
-        
+
 
     </script>
 @endsection

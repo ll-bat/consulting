@@ -7,8 +7,9 @@ namespace App\Helperclass;
 
 class Texts extends SiteJson{
 
-    public $elmenetsForPage = [];
-    
+    public $elementsForPage = [];
+    public $imagesForElement = [];
+
     public function __construct($code='inherit'){
         if ($code == 'inherit')
             parent::__construct();
@@ -77,7 +78,7 @@ class Texts extends SiteJson{
 
              $style[] = "font-size: {$el['font-size']}rem;";  //
 
-             $style[] = "color: {$el['color']};";   // 
+             $style[] = "color: {$el['color']};";   //
 
              return implode('',$style);
         }
@@ -92,9 +93,9 @@ class Texts extends SiteJson{
 
     public function pageElements($page){
           if (!isset($this->data['texts'][$page])){
-              $this->data['texts'][$page] = 
+              $this->data['texts'][$page] =
                    $this->createDefaultElements($this->elementsForPage[$page]);
-              
+
               $this->saveData($this->data);
           }
 
@@ -104,12 +105,12 @@ class Texts extends SiteJson{
 
               foreach ($this->data['texts'][$page] as $title => $style){
                   $elms[$title] = $style;
-              }  
+              }
 
               $this->data['texts'][$page] = $elms;
               $this->saveData($this->data);
           }
-          
+
           return $this->data['texts'][$page];
     }
 
@@ -119,7 +120,7 @@ class Texts extends SiteJson{
           foreach ($els as $element){
               $elements[$element] = $this->defaultConfiguration($element);
           }
-   
+
           return $elements;
     }
 
@@ -130,6 +131,20 @@ class Texts extends SiteJson{
                    'color' => 'black',
                    'value' => ''
           ];
+    }
+
+    public function getElementImage($page,$element){
+        return $this->data['element-images'][$page][$element] ?? '/icons/no-image.png';
+    }
+
+    public function setElementImage($page, $element, $src){
+        if (!isset($this->data['element-images']))
+            $this->data['element-images'] = [];
+
+        if (!isset($this->data['element-images'][$page]))
+            $this->data['element-images'][$page] = [];
+
+        $this->data['element-images'][$page][$element] = $src;
     }
 }
 

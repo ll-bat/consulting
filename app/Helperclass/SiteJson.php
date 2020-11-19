@@ -7,7 +7,7 @@ use App\Modification;
 class SiteJson {
 
     protected $data = [];
-    
+
     public function __construct(){
         if (Modification::count() == 0){
             Modification::create(['data' => "[]"]);
@@ -18,9 +18,10 @@ class SiteJson {
         }
     }
 
-    public function saveData($data){
-        $this->data = $data;
-        
+    public function saveData($data=[]){
+        if (!$data) $data = $this->data;
+        else $this->data = $data;
+
         $data = json_encode($data);
 
         Modification::first()->update(['data' => $data]);
