@@ -238,8 +238,10 @@ $abpath = $_SERVER['HTTP_HOST'];
                              style="border-radius:14px;"
                         >
                             <a class="dropdown-item c-dropdown-item c-top-radius py-2" href="/">მთავარი გვერდი</a>
-                            <a class="dropdown-item c-dropdown-item py-2" onclick="$1('import_excel').click();">
-                                კონტრ.ზომები(ექსელი) </a>
+                            @if ($route == 'danger.show')
+                                <a class="dropdown-item c-dropdown-item py-2 d-block d-lg-none" onclick="$1('import_excel').click();">
+                                    კონტრ.ზომები(ექსელი) </a>
+                            @endif
                             <a class="dropdown-item c-dropdown-item c-bottom-radius py-2"
                                onclick="$1('signOut').submit()">გამოსვლა
                             </a>
