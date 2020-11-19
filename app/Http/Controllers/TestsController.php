@@ -29,38 +29,38 @@ class TestsController extends Controller
 //
 //            dd($c->getData());
 
-              $c = new Texts();
+//              $c = new Texts();
+//
+//              $data = $c->getData();
+//              $data['element-images'] = [
+//                  'home' => [
+//                      'small-title' => '/element-images/home-small-title.png',
+//                      'title' => '/element-images/home-title.png',
+//                      'description' => '/element-images/home-description.png',
+//                  ],
+//                  'blogs' => [
+//                      'title' => '/element-images/blogs-title.png'
+//                  ],
+//                  'services' => [
+//                      'title' => '/element-images/service-title.png'
+//                  ],
+//                  'about' => [
+//                      'title' => '/element-images/about-title.png',
+//                      'title-1' => '/element-images/about-title-1.png',
+//                      'description-1' => '/element-images/about-description-1.png',
+//                      'title-2' => '/element-images/about-title-2.png',
+//                      'description-2' => '/element-images/about-description-2.png',
+//                  ],
+//                  'contact' => [
+//                      'title' => '/element-images/contact-title.png'
+//                  ]
+//              ];
+//
+//              $c->saveData($data);
+//
+//              dd($c->getData());
 
-              $data = $c->getData();
-              $data['element-images'] = [
-                  'home' => [
-                      'small-title' => '/element-images/home-small-title.png',
-                      'title' => '/element-images/home-title.png',
-                      'description' => '/element-images/home-description.png',
-                  ],
-                  'blogs' => [
-                      'title' => '/element-images/blogs-title.png'
-                  ],
-                  'services' => [
-                      'title' => '/element-images/service-title.png'
-                  ],
-                  'about' => [
-                      'title' => '/element-images/about-title.png',
-                      'title-1' => '/element-images/about-title-1.png',
-                      'description-1' => '/element-images/about-description-1.png',
-                      'title-2' => '/element-images/about-title-2.png',
-                      'description-2' => '/element-images/about-description-2.png',
-                  ],
-                  'contact' => [
-                      'title' => '/element-images/contact-title.png'
-                  ]
-              ];
-
-              $c->saveData($data);
-
-              dd($c->getData());
-
-
+                dd('Hi, over there');
 
 //              $c->setElementImage('', '', '');
 //              $c->saveData();
