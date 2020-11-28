@@ -161,7 +161,7 @@
                             </div>
                         </li>
                     @endforeach
-                    @if ($danger->count() == 0)
+                    @if ($dangers->count() == 0)
                         <div class='d-none controls-panel pb-1'>
                             <p class='text-secondary'> თქვენ არ გაქვთ კონტროლის ზომები </p>
                         </div>
