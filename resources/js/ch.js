@@ -10,14 +10,17 @@ window.Form = new Form1();
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
+
+
 import  {Form1} from "./classes/Form1";
 import Axios from "axios";
+
 
 
 const app = new Vue({
     el: '#app',
     components : {
-
+        SelectComponent
     },
     data:{
        process: [],
@@ -39,8 +42,6 @@ const app = new Vue({
            })
 
            $('.to-be-checked').prop('checked', false)
-
-        //    console.log(this.odan)
        },
 
        chooseOcon(id){
@@ -63,7 +64,7 @@ const app = new Vue({
     },
 
     computed : {
-       
+
     },
 
     created() {

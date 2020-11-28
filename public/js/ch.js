@@ -50346,7 +50346,9 @@ window.Form = new _classes_Form1__WEBPACK_IMPORTED_MODULE_0__["Form1"](); // con
 
 var app = new Vue({
   el: '#app',
-  components: {},
+  components: {
+    SelectComponent: SelectComponent
+  },
   data: {
     process: [],
     danger: [],
@@ -50367,7 +50369,7 @@ var app = new Vue({
       this.odan = this.danger.filter(function (d) {
         return el.data.includes(d.id);
       });
-      $('.to-be-checked').prop('checked', false); //    console.log(this.odan)
+      $('.to-be-checked').prop('checked', false);
     },
     chooseOcon: function chooseOcon(id) {
       var el = this.danger.find(function (d) {

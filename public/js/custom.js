@@ -86,7 +86,7 @@ let st = (o, d)=>{
     }
 }
 
-let tout = (fn,t) => {
+let tout = (fn,t=200) => {
     setTimeout(fn,t)
 }
 

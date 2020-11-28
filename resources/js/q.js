@@ -9,7 +9,8 @@ window.Form = new Form1();
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
+Vue.component('select-component', require('./components/SelectComponent').default);
+import SelectComponent from "./components/SelectComponent";
 import  {Form1} from "./classes/Form1";
 import  {Data} from "./classes/Data";
 import Axios from "axios";
@@ -17,7 +18,7 @@ import Axios from "axios";
 const app = new Vue({
     el: '#app',
     components : {
-
+       SelectComponent
     },
     data:{
        loading: true,
@@ -38,6 +39,7 @@ const app = new Vue({
        controlAnswers : [],
        fm        : new FormData(),
        var       : 0,
+       dangerSelect: [],
     },
     methods:{
 
@@ -48,35 +50,39 @@ const app = new Vue({
         checkedId(d,i, n){
             return `checkedId${d}_${n}_${i}`
         },
-        choose(){
+        choose(selectedValue){
             this.ocon = []
             this.canShowOcon = false
 
- 
-            let id = $1('sel1').value
+            let id = selectedValue
             let el = this.process.find(p => p.id == id)
- 
+
             if (!el) return
 
             this.processId = id
 
             this.odan = this.danger.filter(d => {
                 return el.data.includes(d.id)
+            }).map(d => {
+                return {name: d.name, value: d.id}
             })
 
+            this.dangerSelect = JSON.parse(JSON.stringify(this.odan));
+
             if (!this.canShow) this.canShow = true
- 
-            tout(() => {
-                $1('sel2').value = 'ყველა საფრთხე'
-            }, 200)
-            // $('.to-be-checked').prop('checked', false) 
+
+
+            // tout(() => {
+            //     $1('sel2').value = 'ყველა საფრთხე'
+            // }, 200)
+            // $('.to-be-checked').prop('checked', false)
             // $('#sel2').val([])
         },
-     
-        chooseOcon(){
+
+        chooseOcon(selectedValue){
             this.clearAll()
-           
-            let id = $1('sel2').value 
+
+            let id = selectedValue
             let el = this.danger.find(d => d.id == id)
             if (!el) return
             this.dangerId = id
@@ -88,38 +94,38 @@ const app = new Vue({
                  this.info.push(this.elm)
             }
             else  this.data = this.elm.data
-            
+
             console.log(this.data)
-            
+
             this.ocon = []
             tout(() => {
                 this.ocon = this.control.filter(c => {
                     return el.data.includes(c.id)
                 })
             },100)
- 
+
             if (!this.canShowOcon) this.canShowOcon = true
 
             this.chainedAnim('sizeable-control', this.ocon.length, 0)
         },
-        
+
         clearAll(){
             let s = $$('control-to-be-checked')
             for(let i=0; i<s.length; i++)
               s[i].checked = false
-            
+
         },
 
 
         beginTest(){
-            
+
         },
 
         uploadImage(){
             let ev = event
             imageLoad(event,'docimage0', (val) => {
                 this.data.image = val
-                this.data.hasImage = true 
+                this.data.hasImage = true
 
                 this.fm.append(`image_${this.processId}_${this.dangerId}`, ev.target.files[0])
                 this.data.imageName = `image_${this.processId}_${this.dangerId}`
@@ -131,7 +137,7 @@ const app = new Vue({
             this.data.image = ''
             this.data.hasImage = false
             this.fm.delete(this.data.imageName)
-            this.data.imageName = '' 
+            this.data.imageName = ''
         },
 
         addInArray(type){
@@ -257,17 +263,17 @@ const app = new Vue({
 
         submit(){
             this.info = this.info.filter(d => {
-                let ys = false 
+                let ys = false
                 d.data.image = ''
                 // d.data.teststr = "echo {$ind}"
                 // d.did += 240
                 d.data.control.forEach(c => {
                     if (c.value != -1){
-                        ys = true 
+                        ys = true
                         return
                     }
-                })       
-                if (!ys) {this.fm.delete(d.data.imageName)}       
+                })
+                if (!ys) {this.fm.delete(d.data.imageName)}
 
                 return ys
             })
@@ -275,7 +281,7 @@ const app = new Vue({
             if (this.info.length == 0) {
                 alert('Please, fill up the form')
                 window.location = ''
-                return 
+                return
             }
 
             // console.log(this.info)
@@ -288,29 +294,38 @@ const app = new Vue({
             tout(() => {
                 $1('sel1').value = 'ყველა პროცესი'
             }, 50)
+        },
+
+        getAllDanger(){
+            return this.odan.map(d => {
+                return {name: d.name, value: d.id}
+            })
         }
     },
 
     computed : {
-       
+        allProcess: function(){
+            return this.process.map(p => {
+                return {name: p.name, value: p.id}
+            })
+        },
     },
 
     watch : {
          ploss: function(newdata,olddata){
               this.combine()
-         }
+         },
     },
 
     created() {
-       Form.getData('docs/all-data',this, 
+       Form.getData('docs/all-data',this,
             ()=>{
-                 this.loading = false; 
-                 $('#show_data').removeClass('d-none'); 
+                 this.loading = false;
+                 $('#show_data').removeClass('d-none');
                  tout(() => $('#edit-process').css({'border-top':'10px solid #673ab7'}), 500)
             });
+       Form.getOtherData('docs/other-data',this);
 
-       Form.getOtherData('docs/other-data',this); 
-       
        this.setProcess()
 
        this.controlAnswers.push({text: 'არსებული', label: 'მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა'})

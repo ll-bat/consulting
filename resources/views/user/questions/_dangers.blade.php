@@ -8,12 +8,19 @@
               <p class= 'ns-font-family ns-dark-color p-3 pb-0' style='font-size:1.3rem;'> აირჩიეთ საფრთხე </p>
               <div class="form-group p-3" style='width:55%;' v-if='odan.length > 0'>
                    <label for="sel1">Select list:</label>
-                   <select class="form-control py-2 px-2" @change="chooseOcon()" id="sel2" style='line-height:2rem;'>
-                       <option class="p-5" selected disabled style='font-size:1.1rem !important'>ყველა საფრთხე</option>
-                          <option class='p-5' v-for='d in odan' style='max-width: 400px; font-size:1.1rem !important;font-weight:400;' :value='d.id'
-                          > @{{d.name}}
-                          </option>
-                   </select>
+{{--                   <select class="form-control py-2 px-2" @change="chooseOcon()" id="sel2" style='line-height:2rem;'>--}}
+{{--                       <option class="p-5" selected disabled style='font-size:1.1rem !important'>ყველა საფრთხე</option>--}}
+{{--                          <option class='p-5' v-for='d in odan' style='max-width: 400px; font-size:1.1rem !important;font-weight:400;' :value='d.id'--}}
+{{--                          > @{{d.name}}--}}
+{{--                          </option>--}}
+{{--                   </select>--}}
+
+                  <select-component title="ყველა საფრთხე"
+                                    :data="dangerSelect"
+                                    id="danger-id"
+                                    @select="chooseOcon"
+                  > </select-component>
+
               </div>
               <!-- <div class='d-flex' v-else >
                  <img src='/icons/frown.png' width='40' />
