@@ -7,6 +7,7 @@ use App\Control;
 use App\ControlDanger;
 use App\Helperclass\ExcelReader;
 use App\Imports\ProcessesImport;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
@@ -41,8 +42,11 @@ class ImportsController extends Controller
         $dangers = [];
         $controls = [];
 
+        DB::beginTransaction();
+
         foreach ($data as $ind => $d) {
             if (!$reader->filterDangerField($d)) {
+                DB::rollBack();
                 return back()->with('error', "ინფორმაციის განლაგება ექსელის დოკუმენტში არასწორია. შეამოწმეთ მონაცემი - ". ($ind+1));
             }
 
@@ -77,6 +81,7 @@ class ImportsController extends Controller
                 ControlDanger::create(['control_id' => $controls[$d[2]], 'danger_id' => $dangers[$d[0]]]);
         }
 
+        DB::commit();
         return back()->with('message', 'ოპერაცია წარმატებით დასრულდა');
     }
 
@@ -96,16 +101,22 @@ class ImportsController extends Controller
 
         try {
             $data = Excel::toArray(new ProcessesImport, request('control'));
-            $data = (new ExcelReader($data))->getData();
+            $reader = new ExcelReader($data);
+            $data = $reader->getData();
         } catch (\Exception $e){
             return back()->with('error', 'სამწუხაროდ, შეცდომა დაფიქსირდა. გთხოვთ, სცადოთ თავიდან.');
         }
 
         $controls = [];
 
-        foreach ($data as $d) {
+        DB::beginTransaction();
 
-            if (count($d) != 3) return redirect()->route($route, [$danger->id])->with('error', 'ინფორმაციის განლაგება ექსელის დოკუმენტში არასწორია');
+        foreach ($data as $ind => $d) {
+
+            if (!$reader->filterControlField($d)){
+                DB::rollBack();
+                return redirect()->route($route, [$danger->id])->with('error', 'ინფორმაციის განლაგება ექსელის დოკუმენტში არასწორია. მონაცემი - '. ($ind+1));
+            }
 
             if (!isset($controls[$d[0]])) {
                 $control = Control::where('name', $d[0])->first();
@@ -127,6 +138,7 @@ class ImportsController extends Controller
                 ControlDanger::create(['control_id' => $controls[$d[0]], 'danger_id' => $danger->id]);
         }
 
+        DB::commit();
         return redirect()->route($route, [$danger->id])->with('message', 'ოპერაცია წარმატებით დასრულდა');
     }
 }

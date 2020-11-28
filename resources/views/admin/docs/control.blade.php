@@ -29,7 +29,7 @@
             <div class="col-xl-6 col-lg-7 col-md-10 col-sm-12 col-12 mr-4 ml-5 mr-5" id="main-part">
 
                 @if (Session('message'))
-                    <p class='alert alert-success text-left text-white'>
+                    <p class='alert text-left text-white' style="background: darkcyan;">
                         {{Session('message')}}
                     </p>
                 @endif
