@@ -30,17 +30,21 @@ class ImportsController extends Controller
             return back()->with('error', 'გთხოვთ ატვირთოთ ექსელის დოკუმენტი');
         }
 
-        $data = Excel::toArray(new ProcessesImport, request('danger'));
-
-        $reader = new ExcelReader($data);
-        $data = $reader->getData();
+        try {
+            $data = Excel::toArray(new ProcessesImport, request('danger'));
+            $reader = new ExcelReader($data);
+            $data = $reader->getData();
+        } catch (\Exception $e){
+            return back()->with('error', 'სამწუხაროდ, შეცდომა დაფიქსირდა. გთხოვთ, სცადოთ თავიდან.');
+        }
 
         $dangers = [];
         $controls = [];
 
-        foreach ($data as $d) {
-
-            if (count($d) != 5) return back()->with('error', 'ინფორმაციის განლაგება ექსელის დოკუმენტში არასწორია');
+        foreach ($data as $ind => $d) {
+            if (!$reader->filterDangerField($d)) {
+                return back()->with('error', "ინფორმაციის განლაგება ექსელის დოკუმენტში არასწორია. შეამოწმეთ მონაცემი - ". ($ind+1));
+            }
 
             if (!isset($dangers[$d[0]])) {
                 $danger = Danger::where('name', $d[0])->first();
@@ -66,8 +70,6 @@ class ImportsController extends Controller
             }
         }
 
-        // dd($dangers);
-
         foreach ($data as $d) {
             $has = ControlDanger::where('control_id', $controls[$d[2]])->where('danger_id', $dangers[$d[0]])->first();
 
@@ -92,10 +94,12 @@ class ImportsController extends Controller
 
         $route = 'danger.show';
 
-        $data = Excel::toArray(new ProcessesImport, request('control'));
-
-        $reader = new ExcelReader($data);
-        $data = $reader->getData();
+        try {
+            $data = Excel::toArray(new ProcessesImport, request('control'));
+            $data = (new ExcelReader($data))->getData();
+        } catch (\Exception $e){
+            return back()->with('error', 'სამწუხაროდ, შეცდომა დაფიქსირდა. გთხოვთ, სცადოთ თავიდან.');
+        }
 
         $controls = [];
 

@@ -36,6 +36,42 @@ class ExcelReader {
            $this->data = $obj;
     }
 
+    public function filterDangerField($d){
+        if (count($d) != 5){
+            return false;
+        }
+
+        if (!is_string($d[0])){
+            return false;
+        }
+
+        if (!is_numeric($d[1])){
+            return false;
+        }
+
+        return $this->filterControlField([$d[2], $d[3], $d[4]]);
+    }
+
+    public function filterControlField($c){
+        if (count($c) != 3) {
+            return false;
+        }
+
+        if (!is_string($c[0])){
+            return false;
+        }
+
+        if (!is_numeric($c[1])){
+            return false;
+        }
+
+        if (!in_array(intval($c[2]), [0,1])){
+            return false;
+        }
+
+        return true;
+    }
+
     public function getData(){
         return $this->data;
     }
