@@ -1941,6 +1941,9 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     data: Array,
     title: String,
+    setDefault: {
+      "default": false
+    },
     id: {
       "default": get_uuid()
     }
@@ -1949,7 +1952,12 @@ __webpack_require__.r(__webpack_exports__);
     return {
       options: null,
       expanded: false,
-      selected: false
+      selected: false,
+      defaultValue: {
+        id: -1,
+        name: this.title,
+        index: -1
+      }
     };
   },
   watch: {
@@ -1960,6 +1968,10 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     expand: function expand(ev) {
       this.expanded = !this.expanded;
+
+      if (this.expanded) {
+        Event.$emit('collapse', this.id);
+      }
     },
     select: function select(option) {
       this.selected = option;
@@ -1967,6 +1979,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     refresh: function refresh() {
       this.options = JSON.parse(JSON.stringify(this.data));
+    },
+    setDefaultValue: function setDefaultValue() {
+      this.selected = this.defaultValue;
     }
   },
   created: function created() {
@@ -1977,6 +1992,17 @@ __webpack_require__.r(__webpack_exports__);
         _this.refresh();
       }
     });
+    Event.$on('collapse', function (id) {
+      if (_this.id !== id) {
+        _this.expanded = false;
+      }
+    });
+
+    if (this.setDefault) {
+      Event.$on('setDefaultValue', function () {
+        _this.setDefaultValue();
+      });
+    }
   }
 });
 
@@ -6424,7 +6450,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.select {\n    background: white;\n    max-height: 400px;\n}\n.scrollable {\n    overflow-y: scroll;\n}\n.index-1 {\n    z-index: 1;\n}\n.border {\n    border: 1px solid lightgrey;\n    border-radius: 6px;\n}\n.select-rounded {\n    border-radius: 6px !important;\n}\n.select-shadow {\n    box-shadow: 0 0 5px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1);\n}\n.title {\n    color: rgba(0, 0, 0, .8);\n    font-weight: lighter;\n    padding: 8px 15px;\n    padding-right: 5px;\n}\n.option {\n    padding: 10px 20px;\n    margin: 0;\n    cursor: pointer;\n}\n.option:hover {\n    background: lightgrey;\n}\n.selected {\n    background: rgba(0,0,0,.04);\n}\n::-webkit-scrollbar {\n    width: 7px;\n}\n\n/* Track */\n::-webkit-scrollbar-track {\n    box-shadow: inset 0 0 5px lightgrey;\n    border-radius: 10px;\n}\n\n/* Handle */\n::-webkit-scrollbar-thumb {\n    background: lightgrey;\n    border-radius: 10px;\n}\n\n/* Handle on hover */\n::-webkit-scrollbar-thumb:hover {\n}\n", ""]);
+exports.push([module.i, "\n.select {\n    background: white;\n    max-height: 400px;\n}\n.scrollable {\n    overflow-y: scroll;\n}\n.index-1 {\n    z-index: 1 !important;\n}\n.index-2 {\n    z-index: 2 !important;\n}\n.index-3 {\n    z-index: 3 !important;\n}\n.border {\n    border: 1px solid lightgrey;\n    border-radius: 6px;\n}\n.select-rounded {\n    border-radius: 6px !important;\n}\n.select-shadow {\n    box-shadow: 0 0 5px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1);\n}\n.title {\n    color: rgba(0, 0, 0, .8);\n    font-weight: lighter;\n    padding: 8px 15px;\n    padding-right: 5px;\n}\n.option {\n    padding: 10px 20px;\n    margin: 0;\n    cursor: pointer;\n}\n.option:hover {\n    background: lightgrey;\n}\n.selected {\n    background: rgba(0,0,0,.04);\n}\n::-webkit-scrollbar {\n    width: 7px;\n}\n\n/* Track */\n::-webkit-scrollbar-track {\n    box-shadow: inset 0 0 5px lightgrey;\n    border-radius: 10px;\n}\n\n/* Handle */\n::-webkit-scrollbar-thumb {\n    background: lightgrey;\n    border-radius: 10px;\n}\n\n/* Handle on hover */\n::-webkit-scrollbar-thumb:hover {\n}\n", ""]);
 
 // exports
 
@@ -39012,11 +39038,7 @@ var render = function() {
                     staticClass: "option",
                     on: {
                       click: function($event) {
-                        return _vm.select({
-                          id: -1,
-                          name: _vm.title,
-                          index: -1
-                        })
+                        return _vm.select(_vm.defaultValue)
                       }
                     }
                   },
@@ -51701,6 +51723,8 @@ var app = new Vue({
       var el = this.process.find(function (p) {
         return p.id == id;
       });
+      console.log($1('danger-id'));
+      Event.$emit('setDefaultValue');
       if (!el) return;
       this.processId = id;
       this.odan = this.danger.filter(function (d) {
@@ -51724,12 +51748,18 @@ var app = new Vue({
       this.clearAll();
       var id = selectedValue;
       var el = this.danger.find(function (d) {
-        return d.id == id;
+        return d.id === id;
       });
-      if (!el) return;
+
+      if (!el) {
+        this.ocon = [];
+        this.canShowOcon = false;
+        return;
+      }
+
       this.dangerId = id;
       this.elm = this.info.find(function (e) {
-        return e.pid == _this.processId && e.did == _this.dangerId;
+        return e.pid === _this.processId && e.did === _this.dangerId;
       });
 
       if (!this.elm) {

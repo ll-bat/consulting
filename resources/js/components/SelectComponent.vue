@@ -6,7 +6,7 @@
                     <i class="fa fa-caret-down float-right px-3 py-1"></i>
                 </p>
                 <div class="options" :class="{'d-none': !expanded, 'my-2' : expanded}">
-                    <p class="option"  @click="select({id: -1, name: title, index: -1})">{{title}}</p>
+                    <p class="option"  @click="select(defaultValue)">{{title}}</p>
                     <p v-for="(option , index) in options" class="option" :class="{'selected': index === selected.index}" @click="select({...option, index})"> {{ option.name }}</p>
                 </div>
             </div>
@@ -20,6 +20,9 @@ export default {
     props: {
         data: Array,
         title: String,
+        setDefault: {
+            default: false,
+        },
         id: {
             default: get_uuid()
         }
@@ -29,6 +32,7 @@ export default {
             options: null,
             expanded: false,
             selected: false,
+            defaultValue: {id: -1, name: this.title, index: -1}
         }
     },
     watch: {
@@ -40,6 +44,10 @@ export default {
         expand(ev) {
             this.expanded = !this.expanded
 
+            if (this.expanded) {
+                Event.$emit('collapse', this.id)
+            }
+
         },
         select(option){
             this.selected = option
@@ -47,6 +55,9 @@ export default {
         },
         refresh(){
             this.options = JSON.parse(JSON.stringify(this.data))
+        },
+        setDefaultValue() {
+            this.selected = this.defaultValue;
         }
     },
     created() {
@@ -55,6 +66,19 @@ export default {
                 this.refresh()
             }
         })
+
+        Event.$on('collapse', (id) => {
+            if (this.id !== id) {
+                this.expanded = false;
+            }
+        })
+
+        if (this.setDefault) {
+            Event.$on('setDefaultValue', () => {
+                this.setDefaultValue()
+            })
+        }
+
     }
 }
 </script>
@@ -70,7 +94,15 @@ export default {
 }
 
 .index-1 {
-    z-index: 1;
+    z-index: 1 !important;
+}
+
+.index-2 {
+    z-index: 2 !important;
+}
+
+.index-3 {
+    z-index: 3 !important;
 }
 
 .border {

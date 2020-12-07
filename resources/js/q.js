@@ -57,6 +57,8 @@ const app = new Vue({
             let id = selectedValue
             let el = this.process.find(p => p.id == id)
 
+            console.log($1('danger-id'))
+            Event.$emit('setDefaultValue')
             if (!el) return
 
             this.processId = id
@@ -83,11 +85,15 @@ const app = new Vue({
             this.clearAll()
 
             let id = selectedValue
-            let el = this.danger.find(d => d.id == id)
-            if (!el) return
+            let el = this.danger.find(d => d.id === id)
+            if (!el) {
+                this.ocon = []
+                this.canShowOcon = false;
+                return;
+            }
             this.dangerId = id
 
-            this.elm = this.info.find(e => e.pid == this.processId && e.did == this.dangerId)
+            this.elm = this.info.find(e => e.pid === this.processId && e.did === this.dangerId)
             if (!this.elm){
                  this.data = new Data()
                  this.elm = {pid: this.processId, did: this.dangerId, data: this.data}
