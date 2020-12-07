@@ -1,8 +1,10 @@
 <template>
-    <div class="position-relative mb-5" :class="{'index-1': expanded}">
+    <div class="position-relative" :class="{'index-1': expanded}" style="padding-bottom: 50px;">
         <div class="position-absolute">
             <div class="select m-0" @click="expand($event)" :class="{'border scrollable select-shadow': expanded}" style="width: 350px">
-                <p class="title border pointer" :class="{'d-none' : expanded}" style="width: 100%"> {{ selected ? selected.name : title }}
+                <p class="title border pointer overflow-hidden position-relative"
+                   :class="{'d-none' : expanded}"
+                   style="width: 100%;max-height: 60px"> {{ selected ? selected.name : title }}
                     <i class="fa fa-caret-down float-right px-3 py-1"></i>
                 </p>
                 <div class="options" :class="{'d-none': !expanded, 'my-2' : expanded}">

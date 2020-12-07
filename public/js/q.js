@@ -1937,6 +1937,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     data: Array,
@@ -38988,8 +38990,9 @@ var render = function() {
   return _c(
     "div",
     {
-      staticClass: "position-relative mb-5",
-      class: { "index-1": _vm.expanded }
+      staticClass: "position-relative",
+      class: { "index-1": _vm.expanded },
+      staticStyle: { "padding-bottom": "50px" }
     },
     [
       _c("div", { staticClass: "position-absolute" }, [
@@ -39009,9 +39012,10 @@ var render = function() {
             _c(
               "p",
               {
-                staticClass: "title border pointer",
+                staticClass:
+                  "title border pointer overflow-hidden position-relative",
                 class: { "d-none": _vm.expanded },
-                staticStyle: { width: "100%" }
+                staticStyle: { width: "100%", "max-height": "60px" }
               },
               [
                 _vm._v(
