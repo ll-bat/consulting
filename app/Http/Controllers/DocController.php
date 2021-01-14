@@ -21,54 +21,58 @@ use Illuminate\Support\Facades\Storage;
 
 class DocController extends Controller
 {
-      public function index()
-      {
-           $cnt = UserText::count();
-           $procs = Process::orderBy('created_at', 'asc')->get();
+    public function index()
+    {
+        $cnt = UserText::count();
+        $procs = Process::orderBy('created_at', 'asc')->get();
 
-           return view('admin.docs.index', compact('procs', 'cnt'));
-      }
+        return view('admin.docs.index', compact('procs', 'cnt'));
+    }
 
-      public function show(){
-           return view('admin.docs.check');
-      }
+    public function show()
+    {
+        return view('admin.docs.check');
+    }
 
 
-      public function getAll(){
-          $process = Process::select('id', 'name')->get();
-          $danger  = Danger::select('id', 'name')->get();
-          $control = Control::select('id','name')->get();
+    public function getAll(): array
+    {
+        $process = Process::select('id', 'name')->get();
+        $danger = Danger::select('id', 'name')->get();
+        $control = Control::select('id', 'name')->get();
 
-          foreach ($process as $p)
-             $p->data = $p->getDangerIds();
+        foreach ($process as $p)
+            $p->data = $p->getDangerIds();
 
-          foreach ($danger as $d)
-              $d->data = $d->getControl();
-          
-          return [$process,$danger,$control];
-      }
+        foreach ($danger as $d)
+            $d->data = $d->getControl();
 
-      public function otherData(){
-          $ploss = Ploss::select('id','name')->get();
-          $udanger =  Udanger::select('id', 'name')->get();
+        return [$process, $danger, $control];
+    }
 
-          return [$ploss,$udanger];
-      }
+    public function otherData(): array
+    {
+        $ploss = Ploss::select('id', 'name')->get();
+        $udanger = Udanger::select('id', 'name')->get();
 
-      public function submit(Request $request){
+        return [$ploss, $udanger];
+    }
+
+    public function submit(Request $request)
+    {
         $req = $request->validate([
             'data' => 'required|array'
         ]);
 
         $filter = new Filter($req['data']);
-        $data   = $filter->getData();
+        $data = $filter->getData();
 
         $rule = [];
         foreach ($data as $d) {
-            if (!isset($d['data'])) continue;
-            else $d = $d['data'];
+            $d = $d['data'];
+
             if ($d['hasImage'])
-               $rule[$d['imageName']] = 'required|image|mimes:jpeg,png,jpg|max:2048';
+                $rule[$d['imageName']] = 'required|image|mimes:jpeg,png,jpg|max:2048';
         }
 
         $obj = new Data($data);
@@ -77,62 +81,101 @@ class DocController extends Controller
         session()->put('data', $obj);
 
         return response('done', 200);
-      }
+    }
 
-      public function saveData(Request $request){
-          $rule = session()->get('rule');
-          $obj  = session()->get('data');
+    public function saveData(Request $request)
+    {
+        $rule = session()->get('rule');
+        $obj = session()->get('data');
 
-          $request->validate($rule);
-          $data = $obj->getData();
+        $request->validate($rule);
+        $data = $obj->getData();
 
-          foreach ($data as $ind => $d){
-              $did = $d['did'];
-              if (!isset($d['data'])) continue;
-              else $d = $d['data'];
+        $controls = [];
+        $udangers = [];
 
-              if ($d['hasImage']){
+        foreach ($data as $ind => $d) {
+            $d = $d['data'];
+
+            if ($d['hasImage']) {
                 //   $name = request($d['imageName'])->store('testing');
-                  $name = cloudinary()->upload(request($d['imageName'])->getRealPath())->getSecurePath(); 
-                  $data[$ind]['data']['imageName'] = $name;
-              }
+                $name = cloudinary()->upload(request($d['imageName'])->getRealPath())->getSecurePath();
+                $data[$ind]['data']['imageName'] = $name;
+            }
 
-              foreach ($d['newControls'] as $nc){
-                    $model = UserText::where(['danger_id' => $did, 'name' => $nc['value'], 'type' => 'control'])->first();
+            foreach ($d['newControls'] as $newControl) {
+                $controls[] = $newControl['value'];
+            }
 
-                    if (!$model){
-                          UserText::create(['user_id' => current_user()->id, 
-                                      'danger_id' => $did, 'name' => $nc['value'], 
-                                      'type' => 'control']);
-                    }
-              }
+            foreach ($d['newUdangers'] as $newUdanger) {
+                $udangers[] = $newUdanger['value'];
+            }
+        }
 
-              foreach ($d['newUdangers'] as $nc){
-                    $model = UserText::where(['name' => $nc['value'], 'type' => 'udanger'])->first();
-                   
-                    if (!$model){
-                          UserText::create(['user_id' => current_user()->id, 
-                                      'danger_id' => $did, 'name' => $nc['value'],
-                                      'type' => 'udanger']);
-                    }
-              }
+        $controlModels = UserText::whereIn('name', $controls)
+            ->where(['type' => 'control'])
+            ->select('name', 'danger_id')
+            ->get();
 
-          }
+        $udangerModels = UserText::whereIn('name', $udangers)
+            ->where(['type' => 'udanger'])
+            ->select('name', 'danger_id')
+            ->get();
 
-          $obj->setData($data);
-          session()->put('data', $obj);
+        $controls = $udangers = [];
 
-          return response('completed', 200);
-      }
+        foreach ($controlModels as $controlModel) {
+            $controls[$controlModels->danger_id][$controlModel->name] = true;
+        }
 
-      public function showData(){
-          $obj = session()->get('data')->getData();
+        foreach ($udangerModels as $udangerModel) {
+            $udangers[$udangerModel->danger_id][$udangerModel->name] = true;
+        }
 
-          $reader = new FinalData();
-          $reader->init($obj);
+        $userId = current_user()->id;
 
-          session()->forget('data');
-          return redirect()->route('user.export', ['export' => $reader->getExportId()]);
-      }
+        foreach ($data as $ind => $d) {
+            $did = $d['did'];
+            $d = $d['data'];
+
+            foreach ($d['newControls'] as $nc) {
+                $model = isset($controls[$did][$nc['value']]);
+
+                if (!$model) {
+                    UserText::create(['user_id' => $userId,
+                        'danger_id' => $did, 'name' => $nc['value'],
+                        'type' => 'control']);
+                    $controls[$did][$nc['value']] = true;
+                }
+            }
+
+            foreach ($d['newUdangers'] as $nc) {
+                $model = isset($udangers[$did][$nc['value']]);
+
+                if (!$model) {
+                    UserText::create(['user_id' => current_user()->id,
+                        'danger_id' => $did, 'name' => $nc['value'],
+                        'type' => 'udanger']);
+                    $udangers[$did][$nc['value']] = true;
+                }
+            }
+        }
+
+        $obj->setData($data);
+        session()->put('data', $obj);
+
+        return response('completed', 200);
+    }
+
+    public function showData(): \Illuminate\Http\RedirectResponse
+    {
+        $obj = session()->get('data')->getData();
+
+        $reader = new FinalData();
+        $reader->init($obj);
+
+        session()->forget('data');
+        return redirect()->route('user.export', ['export' => $reader->getExportId()]);
+    }
 
 }

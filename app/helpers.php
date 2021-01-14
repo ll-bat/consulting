@@ -5,6 +5,11 @@ use App\Helperclass\SiteJson;
 function getUrl(){
     return  \Illuminate\Support\Facades\URL::full();
 }
+
+/**
+ * @return \Illuminate\Contracts\Auth\Authenticatable|null
+ */
+
 function current_user(){
     return auth()->user();
 }

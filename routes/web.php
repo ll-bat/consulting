@@ -159,6 +159,9 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function(){
 });
 
 Route::get('tests', 'TestsController@index');
+Route::get('tests/index', function() {
+    return view('test');
+});
 
 // Route::get('test-form', function(){
 //     return view('user.docs.form');

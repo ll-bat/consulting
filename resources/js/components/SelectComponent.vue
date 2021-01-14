@@ -2,11 +2,12 @@
     <div class="position-relative" :class="{'index-1': expanded}" style="padding-bottom: 50px;">
         <div class="position-absolute">
             <div class="select m-0" @click="expand($event)" :class="{'border scrollable select-shadow': expanded}" style="width: 350px">
-                <p class="title border pointer overflow-hidden position-relative"
+                <p class="title border pointer overflow-hidden position-relative rounded-0" :id="id"
                    :class="{'d-none' : expanded}"
-                   style="width: 100%;max-height: 60px"> {{ selected ? selected.name : title }}
-                    <i class="fa fa-caret-down float-right px-3 py-1"></i>
+                   style="width: 95%;max-height: 60px"> {{ selected ? selected.name : title }}
+                    <i class="fa fa-caret-down float-right px-3 py-1" style="vertical-align: middle"></i>
                 </p>
+
                 <div class="options" :class="{'d-none': !expanded, 'my-2' : expanded}">
                     <p class="option"  @click="select(defaultValue)">{{title}}</p>
                     <p v-for="(option , index) in options" class="option" :class="{'selected': index === selected.index}" @click="select({...option, index})"> {{ option.name }}</p>
@@ -60,7 +61,7 @@ export default {
         },
         setDefaultValue() {
             this.selected = this.defaultValue;
-        }
+        },
     },
     created() {
         tout(() => {

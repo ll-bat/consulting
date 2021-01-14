@@ -1939,6 +1939,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     data: Array,
@@ -39013,9 +39014,10 @@ var render = function() {
               "p",
               {
                 staticClass:
-                  "title border pointer overflow-hidden position-relative",
+                  "title border pointer overflow-hidden position-relative rounded-0",
                 class: { "d-none": _vm.expanded },
-                staticStyle: { width: "100%", "max-height": "60px" }
+                staticStyle: { width: "95%", "max-height": "60px" },
+                attrs: { id: _vm.id }
               },
               [
                 _vm._v(
@@ -39024,7 +39026,8 @@ var render = function() {
                     "\n                "
                 ),
                 _c("i", {
-                  staticClass: "fa fa-caret-down float-right px-3 py-1"
+                  staticClass: "fa fa-caret-down float-right px-3 py-1",
+                  staticStyle: { "vertical-align": "middle" }
                 })
               ]
             ),
@@ -51502,9 +51505,35 @@ var Form1 = /*#__PURE__*/function () {
     value: function submit(url, data, fm) {
       var _this = this;
 
-      var fn = function fn() {
-        window.location = '';
-      };
+      var fn = /*#__PURE__*/function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+          var ys;
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+            while (1) {
+              switch (_context3.prev = _context3.next) {
+                case 0:
+                  _context3.next = 2;
+                  return prompt('Would you like to refresh the page ?');
+
+                case 2:
+                  ys = _context3.sent;
+
+                  if (ys) {
+                    window.location = '';
+                  }
+
+                case 4:
+                case "end":
+                  return _context3.stop();
+              }
+            }
+          }, _callee3);
+        }));
+
+        return function fn() {
+          return _ref.apply(this, arguments);
+        };
+      }();
 
       this.send('post', url, {
         data: data
@@ -51525,7 +51554,7 @@ var Form1 = /*#__PURE__*/function () {
         axios[type](url, data).then(function (res) {
           resolve(res.data);
         })["catch"](function (errors) {
-          alert('Unfortunately, error occured. Please check the console tab');
+          alert('Unfortunately, error occurred. Please check the console tab');
           console.log(errors.response.data);
           reject(errors.response.data);
           if (fn) fn(errors.response.data);

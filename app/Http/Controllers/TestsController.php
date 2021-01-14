@@ -10,6 +10,7 @@ use App\Helperclass\Texts;
 use App\Helperclass\Services;
 use App\Helperclass\Customizable;
 use App\Export;
+use Dompdf\Dompdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
@@ -18,6 +19,31 @@ use Illuminate\Support\Facades\File;
 class TestsController extends Controller
 {
       public function index(){
+//          $export = Export::first();
+//
+//          $filename = $export->filename;
+//
+//          $dompdf = new Dompdf();
+//          $customPaper = array(0,0,900,2700);
+//          $dompdf->set_paper($customPaper);
+//
+//          $con = new Content($export, 'pdf');
+//          $con = $con->getData();
+//
+//          $view = view('user.docs.pdf_table', [
+//              'countAll' => $con[0],
+//              'object'   => $con[1]
+//          ])->render();
+//
+//          $dompdf->loadHtml($view);
+//          $dompdf->render();
+
+//          $dompdf->stream('my.pdf1',array('Attachment'=>0));
+//          return response($dompdf->stream());
+
+//          $dompdf->stream();
+
+
 
       //      $obj = new Customizable();
 
@@ -70,20 +96,20 @@ class TestsController extends Controller
 
       public function getData(){
 
-            $data = [];
-
-            foreach (['1','2', '3_123'] as $val){
-                   $data[$val] = $this->anotherFn($val);
-            }
-
-            return $data;
+//            $data = [];
+//
+//            foreach (['1','2', '3_123'] as $val){
+//                   $data[$val] = $this->anotherFn($val);
+//            }
+//
+//            return $data;
       }
 
       public function anotherFn($el){
-            return
-                   [
-                        'is-bold' => 'yes'
-                   ];
+//            return
+//                   [
+//                        'is-bold' => 'yes'
+//                   ];
 
       }
 }

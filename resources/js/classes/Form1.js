@@ -47,7 +47,12 @@ export class Form1 {
     }
 
     submit(url, data, fm){
-        let fn = () => {window.location=''}
+        let fn = async () => {
+            let ys = await prompt('Would you like to refresh the page ?');
+            if (ys) {
+                window.location = ''
+            }
+        }
         this.send('post', url, {data: data},fn).then(res => {
             console.log(res)
             this.send('post', 'docs/save-docs', fm,fn).then(res => {
@@ -69,7 +74,7 @@ export class Form1 {
                   resolve(res.data)
               })
               .catch((errors) => {
-                  alert('Unfortunately, error occured. Please check the console tab')
+                  alert('Unfortunately, error occurred. Please check the console tab')
                   console.log(errors.response.data)
                   reject(errors.response.data)
                   if (fn) (fn(errors.response.data))
