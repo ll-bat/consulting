@@ -51521,37 +51521,13 @@ var Form1 = /*#__PURE__*/function () {
   }, {
     key: "getData",
     value: function getData() {
-      var _this2 = this;
-
       var url = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'all-data';
-      var obj = arguments.length > 1 ? arguments[1] : undefined;
-      var fn = arguments.length > 2 ? arguments[2] : undefined;
-      this.send('get', url, null, null).then(function (res) {
-        return _this2.process(obj, res, fn);
-      });
+      return this.send('get', url, null, null);
     }
   }, {
     key: "getOtherData",
-    value: function getOtherData(url, obj) {
-      var _this3 = this;
-
-      this.send('get', url, null, null).then(function (res) {
-        return _this3.processOtherData(obj, res);
-      });
-    }
-  }, {
-    key: "process",
-    value: function process(obj, data, fn) {
-      obj.process = data[0];
-      obj.danger = data[1];
-      obj.control = data[2];
-      if (fn) fn();
-    }
-  }, {
-    key: "processOtherData",
-    value: function processOtherData(obj, data) {
-      obj.ploss = data[0];
-      obj.udanger = data[1];
+    value: function getOtherData(url) {
+      return this.send('get', url, null, null);
     }
   }]);
 

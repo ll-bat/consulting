@@ -6,9 +6,6 @@ window.Vue = require('vue');
 window.Event = new Vue();
 window.Form = new Form1();
 
-
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 Vue.component('select-component', require('./components/SelectComponent').default);
 import SelectComponent from "./components/SelectComponent";
 import  {Form1} from "./classes/Form1";
@@ -57,7 +54,7 @@ const app = new Vue({
             let id = selectedValue
             let el = this.process.find(p => p.id == id)
 
-            console.log($1('danger-id'))
+            // console.log($1('danger-id'))
             Event.$emit('setDefaultValue')
             if (!el) return
 
@@ -72,13 +69,6 @@ const app = new Vue({
             this.dangerSelect = JSON.parse(JSON.stringify(this.odan));
 
             if (!this.canShow) this.canShow = true
-
-
-            // tout(() => {
-            //     $1('sel2').value = 'ყველა საფრთხე'
-            // }, 200)
-            // $('.to-be-checked').prop('checked', false)
-            // $('#sel2').val([])
         },
 
         chooseOcon(selectedValue){
@@ -101,7 +91,7 @@ const app = new Vue({
             }
             else  this.data = this.elm.data
 
-            console.log(this.data)
+            // console.log(this.data)
 
             this.ocon = []
             tout(() => {
@@ -119,11 +109,6 @@ const app = new Vue({
             let s = $$('control-to-be-checked')
             for(let i=0; i<s.length; i++)
               s[i].checked = false
-
-        },
-
-
-        beginTest(){
 
         },
 
@@ -306,6 +291,32 @@ const app = new Vue({
             return this.odan.map(d => {
                 return {name: d.name, value: d.id}
             })
+        },
+
+        async init() {
+            let data = await Form.getData('docs/all-data')
+            this.process = data[0];
+            this.danger = data[1];
+            this.control = data[2];
+
+            data = await Form.getOtherData('docs/other-data');
+            this.ploss = data[0];
+            this.udanger = data[1];
+
+            this.removeLoader();
+            this.setControlAnswers();
+        },
+
+        removeLoader() {
+            this.loading = false;
+            $('#show_data').removeClass('d-none');
+            tout(() => $('#edit-process').css({'border-top':'10px solid #673ab7'}), 500)
+        },
+
+        setControlAnswers() {
+            this.controlAnswers.push({text: 'არსებული', label: 'მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა'});
+            this.controlAnswers.push({text: 'დამატებითი', label: 'მონიშნეთ თუ სახეზე არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია)'})
+            this.controlAnswers.push({text: 'არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება', label: ''});
         }
     },
 
@@ -324,21 +335,6 @@ const app = new Vue({
     },
 
     created() {
-       Form.getData('docs/all-data',this,
-            ()=>{
-                 this.loading = false;
-                 $('#show_data').removeClass('d-none');
-                 tout(() => $('#edit-process').css({'border-top':'10px solid #673ab7'}), 500)
-            });
-       Form.getOtherData('docs/other-data',this);
-
-       this.setProcess()
-
-       this.controlAnswers.push({text: 'არსებული', label: 'მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა'})
-       this.controlAnswers.push({text: 'დამატებითი', label: 'მონიშნეთ თუ სახეზე არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია)'})
-       this.controlAnswers.push({text: 'არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება', label: ''})
+       this.init();
     },
-
-
-
 });

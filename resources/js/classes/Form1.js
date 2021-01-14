@@ -82,23 +82,11 @@ export class Form1 {
         })
     }
 
-    getData(url='all-data',obj, fn){
-        this.send('get', url, null, null).then(res => this.process(obj,res,fn))
+    getData(url='all-data'){
+        return this.send('get', url, null, null);
     }
 
-    getOtherData(url, obj){
-        this.send('get', url, null, null).then(res => this.processOtherData(obj,res))
-    }
-
-    process(obj, data,fn){
-        obj.process = data[0]
-        obj.danger  = data[1]
-        obj.control = data[2]
-        if (fn) fn()
-    }
-
-    processOtherData(obj,data) {
-        obj.ploss   = data[0]
-        obj.udanger = data[1]
+    getOtherData(url){
+        return this.send('get', url, null, null);
     }
 }
