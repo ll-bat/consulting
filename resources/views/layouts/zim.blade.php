@@ -239,7 +239,8 @@ $abpath = $_SERVER['HTTP_HOST'];
                         >
                             <a class="dropdown-item c-dropdown-item c-top-radius py-2" href="/">მთავარი გვერდი</a>
                             @if ($route == 'danger.show')
-                                <a class="dropdown-item c-dropdown-item py-2 d-block d-lg-none" onclick="$1('import_excel').click();">
+                                <a class="dropdown-item c-dropdown-item py-2 d-block d-lg-none"
+                                   onclick="$1('import_excel').click();">
                                     კონტრ.ზომები(ექსელი) </a>
                             @endif
                             <a class="dropdown-item c-dropdown-item c-bottom-radius py-2"
@@ -312,7 +313,6 @@ $abpath = $_SERVER['HTTP_HOST'];
                     $('#main-part').removeClass('col-xl-7').removeClass('col-xl-8').addClass('col-xl-6')
                 }
             }
-            console.log(window.innerWidth)
         }
 
         window.addEventListener('resize', (e) => {
