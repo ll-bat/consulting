@@ -1,7 +1,7 @@
 
 
 
- <div v-if='ocon.length > 0'>
+ <div v-if='currentControls.length > 0'>
          <div class="card rounded-10 ns-font-family ns-dark-color mt-4 mb-0 p-2 shadow-none border-0 remove-control-border"
               v-for='(c,idx) in data.newControls'
               style='border-radius:0 !important;box-shadow:2px 2px 4px lightgrey, -2px -2px 4px lightgrey !important;'>
@@ -9,7 +9,7 @@
                   <div style='width:85%'>
                       <p class='p-4 pb-0 mb-0 text-secondary'
                          style='font-size:1.2rem;'>დაამატეთ კონტროლის ზომა
-                         (<span class='text-muted text-sm'>არასავალდებულო<span>) </p>
+                         (<span class='text-muted text-sm'> არასავალდებულო </span> ) </p>
                    </div>
                   <div class='m-2 mt-4 mr-1 hoverable' style='width:15%;min-width:100px;'>
                       <button v-if='idx == data.newControls.length-1' class='text-orange bg-white px-2 py-1 m-btn' @click="addInArray('newControls')"

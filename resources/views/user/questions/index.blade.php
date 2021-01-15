@@ -66,13 +66,11 @@
                 margin-top: 7rem;
                 transform: rotate(-20deg) rotateX(180deg);
             }
+            100% {
+                margin-top: 0rem;
+            }
+        }
 
-        100
-        {
-            margin-top: 0rem
-        ;
-        }
-        }
         .animate-submit-button {
             animation: _animateSubmitButton .5s ease-out;
         }
@@ -137,7 +135,7 @@
                     @include('user.questions._'.$view)
                 @endforeach
 
-                <div v-if='canShowOcon'>
+                <div v-if='showControls'>
                     @foreach (['udanger-ploss', 'add-udangers', 'add-rpersons', 'add-etimes'] as $view)
                         @include('user.questions._'.$view)
                     @endforeach
@@ -166,13 +164,16 @@
             ev.preventDefault()
             $(`#imageupload${ind}`).click()
         }
+
         function clearUploadedImage(ind) {
             $1(`docimage${ind}`).src = ''
             $1(`imageupload${ind}`).value = ''
         }
+
         function customize(el) {
             $(el).parent().parent().removeClass('remove-control-border').addClass('add-control-border')
         }
+
         function uncustomize(el) {
             $(el).parent().parent().removeClass('add-control-border').addClass('remove-control-border')
         }

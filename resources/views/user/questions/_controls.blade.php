@@ -2,25 +2,30 @@
 
 
 
-<div v-if='canShowOcon' class='bg-white full-shadow' style='border: 2px solid lightgrey; border-radius:5px;'>
+<div v-if='showControls' class='bg-white full-shadow' style='border: 2px solid lightgrey; border-radius:5px;'>
        <table class='table'>
             <thead >
                   <th class='text-center py-4 bg-light' style='font-size: 1.2rem;width:50%;color: #9999ff;border-right:2px solid lightgrey;'> კონტროლის ზომები </th>
-                  <th class='text-muted text-center' style='font-size: .7rem !important;'> არსებული </th>
-                  <th class='text-muted text-center' style='font-size: .7rem !important;'> დამატებითი </th>
-                  <th class='text-muted text-center' style='font-size: .7rem !important;'> არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება </th>
+                  <th v-for="answer in controlAnswers" style='font-size: .7rem !important;'>@{{ answer.text }}</th>
             </thead>
 
             <tbody>
-                 <tr v-for = '(o,i) in ocon'>
+                 <tr v-for = '(o,i) in currentControls'>
                        <td class='text-center mt-3' style='font-size:.7rem;height:80px;border-right:2px solid lightgrey;background-color: rgba(0,0,0,.0176);'> @{{o.name}} </td>
 
                        <td v-for = "(v,ind) in controlAnswers" style='width: 19%;' :title='v.label'>
                              <label class="ns-container"
-                                    @mousedown="toggleControl(o.id,ind, 'checked-circle');" >
+                                    @mousedown="helpers.toggleControl(o.id, ind, 'checked-circle');" >
 
-                                   <div class="mod-chbox-checkmark" :class="{'hovered-checkmark': checkControl(o.id,ind)}" :id="chboxId(o.id, ind, 'control')" style='border-radius:50%; left:calc(50% - 10px);'>
-                                        <span class='text-center' :class="{'checked-circle': checkControl(o.id,ind)}" :id="checkedId(o.id, ind, 'control')"></span>
+                                   <div class="mod-chbox-checkmark"
+                                        :class="{'hovered-checkmark': helpers.checkControl(o.id,ind)}"
+                                        :id="helpers.chboxId(o.id, ind, 'control')"
+                                        style='border-radius:50%; left:calc(50% - 10px);'>
+
+                                        <span class='text-center'
+                                              :class="{'checked-circle': helpers.checkControl(o.id,ind)}"
+                                              :id="helpers.checkedId(o.id, ind, 'control')">
+                                        </span>
                                    </div>
 
                               </label>

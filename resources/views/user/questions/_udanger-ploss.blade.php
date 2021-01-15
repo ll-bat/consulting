@@ -8,8 +8,13 @@
                         <p class='mb-5 text-lg'> @{{c.text}} </p>
                         <div v-for = '(d,i) in c.data'>
                             <label class="ns-container mt-3" @mousedown='c.update(i,0)' style='font-size:.95em; color:rgba(0,0,0,.8);'>@{{d.name}}
-                                <div class="mod-chbox-checkmark" :class="{'hovered-checkmark' : c.check(i, d.id)}" :id='chboxId(d.id,0, c.type)'>
-                                    <span :class="{'checked' : c.check(i, d.id)}" :id='checkedId(d.id,0,c.type)'></span>
+                                <div class="mod-chbox-checkmark"
+                                     :class="{'hovered-checkmark' : c.check(i, d.id)}"
+                                     :id='helpers.chboxId(d.id,0, c.type)'>
+
+                                    <span :class="{'checked' : c.check(i, d.id)}"
+                                          :id='helpers.checkedId(d.id,0,c.type)'>
+                                    </span>
                                 </div>
                                 <span class='hover-chbox'></span>
                            </label>
