@@ -35,29 +35,6 @@ class DocController extends Controller
     }
 
 
-    public function getAll(): array
-    {
-        $process = Process::select('id', 'name')->get();
-        $danger = Danger::select('id', 'name')->get();
-        $control = Control::select('id', 'name')->get();
-
-        foreach ($process as $p)
-            $p->data = $p->getDangerIds();
-
-        foreach ($danger as $d)
-            $d->data = $d->getControl();
-
-        return [$process, $danger, $control];
-    }
-
-    public function otherData(): array
-    {
-        $ploss = Ploss::select('id', 'name')->get();
-        $udanger = Udanger::select('id', 'name')->get();
-
-        return [$ploss, $udanger];
-    }
-
     public function submit(Request $request)
     {
         $req = $request->validate([
