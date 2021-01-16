@@ -102,7 +102,7 @@ class DocController extends Controller
         $controls = $udangers = [];
 
         foreach ($controlModels as $controlModel) {
-            $controls[$controlModels->danger_id][$controlModel->name] = true;
+            $controls[$controlModel->danger_id][$controlModel->name] = true;
         }
 
         foreach ($udangerModels as $udangerModel) {
