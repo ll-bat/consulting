@@ -1,8 +1,8 @@
 <?php
 
-use App\Helperclass\Customizable;
-
 namespace App\Helperclass;
+
+use App\Helperclass\Customizable;
 
 
 class Texts extends SiteJson{
