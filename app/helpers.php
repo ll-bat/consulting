@@ -45,6 +45,7 @@ function adminRoutes()
 {
     return [
         ['route' => 'admin.docs', 'icon' => 'nc-icon nc-paper', 'name' => 'დოკუმენტები'],
+        ['route' => 'admin.users', 'icon' => 'far fa-user-friends', 'name' => 'მომხმარებლები'],
         ['route' => 'admin.blog', 'icon' => 'nc-icon nc-tag-content', 'name' => 'ბლოგები'],
         ['route' => 'admin.customize', 'icon' => 'nc-icon nc-ruler-pencil', 'name' => 'საიტის შეცვლა'],
     ];
@@ -53,7 +54,7 @@ function adminRoutes()
 
 function collapsedRoutes(){
     return [
-        'user.home', 'user.profile', 'user.mydocs', 'admin.blog'
+        'user.home', 'user.profile', 'user.mydocs', 'admin.blog', 'admin.users'
     ];
 }
 
