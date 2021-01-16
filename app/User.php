@@ -5,10 +5,17 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Mpdf\Tag\U;
 
 class User extends Authenticatable
 {
     use Notifiable;
+
+    public const STATUS_ACTIVE = 1;
+    public const STATUS_INACTIVE = 0;
+    public const TYPE_STANDARD = 0;
+    public const TYPE_PREMIUM = 1;
+    public const TYPE_VIP = 2;
 
     /**
      * The attributes that are mass assignable.
@@ -16,7 +23,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'email', 'password',
+        'username', 'email', 'password', 'status', 'type'
     ];
 
     /**
@@ -41,10 +48,6 @@ class User extends Authenticatable
         return $this->is_admin == 1;
     }
 
-//    public function setPasswordAttribute($value){
-//        $this->attributes['password'] = bcrypt($value);
-//    }
-
     public function profile(){
         return $this->hasOne(Profile::class);
     }
@@ -52,8 +55,6 @@ class User extends Authenticatable
     public function pathAvatar(){
         return $this->profile->pathAvatar();
     }
-
-
 
 
 }

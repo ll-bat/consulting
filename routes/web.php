@@ -66,7 +66,12 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
         Route::get('{export}/export', 'MyDocsController@export');
         Route::delete('{export}/delete', 'MyDocsController@delete');
         //  Route::get('{export}/download', 'MyDocsController@download');
+    });
 
+    Route::group(['prefix' => 'api'], function(){
+        Route::get('{process}/dangers', 'ApiController@getDangers');
+        Route::get('{danger}/controls', 'ApiController@getControls');
+        Route::get('all-data', 'ApiController@getAllData');
     });
 
     Route::group(["middleware" => 'App\Http\Middleware\AdminMiddleware'], function () {
@@ -157,12 +162,9 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
 
         });
 
-
-        Route::group(['prefix' => 'api'], function(){
-            Route::get('{process}/dangers', 'ApiController@getDangers');
-            Route::get('{danger}/controls', 'ApiController@getControls');
-            Route::get('all-data', 'ApiController@getAllData');
-
+        Route::group(['prefix' => 'types'], function() {
+           Route::get('', 'UserTypeController@index')->name('admin.users');
+           Route::post('{user}/save', 'UserTypeController@save');
         });
     });
 });
