@@ -81,3 +81,9 @@ function toolbarRoutes(){
 function nbackRoutes(){
     return ['blog.edit','home', 'user.profile'];
 }
+
+function searchInvisible() {
+    return [
+        'user.mydocs'
+    ];
+}

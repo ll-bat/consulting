@@ -65,7 +65,7 @@
                                 <div class="mr-1">
                                     <button class="btn btn-outline-success rounded-pill text-sm border-0"
                                             onclick='showDownloadModal("download-modal{{$doc->id}}")'  >
-                                     გადმოწერა 
+                                     გადმოწერა
                                     </button>
                                 </div>
                                 <div class="">
@@ -91,7 +91,7 @@
         @if ($docs->count() == 0)
 
             <div class = 'alert aler-info text-white' style='background-color:rgba(0,0,200, .5)'>
-                <p> თქვენ არ გაქვთ დოკუმენტები. შეავსეთ 
+                <p> თქვენ არ გაქვთ დოკუმენტები. შეავსეთ
                     <a href='questions' class='text-white font-weight-bolder'>  კითქვარი  </a>
                 </p>
             </div>

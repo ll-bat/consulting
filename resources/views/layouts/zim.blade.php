@@ -205,6 +205,7 @@ $abpath = $_SERVER['HTTP_HOST'];
                         </div>
                     </div>
                 @else
+                    @if (!in_array($route, searchInvisible()))
                     <div class="collapse navbar-collapse justify-content-end" style="background-color: #F5F4F0"
                          id="navigation">
                         <form method="get" action="{{$path}}">
@@ -224,6 +225,7 @@ $abpath = $_SERVER['HTTP_HOST'];
                             </div>
                         </form>
                     </div>
+                    @endif
                 @endif
                 <ul class="navbar-nav pointer">
                     <li class="nav-item btn-rotate dropdown c-parent-dropdown">
@@ -318,8 +320,6 @@ $abpath = $_SERVER['HTTP_HOST'];
         window.addEventListener('resize', (e) => {
             adjustScreen()
         })
-
-        adjustScreen()
 
         $(window).resize(() => {
             $('#sidebar').css({'height': '', "margin-top": '', 'margin-left': ''})
