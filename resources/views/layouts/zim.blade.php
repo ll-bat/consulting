@@ -237,7 +237,7 @@ $abpath = $_SERVER['HTTP_HOST'];
                         </a>
                         <div class="c-dropdown-menu dropdown-menu-right pb-0 pt-0 pl-0 border-0"
                              id='c-dropdown-menu'
-                             style="border-radius:14px;"
+                             style="border-radius:10px;"
                         >
                             <a class="dropdown-item c-dropdown-item c-top-radius py-2" href="/">მთავარი გვერდი</a>
                             @if ($route == 'danger.show')
