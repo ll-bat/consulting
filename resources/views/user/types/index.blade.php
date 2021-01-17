@@ -13,7 +13,7 @@
 
 @section('content')
 
-    <table class="table bg-white">
+    <table class="table table-hover border bg-white">
         <thead>
         <tr class="text-center">
             <th> Image</th>

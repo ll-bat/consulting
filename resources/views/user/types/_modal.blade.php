@@ -12,7 +12,7 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title"> User types </h4>
+                <h4 class="modal-title"> პარამეტრები </h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
