@@ -245,5 +245,9 @@ const app = new Vue({
 
     created() {
         this.init();
+
+        tout(() => {
+            $('#questions-content').removeClass('d-none');
+        })
     },
 });

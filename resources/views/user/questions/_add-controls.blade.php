@@ -1,4 +1,4 @@
-<div v-if='currentControls.length > 0'>
+<div v-if='showControls'>
     <div class="card rounded-10 ns-font-family ns-dark-color mt-4 mb-0 p-2 shadow-none border-0 remove-control-border"
          v-for='(c,idx) in data.newControls'
          style='border-radius:0 !important;box-shadow:2px 2px 4px lightgrey, -2px -2px 4px lightgrey !important;'>

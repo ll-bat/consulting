@@ -131,14 +131,18 @@
                          style="width:7rem; height: 7rem;border-width: 1rem;"></div>
                 </div>
 
-                @foreach (['proccesses', 'dangers', 'danger-image', 'controls', 'add-controls'] as $view)
-                    @include('user.questions._'.$view)
-                @endforeach
+                @include('user.questions._proccesses')
 
-                <div v-if='showControls'>
-                    @foreach (['udanger-ploss', 'add-udangers', 'add-rpersons', 'add-etimes'] as $view)
+                <div class="d-none" id="questions-content">
+                    @foreach (['dangers', 'danger-image', 'controls', 'add-controls'] as $view)
                         @include('user.questions._'.$view)
                     @endforeach
+
+                    <div v-if='showControls'>
+                        @foreach (['udanger-ploss', 'add-udangers', 'add-rpersons', 'add-etimes'] as $view)
+                            @include('user.questions._'.$view)
+                        @endforeach
+                    </div>
                 </div>
 
                 <div class='mb-4 animate-submit-button'>
