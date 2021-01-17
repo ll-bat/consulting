@@ -10,7 +10,7 @@
 <template>
       <div class='d-flex my-2'>
          <div class='ns-circle' style='width:25px;'></div>
-         
+
          <textarea type="text"
                    class="form-control docs-input th-bottom h-font ns-font-family autoresize ml-2 w-100"
                    rows = '1'
@@ -22,10 +22,10 @@
 
          <div v-if = 'type == 1' style='width:20%'>
                <div class='mx-2 mt-2 text-left'>
-                     <input type='number' class='form-control border-0 w-100' 
+                     <input type='number' class='form-control border-0 w-100'
                             placeholder='K:1'
-                            v-model = 'k' 
-                            @input = 'updateScore()'                          
+                            v-model = 'k'
+                            @input = 'updateScore()'
                             style='width:3rem;border-bottom:1px solid orange !important;border-radius:0' />
               </div>
          </div>
@@ -76,10 +76,10 @@
            updateScore(){
               if (this.k)
                 this.update(this.debounceInput == '' ? 'null': this.debounceInput)
-           }, 
+           },
 
            update(newVal){
-                 this.data.name = newVal 
+                 this.data.name = newVal
                  this.data.k    = this.k
 
                  this.$emit('saving')
@@ -99,11 +99,11 @@
 
             debounceInput: function(newVal, oldVal){
                  if (newVal == oldVal) return
-                 
+
                  this.update(newVal)
             }
         },
-          
+
 
         created(){
             tout(()=> {
@@ -121,7 +121,7 @@
       -webkit-appearance: none;
       margin: 0;
     }
-    
+
     /* Firefox */
     input[type=number] {
       -moz-appearance: textfield;

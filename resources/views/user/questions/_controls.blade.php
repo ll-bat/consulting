@@ -6,7 +6,7 @@
        <table class='table'>
             <thead >
                   <th class='text-center py-4 bg-light' style='font-size: 1.2rem;width:50%;color: #9999ff;border-right:2px solid lightgrey;'> კონტროლის ზომები </th>
-                  <th v-for="answer in controlAnswers" style='font-size: .7rem !important;'>@{{ answer.text }}</th>
+                  <th class="text-center" v-for="answer in controlAnswers" style='font-size: .7rem !important;'>@{{ answer.text }}</th>
             </thead>
 
             <tbody>

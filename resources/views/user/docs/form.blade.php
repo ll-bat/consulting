@@ -1,167 +1,168 @@
 @extends('layouts/zim')
 
 @section('header')
-   <style>
+    <style>
+        tr td {
+            text-align: center !important;
+            height: 20px;
+        }
 
 
+        thead tr td {
+            font-size: .7rem;
+            border: 1px solid lightgrey;
+            background-color: rgb(222, 234, 246);
+        }
 
+        .smaller {
+            font-size: .6rem;
+        }
 
-       tr  td {
-          text-align: center !important;
-       }
+        .small {
+            font-size: .8rem;
+        }
 
+        .small1 {
+            font-size: .7rem;
+        }
 
-       thead tr td {
-          font-size: .7rem;
-          border: 1px solid lightgrey;
-          background-color: rgb(222, 234, 246);
-       }
+        table tr td {
+            border: 1px solid lightgrey;
+        }
 
-       .smaller {
-          font-size: .6rem;
-       }
+        .bg-purple {
+            background-color: transparent;
+        }
 
-       .small {
-          font-size: .8rem;
-       }
+        .bg-dlight {
+            background-color: #D9D9D9;
+            border: 1px solid lightgrey !important;
+        }
 
-       .small1 {
-          font-size: .7rem;
-       }
+        .bg-primary {
+            background-color: #0070C0 !important;
+            border: 1px solid lightgrey !important;
+            color: white !important;
+        }
 
-       table tr td {
-          border: 1px solid lightgrey;
-       }
+        .bg-warning {
+            background-color: #FFFF00 !important;
+            border: 1px solid lightgrey !important;
+        }
 
-       .bg-purple {
-          background-color:transparent;
-       }
+        .hoverable-image {
+            margin: auto;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            min-width: 5rem;
+            position: absolute;
+            width: 5rem;
+            min-height: 5rem;
+            height: 5rem;
+            transition: all .41s ease-in;
+            z-index: 1;
+        }
 
-       .bg-dlight {
-          background-color: #D9D9D9;
-          border: 1px solid lightgrey !important;
-       }
+        .hoverable-image:hover {
+            position: absolute;
+            left: -10rem;
+            right: -10rem;
+            top: -5rem;
+            bottom: -5rem;
+            min-width: 20rem;
+            min-height: 20rem;
+            border-radius: 10px;
+            z-index: 99;
+        }
 
-       .bg-primary {
-          background-color: #0070C0 !important;
-          border: 1px solid lightgrey !important;
-          color:white !important;
-       }
+        .hover-grey {
+            transition: all .5s ease-in;
+        }
 
-       .bg-warning {
-          background-color: #FFFF00 !important;
-          border: 1px solid lightgrey !important;
-       }
+        .hover-grey:hover {
+            background-color: rgba(0, 0, 0, .1) !important;
+        }
 
-       .hoverable-image {
-          margin:auto;
-          top:0;left:0;right:0;bottom:0;
-          min-width:5rem;
-          position:absolute;
-          width:5rem;
-          min-height:5rem;
-          height:5rem;
-          transition: all .41s ease-in;
-          z-index: 1;
-       }
+        .border {
+            border-width: .15rem !important;
+        }
 
-       .hoverable-image:hover {
-          position:absolute;
-          left:-10rem;right:-10rem;top:-5rem;bottom:-5rem;
-          min-width:20rem;
-          min-height:20rem;
-          border-radius:10px;
-          z-index: 99;
-       }
-       
-       .hover-grey {
-          transition:all .5s ease-in;
-       }
+        .border-success {
+            border-width: .15rem !important;
+            border-color: lightseagreen !important;
+        }
 
-       .hover-grey:hover {
-         background-color:rgba(0,0,0,.1) !important;
-       }
-
-       .border {
-          border-width: .15rem !important;
-       }
-
-       .border-success {
-          border-width: .15rem !important;
-          border-color: lightseagreen !important;
-       }
-      
-   </style>
+    </style>
 @endsection
 
 @section('content')
 
-
-      
-       <div class='container-fluid mt-5' id='table-data'>
-           @include('user/docs/_table', compact('countAll', 'object'))
-           <!-- <div class='form-group'>
+    <div class='container-fluid mt-5' id='table-data'>
+    @include('user/docs/_table', compact('countAll', 'object'))
+    <!-- <div class='form-group'>
                <button class='btn btn-primary' onclick='exportData()'> Export </button>
            </div> -->
-         
-           <div class='d-block position-relative' style='margin-top:5rem;'>
-               <span class='mt-4 mr-3'> შეინახეთ დოკუმენტი როგორც: </span>
-               
-               <div class='d-block mt-3 m-4'>
-                   <div class='d-flex'>
-                       <div class='bg-white border rounded-10 p-2 pointer hover-grey' onclick="select(this,'pdf')" style=''>
-                         <img  src='/icons/pdf.png' width='60'/>
-                       </div>
-                       <div class='bg-white border rounded-10 p-2 ml-4 pointer hover-grey' onclick="select(this,'excel')" style=''>
-                         <img  src='/icons/excel.png' width='60'/>
-                       </div> 
-                   </div>
-                   <button class = 'btn btn-primary border-0 capitalize px-4 py-1 mt-4' 
-                      onclick='exportData(event)'>Export 
-                    </button>
-               </div>              
-           </div>
-       </div>
 
-       <a href='{{ $docId }}/export' class='d-none' id='export'></a>
+        <div class='d-block position-relative' style='margin-top:5rem;'>
+            <span class='mt-4 mr-3'> შეინახეთ დოკუმენტი როგორც: </span>
 
-       @include('user.docs._modal')
- <script>
-    st(dom.body, 'bg: rgba(32, 113, 99, .04')
+            <div class='d-block mt-3 m-4'>
+                <div class='d-flex'>
+                    <div class='bg-white border rounded-10 p-2 pointer hover-grey' onclick="select(this,'pdf')"
+                         style=''>
+                        <img src='/icons/pdf.png' width='60'/>
+                    </div>
+                    <div class='bg-white border rounded-10 p-2 ml-4 pointer hover-grey' onclick="select(this,'excel')"
+                         style=''>
+                        <img src='/icons/excel.png' width='60'/>
+                    </div>
+                </div>
+                <button class='btn btn-primary border-0 capitalize px-4 py-1 mt-4'
+                        onclick='exportData(event)'>Export
+                </button>
+            </div>
+        </div>
+    </div>
 
-    let selected = '';
-    function select(obj, type){
-       if (!$(obj).hasClass('border-success')){
-           $('.border-success').removeClass('border-success')
-           $(obj).addClass('border-success')
-           selected = type
-           console.log(selected)
-       }
-    }
+    <a href='{{ $docId }}/export' class='d-none' id='export'></a>
 
-    function exportData(event){
-        let pdf   = selected == 'pdf'
-        let excel = selected == 'excel'
+    @include('user.docs._modal')
+    <script>
+        st(dom.body, 'bg: rgba(32, 113, 99, .04')
 
-        if (!(pdf | excel)) {
-           $1('forms-modal').click()
-           return
-        } 
+        let selected = '';
 
-        if (pdf){
-           $1('export').href = "{{$docId}}/export?pdf=1"
-           $1('export').click()
+        function select(obj, type) {
+            if (!$(obj).hasClass('border-success')) {
+                $('.border-success').removeClass('border-success')
+                $(obj).addClass('border-success')
+                selected = type
+            }
         }
 
-        else if (excel){
-           $1('export').href = "{{$docId}}/export?excel=1"
-           $1('export').click()
+        function exportData(event) {
+            let pdf = selected == 'pdf'
+            let excel = selected == 'excel'
+
+            if (!(pdf | excel)) {
+                $1('forms-modal').click()
+                return
+            }
+
+            if (pdf) {
+                $1('export').href = "{{$docId}}/export?pdf=1"
+                $1('export').click()
+            } else if (excel) {
+                $1('export').href = "{{$docId}}/export?excel=1"
+                $1('export').click()
+            }
         }
-    }
 
-    @if (count($errors) > 0)
-      $1('forms-modal').click()
-    @endif 
+        @if (count($errors) > 0)
+        $1('forms-modal').click()
+        @endif
 
- </script>
+    </script>
 @endsection

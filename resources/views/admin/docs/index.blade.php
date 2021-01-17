@@ -322,7 +322,8 @@
                         <div class='d-flex'>
                             <div class='ns-circle'></div>
                             <span class='ml-3 text-muted text-sm h-border' @click='addNewPloss()'> დამატება </span>
-                            <div class='position-absolute' style='right:.4rem;'>
+
+                            <div class='position-absolute d-none' id="psaving-panel" style='right:.4rem;'>
 
                                 <div class="spinner-border text-info mx-1 my-1 mr-3" v-if="psaving"
                                      style="height:20px;width:20px;">
@@ -361,8 +362,8 @@
                         <div class='d-flex'>
                             <div class='ns-circle'></div>
                             <span class='ml-3 text-muted text-sm h-border' @click='addNewUdanger()'> დამატება </span>
-                            <div class='position-absolute' style='right:.4rem;'>
 
+                            <div class='position-absolute d-none' id="usaving-panel" style='right:.4rem;'>
                                 <div class="spinner-border text-info mx-1 my-1 mr-3" v-if="usaving"
                                      style="height:20px;width:20px;color:purple !important;">
                                 </div>
