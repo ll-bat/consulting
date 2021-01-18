@@ -99,7 +99,17 @@
 
 @section('content')
 
+
+
     <div class='container-fluid mt-5' id='table-data'>
+        <h5 class="mb-5"> დოკუმენტის
+            <a  href="{{ $docId }}/edit"
+                class="text-info">
+                რედაქტირება
+                <span class="fas fa-pencil-alt mx-1"></span>
+            </a>
+        </h5>
+
     @include('user/docs/_table', compact('countAll', 'object'))
     <!-- <div class='form-group'>
                <button class='btn btn-primary' onclick='exportData()'> Export </button>

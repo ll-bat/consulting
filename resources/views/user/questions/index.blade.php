@@ -119,8 +119,13 @@
     </style>
 @endsection
 
+@section('script')
+    <script>
+        let $doc = `{!! $data !!}`;
+        let $exportId = "{{ $exportId }}"
+    </script>
+@endsection
 @section('content')
-
 
     <div class="" id='app' style="width: 100% !important;">
         <div class="row justify-content-center align-items-center">
@@ -176,10 +181,6 @@
 
         function customize(el) {
             $(el).parent().parent().removeClass('remove-control-border').addClass('add-control-border')
-        }
-
-        function uncustomize(el) {
-            $(el).parent().parent().removeClass('add-control-border').addClass('remove-control-border')
         }
     </script>
 @endsection

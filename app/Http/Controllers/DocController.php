@@ -15,6 +15,7 @@ use App\Helperclass\FinalData;
 use App\Helperclass\Obj;
 use App\Helperclass\Json;
 use App\Helperclass\RiskCalculator;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -38,23 +39,12 @@ class DocController extends Controller
     public function submit(Request $request)
     {
         $req = $request->validate([
-            'data' => 'required|array'
+            'data' => 'required|array',
         ]);
 
-        $filter = new Filter($req['data']);
-        $data = $filter->getData();
-
-        $rule = [];
-        foreach ($data as $d) {
-            $d = $d['data'];
-
-            if ($d['hasImage'])
-                $rule[$d['imageName']] = 'required|image|mimes:jpeg,png,jpg|max:2048';
-        }
-
+        $data = (new Filter($req['data']))->getData();
         $obj = new Data($data);
 
-        session()->put('rule', $rule);
         session()->put('data', $obj);
 
         return response('done', 200);
@@ -62,8 +52,8 @@ class DocController extends Controller
 
     public function saveData(Request $request)
     {
-        $rule = session()->get('rule');
-        $obj = session()->get('data');
+        $rule = session()->get('rule') ?? [];
+        $obj = session()->get('data') ?? [];
 
         $request->validate($rule);
         $data = $obj->getData();
@@ -74,7 +64,7 @@ class DocController extends Controller
         foreach ($data as $ind => $d) {
             $d = $d['data'];
 
-            if ($d['hasImage']) {
+            if ($d['hasImage'] && !isset($d['oldImage'])) {
                 //   $name = request($d['imageName'])->store('testing');
                 $name = cloudinary()->upload(request($d['imageName'])->getRealPath())->getSecurePath();
                 $data[$ind]['data']['imageName'] = $name;
@@ -144,11 +134,12 @@ class DocController extends Controller
         return response('completed', 200);
     }
 
-    public function showData(): \Illuminate\Http\RedirectResponse
+    public function showData(): RedirectResponse
     {
         $obj = session()->get('data')->getData();
+        $exportId = session()->get('exportId');
 
-        $reader = new FinalData();
+        $reader = new FinalData($exportId);
         $reader->init($obj);
 
         session()->forget('data');

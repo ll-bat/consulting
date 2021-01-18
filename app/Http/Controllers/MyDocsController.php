@@ -6,7 +6,9 @@ use App\Export;
 use App\Helperclass\Json;
 use App\Helperclass\Obj;
 use App\Helperclass\Content;
+use App\Helperclass\QuestionsJson;
 use FontLib\EOT\File;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
@@ -44,6 +46,20 @@ class MyDocsController extends Controller
              'docId'    => $id
          ]);
       }
+
+      public function edit(Export $export) {
+          $this->authorize('show-doc', $export);
+
+          $data = json_decode($export->data);
+          $data = (new QuestionsJson($data))->getData();
+
+
+          session()->put('questions-data', [json_encode($data), $export->id]);
+
+          return redirect('/user/questions');
+      }
+
+
 
       public function export(Export $export){
           $this->authorize('show-doc', $export);
@@ -96,9 +112,12 @@ class MyDocsController extends Controller
            $dompdf->render();
 
            $dompdf->stream();
+
+           return true;
       }
 
-      public function delete(Export $export){          
+      public function delete(Export $export): RedirectResponse
+      {
           $this->authorize('show-doc', $export);
 
           $export->delete();
