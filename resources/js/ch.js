@@ -4,7 +4,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 window.Event = new Vue();
-window.Form = new Form1();
+window.Form = new Form();
 
 
 // const files = require.context('./', true, /\.vue$/i)
@@ -12,7 +12,7 @@ window.Form = new Form1();
 
 
 
-import  {Form1} from "./classes/Form1";
+import  {Form} from "./classes/Form";
 import Axios from "axios";
 
 

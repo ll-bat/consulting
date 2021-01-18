@@ -3,7 +3,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 window.Event = new Vue();
-window.Form = new Form1();
+window.Form = new Form();
 
 
 // const files = require.context('./', true, /\.vue$/i)
@@ -11,7 +11,7 @@ window.Form = new Form1();
 
 Vue.component('fbody-component', require('./components/FbodyComponent.vue').default);
 
-import {Form1} from "./classes/Form1";
+import {Form} from "./classes/Form";
 import FbodyComponent from "./components/FbodyComponent";
 import Axios from "axios";
 
@@ -70,6 +70,11 @@ const app = new Vue({
                 this[a[1]] = false
             },400)
         }
+
+        tout(() => {
+            $('#psaving-panel').removeClass('d-none');
+            $('#usaving-panel').removeClass('d-none');
+        }, 420)
     },
 
 

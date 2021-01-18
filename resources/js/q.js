@@ -5,13 +5,13 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 window.Event = new Vue();
-window.Form = new Form1();
+window.Form = new Form()
 
 Vue.component('select-component', require('./components/SelectComponent').default);
 import SelectComponent from "./components/SelectComponent";
-import {Form1} from "./classes/Form1";
+import {Form} from "./classes/Form";
 import {Data} from "./classes/Data";
-import {chboxId, checkedId, checkControl, toggleControl, toggleInput, checkPloss, togglePloss, checkUdanger, toggleUdanger, chainedAnim } from "./helpers/fns";
+import {chboxId, checkedId, checkControl, toggleControl, toggleInput, checkPloss, togglePloss, checkUdanger, toggleUdanger, chainedAnim, removeLoader, setControlAnswers, combine } from "./helpers/fns";
 import fetcher from "./classes/Fetcher";
 
 const app = new Vue({
@@ -21,6 +21,7 @@ const app = new Vue({
     },
     data: {
         loading: true,
+        newDoc: true,
         processes: [],
         dangers: [],
         controls: [],
@@ -38,7 +39,8 @@ const app = new Vue({
         currentControls: [],
         showDangers: false,
         showControls: false,
-        helpers: {}
+        helpers: {},
+        exportId: null
     },
     methods: {
         async filterDangers(selectedValue) {
@@ -107,6 +109,7 @@ const app = new Vue({
             this.data.hasImage = false
             this.fm.delete(this.data.imageName)
             this.data.imageName = ''
+            this.data.oldImage = false;
         },
 
         addInArray(type) {
@@ -141,9 +144,11 @@ const app = new Vue({
                 return
             }
 
+            console.log(this.info);
+
             $('#data-processing').removeClass('d-none')
             $('#data-submit').addClass('disabled')
-            Form.submit('docs/submit', this.info, this.fm)
+            this.form.submit('docs/submit', this.info, this.fm)
         },
 
         async init() {
@@ -152,9 +157,21 @@ const app = new Vue({
                 this[a] = data[a];
             }
 
-            this.removeLoader();
-            this.setControlAnswers();
             this.setHelpers();
+            this.helpers.combine();
+            this.helpers.setControlAnswers();
+
+            if (!this.newDoc) {
+                const {pid, did} = this.info[0];
+                await this.filterDangers(pid);
+                await this.filterControls(did);
+                tout(async () => {
+                    Event.$emit('selectProcess', pid);
+                    Event.$emit('selectDanger', did);
+                }, 250)
+            }
+
+            this.helpers.removeLoader();
         },
 
         setHelpers() {
@@ -184,49 +201,25 @@ const app = new Vue({
               },
               chainedAnim: (...params) => {
                   return chainedAnim.call(this, ...params);
+              },
+              removeLoader: (...params) => {
+                  return removeLoader.call(this, ...params);
+              },
+              setControlAnswers: (...params) => {
+                  return setControlAnswers.call(this, ...params);
+              },
+              combine: (...params) => {
+                  return combine.call(this, ...params);
               }
           }
         },
 
-        removeLoader() {
-            this.loading = false;
-            $('#show_data').removeClass('d-none');
-            tout(() => $('#edit-process').css({'border-top': '10px solid #673ab7'}), 500)
-        },
-
-        setControlAnswers() {
-            this.controlAnswers.push({
-                text: 'არსებული',
-                label: 'მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა'
-            });
-            this.controlAnswers.push({
-                text: 'დამატებითი',
-                label: 'მონიშნეთ თუ სახეზე არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია)'
-            })
-            this.controlAnswers.push({text: 'არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება', label: ''});
-        },
-
-        combine() {
-            this.combined = []
-            this.combined.push({
-                class: '',
-                style: 'border-radius:0;border-bottom:5px solid lightgrey',
-                text: 'აირჩიეთ პოტენციური ზიანი',
-                data: this.ploss,
-                update: this.helpers.togglePloss,
-                check: this.helpers.checkPloss,
-                type: 'ploss'
-            })
-            this.combined.push({
-                class: 'pb-0',
-                style: 'border-radius:0;padding-bottom:0 !important',
-                text: 'ვინ იმყოფება საფრთხის ქვეშ',
-                data: this.udanger,
-                update: this.helpers.toggleUdanger,
-                check: this.helpers.checkUdanger,
-                type: 'udanger'
-            })
-        },
+        copyObj() {
+            this.info = JSON.parse(JSON.stringify(this.$doc));
+            this.exportId = $exportId;
+            this.newDoc = false;
+            console.log(this.info);
+        }
     },
 
     computed: {
@@ -237,17 +230,20 @@ const app = new Vue({
         },
     },
 
-    watch: {
-        ploss: function (newdata, olddata) {
-            this.combine()
-        },
-    },
-
     created() {
-        this.init();
-
         tout(() => {
             $('#questions-content').removeClass('d-none');
-        })
+        });
+
+        if ($doc) {
+            this.$doc = JSON.parse($doc);
+            this.copyObj();
+        } else {
+            this.$doc = false;
+        }
+
+        this.form = new Form();
+        this.init();
+        console.log('Original data: ', this.$doc);
     },
 });
