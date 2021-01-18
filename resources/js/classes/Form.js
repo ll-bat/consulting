@@ -5,15 +5,7 @@
 
 
 
-export class Form1 {
-
-    callFunc(name, ...params){
-        this[name](params);
-    }
-
-    test(){
-        alert('hi there')
-    }
+export class Form {
 
     async getPloss(){
         let {status,data} = await this.send('get', 'docs/all-ploss', null, null);
@@ -90,3 +82,4 @@ export class Form1 {
         return this.send('get', url, null, null);
     }
 }
+
