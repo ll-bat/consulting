@@ -17,7 +17,7 @@
                 />
 
                 <div class='uploaded_image'>
-                    <img :src='data.image' class='mt-2 d-block' id='docimage0'
+                    <img :src='data.image || data.oldImage' class='mt-2 d-block' id='docimage0'
                          style='max-width:400px;max-height:400px;'/>
                     <a class='btn btn-danger rounded-pill bg-lightgrey text-white px-3 py-1 capitalize border-0'
                        @click='clearUpload()'

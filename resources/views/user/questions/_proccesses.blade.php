@@ -5,7 +5,11 @@
             <p class='ns-font-family ns-dark-color py-2 px-2' style='font-size:1.3rem;'> აირჩიეთ პროცესი </p>
             <div class="form-group" style='width:50%;'>
                 <label for="sel1">Select list:</label>
-                <select-component title="ყველა პროცესი" :data="allProcess" @select="filterDangers"></select-component>
+                <select-component title="ყველა პროცესი"
+                                  :data="allProcess"
+                                  select-event="selectProcess"
+                                  @select="filterDangers">
+                </select-component>
             </div>
         </div>
     </div>

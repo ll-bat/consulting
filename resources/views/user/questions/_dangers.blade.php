@@ -9,6 +9,7 @@
                 <select-component title="ყველა საფრთხე"
                                   :data="dangerSelect"
                                   :set-default="true"
+                                  select-event="selectDanger"
                                   id="danger-id"
                                   @select="filterControls"
                 ></select-component>

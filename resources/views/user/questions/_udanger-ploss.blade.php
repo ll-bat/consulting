@@ -7,12 +7,12 @@
                    <div class="card-body ml-3 mt-2 mb-2">
                         <p class='mb-5 text-lg'> @{{c.text}} </p>
                         <div v-for = '(d,i) in c.data'>
-                            <label class="ns-container mt-3" @mousedown='c.update(i,0)' style='font-size:.95em; color:rgba(0,0,0,.8);'>@{{d.name}}
+                            <label class="ns-container mt-3" @mousedown='c.update(d.id)' style='font-size:.95em; color:rgba(0,0,0,.8);'>@{{d.name}}
                                 <div class="mod-chbox-checkmark"
-                                     :class="{'hovered-checkmark' : c.check(i, d.id)}"
-                                     :id='helpers.chboxId(d.id,0, c.type)'>
+                                     :class="{'hovered-checkmark' : c.check(d.id)}"
+                                     :id='helpers.chboxId(d.id, 0, c.type)'>
 
-                                    <span :class="{'checked' : c.check(i, d.id)}"
+                                    <span :class="{'checked' : c.check(d.id)}"
                                           :id='helpers.checkedId(d.id,0,c.type)'>
                                     </span>
                                 </div>
