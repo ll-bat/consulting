@@ -7,18 +7,23 @@ export function checkedId(d, i, n) {
 };
 
 export function checkControl(id, i) {
-    let el = this.data.control.find(e => e.id == id)
+    let el = this.data.control.find(e => e.id === id)
 
     if (!el) {
-        this.data.control.push({id: id, value: -1})
         return false
-    } else return el.value == i
+    } else {
+        return el.value === i
+    }
 }
 
 export function toggleControl(id, i, cls) {
-    let el = this.data.control.find(e => e.id == id)
+    let el = this.data.control.find(e => e.id === id)
     // el.values[i] = (el.values[i] + 1) % 2
-    el.value = i
+    if (!el) {
+        this.data.control.push({id: id, value: i})
+    } else {
+        el.value = i
+    }
 
     toggleInput(id, i, 'control', cls)
 }
@@ -40,46 +45,58 @@ export function toggleInput(id, i, type, cls) {
     }
 }
 
-export function checkPloss(i, id) {
-    let el = this.data.ploss.find(e => e.ind == i)
+export function checkPloss(id) {
+    let el = this.data.ploss.find(p => p.id === id)
 
     if (!el) {
-        el = {ind: i, value: 0, id: id}
-        this.data.ploss.push(el)
-    }
-
-    return el.value == 1
-}
-
-export function togglePloss(i, p) {
-    let el = this.data.ploss[i]
-
-    tout(() => {
-        el.value = (el.value + 1) % 2
-    }, 20)
-
-    toggleInput(el.id, 0, 'ploss')
-}
-
-export function checkUdanger(i, id) {
-    let el = this.data.udanger.find(e => e.ind == i)
-
-    if (!el) {
-        el = {ind: i, value: 0, id: id}
-        this.data.udanger.push(el)
+        return false;
     }
 
     return el.value & 1
 }
 
-export function toggleUdanger(i, p) {
-    let el = this.data.udanger[i]
+export function togglePloss(id) {
+    let el = this.data.ploss.find(p => p.id === id)
 
-    tout(() => {
-        el.value = (el.value + 1) % 2
-    }, 20)
+    if (!el) {
+        tout(() => {
+            el = {value: 1, id: id}
+            this.data.ploss.push(el)
+        })
+    } else {
+        tout(() => {
+            el.value = (el.value + 1) % 2
+        })
+    }
 
-    toggleInput(el.id, 0, 'udanger')
+    toggleInput(id, 0, 'ploss')
+}
+
+export function checkUdanger(id) {
+    let el = this.data.udanger.find(e => e.id === id)
+
+    if (!el) {
+        return false;
+    }
+
+    return el.value & 1
+}
+
+export function toggleUdanger(id) {
+    let el = this.data.udanger.find(e => e.id === id)
+
+    if (!el) {
+        tout(() => {
+            el = {value: 1, id: id}
+            this.data.udanger.push(el)
+        })
+    } else {
+        tout(() => {
+            el.value = (el.value + 1) % 2
+        }, 20)
+    }
+
+    toggleInput(id, 0, 'udanger')
 }
 
 export function chainedAnim(cname, len, c) {
@@ -93,4 +110,44 @@ export function chainedAnim(cname, len, c) {
         }, tme)
         tme = newt
     }
+}
+
+export function removeLoader() {
+    this.loading = false;
+    $('#show_data').removeClass('d-none');
+    tout(() => $('#edit-process').css({'border-top': '10px solid #673ab7'}), 500)
+}
+
+export function setControlAnswers() {
+    this.controlAnswers.push({
+        text: 'არსებული',
+        label: 'მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა'
+    });
+    this.controlAnswers.push({
+        text: 'დამატებითი',
+        label: 'მონიშნეთ თუ სახეზე არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია)'
+    })
+    this.controlAnswers.push({text: 'არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება', label: ''});
+}
+
+export function combine() {
+    this.combined = []
+    this.combined.push({
+        class: '',
+        style: 'border-radius:0;border-bottom:5px solid lightgrey',
+        text: 'აირჩიეთ პოტენციური ზიანი',
+        data: this.ploss,
+        update: this.helpers.togglePloss,
+        check: this.helpers.checkPloss,
+        type: 'ploss'
+    })
+    this.combined.push({
+        class: 'pb-0',
+        style: 'border-radius:0;padding-bottom:0 !important',
+        text: 'ვინ იმყოფება საფრთხის ქვეშ',
+        data: this.udanger,
+        update: this.helpers.toggleUdanger,
+        check: this.helpers.checkUdanger,
+        type: 'udanger'
+    })
 }
