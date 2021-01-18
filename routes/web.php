@@ -63,6 +63,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'doc'], function () {
         Route::get('{export}', 'MyDocsController@show')->name('user.export');
+        Route::get('{export}/edit', 'MyDocsController@edit')->name('user.export.edit');
         Route::get('{export}/export', 'MyDocsController@export');
         Route::delete('{export}/delete', 'MyDocsController@delete');
         //  Route::get('{export}/download', 'MyDocsController@download');
