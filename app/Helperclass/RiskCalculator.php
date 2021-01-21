@@ -5,17 +5,17 @@ namespace App\Helperclass;
 use App\Control;
 
 class RiskCalculator {
-    
+
     private $result = [];
     private $reducesPotentialLoss = false;
 
-    public function __construct($danger, $conIds, $obj){
-        $this->calculate(dval($danger->k), $conIds, $obj);
+    public function __construct($k, $obj){
+        $this->calculate(dval($k), $obj);
     }
 
-    public function calculate($k, $conIds, $obj){
+    public function calculate($k, $obj){
         $this->calcFirstResult($k, $obj);
-        $this->calcFirstProbability($k, $conIds, $obj);
+        $this->calcFirstProbability($k, $obj);
         $this->calcFirstLevel();
         $this->calcSecondResult();
         $this->calcSecondProbability();
@@ -41,7 +41,7 @@ class RiskCalculator {
         // dd($test);
     }
 
-    public function calcFirstProbability($k, $conIds, $obj){
+    public function calcFirstProbability($k, $obj){
         $userControlsSum = 0;
         $test = [];
         foreach ($obj['control'][0] as $c){
@@ -56,14 +56,7 @@ class RiskCalculator {
             }
         }
 
-        $allControls = Control::whereIn('id', $conIds)->get();
-
-        $allControlsSum = 0;
-
-        foreach ($allControls as $c){
-            $allControlsSum += dval($c->k);
-            $test['allControlsK'][] = dval($c->k);
-        }
+        $allControlsSum = $obj['dangerControlsSum'];
 
         $percent = ($userControlsSum / $allControlsSum) * 100;
         $test['percent'] = $percent;
@@ -76,11 +69,11 @@ class RiskCalculator {
              $result = $val;
              break;
         }
-        
+
         if ($result == -1) $result = 1;
 
         $test['result'] = $result;
-        
+
         $this->result['first_probability'] = $result;
 
         // dd($test);
