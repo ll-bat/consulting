@@ -1920,6 +1920,12 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -1949,6 +1955,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     id: {
       "default": get_uuid()
+    },
+    selectEvent: {
+      type: String,
+      "default": false
     }
   },
   data: function data() {
@@ -2004,6 +2014,27 @@ __webpack_require__.r(__webpack_exports__);
     if (this.setDefault) {
       Event.$on('setDefaultValue', function () {
         _this.setDefaultValue();
+      });
+    }
+
+    if (this.selectEvent) {
+      Event.$on(this.selectEvent, function (id) {
+        var option = null;
+
+        for (var i = 0; i < _this.options.length; i++) {
+          if (_this.options[i].value === id) {
+            option = _objectSpread(_objectSpread({}, _this.options[i]), {}, {
+              index: i
+            });
+            break;
+          }
+        }
+
+        if (option) {
+          _this.selected = option;
+        } else {
+          throw new Error('No such element found');
+        }
       });
     }
   }
@@ -51490,16 +51521,16 @@ var fetcher = new Fetcher();
 
 /***/ }),
 
-/***/ "./resources/js/classes/Form1.js":
-/*!***************************************!*\
-  !*** ./resources/js/classes/Form1.js ***!
-  \***************************************/
-/*! exports provided: Form1 */
+/***/ "./resources/js/classes/Form.js":
+/*!**************************************!*\
+  !*** ./resources/js/classes/Form.js ***!
+  \**************************************/
+/*! exports provided: Form */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Form1", function() { return Form1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Form", function() { return Form; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -51514,26 +51545,12 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var Form1 = /*#__PURE__*/function () {
-  function Form1() {
-    _classCallCheck(this, Form1);
+var Form = /*#__PURE__*/function () {
+  function Form() {
+    _classCallCheck(this, Form);
   }
 
-  _createClass(Form1, [{
-    key: "callFunc",
-    value: function callFunc(name) {
-      for (var _len = arguments.length, params = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        params[_key - 1] = arguments[_key];
-      }
-
-      this[name](params);
-    }
-  }, {
-    key: "test",
-    value: function test() {
-      alert('hi there');
-    }
-  }, {
+  _createClass(Form, [{
     key: "getPloss",
     value: function () {
       var _getPloss = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
@@ -51639,50 +51656,82 @@ var Form1 = /*#__PURE__*/function () {
     }
   }, {
     key: "submit",
-    value: function submit(url, data, fm) {
-      var _this = this;
+    value: function () {
+      var _submit = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(url, data, fm) {
+        var fn, res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                fn = /*#__PURE__*/function () {
+                  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+                    var ys;
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+                      while (1) {
+                        switch (_context3.prev = _context3.next) {
+                          case 0:
+                            _context3.next = 2;
+                            return prompt('Would you like to refresh the page ?');
 
-      var fn = /*#__PURE__*/function () {
-        var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-          var ys;
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-            while (1) {
-              switch (_context3.prev = _context3.next) {
-                case 0:
-                  _context3.next = 2;
-                  return prompt('Would you like to refresh the page ?');
+                          case 2:
+                            ys = _context3.sent;
 
-                case 2:
-                  ys = _context3.sent;
+                            if (ys) {
+                              window.location = '';
+                            }
 
-                  if (ys) {
-                    window.location = '';
-                  }
+                          case 4:
+                          case "end":
+                            return _context3.stop();
+                        }
+                      }
+                    }, _callee3);
+                  }));
 
-                case 4:
-                case "end":
-                  return _context3.stop();
-              }
+                  return function fn() {
+                    return _ref.apply(this, arguments);
+                  };
+                }();
+
+                _context4.next = 3;
+                return this.send('post', url, {
+                  data: data
+                }, fn);
+
+              case 3:
+                res = _context4.sent;
+
+                if (!res) {
+                  _context4.next = 11;
+                  break;
+                }
+
+                _context4.next = 7;
+                return this.send('post', 'docs/save-docs', fm, fn);
+
+              case 7:
+                res = _context4.sent;
+                $1('red_to_fin').submit();
+                _context4.next = 12;
+                break;
+
+              case 11:
+                console.log("error outer");
+
+              case 12:
+              case "end":
+                return _context4.stop();
             }
-          }, _callee3);
-        }));
+          }
+        }, _callee4, this);
+      }));
 
-        return function fn() {
-          return _ref.apply(this, arguments);
-        };
-      }();
+      function submit(_x2, _x3, _x4) {
+        return _submit.apply(this, arguments);
+      }
 
-      this.send('post', url, {
-        data: data
-      }, fn).then(function (res) {
-        console.log(res);
-
-        _this.send('post', 'docs/save-docs', fm, fn).then(function (res) {
-          console.log(res);
-          $1('red_to_fin').submit();
-        });
-      });
-    }
+      return submit;
+    }()
   }, {
     key: "send",
     value: function send(type, url, data, fn) {
@@ -51711,7 +51760,7 @@ var Form1 = /*#__PURE__*/function () {
     }
   }]);
 
-  return Form1;
+  return Form;
 }();
 
 /***/ }),
@@ -51807,7 +51856,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!*************************************!*\
   !*** ./resources/js/helpers/fns.js ***!
   \*************************************/
-/*! exports provided: chboxId, checkedId, checkControl, toggleControl, toggleInput, checkPloss, togglePloss, checkUdanger, toggleUdanger, chainedAnim */
+/*! exports provided: chboxId, checkedId, checkControl, toggleControl, toggleInput, checkPloss, togglePloss, checkUdanger, toggleUdanger, chainedAnim, removeLoader, setControlAnswers, combine */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -51822,6 +51871,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkUdanger", function() { return checkUdanger; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleUdanger", function() { return toggleUdanger; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "chainedAnim", function() { return chainedAnim; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeLoader", function() { return removeLoader; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setControlAnswers", function() { return setControlAnswers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "combine", function() { return combine; });
 function chboxId(d, i, n) {
   return "chboxId".concat(d, "_").concat(n, "_").concat(i);
 }
@@ -51832,23 +51884,29 @@ function checkedId(d, i, n) {
 ;
 function checkControl(id, i) {
   var el = this.data.control.find(function (e) {
-    return e.id == id;
+    return e.id === id;
   });
+
+  if (!el) {
+    return false;
+  } else {
+    return el.value === i;
+  }
+}
+function toggleControl(id, i, cls) {
+  var el = this.data.control.find(function (e) {
+    return e.id === id;
+  }); // el.values[i] = (el.values[i] + 1) % 2
 
   if (!el) {
     this.data.control.push({
       id: id,
-      value: -1
+      value: i
     });
-    return false;
-  } else return el.value == i;
-}
-function toggleControl(id, i, cls) {
-  var el = this.data.control.find(function (e) {
-    return e.id == id;
-  }); // el.values[i] = (el.values[i] + 1) % 2
+  } else {
+    el.value = i;
+  }
 
-  el.value = i;
   toggleInput(id, i, 'control', cls);
 }
 function toggleInput(id, i, type, cls) {
@@ -51865,51 +51923,75 @@ function toggleInput(id, i, type, cls) {
     $("#checkedId".concat(sym)).removeClass(cls);
   }
 }
-function checkPloss(i, id) {
-  var el = this.data.ploss.find(function (e) {
-    return e.ind == i;
+function checkPloss(id) {
+  var el = this.data.ploss.find(function (p) {
+    return p.id === id;
   });
 
   if (!el) {
-    el = {
-      ind: i,
-      value: 0,
-      id: id
-    };
-    this.data.ploss.push(el);
-  }
-
-  return el.value == 1;
-}
-function togglePloss(i, p) {
-  var el = this.data.ploss[i];
-  tout(function () {
-    el.value = (el.value + 1) % 2;
-  }, 20);
-  toggleInput(el.id, 0, 'ploss');
-}
-function checkUdanger(i, id) {
-  var el = this.data.udanger.find(function (e) {
-    return e.ind == i;
-  });
-
-  if (!el) {
-    el = {
-      ind: i,
-      value: 0,
-      id: id
-    };
-    this.data.udanger.push(el);
+    return false;
   }
 
   return el.value & 1;
 }
-function toggleUdanger(i, p) {
-  var el = this.data.udanger[i];
-  tout(function () {
-    el.value = (el.value + 1) % 2;
-  }, 20);
-  toggleInput(el.id, 0, 'udanger');
+function togglePloss(id) {
+  var _this = this;
+
+  var el = this.data.ploss.find(function (p) {
+    return p.id === id;
+  });
+
+  if (!el) {
+    tout(function () {
+      el = {
+        value: 1,
+        id: id
+      };
+
+      _this.data.ploss.push(el);
+    });
+  } else {
+    tout(function () {
+      el.value = (el.value + 1) % 2;
+    });
+  }
+
+  toggleInput(id, 0, 'ploss');
+}
+function checkUdanger(id) {
+  var el = this.data.udanger.find(function (e) {
+    return e.id === id;
+  });
+
+  if (!el) {
+    return false;
+  }
+
+  return el.value & 1;
+}
+function toggleUdanger(id) {
+  var _this2 = this;
+
+  var el = this.data.udanger.find(function (e) {
+    return e.id === id;
+  });
+
+  if (!el) {
+    tout(function () {
+      el = {
+        value: 1,
+        id: id
+      };
+
+      _this2.data.udanger.push(el);
+    });
+  } else {
+    tout(function () {
+      el.value = (el.value + 1) % 2;
+    }, 20);
+  }
+
+  toggleInput(id, 0, 'udanger');
 }
 function chainedAnim(cname, len, c) {
   if (c >= len) return;
@@ -51922,6 +52004,50 @@ function chainedAnim(cname, len, c) {
     }, tme);
     tme = newt;
   }
+}
+function removeLoader() {
+  this.loading = false;
+  $('#show_data').removeClass('d-none');
+  tout(function () {
+    return $('#edit-process').css({
+      'border-top': '10px solid #673ab7'
+    });
+  }, 500);
+}
+function setControlAnswers() {
+  this.controlAnswers.push({
+    text: 'არსებული',
+    label: 'მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა'
+  });
+  this.controlAnswers.push({
+    text: 'დამატებითი',
+    label: 'მონიშნეთ თუ სახეზე არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია)'
+  });
+  this.controlAnswers.push({
+    text: 'არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება',
+    label: ''
+  });
+}
+function combine() {
+  this.combined = [];
+  this.combined.push({
+    "class": '',
+    style: 'border-radius:0;border-bottom:5px solid lightgrey',
+    text: 'აირჩიეთ პოტენციური ზიანი',
+    data: this.ploss,
+    update: this.helpers.togglePloss,
+    check: this.helpers.checkPloss,
+    type: 'ploss'
+  });
+  this.combined.push({
+    "class": 'pb-0',
+    style: 'border-radius:0;padding-bottom:0 !important',
+    text: 'ვინ იმყოფება საფრთხის ქვეშ',
+    data: this.udanger,
+    update: this.helpers.toggleUdanger,
+    check: this.helpers.checkUdanger,
+    type: 'udanger'
+  });
 }
 
 /***/ }),
@@ -51939,7 +52065,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _services_httpService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./services/httpService */ "./resources/js/services/httpService.js");
 /* harmony import */ var _components_SelectComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/SelectComponent */ "./resources/js/components/SelectComponent.vue");
-/* harmony import */ var _classes_Form1__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./classes/Form1 */ "./resources/js/classes/Form1.js");
+/* harmony import */ var _classes_Form__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./classes/Form */ "./resources/js/classes/Form.js");
 /* harmony import */ var _classes_Data__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./classes/Data */ "./resources/js/classes/Data.js");
 /* harmony import */ var _helpers_fns__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./helpers/fns */ "./resources/js/helpers/fns.js");
 /* harmony import */ var _classes_Fetcher__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./classes/Fetcher */ "./resources/js/classes/Fetcher.js");
@@ -51955,7 +52081,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 window.Event = new Vue();
-window.Form = new _classes_Form1__WEBPACK_IMPORTED_MODULE_3__["Form1"]();
+window.Form = new _classes_Form__WEBPACK_IMPORTED_MODULE_3__["Form"]();
 Vue.component('select-component', __webpack_require__(/*! ./components/SelectComponent */ "./resources/js/components/SelectComponent.vue")["default"]);
 
 
@@ -51969,6 +52095,7 @@ var app = new Vue({
   },
   data: {
     loading: true,
+    newDoc: true,
     processes: [],
     dangers: [],
     controls: [],
@@ -51986,7 +52113,8 @@ var app = new Vue({
     currentControls: [],
     showDangers: false,
     showControls: false,
-    helpers: {}
+    helpers: {},
+    exportId: null
   },
   methods: {
     filterDangers: function filterDangers(selectedValue) {
@@ -52120,6 +52248,7 @@ var app = new Vue({
       this.data.hasImage = false;
       this.fm["delete"](this.data.imageName);
       this.data.imageName = '';
+      this.data.oldImage = false;
     },
     addInArray: function addInArray(type) {
       this.data[type].push({
@@ -52149,7 +52278,8 @@ var app = new Vue({
         }
 
         return ys;
-      });
+      }); // console.log(this.info);
+      // return;
 
       if (this.info.length === 0) {
         alert('Please, fill up the form');
@@ -52157,41 +52287,84 @@ var app = new Vue({
         return;
       }
 
+      this.testify();
       $('#data-processing').removeClass('d-none');
       $('#data-submit').addClass('disabled');
-      Form.submit('docs/submit', this.info, this.fm);
+      this.form.submit('docs/submit', this.info, this.fm);
+    },
+    testify: function testify() {// this.info = [{
+      //     pid: 12,
+      //     did: 5,
+      //     data: {
+      //
+      //     }
+      // }];
     },
     init: function init() {
       var _this5 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        var data, a;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+        var data, a, _this5$info$, pid, did;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context3.next = 2;
+                _context4.next = 2;
                 return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].get('api/all-data');
 
               case 2:
-                data = _context3.sent;
+                data = _context4.sent;
 
                 for (a in data) {
                   _this5[a] = data[a];
                 }
 
-                _this5.removeLoader();
-
-                _this5.setControlAnswers();
-
                 _this5.setHelpers();
 
-              case 7:
+                _this5.helpers.combine();
+
+                _this5.helpers.setControlAnswers();
+
+                if (_this5.newDoc) {
+                  _context4.next = 14;
+                  break;
+                }
+
+                _this5$info$ = _this5.info[0], pid = _this5$info$.pid, did = _this5$info$.did;
+                _context4.next = 11;
+                return _this5.filterDangers(pid);
+
+              case 11:
+                _context4.next = 13;
+                return _this5.filterControls(did);
+
+              case 13:
+                tout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+                    while (1) {
+                      switch (_context3.prev = _context3.next) {
+                        case 0:
+                          Event.$emit('selectProcess', pid);
+                          Event.$emit('selectDanger', did);
+
+                        case 2:
+                        case "end":
+                          return _context3.stop();
+                      }
+                    }
+                  }, _callee3);
+                })), 250);
+
+              case 14:
+                _this5.helpers.removeLoader();
+
+              case 15:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3);
+        }, _callee4);
       }))();
     },
     setHelpers: function setHelpers() {
@@ -52255,52 +52428,35 @@ var app = new Vue({
           }
 
           return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["chainedAnim"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["chainedAnim"], [_this6].concat(params));
+        },
+        removeLoader: function removeLoader() {
+          for (var _len9 = arguments.length, params = new Array(_len9), _key9 = 0; _key9 < _len9; _key9++) {
+            params[_key9] = arguments[_key9];
+          }
+
+          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["removeLoader"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["removeLoader"], [_this6].concat(params));
+        },
+        setControlAnswers: function setControlAnswers() {
+          for (var _len10 = arguments.length, params = new Array(_len10), _key10 = 0; _key10 < _len10; _key10++) {
+            params[_key10] = arguments[_key10];
+          }
+
+          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["setControlAnswers"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["setControlAnswers"], [_this6].concat(params));
+        },
+        combine: function combine() {
+          for (var _len11 = arguments.length, params = new Array(_len11), _key11 = 0; _key11 < _len11; _key11++) {
+            params[_key11] = arguments[_key11];
+          }
+
+          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["combine"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["combine"], [_this6].concat(params));
         }
       };
     },
-    removeLoader: function removeLoader() {
-      this.loading = false;
-      $('#show_data').removeClass('d-none');
-      tout(function () {
-        return $('#edit-process').css({
-          'border-top': '10px solid #673ab7'
-        });
-      }, 500);
-    },
-    setControlAnswers: function setControlAnswers() {
-      this.controlAnswers.push({
-        text: 'არსებული',
-        label: 'მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა'
-      });
-      this.controlAnswers.push({
-        text: 'დამატებითი',
-        label: 'მონიშნეთ თუ სახეზე არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია)'
-      });
-      this.controlAnswers.push({
-        text: 'არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება',
-        label: ''
-      });
-    },
-    combine: function combine() {
-      this.combined = [];
-      this.combined.push({
-        "class": '',
-        style: 'border-radius:0;border-bottom:5px solid lightgrey',
-        text: 'აირჩიეთ პოტენციური ზიანი',
-        data: this.ploss,
-        update: this.helpers.togglePloss,
-        check: this.helpers.checkPloss,
-        type: 'ploss'
-      });
-      this.combined.push({
-        "class": 'pb-0',
-        style: 'border-radius:0;padding-bottom:0 !important',
-        text: 'ვინ იმყოფება საფრთხის ქვეშ',
-        data: this.udanger,
-        update: this.helpers.toggleUdanger,
-        check: this.helpers.checkUdanger,
-        type: 'udanger'
-      });
+    copyObj: function copyObj() {
+      this.info = JSON.parse(JSON.stringify(this.$doc));
+      this.exportId = $exportId;
+      this.newDoc = false;
+      console.log(this.info);
     }
   },
   computed: {
@@ -52313,12 +52469,19 @@ var app = new Vue({
       });
     }
   },
-  watch: {
-    ploss: function ploss(newdata, olddata) {
-      this.combine();
-    }
-  },
   created: function created() {
+    tout(function () {
+      $('#questions-content').removeClass('d-none');
+    });
+
+    if ($doc) {
+      this.$doc = JSON.parse($doc);
+      this.copyObj();
+    } else {
+      this.$doc = false;
+    }
+
+    this.form = new _classes_Form__WEBPACK_IMPORTED_MODULE_3__["Form"]();
     this.init();
   }
 });

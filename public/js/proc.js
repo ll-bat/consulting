@@ -6473,7 +6473,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\ninput::-webkit-outer-spin-button,\n input::-webkit-inner-spin-button {\n   -webkit-appearance: none;\n   margin: 0;\n}\n \n /* Firefox */\ninput[type=number] {\n   -moz-appearance: textfield;\n}\n.option-remove{\n     font-size:1.2em;font-weight:bold;color:grey;\n}\n.h-ntest{\n     padding:12px;\n     border-radius:45%;\n     cursor: pointer;\n     transition: all .3s;\n     opacity:.6;\n}\n.h-ntest:hover{\n     background-color:whitesmoke;\n     border-radius:50%;\n     color:#602b92;\n     opacity:1;\n}\n@keyframes  testanim {\nfrom {opacity: .8; transform: rotate(-90deg); padding:1px; background-color:lightblue; border-radius:50%;}\nto {}\n}\n.testit{\n    animation-name:testanim;\n    animation-duration: .5s;\n}\n", ""]);
+exports.push([module.i, "\ninput::-webkit-outer-spin-button,\n input::-webkit-inner-spin-button {\n   -webkit-appearance: none;\n   margin: 0;\n}\n\n /* Firefox */\ninput[type=number] {\n   -moz-appearance: textfield;\n}\n.option-remove{\n     font-size:1.2em;font-weight:bold;color:grey;\n}\n.h-ntest{\n     padding:12px;\n     border-radius:45%;\n     cursor: pointer;\n     transition: all .3s;\n     opacity:.6;\n}\n.h-ntest:hover{\n     background-color:whitesmoke;\n     border-radius:50%;\n     color:#602b92;\n     opacity:1;\n}\n@keyframes  testanim {\nfrom {opacity: .8; transform: rotate(-90deg); padding:1px; background-color:lightblue; border-radius:50%;}\nto {}\n}\n.testit{\n    animation-name:testanim;\n    animation-duration: .5s;\n}\n", ""]);
 
 // exports
 
@@ -51310,16 +51310,16 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
-/***/ "./resources/js/classes/Form1.js":
-/*!***************************************!*\
-  !*** ./resources/js/classes/Form1.js ***!
-  \***************************************/
-/*! exports provided: Form1 */
+/***/ "./resources/js/classes/Form.js":
+/*!**************************************!*\
+  !*** ./resources/js/classes/Form.js ***!
+  \**************************************/
+/*! exports provided: Form */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Form1", function() { return Form1; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Form", function() { return Form; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -51334,26 +51334,12 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var Form1 = /*#__PURE__*/function () {
-  function Form1() {
-    _classCallCheck(this, Form1);
+var Form = /*#__PURE__*/function () {
+  function Form() {
+    _classCallCheck(this, Form);
   }
 
-  _createClass(Form1, [{
-    key: "callFunc",
-    value: function callFunc(name) {
-      for (var _len = arguments.length, params = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-        params[_key - 1] = arguments[_key];
-      }
-
-      this[name](params);
-    }
-  }, {
-    key: "test",
-    value: function test() {
-      alert('hi there');
-    }
-  }, {
+  _createClass(Form, [{
     key: "getPloss",
     value: function () {
       var _getPloss = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
@@ -51459,50 +51445,82 @@ var Form1 = /*#__PURE__*/function () {
     }
   }, {
     key: "submit",
-    value: function submit(url, data, fm) {
-      var _this = this;
+    value: function () {
+      var _submit = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(url, data, fm) {
+        var fn, res;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                fn = /*#__PURE__*/function () {
+                  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+                    var ys;
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+                      while (1) {
+                        switch (_context3.prev = _context3.next) {
+                          case 0:
+                            _context3.next = 2;
+                            return prompt('Would you like to refresh the page ?');
 
-      var fn = /*#__PURE__*/function () {
-        var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-          var ys;
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
-            while (1) {
-              switch (_context3.prev = _context3.next) {
-                case 0:
-                  _context3.next = 2;
-                  return prompt('Would you like to refresh the page ?');
+                          case 2:
+                            ys = _context3.sent;
 
-                case 2:
-                  ys = _context3.sent;
+                            if (ys) {
+                              window.location = '';
+                            }
 
-                  if (ys) {
-                    window.location = '';
-                  }
+                          case 4:
+                          case "end":
+                            return _context3.stop();
+                        }
+                      }
+                    }, _callee3);
+                  }));
 
-                case 4:
-                case "end":
-                  return _context3.stop();
-              }
+                  return function fn() {
+                    return _ref.apply(this, arguments);
+                  };
+                }();
+
+                _context4.next = 3;
+                return this.send('post', url, {
+                  data: data
+                }, fn);
+
+              case 3:
+                res = _context4.sent;
+
+                if (!res) {
+                  _context4.next = 11;
+                  break;
+                }
+
+                _context4.next = 7;
+                return this.send('post', 'docs/save-docs', fm, fn);
+
+              case 7:
+                res = _context4.sent;
+                $1('red_to_fin').submit();
+                _context4.next = 12;
+                break;
+
+              case 11:
+                console.log("error outer");
+
+              case 12:
+              case "end":
+                return _context4.stop();
             }
-          }, _callee3);
-        }));
+          }
+        }, _callee4, this);
+      }));
 
-        return function fn() {
-          return _ref.apply(this, arguments);
-        };
-      }();
+      function submit(_x2, _x3, _x4) {
+        return _submit.apply(this, arguments);
+      }
 
-      this.send('post', url, {
-        data: data
-      }, fn).then(function (res) {
-        console.log(res);
-
-        _this.send('post', 'docs/save-docs', fm, fn).then(function (res) {
-          console.log(res);
-          $1('red_to_fin').submit();
-        });
-      });
-    }
+      return submit;
+    }()
   }, {
     key: "send",
     value: function send(type, url, data, fn) {
@@ -51531,7 +51549,7 @@ var Form1 = /*#__PURE__*/function () {
     }
   }]);
 
-  return Form1;
+  return Form;
 }();
 
 /***/ }),
@@ -51634,10 +51652,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _classes_Form1__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./classes/Form1 */ "./resources/js/classes/Form1.js");
+/* harmony import */ var _classes_Form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./classes/Form */ "./resources/js/classes/Form.js");
 /* harmony import */ var _components_FbodyComponent__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/FbodyComponent */ "./resources/js/components/FbodyComponent.vue");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -51648,11 +51664,10 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 window.Event = new Vue();
-window.Form = new _classes_Form1__WEBPACK_IMPORTED_MODULE_1__["Form1"](); // const files = require.context('./', true, /\.vue$/i)
+window.Form = new _classes_Form__WEBPACK_IMPORTED_MODULE_1__["Form"](); // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('fbody-component', __webpack_require__(/*! ./components/FbodyComponent.vue */ "./resources/js/components/FbodyComponent.vue")["default"]);
-
 
 
 var app = new Vue({
@@ -51667,7 +51682,8 @@ var app = new Vue({
     usaving: false,
     created: true,
     udangerLoading: true,
-    plossLoading: true
+    plossLoading: true,
+    form: null
   },
   methods: {
     addNewPloss: function addNewPloss() {
@@ -51677,7 +51693,7 @@ var app = new Vue({
         k: '3',
         name: ''
       };
-      Form.createPloss(function (id) {
+      this.form.createPloss(function (id) {
         data.id = id;
       });
       tout(function () {
@@ -51690,7 +51706,7 @@ var app = new Vue({
       var data = {
         name: ''
       };
-      Form.createUdanger(function (id) {
+      this.form.createUdanger(function (id) {
         data.id = id;
       });
       tout(function () {
@@ -51723,17 +51739,17 @@ var app = new Vue({
                       case 0:
                         a = _arr[_i];
                         _context.next = 3;
-                        return Form[a[0]]();
+                        return _this3.form[a.url]();
 
                       case 3:
                         res = _context.sent;
 
                         if (res) {
-                          _this3[a[2]] = res;
+                          _this3[a.data] = res;
                         }
 
                         tout(function () {
-                          _this3[a[1]] = false;
+                          _this3[a.loader] = false;
                         }, 400);
 
                       case 6:
@@ -51743,7 +51759,15 @@ var app = new Vue({
                   }
                 }, _loop);
               });
-              _i = 0, _arr = [['getPloss', 'plossLoading', 'ploss'], ['getUdanger', 'udangerLoading', 'udanger']];
+              _i = 0, _arr = [{
+                url: 'getPloss',
+                loader: 'plossLoading',
+                data: 'ploss'
+              }, {
+                url: 'getUdanger',
+                loader: 'udangerLoading',
+                data: 'udanger'
+              }];
 
             case 2:
               if (!(_i < _arr.length)) {
@@ -51759,12 +51783,21 @@ var app = new Vue({
               break;
 
             case 7:
+              tout(function () {
+                $('#psaving-panel').removeClass('d-none');
+                $('#usaving-panel').removeClass('d-none');
+              }, 420);
+
+            case 8:
             case "end":
               return _context2.stop();
           }
         }
       }, _callee);
     }))();
+  },
+  created: function created() {
+    this.form = new _classes_Form__WEBPACK_IMPORTED_MODULE_1__["Form"]();
   }
 });
 
