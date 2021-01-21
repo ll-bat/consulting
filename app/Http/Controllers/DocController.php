@@ -46,12 +46,20 @@ class DocController extends Controller
         $obj = new Data($data);
 
         session()->put('data', $obj);
+        session()->put('first_part', true);
 
         return response('done', 200);
     }
 
     public function saveData(Request $request)
     {
+        $done = session()->get('first_part') ?? false;
+        if (!$done) {
+            return response('Bad request', 400);
+        } else {
+            session()->forget('first_part');
+        }
+
         $rule = session()->get('rule') ?? [];
         $obj = session()->get('data') ?? [];
 
@@ -109,9 +117,7 @@ class DocController extends Controller
                 $model = isset($controls[$did][$nc['value']]);
 
                 if (!$model) {
-                    UserText::create(['user_id' => $userId,
-                        'danger_id' => $did, 'name' => $nc['value'],
-                        'type' => 'control']);
+                    UserText::create(['user_id' => $userId, 'danger_id' => $did, 'name' => $nc['value'], 'type' => 'control']);
                     $controls[$did][$nc['value']] = true;
                 }
             }
@@ -120,9 +126,7 @@ class DocController extends Controller
                 $model = isset($udangers[$did][$nc['value']]);
 
                 if (!$model) {
-                    UserText::create(['user_id' => current_user()->id,
-                        'danger_id' => $did, 'name' => $nc['value'],
-                        'type' => 'udanger']);
+                    UserText::create(['user_id' => current_user()->id, 'danger_id' => $did, 'name' => $nc['value'], 'type' => 'udanger']);
                     $udangers[$did][$nc['value']] = true;
                 }
             }
@@ -131,12 +135,18 @@ class DocController extends Controller
         $obj->setData($data);
         session()->put('data', $obj);
 
-        return response('completed', 200);
+        return response(true, 200);
     }
 
-    public function showData(): RedirectResponse
+    /**
+     * @return false|RedirectResponse
+     */
+    public function showData()
     {
         $obj = session()->get('data')->getData();
+        if (count($obj) < 1) {
+            throw new \Exception('Non-valid data provided');
+        }
         $exportId = session()->get('exportId');
 
         $reader = new FinalData($exportId);
