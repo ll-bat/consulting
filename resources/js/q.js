@@ -138,17 +138,30 @@ const app = new Vue({
                 return ys
             })
 
+            // console.log(this.info);
+            // return;
+
             if (this.info.length === 0) {
                 alert('Please, fill up the form')
                 window.location = ''
                 return
             }
 
-            console.log(this.info);
+            this.testify();
 
             $('#data-processing').removeClass('d-none')
             $('#data-submit').addClass('disabled')
             this.form.submit('docs/submit', this.info, this.fm)
+        },
+
+        testify() {
+           // this.info = [{
+           //     pid: 12,
+           //     did: 5,
+           //     data: {
+           //
+           //     }
+           // }];
         },
 
         async init() {
@@ -244,6 +257,5 @@ const app = new Vue({
 
         this.form = new Form();
         this.init();
-        console.log('Original data: ', this.$doc);
     },
 });
