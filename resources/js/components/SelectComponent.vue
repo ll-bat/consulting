@@ -28,6 +28,10 @@ export default {
         },
         id: {
             default: get_uuid()
+        },
+        selectEvent: {
+            type: String,
+            default: false,
         }
     },
     data() {
@@ -79,6 +83,23 @@ export default {
         if (this.setDefault) {
             Event.$on('setDefaultValue', () => {
                 this.setDefaultValue()
+            })
+        }
+
+        if (this.selectEvent) {
+            Event.$on(this.selectEvent, (id) => {
+                let option = null;
+                for (let i=0; i<this.options.length; i++) {
+                    if (this.options[i].value === id) {
+                        option = {...this.options[i], index: i};
+                        break;
+                    }
+                }
+                if (option) {
+                    this.selected = option;
+                } else {
+                    throw new Error('No such element found');
+                }
             })
         }
 
