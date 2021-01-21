@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Control;
+use App\Helperclass\Filter;
+use App\Helperclass\FinalData;
 use App\Helperclass\Obj;
 use App\Helperclass\Json;
 use App\Helperclass\Content;
@@ -10,17 +13,95 @@ use App\Helperclass\Texts;
 use App\Helperclass\Services;
 use App\Helperclass\Customizable;
 use App\Export;
+use App\Process;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
 
 class TestsController extends Controller
 {
-      public function index(){
-//          $export = Export::first();
-//
+      public function index()
+      {
+//          $this->calc();
+
+      }
+
+      public function calc2() {
+
+          $dangerIds = [56, 57];
+
+          $controls = DB::table('controls')
+              ->join('control_dangers', 'controls.id', '=', 'control_dangers.control_id')
+              ->whereIn('control_dangers.danger_id', $dangerIds)
+              ->selectRaw('SUM(controls.k) as controls_sum, control_dangers.danger_id')
+              ->groupBy('control_dangers.danger_id')
+              ->get()
+              ->toArray();
+
+          dd($controls);
+
+      }
+
+      public function calc() {
+          $export = Export::latest()->first();
+          $data = json_decode($export->data);
+          $data = $data[0];
+          $data = $this->makeAssoc($data);
+          $data = $this->convert($data);
+          $data = $this->correctControls($data);
+
+          $data = ['data' => []];
+          $data = (new Filter($data))->getData();
+
+          $finalData = new FinalData(false, 1);
+          $data = $finalData->init($data);
+
+          dd($data);
+      }
+
+      public function correctControls($data) {
+          foreach ($data as &$d) {
+              $old = $d['data']['control'];
+              $controls = array_merge($old[0], array_merge($old[1], $old[2]));
+              $d['data']['control'] = $controls;
+          }
+          return $data;
+      }
+
+      public function convert($data) {
+          $obj = [];
+
+          foreach ($data as $index => $p) {
+              foreach ($p as $ind => $d) {
+                  if ((gettype($d) !== 'array') && gettype($d) !== 'object') continue;
+                  $obj[] = [
+                      'pid' => $d['pid'],
+                      'did' => $d['did'],
+                      'data' => $d['data']
+                  ];
+              }
+          }
+
+          return $obj;
+      }
+
+      public function makeAssoc($data) {
+
+          $obj = [];
+
+          if (!in_array(gettype($data), ['array', 'object'])) {
+              return $data;
+          }
+
+          foreach ($data as $ind => $d) {
+              $obj[$ind] = $this->makeAssoc($d);
+          }
+
+          return $obj;
+
 //          $filename = $export->filename;
 //
 //          $dompdf = new Dompdf();
@@ -86,7 +167,6 @@ class TestsController extends Controller
 //
 //              dd($c->getData());
 
-                dd('Hi, over there');
 
 //              $c->setElementImage('', '', '');
 //              $c->saveData();
