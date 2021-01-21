@@ -38,20 +38,22 @@ export class Form {
         this.send('post', 'docs/new-udanger', null, null).then(res => fn(res))
     }
 
-    submit(url, data, fm){
+    async submit(url, data, fm){
         let fn = async () => {
             let ys = await prompt('Would you like to refresh the page ?');
             if (ys) {
                 window.location = ''
             }
         }
-        this.send('post', url, {data: data},fn).then(res => {
-            console.log(res)
-            this.send('post', 'docs/save-docs', fm,fn).then(res => {
-                console.log(res)
-                $1('red_to_fin').submit()
-            })
-        })
+        let res = await this.send('post', url, { data }, fn);
+        if (res) {
+            res = await this.send('post', 'docs/save-docs', fm, fn);
+            $1('red_to_fin').submit();
+        } else {
+            console.log("error outer")
+        }
+
+
     }
 
 

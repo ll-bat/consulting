@@ -13,7 +13,6 @@ Vue.component('fbody-component', require('./components/FbodyComponent.vue').defa
 
 import {Form} from "./classes/Form";
 import FbodyComponent from "./components/FbodyComponent";
-import Axios from "axios";
 
 
 const app = new Vue({
@@ -29,12 +28,13 @@ const app = new Vue({
         created: true,
         udangerLoading: true,
         plossLoading: true,
+        form: null,
     },
     methods: {
         addNewPloss() {
             let data = {k: '3', name: ''}
 
-            Form.createPloss((id) => {
+            this.form.createPloss((id) => {
                 data.id = id
             })
             tout(() => {
@@ -45,7 +45,7 @@ const app = new Vue({
         addNewUdanger() {
             let data = {name: ''}
 
-            Form.createUdanger((id) => {
+            this.form.createUdanger((id) => {
                 data.id = id
             })
             tout(() => {
@@ -61,14 +61,18 @@ const app = new Vue({
         }
     },
     async mounted() {
-        for (let a of [['getPloss','plossLoading','ploss'], ['getUdanger','udangerLoading','udanger']]){
-            let res = await Form[a[0]]()
-            if (res){
-                this[a[2]] = res;
+        for (let a of [{url: 'getPloss', loader: 'plossLoading', data: 'ploss'}, {
+            url: 'getUdanger',
+            loader: 'udangerLoading',
+            data: 'udanger'
+        }]) {
+            let res = await this.form[a.url]()
+            if (res) {
+                this[a.data] = res;
             }
             tout(() => {
-                this[a[1]] = false
-            },400)
+                this[a.loader] = false
+            }, 400)
         }
 
         tout(() => {
@@ -77,5 +81,8 @@ const app = new Vue({
         }, 420)
     },
 
+    created() {
+        this.form = new Form();
+    }
 
 });
