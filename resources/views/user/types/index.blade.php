@@ -81,6 +81,7 @@
 
             $('.form-edit').each((idx, button) => {
                 $(button).on('click', e => {
+                    console.log(button.getAttribute('data-params'), statusClasses, typeClasses);
                     const {status, type, userId} = JSON.parse(button.getAttribute('data-params'));
                     changeStatus(status);
                     changeType(type);
