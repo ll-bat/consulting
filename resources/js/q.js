@@ -155,13 +155,7 @@ const app = new Vue({
         },
 
         testify() {
-           // this.info = [{
-           //     pid: 12,
-           //     did: 5,
-           //     data: {
-           //
-           //     }
-           // }];
+
         },
 
         async init() {
