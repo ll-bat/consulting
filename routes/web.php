@@ -55,7 +55,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
     Route::get('/questions', 'UserDocsController@show')->name('user.questions');
     Route::post('docs/submit', 'DocController@submit');
     Route::post('docs/save-docs', 'DocController@saveData');
-    Route::get('docs/show-data', 'DocController@showData');
+    Route::get('docs/show-data', 'DocController@showData')->name('docs.showData');
 
     Route::patch('/account', 'UserController@update');
     Route::patch('/profile', 'ProfileController@update');
