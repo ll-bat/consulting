@@ -44,7 +44,7 @@
                 <td>
                     <?php
                     $params = \Psy\Util\Json::encode([
-                        'status' => $user->status,
+                        'status' => (int) $user->status,
                         'type' => $user->type,
                         'userId' => $user->id
                     ]); ?>
