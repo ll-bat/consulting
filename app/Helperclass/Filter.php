@@ -454,14 +454,14 @@ class Filter
         $dangerControlsSum = DB::table('controls')
             ->join('control_dangers', 'controls.id', '=', 'control_dangers.control_id')
             ->whereIn('control_dangers.danger_id', $dangerIds)
-            ->selectRaw('SUM(controls.k) as controls_sum, control_dangers.danger_id')
+            ->selectRaw('SUM( CAST(controls.k as DECIMAL(9,2)) ) as controls_sum, control_dangers.danger_id')
             ->groupBy('control_dangers.danger_id')
             ->get()
             ->toArray();
 
         $dangerControlsMap = [];
         foreach ($dangerControlsSum as $dc) {
-            $dangerControlsMap[$dc->danger_id] = $dc->controls_sum;
+            $dangerControlsMap[$dc->danger_id] = (double) $dc->controls_sum;
         }
 
         foreach ($data as &$d) {

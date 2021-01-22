@@ -26,7 +26,7 @@ class TestsController extends Controller
 {
       public function index()
       {
-          $this->calc();
+//          $this->calc2();
 
 //          $sql = 'select danger_id, process_id from danger_process where danger_id in (52) and process_id in (1)';
 //
@@ -44,13 +44,10 @@ class TestsController extends Controller
           $controls = DB::table('controls')
               ->join('control_dangers', 'controls.id', '=', 'control_dangers.control_id')
               ->whereIn('control_dangers.danger_id', $dangerIds)
-              ->selectRaw('SUM(controls.k) as controls_sum, control_dangers.danger_id')
+              ->selectRaw('SUM( CAST(controls.k as DECIMAL(9,2)) ) as controls_sum, control_dangers.danger_id')
               ->groupBy('control_dangers.danger_id')
               ->get()
               ->toArray();
-
-          dd($controls);
-
       }
 
       public function calc() {
