@@ -147,18 +147,18 @@
                         @foreach (['udanger-ploss', 'add-udangers', 'add-rpersons', 'add-etimes'] as $view)
                             @include('user.questions._'.$view)
                         @endforeach
-                    </div>
-                </div>
 
-                <div class='mb-4 animate-submit-button'>
-                    <button
-                        class='btn btn-primary bg-primary hovered-ns-button border-info capitalize text-sm px-4 py-1'
-                        id='data-submit'
-                        @click='submit()'
-                    ><span class="spinner-border spinner-border-sm p-2 mr-2 d-none" id='data-processing'
-                           style='margin-left:-.6rem;'></span>
-                        Submit
-                    </button>
+                            <div class='mb-4 animate-submit-button'>
+                                <button
+                                    class='btn btn-primary bg-primary hovered-ns-button border-info capitalize text-sm px-4 py-1'
+                                    id='data-submit'
+                                    @click='submit()'
+                                ><span class="spinner-border spinner-border-sm p-2 mr-2 d-none" id='data-processing'
+                                       style='margin-left:-.6rem;'></span>
+                                    Submit
+                                </button>
+                            </div>
+                    </div>
                 </div>
 
                 <form method='get' action='docs/show-data' id='red_to_fin'>
