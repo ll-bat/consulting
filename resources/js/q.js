@@ -63,6 +63,8 @@ const app = new Vue({
 
             this.showDangers = true;
             this.showControls = false;
+
+            return true;
         },
 
         async filterControls(selectedValue) {
@@ -92,9 +94,8 @@ const app = new Vue({
             chainedAnim('sizeable-control', this.currentControls.length, 0)
         },
 
-        uploadImage() {
-            let ev = event
-            imageLoad(event, 'docimage0', (val) => {
+        vueImageLoad(ev) {
+            imageLoad(ev, null, (val) => {
                 this.data.image = val
                 this.data.hasImage = true
 
@@ -104,7 +105,8 @@ const app = new Vue({
         },
 
         clearUpload() {
-            clearUploadedImage(0)
+            $1('danger-image-id').src = '';
+            $1('danger-image-input').value = '';
             this.data.image = ''
             this.data.hasImage = false
             this.fm.delete(this.data.imageName)
@@ -170,12 +172,14 @@ const app = new Vue({
 
             if (!this.newDoc) {
                 const {pid, did} = this.info[0];
-                await this.filterDangers(pid);
-                await this.filterControls(did);
-                tout(async () => {
-                    Event.$emit('selectProcess', pid);
-                    Event.$emit('selectDanger', did);
-                }, 250)
+                let res = await this.filterDangers(pid);
+                if (res) {
+                    await this.filterControls(did);
+                    tout(async () => {
+                        Event.$emit('selectProcess', pid);
+                        Event.$emit('selectDanger', did);
+                    }, 250)
+                }
             }
 
             this.helpers.removeLoader();

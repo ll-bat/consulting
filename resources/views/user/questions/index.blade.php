@@ -169,15 +169,6 @@
         </div>
     </div>
     <script type="application/javascript">
-        function uploadImage(ev, ind) {
-            ev.preventDefault()
-            $(`#imageupload${ind}`).click()
-        }
-
-        function clearUploadedImage(ind) {
-            $1(`docimage${ind}`).src = ''
-            $1(`imageupload${ind}`).value = ''
-        }
 
         function customize(el) {
             $(el).parent().parent().removeClass('remove-control-border').addClass('add-control-border')

@@ -218,3 +218,24 @@
 .text-orange {
     color: orange;
 }
+
+.rounded-10 {
+    border-radius: 10px !important;
+}
+
+@keyframes  _animateProcess {
+    0% {
+        margin-top: -3rem;
+        opacity: .3
+    }
+    60% {
+        opacity: .5;
+    }
+    100% {
+        margin-top: 0rem;
+    }
+}
+
+.animate-process {
+    animation: _animateProcess .5s ease-out;
+}

@@ -146,10 +146,6 @@ function abs(a){
     return Math.abs(a)
 }
 
-function floor(a) {
-    return Math.floor(a)
-}
-
 function rand(n){
     return Math.floor(Math.random()*n)
 }

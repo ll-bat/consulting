@@ -107,7 +107,7 @@
   .hovered-checkmark {
     border:2px solid rgba(0, 191, 255, 1) !important;
   }
-  
+
   .checked {
     position: absolute;
   }
@@ -290,7 +290,7 @@
 
 .ns-color {
     color: #673ab7;
-    
+
 }
 
 .ns-font-family{
@@ -299,7 +299,7 @@
     font-weight: 500;
     letter-spacing: .1px;
     line-height: 24px;
-    color: #202124;
+    color: #2e0d5f;
     font-weight: 400;
     width: 100%;
     word-break: break-word;
