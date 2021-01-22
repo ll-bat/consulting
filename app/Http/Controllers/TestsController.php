@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Control;
+use App\DangerProcess;
 use App\Helperclass\Filter;
 use App\Helperclass\FinalData;
 use App\Helperclass\Obj;
@@ -25,7 +26,14 @@ class TestsController extends Controller
 {
       public function index()
       {
-//          $this->calc();
+          $this->calc();
+
+//          $sql = 'select danger_id, process_id from danger_process where danger_id in (52) and process_id in (1)';
+//
+//          $data = DB::select(DB::raw($sql));
+//
+////          $data = DangerProcess::whereIn('danger_id', [52])->whereIn('process_id', [1])->get();
+//          dd($data);
 
       }
 
@@ -53,7 +61,6 @@ class TestsController extends Controller
           $data = $this->convert($data);
           $data = $this->correctControls($data);
 
-          $data = ['data' => []];
           $data = (new Filter($data))->getData();
 
           $finalData = new FinalData(false, 1);

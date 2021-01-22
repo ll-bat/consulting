@@ -253,11 +253,17 @@ class Filter
             $dangersMap[$d['id']] = ['name' => $d['name'], 'k' => $d['k']];
         }
 
+        $procIds = [];
+        foreach ($processes as $p) {
+            $procIds[] = $p['id'];
+        }
+
         $dangerProcesses = DangerProcess::whereIn('danger_id', $dangers)
-            ->whereIn('process_id', $processes)
+            ->whereIn('process_id', $procIds)
             ->select('danger_id', 'process_id')
             ->get()
             ->toArray();
+
 
         $dangerProcessIds = [];
         foreach ($dangerProcesses as $ind => $pair) {
