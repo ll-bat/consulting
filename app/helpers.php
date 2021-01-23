@@ -54,7 +54,7 @@ function adminRoutes()
 
 function collapsedRoutes(){
     return [
-        'user.home', 'user.profile', 'user.mydocs', 'admin.blog', 'admin.users'
+        'user.home', 'user.profile', 'user.mydocs', 'admin.blog'
     ];
 }
 

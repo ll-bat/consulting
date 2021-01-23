@@ -18,6 +18,7 @@
         <tr class="text-center">
             <th> Image</th>
             <th> Username</th>
+            <th> Email</th>
             <th> Firstname</th>
             <th> Lastname</th>
             <th> Type</th>
@@ -30,6 +31,7 @@
                 <td>
                     <img src="{{ $user->pathAvatar() }}" height="40"/></td>
                 <td> {{ $user->username }}</td>
+                <td> {{ $user->email }}</td>
                 <td> {{ $user->profile->firstname }}</td>
                 <td> {{ $user->profile->lastname }}</td>
                 <?php
