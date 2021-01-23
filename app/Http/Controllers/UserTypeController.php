@@ -16,7 +16,7 @@ class UserTypeController extends Controller
      * @return Application|Factory|View
      */
     public function index() {
-        $users = User::all();
+        $users = User::orderBy('updated_at', 'DESC')->get();
         return view('user/types/index', compact('users'));
     }
 
