@@ -22,7 +22,6 @@ class MyDocsController extends Controller
 {
       protected $data = [];
 
-
       public function index(){
           $docs = Export::where('user_id', current_user()->id)->latest()->get();
           return view('user.mydocs', compact('docs'));
