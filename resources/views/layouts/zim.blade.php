@@ -103,10 +103,12 @@ $abpath = $_SERVER['HTTP_HOST'];
                     <div class="sidebar-wrapper" id="sidebarWrapper">
                         <ul class="nav">
                             @foreach(userRoutes() as $routes)
-                                <li class="{{ $route == $routes['route'] ? 'active' : '' }}">
+                                <li class="{{ $route == $routes['route'] ? 'active' : '' }} ">
                                     <a href="{{  $routes['route'] ? route($routes['route']) : ''}}">
-                                        <i class="{{$routes['icon']}}"></i>
-                                        <p> {{$routes['name'] }}</p>
+                                        <div class="d-flex">
+                                            <i class="{{$routes['icon']}}"></i>
+                                            <p class="ml-2"> {{$routes['name'] }}</p>
+                                        </div>
                                     </a>
                                 </li>
                             @endforeach
@@ -116,7 +118,7 @@ $abpath = $_SERVER['HTTP_HOST'];
                                     <li class="{{ $route == $routes['route'] ? 'active' : '' }}">
                                         <a href="{{  $routes['route'] ? route($routes['route']) : ''}}">
                                             <i class="{{$routes['icon']}}"></i>
-                                            <p> {{$routes['name'] }}</p>
+                                            <p class="ml-2"> {{$routes['name'] }}</p>
                                         </a>
                                     </li>
                                 @endforeach
