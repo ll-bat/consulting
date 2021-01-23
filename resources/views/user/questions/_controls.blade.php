@@ -2,16 +2,28 @@
 
 
 
-<div v-if='showControls' class='bg-white full-shadow' style='border: 2px solid lightgrey; border-radius:5px;'>
+<div v-if='showControls' class='bg-white modified-shadow' style='border-radius:5px; '>
        <table class='table'>
             <thead >
-                  <th class='text-center py-4 bg-light' style='font-size: 1.2rem;width:50%;color: #9999ff;border-right:2px solid lightgrey;'> კონტროლის ზომები </th>
+                  <th class='text-center py-4 bg-light'
+                      style='font-size: 1.2rem;
+                      width:50%;
+                      color: #9999ff;
+                      border-right:1px solid #d3d3d3;'>
+                      კონტროლის ზომები
+                  </th>
                   <th class="text-center" v-for="answer in controlAnswers" style='font-size: .7rem !important;'>@{{ answer.text }}</th>
             </thead>
 
             <tbody>
                  <tr v-for = '(o,i) in currentControls'>
-                       <td class='text-center mt-3' style='font-size:.7rem;height:80px;border-right:2px solid lightgrey;background-color: rgba(0,0,0,.0176);'> @{{o.name}} </td>
+                       <td class='text-center mt-3'
+                           style='font-size:.7rem;
+                           height:80px;
+                           border-right:1px solid lightgrey;
+                           background-color: rgba(0,0,0,.0176);'>
+                           @{{o.name}}
+                       </td>
 
                        <td v-for = "(v,ind) in controlAnswers" style='width: 19%;' :title='v.label'>
                              <label class="ns-container"

@@ -169,9 +169,11 @@
         </div>
     </div>
     <script type="application/javascript">
-
-        function customize(el) {
+        function _onFocusHandler(el) {
             $(el).parent().parent().removeClass('remove-control-border').addClass('add-control-border')
+        }
+        function _onBlurHandler(el) {
+            $(el).parent().parent().removeClass('add-control-border').addClass('remove-control-border');
         }
     </script>
 @endsection

@@ -52032,7 +52032,7 @@ function combine() {
   this.combined = [];
   this.combined.push({
     "class": '',
-    style: 'border-radius:0;border-bottom:5px solid lightgrey',
+    style: 'border-radius:0;border-bottom:0;box-shadow: 1px 2px 5px lightgrey',
     text: 'აირჩიეთ პოტენციური ზიანი',
     data: this.ploss,
     update: this.helpers.togglePloss,
@@ -52041,7 +52041,7 @@ function combine() {
   });
   this.combined.push({
     "class": 'pb-0',
-    style: 'border-radius:0;padding-bottom:0 !important',
+    style: 'border-radius:0;padding-bottom:0 !important; box-shadow: 1px 2px 5px lightgrey',
     text: 'ვინ იმყოფება საფრთხის ქვეშ',
     data: this.udanger,
     update: this.helpers.toggleUdanger,
@@ -52120,114 +52120,141 @@ var app = new Vue({
     filterDangers: function filterDangers(selectedValue) {
       var _this = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var id, process, dangerIds;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _this.currentDangers = [];
-                Event.$emit('setDefaultValue');
-                id = selectedValue;
-                process = _this.processes.find(function (p) {
-                  return p.id === id;
-                });
+      return new Promise( /*#__PURE__*/function () {
+        var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(res) {
+          var id, process, dangerIds;
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _this.currentDangers = [];
+                  Event.$emit('setDefaultValue');
+                  id = selectedValue;
+                  process = _this.processes.find(function (p) {
+                    return p.id === id;
+                  });
 
-                if (process) {
-                  _context.next = 6;
-                  break;
-                }
+                  if (process) {
+                    _context.next = 6;
+                    break;
+                  }
 
-                return _context.abrupt("return");
+                  return _context.abrupt("return");
 
-              case 6:
-                _context.next = 8;
-                return _classes_Fetcher__WEBPACK_IMPORTED_MODULE_6__["default"].getDangers(process.id);
+                case 6:
+                  _context.next = 8;
+                  return _classes_Fetcher__WEBPACK_IMPORTED_MODULE_6__["default"].getDangers(process.id);
 
-              case 8:
-                dangerIds = _context.sent;
-                _this.processId = id;
-                _this.currentDangers = _this.dangers.filter(function (d) {
-                  return dangerIds.includes(d.id);
-                }).map(function (d) {
-                  return {
-                    name: d.name,
-                    value: d.id
-                  };
-                });
-                _this.dangerSelect = JSON.parse(JSON.stringify(_this.currentDangers));
-                _this.showDangers = true;
-                _this.showControls = false;
-                return _context.abrupt("return", true);
+                case 8:
+                  dangerIds = _context.sent;
+                  _this.processId = id;
+                  _this.currentDangers = _this.dangers.filter(function (d) {
+                    return dangerIds.includes(d.id);
+                  }).map(function (d) {
+                    return {
+                      name: d.name,
+                      value: d.id
+                    };
+                  });
+                  _this.dangerSelect = JSON.parse(JSON.stringify(_this.currentDangers));
+                  _this.showDangers = true;
+                  _this.showControls = false;
+                  res();
 
-              case 15:
-              case "end":
-                return _context.stop();
+                case 15:
+                case "end":
+                  return _context.stop();
+              }
             }
-          }
-        }, _callee);
-      }))();
+          }, _callee);
+        }));
+
+        return function (_x) {
+          return _ref.apply(this, arguments);
+        };
+      }());
     },
     filterControls: function filterControls(selectedValue) {
       var _this2 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
-        var id, danger, controlIds;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _this2.currentControls = [];
-                id = selectedValue;
-                danger = _this2.currentDangers.find(function (d) {
-                  return d.value === id;
-                });
+                return _context3.abrupt("return", new Promise( /*#__PURE__*/function () {
+                  var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(res) {
+                    var id, danger, controlIds;
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+                      while (1) {
+                        switch (_context2.prev = _context2.next) {
+                          case 0:
+                            _this2.currentControls = [];
+                            id = selectedValue;
+                            danger = _this2.currentDangers.find(function (d) {
+                              return d.value === id;
+                            });
 
-                if (danger) {
-                  _context2.next = 6;
-                  break;
-                }
+                            if (danger) {
+                              _context2.next = 6;
+                              break;
+                            }
 
-                _this2.showControls = false;
-                return _context2.abrupt("return");
+                            _this2.showControls = false;
+                            return _context2.abrupt("return");
 
-              case 6:
-                _this2.dangerId = id;
-                _context2.next = 9;
-                return _classes_Fetcher__WEBPACK_IMPORTED_MODULE_6__["default"].getControls(id);
+                          case 6:
+                            _this2.dangerId = id;
+                            _context2.next = 9;
+                            return _classes_Fetcher__WEBPACK_IMPORTED_MODULE_6__["default"].getControls(id);
 
-              case 9:
-                controlIds = _context2.sent;
-                _this2.currentControls = _this2.controls.filter(function (c) {
-                  return controlIds.includes(c.id);
-                });
-                _this2.elm = _this2.info.find(function (e) {
-                  return e.pid === _this2.processId && e.did === _this2.dangerId;
-                });
+                          case 9:
+                            controlIds = _context2.sent;
+                            _this2.currentControls = _this2.controls.filter(function (c) {
+                              return controlIds.includes(c.id);
+                            });
+                            _this2.elm = _this2.info.find(function (e) {
+                              return e.pid === _this2.processId && e.did === _this2.dangerId;
+                            });
 
-                if (!_this2.elm) {
-                  _this2.data = new _classes_Data__WEBPACK_IMPORTED_MODULE_4__["Data"]();
-                  _this2.elm = {
-                    pid: _this2.processId,
-                    did: _this2.dangerId,
-                    data: _this2.data
+                            if (!_this2.elm) {
+                              _this2.data = new _classes_Data__WEBPACK_IMPORTED_MODULE_4__["Data"]();
+                              _this2.elm = {
+                                pid: _this2.processId,
+                                did: _this2.dangerId,
+                                data: _this2.data
+                              };
+
+                              _this2.info.push(_this2.elm);
+                            } else {
+                              _this2.data = _this2.elm.data;
+                            }
+
+                            _this2.showControls = true;
+
+                            Object(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["chainedAnim"])('sizeable-control', _this2.currentControls.length, 0);
+
+                            res();
+
+                          case 16:
+                          case "end":
+                            return _context2.stop();
+                        }
+                      }
+                    }, _callee2);
+                  }));
+
+                  return function (_x2) {
+                    return _ref2.apply(this, arguments);
                   };
+                }()));
 
-                  _this2.info.push(_this2.elm);
-                } else {
-                  _this2.data = _this2.elm.data;
-                }
-
-                _this2.showControls = true;
-
-                Object(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["chainedAnim"])('sizeable-control', _this2.currentControls.length, 0);
-
-              case 15:
+              case 1:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2);
+        }, _callee3);
       }))();
     },
     vueImageLoad: function vueImageLoad(ev) {
@@ -52297,18 +52324,18 @@ var app = new Vue({
     init: function init() {
       var _this5 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
-        var data, a, _this5$info$, pid, did, res;
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        var data, a, _this5$info$, pid, did;
 
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context4.next = 2;
+                _context5.next = 2;
                 return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].get('api/all-data');
 
               case 2:
-                data = _context4.sent;
+                data = _context5.sent;
 
                 for (a in data) {
                   _this5[a] = data[a];
@@ -52321,51 +52348,44 @@ var app = new Vue({
                 _this5.helpers.setControlAnswers();
 
                 if (_this5.newDoc) {
-                  _context4.next = 16;
+                  _context5.next = 14;
                   break;
                 }
 
                 _this5$info$ = _this5.info[0], pid = _this5$info$.pid, did = _this5$info$.did;
-                _context4.next = 11;
+                _context5.next = 11;
                 return _this5.filterDangers(pid);
 
               case 11:
-                res = _context4.sent;
-
-                if (!res) {
-                  _context4.next = 16;
-                  break;
-                }
-
-                _context4.next = 15;
+                _context5.next = 13;
                 return _this5.filterControls(did);
 
-              case 15:
-                tout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+              case 13:
+                tout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
                     while (1) {
-                      switch (_context3.prev = _context3.next) {
+                      switch (_context4.prev = _context4.next) {
                         case 0:
                           Event.$emit('selectProcess', pid);
                           Event.$emit('selectDanger', did);
 
                         case 2:
                         case "end":
-                          return _context3.stop();
+                          return _context4.stop();
                       }
                     }
-                  }, _callee3);
+                  }, _callee4);
                 })), 250);
 
-              case 16:
+              case 14:
                 _this5.helpers.removeLoader();
 
-              case 17:
+              case 15:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4);
+        }, _callee5);
       }))();
     },
     setHelpers: function setHelpers() {

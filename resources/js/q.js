@@ -43,55 +43,59 @@ const app = new Vue({
         exportId: null
     },
     methods: {
-        async filterDangers(selectedValue) {
-            this.currentDangers = [];
-            Event.$emit('setDefaultValue')
+        filterDangers(selectedValue) {
+            return new Promise(async res => {
+                this.currentDangers = [];
+                Event.$emit('setDefaultValue')
 
-            let id = selectedValue;
-            const process = this.processes.find(p => p.id === id);
-            if (!process) return
+                let id = selectedValue;
+                const process = this.processes.find(p => p.id === id);
+                if (!process) return
 
-            const dangerIds = await fetcher.getDangers(process.id);
+                const dangerIds = await fetcher.getDangers(process.id);
 
-            this.processId = id
-            this.currentDangers = this.dangers.filter(d => dangerIds.includes(d.id))
-                .map(d => {
-                    return { name: d.name, value: d.id }
-                });
+                this.processId = id
+                this.currentDangers = this.dangers.filter(d => dangerIds.includes(d.id))
+                    .map(d => {
+                        return { name: d.name, value: d.id }
+                    });
 
-            this.dangerSelect = JSON.parse(JSON.stringify(this.currentDangers));
+                this.dangerSelect = JSON.parse(JSON.stringify(this.currentDangers));
 
-            this.showDangers = true;
-            this.showControls = false;
-
-            return true;
+                this.showDangers = true;
+                this.showControls = false;
+                res();
+            })
         },
 
         async filterControls(selectedValue) {
-            this.currentControls = [];
+            return new Promise(async res => {
+                this.currentControls = [];
 
-            let id = selectedValue
-            let danger = this.currentDangers.find(d => d.value === id)
-            if (!danger) {
-                this.showControls = false;
-                return;
-            }
+                let id = selectedValue
+                let danger = this.currentDangers.find(d => d.value === id)
+                if (!danger) {
+                    this.showControls = false;
+                    return;
+                }
 
-            this.dangerId = id
-            const controlIds = await fetcher.getControls(id);
-            this.currentControls = this.controls.filter(c => controlIds.includes(c.id));
+                this.dangerId = id
+                const controlIds = await fetcher.getControls(id);
+                this.currentControls = this.controls.filter(c => controlIds.includes(c.id));
 
-            this.elm = this.info.find(e => e.pid === this.processId && e.did === this.dangerId)
-            if (!this.elm) {
-                this.data = new Data()
-                this.elm = {pid: this.processId, did: this.dangerId, data: this.data}
-                this.info.push(this.elm)
-            } else {
-                this.data = this.elm.data
-            }
+                this.elm = this.info.find(e => e.pid === this.processId && e.did === this.dangerId)
+                if (!this.elm) {
+                    this.data = new Data()
+                    this.elm = {pid: this.processId, did: this.dangerId, data: this.data}
+                    this.info.push(this.elm)
+                } else {
+                    this.data = this.elm.data
+                }
 
-            this.showControls = true;
-            chainedAnim('sizeable-control', this.currentControls.length, 0)
+                this.showControls = true;
+                chainedAnim('sizeable-control', this.currentControls.length, 0);
+                res();
+            })
         },
 
         vueImageLoad(ev) {
@@ -172,14 +176,12 @@ const app = new Vue({
 
             if (!this.newDoc) {
                 const {pid, did} = this.info[0];
-                let res = await this.filterDangers(pid);
-                if (res) {
-                    await this.filterControls(did);
-                    tout(async () => {
-                        Event.$emit('selectProcess', pid);
-                        Event.$emit('selectDanger', did);
-                    }, 250)
-                }
+                await this.filterDangers(pid);
+                await this.filterControls(did);
+                tout(async () => {
+                    Event.$emit('selectProcess', pid);
+                    Event.$emit('selectDanger', did);
+                }, 250)
             }
 
             this.helpers.removeLoader();

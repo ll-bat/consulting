@@ -134,7 +134,7 @@ export function combine() {
     this.combined = []
     this.combined.push({
         class: '',
-        style: 'border-radius:0;border-bottom:5px solid lightgrey',
+        style: 'border-radius:0;border-bottom:0;box-shadow: 1px 2px 5px lightgrey',
         text: 'აირჩიეთ პოტენციური ზიანი',
         data: this.ploss,
         update: this.helpers.togglePloss,
@@ -143,7 +143,7 @@ export function combine() {
     })
     this.combined.push({
         class: 'pb-0',
-        style: 'border-radius:0;padding-bottom:0 !important',
+        style: 'border-radius:0;padding-bottom:0 !important; box-shadow: 1px 2px 5px lightgrey',
         text: 'ვინ იმყოფება საფრთხის ქვეშ',
         data: this.udanger,
         update: this.helpers.toggleUdanger,

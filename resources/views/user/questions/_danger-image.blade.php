@@ -1,6 +1,6 @@
 <div class=''>
     <div class='card shadow-none rounded-10 pl-4' style="padding-top: 30px !important;" v-if='showControls'>
-        <p class='ns-font-family ns-dark-color text-lg mb-0'>
+        <p class='text-lg mb-0'>
             ატვირთეთ საფრთხის ამსახველი ფოტო
             <span class='text-muted text-sm'>(არასავალდებულო)</span>
         </p>

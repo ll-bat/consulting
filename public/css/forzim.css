@@ -197,6 +197,10 @@
     box-shadow: 2px 2px 4px lightgrey !important;
 }
 
+.modified-shadow {
+    box-shadow: 2px 2px 4px lightgrey, 0 0 4px lightgrey !important;
+}
+
 .full-shadow {
     box-shadow: 2px 2px 4px lightgrey, -2px -2px 4px lightgrey !important;
 }
@@ -223,7 +227,11 @@
     border-radius: 10px !important;
 }
 
-@keyframes  _animateProcess {
+.rounded-5 {
+    border-radius: 5px !important;
+}
+
+@keyframes  _modifiedAnimation {
     0% {
         margin-top: -3rem;
         opacity: .3
@@ -236,6 +244,6 @@
     }
 }
 
-.animate-process {
-    animation: _animateProcess .5s ease-out;
+.modified-animation {
+    animation: _modifiedAnimation .5s ease-out;
 }
