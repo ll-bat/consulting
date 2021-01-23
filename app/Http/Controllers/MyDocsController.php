@@ -7,6 +7,7 @@ use App\Helperclass\Json;
 use App\Helperclass\Obj;
 use App\Helperclass\Content;
 use App\Helperclass\QuestionsJson;
+use App\Objects;
 use FontLib\EOT\File;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -23,8 +24,21 @@ class MyDocsController extends Controller
       protected $data = [];
 
       public function index(){
-          $docs = Export::where('user_id', current_user()->id)->latest()->get();
-          return view('user.mydocs', compact('docs'));
+          $docs = Export::where('user_id', current_user()->id)->select('id', 'object_id', 'filename')->latest()->get()->toArray();
+          $objects = Objects::where('user_id', current_user()->id)->select('id', 'name')->get()->toArray();
+
+          $objectMap = [];
+          foreach ($objects as $o) {
+              $objectMap[$o['id']] = ['name' => $o['name'], 'id' => $o['id'], 'docs' => []];
+          }
+
+          foreach ($docs as $d) {
+              $objectMap[$d['object_id']]['docs'][] = $d;
+          }
+
+          return view('user.mydocs', [
+              'objects' => array_reverse($objectMap)
+          ]);
       }
 
       public function show(Export $export){

@@ -247,3 +247,11 @@
 .modified-animation {
     animation: _modifiedAnimation .5s ease-out;
 }
+
+.text-hoverable, .bg-hoverable {
+    cursor: pointer;
+}
+
+.text-hoverable:hover {
+    opacity: .7;
+}

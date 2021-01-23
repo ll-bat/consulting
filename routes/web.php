@@ -75,6 +75,11 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
         Route::get('all-data', 'ApiController@getAllData');
     });
 
+    Route::group(['prefix' => 'objects'], function(){
+        Route::post('create', 'ObjectsController@create');
+        Route::post('{objects}/update', 'ObjectsController@update');
+    });
+
     Route::group(["middleware" => 'App\Http\Middleware\AdminMiddleware'], function () {
 
         Route::group(['prefix' => 'modify'], function () {
@@ -157,7 +162,6 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
             Route::post('added-by-users/udanger/{UserText}/delete', 'UserTextsController@deleteUdanger');
             Route::post('add-control/{UserText}', 'UserTextsController@store');
             Route::post('add-udanger/{UserText}', 'UserTextsController@storeUdanger');
-
 
             Route::get('check', 'DocController@show')->name('admin.check');
 
