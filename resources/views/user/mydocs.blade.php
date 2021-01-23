@@ -1,136 +1,97 @@
 @extends('layouts/zim')
 
-
-
-
-
-
 @section('header')
-   <style>
-       .mydocs-border{
-           border-bottom: .1rem solid lightseagreen;
-           width:0;
-           transition: all .2s ease-in;
-       }
-       .mydocs-item:hover .mydocs-border{
-           width:100%;
-       }
-       .mydocs-item:hover .mydocs-text {
-           text-shadow: .4rem .4rem .4rem lightgrey;
-       }
-
-       .hoverable {
-           border: 2px solid transparent;
-           border-radius:10px;
-           transition:all .4s ease-out;
-       }
-
-       .hoverable:hover {
-           border: 2px solid lightgrey;
-       }
-
-       .link:active .hoverable {
-           border: 2px solid grey;
-           background-color:grey;
-       }
-   </style>
-@endsection
-
-@section('toolbar')
-
-    <button class="btn btn-outline-primary font-weight-bold border-0 m-0 px-3 py-1"
-            onclick="_createNewObject()"
-            style="margin-bottom: 4px !important;">
-        <i class="fa fa-plus pl-0 pr-2"></i>
-        ობიექტის დამატება
-    </button>
-
-@endsection
-@section('content')
-
-    @foreach($objects as $id => $object)
-        <div class="bg-white px-4 py-3 border rounded-10 partial-shadow border-0 mt-3">
-           <div class="d-flex " style="justify-content: space-between;">
-               <div class="d-flex">
-                   <img src="/icons/sphere.png" width="40" height="40" />
-                   <a href="objects/{{ $object['id'] }}" class="text-lg mx-4 mt-2"> {{ $object['name'] }} </a>
-               </div>
-               <div class="d-flex">
-                   <span class="mr-4 mt-3"> <b>{{ count($object['docs']) }} </b> doc(s) </span>
-                   <button class="btn btn-primary border-0 px-2 py-1" onclick="_updateObject('{{ $object['name'] }}', {{ $object['id'] }})">
-                       <i class="fa fa-pencil-alt" style="font-size: .85rem"></i>
-                   </button>
-               </div>
-           </div>
-        </div>
-    @endforeach
-{{--    <div class="container-fluid">--}}
-{{--        @foreach($docs as $index=>$doc)--}}
-{{--            <div class="card shadow-none">--}}
-{{--                <div class="p-3">--}}
-{{--                    <div class="row">--}}
-{{--                        <div class="col-md-8 col-sm-6 col-12">--}}
-{{--                            <a href="doc/{{$doc->id}}" style="text-decoration: none !important;">--}}
-{{--                                <div class="mydocs-item pointer d-flex">--}}
-{{--                                    <div>--}}
-{{--                                        <img src="/icons/document2.png" style="width:3rem;"/>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="mt-2">--}}
-{{--                                        <span class="pl-2 mydocs-text text-primary font-weight-bolder" style=""> ჩემი დოკუმენტი {{ $index + 1 }}</span>--}}
-{{--                                        <div class="mydocs-border mt-2 ml-2"></div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </a>--}}
-
-{{--                            <div class='text-muted text-sm mt-4 ml-2'>--}}
-{{--                                <b> Created At: </b> {{ $doc->dateCreated() }}--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="col-md-4 col-sm-4 col-10">--}}
-{{--                            <div class="d-flex mt-2 mt-sm-0">--}}
-{{--                                <div class="mr-1">--}}
-{{--                                    <button class="btn btn-outline-success rounded-pill text-sm border-0"--}}
-{{--                                            onclick='showDownloadModal("download-modal{{$doc->id}}")'  >--}}
-{{--                                     გადმოწერა--}}
-{{--                                    </button>--}}
-{{--                                </div>--}}
-{{--                                <div class="">--}}
-{{--                                    <button class="btn btn-outline-danger rounded-pill text-sm border-0"--}}
-{{--                                            onclick="if(confirm('ნამდვილად გსურთ ამ დოკუმენტის წაშლა ?')) $1('doc-delete{{$index}}').submit()">--}}
-{{--                                        წაშლა--}}
-{{--                                    </button>--}}
-
-{{--                                    <form method="post" action="doc/{{$doc->id}}/delete"  class="d-none" id="doc-delete{{$index}}">--}}
-{{--                                        @method('delete')--}}
-{{--                                        @csrf--}}
-{{--                                    </form>--}}
-{{--                                </div>--}}
-
-{{--                                @include('user._downloadModal', ['id' => $doc->id, 'buttonId' => $doc->id])--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        @endforeach--}}
-
-{{--        @if ($docs->count() == 0)--}}
-
-{{--            <div class = 'alert aler-info text-white' style='background-color:rgba(0,0,200, .5)'>--}}
-{{--                <p> თქვენ არ გაქვთ დოკუმენტები. შეავსეთ--}}
-{{--                    <a href='questions' class='text-white font-weight-bolder'>  კითქვარი  </a>--}}
-{{--                </p>--}}
-{{--            </div>--}}
-{{--        @endif--}}
-{{--    </div>--}}
-
-    @include('user._modal')
-
-    <script>
-        let $data = {
-
+    <style>
+        .mydocs-border{
+            border-bottom: .1rem solid lightseagreen;
+            width:0;
+            transition: all .2s ease-in;
+        }
+        .mydocs-item:hover .mydocs-border{
+            width:100%;
+        }
+        .mydocs-item:hover .mydocs-text {
+            text-shadow: .4rem .4rem .4rem lightgrey;
         }
 
+        .hoverable {
+            border: 2px solid transparent;
+            border-radius:10px;
+            transition:all .4s ease-out;
+        }
+
+        .hoverable:hover {
+            border: 2px solid lightgrey;
+        }
+
+        .link:active .hoverable {
+            border: 2px solid grey;
+            background-color:grey;
+        }
+    </style>
+@endsection
+
+@section('content')
+    <div class="container-fluid">
+        @foreach($docs as $index=>$doc)
+            <div class="card shadow-none">
+                <div class="p-3">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-6 col-12">
+                            <a href="/user/doc/{{$doc->id}}" style="text-decoration: none !important;">
+                                <div class="mydocs-item pointer d-flex">
+                                    <div>
+                                        <img src="/icons/document2.png" style="width:3rem;"/>
+                                    </div>
+                                    <div class="mt-2">
+                                        <span class="pl-2 mydocs-text text-primary font-weight-bolder" style=""> ჩემი დოკუმენტი {{ $index + 1 }}</span>
+                                        <div class="mydocs-border mt-2 ml-2"></div>
+                                    </div>
+                                </div>
+                            </a>
+
+                            <div class='text-muted text-sm mt-4 ml-2'>
+                                <b> Created At: </b> {{ $doc->dateCreated() }}
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-10">
+                            <div class="d-flex mt-2 mt-sm-0">
+                                <div class="mr-1">
+                                    <button class="btn btn-outline-success rounded-pill text-sm border-0"
+                                            onclick='showDownloadModal("download-modal{{$doc->id}}")'  >
+                                     გადმოწერა
+                                    </button>
+                                </div>
+                                <div class="">
+                                    <button class="btn btn-outline-danger rounded-pill text-sm border-0"
+                                            onclick="if(confirm('ნამდვილად გსურთ ამ დოკუმენტის წაშლა ?')); $1('doc-delete{{$index}}').submit()">
+                                        წაშლა
+                                    </button>
+
+                                    <form method="post" action="/user/doc/{{$doc->id}}/delete"  class="d-none" id="doc-delete{{$index}}">
+                                        @method('delete')
+                                        @csrf
+                                    </form>
+                                </div>
+
+                                @include('user._downloadModal', ['id' => $doc->id, 'buttonId' => $doc->id])
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+
+        @if ($docs->count() == 0)
+
+            <div class = 'alert alert-info text-white' style='background-color:rgba(0,0,200, .5)'>
+                <p> თქვენ არ გაქვთ დოკუმენტები. შეავსეთ
+                    <a href='/user/questions' class='text-white font-weight-bolder'>  კითქვარი  </a>
+                </p>
+            </div>
+        @endif
+    </div>
+    <script>
         function showDownloadModal(id) {
             $1(id).click()
         }
@@ -140,60 +101,5 @@
                 $1(`close-modal-${id}`).click()
             }, 300)
         }
-
-        function _createNewObject() {
-            $data = {name: ''};
-           _openModal();
-        }
-
-        function _updateObject(name, id) {
-            $data = { id, name };
-            _openModal(name);
-        }
-
-        function _openModal(val) {
-            $('#objectModal #object-name').removeClass('is-invalid is-valid').val(val);
-            $('#new-object-modal').click();
-        }
-
-        function changeObjectName(val) {
-            $data['name'] = val;
-        }
-
-        async function submitObjectModal() {
-            if ($data['name'].trim().length < 1) {
-                alert('გთხოვთ, შეიყვანოთ ტექსტი');
-                return;
-            } else {
-                $('#objectModal #object-submit-button').addClass('disabled').find('.spinner-border').removeClass('d-none')
-            }
-            let url = '';
-            if (parseInt($data['id'])) {
-                url = `objects/${$data['id']}/update`;
-            } else {
-                url = `objects/create`;
-            }
-            let res = await $.post(url, {
-                'name' : $data['name']
-            }).catch(err => {
-                if (err.responseText === 'nop1') {
-                    $('#objectModal #object-name').addClass('is-invalid');
-                } else {
-                    alert("რაღაც მოხდა. გთხოვთ, სცადოთ თავიდან");
-                }
-            });
-
-            if (res) {
-                $('#objectModal #object-name').removeClass("is-invalid").addClass('is-valid');
-                tout(() => {
-                    window.location = '';
-                }, 500);
-            }
-
-            $('#objectModal #object-submit-button').removeClass('disabled').find('.spinner-border').addClass('d-none')
-        }
-
     </script>
 @endsection
-
-

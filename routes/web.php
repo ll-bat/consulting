@@ -50,7 +50,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
     })->name('user.home');
 
     Route::get('/profile', 'ProfileController@show')->name('user.profile');
-    Route::get('/mydocs', 'MyDocsController@index')->name('user.mydocs');
+    Route::get('/objects', 'ObjectsController@index')->name('user.objects');
 
     Route::get('/questions', 'UserDocsController@show')->name('user.questions');
     Route::post('docs/submit', 'DocController@submit');
@@ -78,6 +78,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
     Route::group(['prefix' => 'objects'], function(){
         Route::post('create', 'ObjectsController@create');
         Route::post('{objects}/update', 'ObjectsController@update');
+        Route::get('{objects}', 'ObjectsController@show');
     });
 
     Route::group(["middleware" => 'App\Http\Middleware\AdminMiddleware'], function () {

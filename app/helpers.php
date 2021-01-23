@@ -35,7 +35,7 @@ function userRoutes()
     return [
         ['route' => 'user.home', 'icon' => 'nc-icon nc-bank', 'name' => 'მთავარი'],
         ['route' => 'user.profile', 'icon' => 'nc-icon nc-single-02', 'name' => 'პროფილი'],
-        ['route' => 'user.mydocs', 'icon' => 'nc-icon nc-single-copy-04', 'name' => 'ობიექტები'],
+        ['route' => 'user.objects', 'icon' => 'nc-icon nc-single-copy-04', 'name' => 'ობიექტები'],
         ['route' => 'user.questions', 'icon' => 'nc-icon nc-tap-01', 'name' => 'კითხვარი']
 
     ];
@@ -54,7 +54,7 @@ function adminRoutes()
 
 function collapsedRoutes(){
     return [
-        'user.home', 'user.profile', 'user.mydocs', 'admin.blog'
+        'user.home', 'user.profile', 'user.objects', 'admin.blog'
     ];
 }
 
@@ -81,12 +81,11 @@ function toolbarRoutes(){
 
 function nbackRoutes(){
     return [
-        'blog.edit','home', 'user.profile', 'user.mydocs'
+        'blog.edit','home', 'user.profile', 'user.objects'
     ];
 }
 
 function searchInvisible() {
     return [
-        'user.mydocs'
     ];
 }
