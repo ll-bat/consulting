@@ -15,9 +15,17 @@ class CreateObjectsTable extends Migration
     {
         Schema::create('objects', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->string('name', 512);
             $table->timestamps();
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users');
+
         });
+
+        \App\Objects::create(['user_id' => 1,  'name' => 'General']);
     }
 
     /**

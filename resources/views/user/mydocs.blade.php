@@ -35,6 +35,15 @@
        }
    </style>
 @endsection
+
+@section('toolbar')
+
+    <button class="btn btn-primary rounded-pill border-0 m-0 px-3 py-1" style="margin-bottom: 4px !important;">
+        <i class="fa fa-plus pl-0 pr-2"></i>
+        ობიექტის დამატება
+    </button>
+
+@endsection
 @section('content')
 
 

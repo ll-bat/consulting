@@ -80,7 +80,9 @@ function toolbarRoutes(){
 }
 
 function nbackRoutes(){
-    return ['blog.edit','home', 'user.profile'];
+    return [
+        'blog.edit','home', 'user.profile', 'user.mydocs'
+    ];
 }
 
 function searchInvisible() {

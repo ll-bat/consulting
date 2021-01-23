@@ -14,7 +14,7 @@ class AddObjectIdToExportsTable extends Migration
     public function up()
     {
         Schema::table('exports', function (Blueprint $table) {
-            $table->unsignedBigInteger('object_id')->after('user_id');
+            $table->unsignedBigInteger('object_id')->after('user_id')->default(1);
 
             $table->foreign('object_id')
                 ->references('id')
