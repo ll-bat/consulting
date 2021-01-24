@@ -43,3 +43,12 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('#objectModal #object-name').on('keydown', e => {
+        if (e.key === 'Enter') {
+            $(e.target).trigger('change');
+            submitObjectModal();
+        }
+    })
+</script>
