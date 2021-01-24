@@ -147,7 +147,9 @@ class Filter
         if ($data['hasImage']) {
             if ($this->filterImageName($o['imageName'], 'imageName', $pid, $did, $data)) {
                 if ($hasOldImage) {
-                    // @TODO: Implement image deletion .
+                    if (!session()->has('_docData')) {
+                        // @TODO: Implement image deletion .
+                    }
                 }
                 $this->imageNameValidator[$data['imageName']] = 'required|image|mimes:jpeg,png,jpg|max:2048';
             } else {
@@ -156,7 +158,9 @@ class Filter
         } else {
             if ($hasOldImage) {
                 if (!isset($o['oldImage']) || !$o['oldImage']) {
-                    // @TODO: Implement old image deletion .
+                    if (!session()->has('_docData')) {
+                        // @TODO: Implement old image deletion .
+                    }
                     $data['hasImage'] = false;
                     $data['imageName'] = '';
                 } else {

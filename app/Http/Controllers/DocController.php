@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 
 use App\Control;
 use App\Danger;
+use App\Export;
+use App\Helperclass\QuestionsJson;
 use App\Objects;
 use App\Process;
 use App\Ploss;
@@ -43,32 +45,59 @@ class DocController extends Controller
     public function prepareDoc()
     {
         request()->validate([
-            'isNew' => 'boolean|required'
+            'isNew' => 'boolean|required',
+            'objectId' => 'integer',
+            'filename' => 'string|max:512'
         ]);
 
+        $objectId = \request('objectId');
+        $filename = \request('filename');
+
+        $ok = Objects::where('id', $objectId)->where('user_id', current_user()->id)->limit(1)->count() > 0;
+        if (!$ok) {
+            return response('Such object does not exist', 404);
+        }
+
         if (request('isNew')) {
-            \request()->validate([
-                'objectId' => 'integer',
-                'filename' => 'string|max:512'
-            ]);
-
-            $objectId = \request('objectId');
-            $ok = Objects::where('id', $objectId)->where('user_id', current_user()->id)->limit(1)->count() > 0;
-            if (!$ok) {
-                return response('Such object does not exist', 400);
-            }
-
-            $filename = \request('filename');
-
             $data = [
-                'isNew' => false,
+                'isNew' => true,
                 'objectId' => $objectId,
                 'filename' => $filename
             ];
 
             session()->put('_docData', $data);
-            return 'all-done';
+
+        } else {
+            \request()->validate([
+                'docId' => 'required|integer'
+            ]);
+
+            $docId = \request('docId');
+            $export = Export::where('id', $docId)
+                ->where('user_id', current_user()->id)
+                ->select('data')
+                ->get()
+                ->toArray();
+
+            if (!$export) {
+                return \response('Such document does not exist', 404);
+            }
+
+            $data = json_decode($export[0]['data']);
+            $data = (new QuestionsJson($data))->getData();
+
+            $data = [
+                'isNew' => false,
+                'docId' => $docId,
+                'objectId' => $objectId,
+                'filename' => $filename,
+                'data' => \Psy\Util\Json::encode($data)
+            ];
+
+            session()->put('_docData', $data);
         }
+
+        return 'all-done';
     }
 
     /**
@@ -127,7 +156,15 @@ class DocController extends Controller
         }
 
         $exportId = $this->showData($data);
+        $this->clearSession();
         return route('user.export', ['export' => $exportId]);
+    }
+
+    /**
+     * Clears session vars to avoid unexpected behavior;
+     */
+    public function clearSession() {
+        session()->forget(['_docData', '_questionsData', '_oldImages', '_exportId']);
     }
 
     /**

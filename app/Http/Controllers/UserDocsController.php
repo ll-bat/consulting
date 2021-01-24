@@ -24,7 +24,12 @@ class UserDocsController extends Controller
         session()->forget("_questionsData");
 
         $objects = Objects::select('id', 'name')->get()->toArray();
-        return view('user.preQuestions', compact('objects'));
+        $docs = Export::where('user_id', current_user()->id)
+            ->select('id', 'filename')
+            ->get()
+            ->toArray();
+
+        return view('user.preQuestions', compact('objects', 'docs'));
     }
 
     /**
@@ -47,9 +52,14 @@ class UserDocsController extends Controller
         $obj = session()->get('_questionsData') ?? false;
         if (!$obj) {
             session()->forget('_oldImages');
+            $docData = session()->get('_docData');
+            if (!$docData['isNew']) {
+               $data = $docData['data'];
+            }
         } else {
             $data = $obj['data'];
         }
+
 
         return view('user.questions.index', compact('data'));
     }
