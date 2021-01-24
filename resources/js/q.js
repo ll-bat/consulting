@@ -257,6 +257,7 @@ const app = new Vue({
 
         if ($doc) {
             this.$doc = JSON.parse($doc);
+            console.log(this.$doc);
             this.copyObj();
         } else {
             this.$doc = false;
