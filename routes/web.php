@@ -70,6 +70,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
         Route::get('{export}', 'MyDocsController@show')->name('user.export');
         Route::get('{export}/edit', 'MyDocsController@edit')->name('user.export.edit');
         Route::get('{export}/export', 'MyDocsController@export');
+        Route::post('{export}/update', 'MyDocsController@update');
         Route::delete('{export}/delete', 'MyDocsController@delete');
         //  Route::get('{export}/download', 'MyDocsController@download');
     });
