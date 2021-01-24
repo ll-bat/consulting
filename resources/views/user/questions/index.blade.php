@@ -121,8 +121,7 @@
 
 @section('script')
     <script>
-        let $doc = `{!! $data !!}`;
-        let $exportId = "{{ $exportId }}"
+        const $doc = `{!! $data !!}`;
     </script>
 @endsection
 @section('content')
