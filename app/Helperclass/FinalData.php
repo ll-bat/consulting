@@ -20,11 +20,13 @@ class FinalData
 
     /**
      * @param $obj
+     * @return array
+     * @throws \Exception
      */
-    public function init($obj)   // $obj represents $data
+    public function init($obj)
     {
         if (count($obj) < 1) {
-            return false;
+            throw new \Exception('No data provided', 400);
         }
         /**
          * $countAll is number of table columns;
@@ -32,6 +34,9 @@ class FinalData
          */
         [$object, $countAll] = $this->setData($obj);
 
+        /**
+         * $links is a helper variable for object to generate form. f.e when drawing form when to show new danger column, new process column etc.
+         */
         $links = $this->qualify($countAll, $object);
 
         if ($this->mode === self::DEFAULT_MODE) {
