@@ -121,6 +121,5 @@ class ObjectsController extends Controller
         $docs = Export::where('object_id', $object[0]['id'])->get();
 
         return view('user.mydocs', compact('docs'));
-
     }
 }
