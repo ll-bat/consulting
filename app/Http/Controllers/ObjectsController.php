@@ -118,7 +118,9 @@ class ObjectsController extends Controller
             return response('Unauthorized', 403);
         }
 
-        $docs = Export::where('object_id', $object[0]['id'])->get();
+        $docs = Export::where('object_id', $object[0]['id'])
+            ->orderBy('updated_at', 'DESC')
+            ->get();
 
         return view('user.mydocs', compact('docs'));
     }
