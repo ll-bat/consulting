@@ -126,7 +126,7 @@ const app = new Vue({
             this.data[type] = this.data[type].filter((d, ix) => ix != i)
         },
 
-        submit() {
+        async submit() {
             this.info = this.info.filter(d => {
                 let ys = false
 
@@ -142,10 +142,7 @@ const app = new Vue({
                 }
 
                 return ys
-            })
-
-            // console.log(this.info);
-            // return;
+            });
 
             if (this.info.length === 0) {
                 alert('Please, fill up the form')
@@ -155,9 +152,20 @@ const app = new Vue({
 
             this.testify();
 
+            this.fm.append('data', JSON.stringify(this.info));
+
             $('#data-processing').removeClass('d-none')
             $('#data-submit').addClass('disabled')
-            this.form.submit('docs/submit', this.info, this.fm)
+
+            let res = await httpService.post('docs/submit', this.fm).catch(err => {
+                alert("დაფიქსირდა შეცდომა. გთხოვთ, სცადოთ თავიდან.");
+                $('#data-processing').addClass('d-none')
+                $('#data-submit').removeClass('disabled')
+            });
+
+            if (res) {
+                window.location = res;
+            }
         },
 
         testify() {
@@ -229,9 +237,8 @@ const app = new Vue({
 
         copyObj() {
             this.info = JSON.parse(JSON.stringify(this.$doc));
-            this.exportId = $exportId;
             this.newDoc = false;
-            console.log(this.info);
+            // console.log(this.info);
         }
     },
 
