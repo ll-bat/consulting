@@ -86,7 +86,7 @@ class QuestionsJson
              }
 
              $this->data = $obj;
-             session()->put('oldImages', $images);
+             session()->put('_oldImages', $images);
 
          } catch (\Exception $e) {
 //             dd($e->getMessage() . '; line - ' . $e->getLine());
