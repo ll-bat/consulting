@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Control;
 use App\Danger;
+use App\Objects;
 use App\Process;
 use App\Ploss;
 use App\Udanger;
@@ -15,8 +16,12 @@ use App\Helperclass\FinalData;
 use App\Helperclass\Obj;
 use App\Helperclass\Json;
 use App\Helperclass\RiskCalculator;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -35,125 +40,112 @@ class DocController extends Controller
         return view('admin.docs.check');
     }
 
-
-    public function submit(Request $request)
+    public function prepareDoc()
     {
-        $req = $request->validate([
-            'data' => 'required|array',
+        request()->validate([
+            'isNew' => 'boolean|required'
         ]);
 
-        $data = (new Filter($req['data']))->getData();
-        $obj = new Data($data);
+        if (request('isNew')) {
+            \request()->validate([
+                'objectId' => 'integer',
+                'filename' => 'string|max:512'
+            ]);
 
-        session()->put('data', $obj);
-        session()->put('first_part', true);
-
-        return response('done', 200);
-    }
-
-    public function saveData(Request $request)
-    {
-        $done = session()->get('first_part') ?? false;
-        if (!$done) {
-            return response('Bad request', 400);
-        } else {
-            session()->forget('first_part');
-        }
-
-        $rule = session()->get('rule') ?? [];
-        $obj = session()->get('data') ?? [];
-
-        $request->validate($rule);
-        $data = $obj->getData();
-
-        $controls = [];
-        $udangers = [];
-
-        foreach ($data as $ind => $d) {
-            $d = $d['data'];
-
-            if ($d['hasImage'] && !isset($d['oldImage'])) {
-                //   $name = request($d['imageName'])->store('testing');
-                $name = cloudinary()->upload(request($d['imageName'])->getRealPath())->getSecurePath();
-                $data[$ind]['data']['imageName'] = $name;
+            $objectId = \request('objectId');
+            $ok = Objects::where('id', $objectId)->where('user_id', current_user()->id)->limit(1)->count() > 0;
+            if (!$ok) {
+                return response('Such object does not exist', 400);
             }
 
-            foreach ($d['newControls'] as $newControl) {
-                $controls[] = $newControl['value'];
-            }
+            $filename = \request('filename');
 
-            foreach ($d['newUdangers'] as $newUdanger) {
-                $udangers[] = $newUdanger['value'];
-            }
+            $data = [
+                'isNew' => false,
+                'objectId' => $objectId,
+                'filename' => $filename
+            ];
+
+            session()->put('_docData', $data);
+            return 'all-done';
         }
-
-        $controlModels = UserText::whereIn('name', $controls)
-            ->where(['type' => 'control'])
-            ->select('name', 'danger_id')
-            ->get();
-
-        $udangerModels = UserText::whereIn('name', $udangers)
-            ->where(['type' => 'udanger'])
-            ->select('name', 'danger_id')
-            ->get();
-
-        $controls = $udangers = [];
-
-        foreach ($controlModels as $controlModel) {
-            $controls[$controlModel->danger_id][$controlModel->name] = true;
-        }
-
-        foreach ($udangerModels as $udangerModel) {
-            $udangers[$udangerModel->danger_id][$udangerModel->name] = true;
-        }
-
-        $userId = current_user()->id;
-
-        foreach ($data as $ind => $d) {
-            $did = $d['did'];
-            $d = $d['data'];
-
-            foreach ($d['newControls'] as $nc) {
-                $model = isset($controls[$did][$nc['value']]);
-
-                if (!$model) {
-                    UserText::create(['user_id' => $userId, 'danger_id' => $did, 'name' => $nc['value'], 'type' => 'control']);
-                    $controls[$did][$nc['value']] = true;
-                }
-            }
-
-            foreach ($d['newUdangers'] as $nc) {
-                $model = isset($udangers[$did][$nc['value']]);
-
-                if (!$model) {
-                    UserText::create(['user_id' => current_user()->id, 'danger_id' => $did, 'name' => $nc['value'], 'type' => 'udanger']);
-                    $udangers[$did][$nc['value']] = true;
-                }
-            }
-        }
-
-        $obj->setData($data);
-        session()->put('data', $obj);
-
-        return response(true, 200);
     }
 
     /**
-     * @return false|RedirectResponse
+     * @return bool
      */
-    public function showData()
+    public function validateDoc(): bool
     {
-        $obj = session()->get('data')->getData();
-        if (count($obj) < 1) {
-            throw new \Exception('Non-valid data provided');
+        return session()->has("_docData") || session()->has('_questionsData');
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    public function validateRequest(): array
+    {
+        if (!$this->validateDoc()) {
+            throw new Exception('You have to first choose an object', 400);
         }
-        $exportId = session()->get('exportId');
+
+        return request()->validate([
+            'data' => 'required|string',
+        ]);
+    }
+
+    /**
+     * @return string
+     * @throws Exception
+     */
+    public function submit(): string
+    {
+        $data = $this->validateRequest()['data'];
+        try {
+            $data = json_decode($data);
+        } catch (Exception $exception) {
+            throw new Exception('Invalid data format', 400);
+        }
+
+        if (gettype($data) !== 'array') {
+            throw new Exception("Invalid data format", 400);
+        }
+
+        $filter = new Filter($data);
+        $data = $filter->getData();
+
+        request()->validate(
+            $filter->getImageRule()
+        );
+
+        foreach ($data as $ind => $d) {
+            if ($d['data']['hasImage'] && !isset($d['data']['oldImage'])) {
+                //   $name = request($d['imageName'])->store('testing');
+                $name = cloudinary()->upload(request($d['data']['imageName'])->getRealPath())->getSecurePath();
+                $data[$ind]['data']['imageName'] = $name;
+            }
+        }
+
+        $exportId = $this->showData($data);
+        return route('user.export', ['export' => $exportId]);
+    }
+
+    /**
+     * @param $data
+     * @return false|Application|ResponseFactory|RedirectResponse|Response
+     * @throws Exception
+     */
+    public function showData($data)
+    {
+        $exportId = false;
+        if (session()->has('_questionsData')) {
+            $exportId = session()->get("_questionsData")['exportId'];
+        }
 
         $reader = new FinalData($exportId);
-        $reader->init($obj);
+        $reader->init($data);
 
-        session()->forget('data');
-        return redirect()->route('user.export', ['export' => $reader->getExportId()]);
+        return $reader->getExportId();
     }
 
 }

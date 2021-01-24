@@ -9,6 +9,7 @@ use App\DangerProcess;
 use App\Ploss;
 use App\Process;
 use App\Udanger;
+use App\UserText;
 use Illuminate\Support\Facades\DB;
 
 class Filter
@@ -20,33 +21,70 @@ class Filter
 
     public function __construct($obj)
     {
-        $this->oldImages = session()->get('oldImages') ?? [];
-        $data = $this->filterUserInputs($obj);
-        $this->filterData($data);
+        $this->oldImages = session()->get('_oldImages') ?? [];
+
+        $this->filterData(
+            $this->filterUserInputs(
+                $this->makeAssoc($obj)
+            )
+        );
     }
 
+    /**
+     * Converts object of stdClass into array
+     *
+     * @param $data
+     * @return mixed
+     */
+    public function makeAssoc($data)
+    {
+        $obj = [];
+
+        if (!in_array(gettype($data), ['array', 'object'])) {
+            return $data;
+        }
+
+        foreach ($data as $ind => $d) {
+            $obj[$ind] = $this->makeAssoc($d);
+        }
+
+        return $obj;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getData()
     {
         return $this->data;
     }
 
-    public function filterUserInputs($obj)
+    /**
+     * @return array
+     */
+    public function getImageRule(): array
     {
-        $newobj = [];
+        return $this->imageNameValidator;
+    }
 
+    /**
+     * @param $obj
+     * @return array
+     */
+    public function filterUserInputs($obj): array
+    {
+        $returnData = [];
         foreach ($obj as $o) {
             try {
                 $d = $this->filter($o);
                 if (!$d) continue;
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 continue;
             }
-            $newobj[] = $d;
+            $returnData[] = $d;
         }
 
-        session()->put('rule', $this->imageNameValidator);
-
-        return $newobj;
+        return $returnData;
     }
 
     public function filter($o)
@@ -62,7 +100,6 @@ class Filter
         /**
          * DangerId should of type integer
          */
-
 
         if ($this->isInt($o['did'], '', $false)) {
             $obj['did'] = $o['did'];
@@ -129,8 +166,6 @@ class Filter
                 }
             }
         }
-
-
 
         /**
          * Divide controls into 3 types according to user answers
@@ -264,14 +299,22 @@ class Filter
             ->get()
             ->toArray();
 
+//        $dangerProcesses = DB::table('dangers')
+//            ->join('danger_process', 'dangers.id', '=', 'danger_process.danger_id')
+//            ->select('danger_process.danger_id', 'danger_process.process_id')
+//            ->whereIn('danger_process.danger_id', $dangers)
+//            ->whereIn('danger_process.process_id', $procIds)
+//            ->get()
+//            ->toArray();
+
+//        dd($dangerProcesses);
 
         $dangerProcessIds = [];
         foreach ($dangerProcesses as $ind => $pair) {
-            if (!isset($dangerProcessIds[$pair['process_id']])) {
-                $dangerProcessIds[$pair['process_id']] = [];
-            }
             $dangerProcessIds[$pair['process_id']][$pair['danger_id']] = true;
         }
+
+//        dd($dangerProcessIds);
 
         $controls = [];$potentialLoss = []; $underDanger = [];
         $used = []; $first = []; $second = [];
@@ -309,6 +352,23 @@ class Filter
             ->get()
             ->toArray();
 
+//        $controlDangers = DB::table('controls')
+//            ->join('control_dangers', 'control_dangers.control_id', '=', 'controls.id')
+//            ->select('control_dangers.control_id', 'control_dangers.danger_id')
+//            ->whereIn('control_dangers.control_id', $controls)
+//            ->whereIn('control_dangers.danger_id', $dangers)
+//            ->get()
+//            ->toArray();
+
+//        dd($controlDangers);
+
+        $controlDangerIds = [];
+        foreach ($controlDangers as $c) {
+            $controlDangerIds[$c['danger_id']][$c['control_id']] = true;
+        }
+
+//        dd($controlDangerIds);
+
         $potentialLoss = Ploss::whereIn('id', $potentialLoss)
             ->select('id', 'name', 'k')
             ->get()
@@ -327,14 +387,6 @@ class Filter
         $underDangerIds = [];
         foreach ($underDanger as $p) {
             $underDangerIds[$p['id']] = ['name' => $p['name']];
-        }
-
-        $controlDangerIds = [];
-        foreach ($controlDangers as $c) {
-            if (!isset($controlDangerIds[$c['danger_id']])) {
-                $controlDangerIds[$c['danger_id']] = [];
-            }
-            $controlDangerIds[$c['danger_id']][$c['control_id']] = true;
         }
 
         /**
@@ -387,9 +439,15 @@ class Filter
         }
 
         /**
+         * These variables will store all added controls/udangers.
+         */
+        $inputControls = [];
+        $inputUdangers = [];
+
+        /**
          *  Usage of high-order functions to filter user data;
          */
-        $data = filter($data, function (&$d) use($processIds, $dangerProcessIds, $controlDangerIds, $potentialLossIds, $underDangerIds, $dangersMap, $controlsMap) {
+        $data = filter($data, function (&$d) use($processIds, $dangerProcessIds, $controlDangerIds, $potentialLossIds, $underDangerIds, $dangersMap, $controlsMap, &$inputUdangers, &$inputControls) {
             [$pid, $did] = [$d['pid'], $d['did']];
             if (!isset($dangerProcessIds[$pid]) || !isset($dangerProcessIds[$pid][$did])) {
                 return false;
@@ -435,8 +493,87 @@ class Filter
                return false;
             });
 
+            /**
+             * Iterate over user input control/udangers.
+             */
+            foreach ($d['data']['newControls'] as $newControl) {
+                $inputControls[] = $newControl['value'];
+            }
+
+            foreach ($d['data']['newUdangers'] as $newUdanger) {
+                $inputUdangers[] = $newUdanger['value'];
+            }
+
             return true;
         });
+
+//        dd($inputUdangers);
+
+        $controlModels = UserText::whereIn('name', $inputControls)
+            ->where(['type' => 'control'])
+            ->select('name', 'danger_id')
+            ->get()
+            ->toArray();
+
+        $udangerModels = UserText::whereIn('name', $inputUdangers)
+            ->where(['type' => 'udanger'])
+            ->select('name', 'danger_id')
+            ->get()
+            ->toArray();
+
+//        dd($udangerModels);
+
+        $inputControlsMap = [];
+        $inputUdangersMap = [];
+
+        foreach ($controlModels as $controlModel) {
+            $inputControlsMap[$controlModel['danger_id']][$controlModel['name']] = true;
+        }
+
+        foreach ($udangerModels as $udangerModel) {
+            $inputUdangersMap[$udangerModel['danger_id']][$udangerModel['name']] = true;
+        }
+
+        // Save current user id, instead of querying it for several times;
+        $userId = current_user()->id;
+
+        /**
+         * Finally , we iterate over whole filtered data again and create a record for new control/udanger
+         * or
+         * omit them if that value already exists under current danger
+         */
+        foreach ($data as $ind => $d) {
+            $did = $d['did'];
+            $d = $d['data'];
+
+            foreach ($d['newControls'] as $nc) {
+                $model = isset($inputControlsMap[$did][$nc['value']]);
+
+                if (!$model) {
+                    UserText::create([
+                        'user_id' => $userId,
+                        'danger_id' => $did,
+                        'name' => $nc['value'],
+                        'type' => 'control'
+                    ]);
+                    $inputControlsMap[$did][$nc['value']] = true;
+                }
+            }
+
+            foreach ($d['newUdangers'] as $nc) {
+                $model = isset($inputUdangersMap[$did][$nc['value']]);
+
+                if (!$model) {
+                    UserText::create([
+                        'user_id' => current_user()->id,
+                        'danger_id' => $did,
+                        'name' => $nc['value'],
+                        'type' => 'udanger']
+                    );
+                    $inputUdangersMap[$did][$nc['value']] = true;
+                }
+            }
+        }
 
         /*
          * Later, we'll need all danger control k's sum, we can calculate it now.
