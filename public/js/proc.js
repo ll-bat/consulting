@@ -39021,7 +39021,7 @@ var render = function() {
         }
       ],
       staticClass:
-        "form-control docs-input th-bottom h-font ns-font-family autoresize ml-2 w-100",
+        "form-control docs-input th-bottom h-font autoresize ml-2 w-100",
       staticStyle: {
         "line-height": "2.6",
         "font-size": ".88em",

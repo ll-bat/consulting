@@ -12,7 +12,7 @@
          <div class='ns-circle' style='width:25px;'></div>
 
          <textarea type="text"
-                   class="form-control docs-input th-bottom h-font ns-font-family autoresize ml-2 w-100"
+                   class="form-control docs-input th-bottom h-font autoresize ml-2 w-100"
                    rows = '1'
                    style='line-height:2.6;font-size:.88em; margin-top:-.56rem;'
                    :placeholder= 'placeholder'
