@@ -36,7 +36,7 @@ function userRoutes()
         ['route' => 'user.home', 'icon' => 'nc-icon nc-bank', 'name' => 'მთავარი'],
         ['route' => 'user.profile', 'icon' => 'nc-icon nc-single-02', 'name' => 'პროფილი'],
         ['route' => 'user.objects', 'icon' => 'nc-icon nc-single-copy-04', 'name' => 'ობიექტები'],
-        ['route' => 'user.questions', 'icon' => 'nc-icon nc-tap-01 mr-3 mt-3 ml-1', 'name' =>  'რისკების შეფასების დოკუმენტის შექმნა']
+        ['route' => 'user.preQuestions', 'icon' => 'nc-icon nc-tap-01 mr-3 mt-3 ml-1', 'name' =>  'რისკების შეფასების დოკუმენტის შექმნა']
 
     ];
 }
