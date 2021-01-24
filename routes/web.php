@@ -52,10 +52,15 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
     Route::get('/profile', 'ProfileController@show')->name('user.profile');
     Route::get('/objects', 'ObjectsController@index')->name('user.objects');
 
+    Route::get('/pre-questions', 'UserDocsController@index')->name('user.preQuestions');
     Route::get('/questions', 'UserDocsController@show')->name('user.questions');
-    Route::post('docs/submit', 'DocController@submit');
-    Route::post('docs/save-docs', 'DocController@saveData');
-    Route::get('docs/show-data', 'DocController@showData')->name('docs.showData');
+
+    Route::group(['prefix' => 'docs'], function() {
+        Route::post('submit', 'DocController@submit');
+        Route::post('/save-docs', 'DocController@saveData');
+        Route::get('show-data', 'DocController@showData')->name('docs.showData');
+        Route::post("prepare-doc", 'DocController@prepareDoc');
+    });
 
     Route::patch('/account', 'UserController@update');
     Route::patch('/profile', 'ProfileController@update');
