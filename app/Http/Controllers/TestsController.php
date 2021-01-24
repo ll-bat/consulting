@@ -26,7 +26,7 @@ class TestsController extends Controller
 {
       public function index()
       {
-//          $this->calc2();
+//          $this->calc();
 
 //          $sql = 'select danger_id, process_id from danger_process where danger_id in (52) and process_id in (1)';
 //
@@ -51,7 +51,7 @@ class TestsController extends Controller
       }
 
       public function calc() {
-          $export = Export::latest()->first();
+          $export = Export::find(11);
           $data = json_decode($export->data);
           $data = $data[0];
           $data = $this->makeAssoc($data);
