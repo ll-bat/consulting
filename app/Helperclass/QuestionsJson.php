@@ -8,11 +8,11 @@ class QuestionsJson
 {
      public array $data;
 
-     public function __construct(array $data) {
-         $this->init($data);
+     public function __construct(array $data, bool $saveImages = true) {
+         $this->init($data, $saveImages);
      }
 
-     public function init($_data) {
+     public function init($_data, $saveImages) {
 
          $obj = [];
          $images = [];
@@ -33,7 +33,6 @@ class QuestionsJson
                      ];
 
                      $danger = $danger->data;
-
 
                      $data = [
                          'hasImage' => false,
@@ -86,13 +85,15 @@ class QuestionsJson
              }
 
              $this->data = $obj;
-             session()->put('_oldImages', $images);
+
+             if ($saveImages) {
+                 session()->put('_oldImages', $images);
+             }
 
          } catch (\Exception $e) {
 //             dd($e->getMessage() . '; line - ' . $e->getLine());
              $this->data = [];
          }
-
 
          $this->data = $obj;
      }
