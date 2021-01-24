@@ -9,114 +9,150 @@ use App\Helperclass\Content;
 use App\Helperclass\QuestionsJson;
 use App\Objects;
 use FontLib\EOT\File;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Dompdf\Dompdf;
 use App\Exports\UsersExport;
+use Illuminate\View\View;
 use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 
 class MyDocsController extends Controller
 {
-      protected $data = [];
+    protected $data = [];
 
-      public function show(Export $export){
-         $this->authorize('show-doc', $export);
+    /**
+     * @param Export $export
+     * @return Application|Factory|View
+     * @throws AuthorizationException
+     */
+    public function show(Export $export)
+    {
+        $this->authorize('show-doc', $export);
 
-         $con = new Content($export);
-         $con = $con->getData();
+        $con = new Content($export);
+        $con = $con->getData();
 
         //  dd($con);
 
-         $id  = $export->id;
+        $id = $export->id;
 
-         $this->data = $con;
+        $this->data = $con;
 
-         return view('user.docs.form', [
-             'countAll' => $con[0],
-             'object'   => $con[1],
-             'docId'    => $id
-         ]);
-      }
+        return view('user.docs.form', [
+            'countAll' => $con[0],
+            'object' => $con[1],
+            'docId' => $id
+        ]);
+    }
 
-      public function edit(Export $export) {
-          $this->authorize('show-doc', $export);
+    /**
+     * @param Export $export
+     * @return Application|RedirectResponse|Redirector
+     * @throws AuthorizationException
+     */
+    public function edit(Export $export)
+    {
+        $this->authorize('show-doc', $export);
 
-          $data = json_decode($export->data);
-          $data = (new QuestionsJson($data))->getData();
+        $data = json_decode($export->data);
+        $data = (new QuestionsJson($data))->getData();
 
+        session()->forget('_docData');
+        session()->put('_questionsData', ['data' => json_encode($data), 'exportId' => $export->id]);
 
-          session()->put('questions-data', [json_encode($data), $export->id]);
+        return redirect()->route('user.questions');
+    }
 
-          return redirect('/user/questions');
-      }
+    /**
+     * @param Export $export
+     * @return bool|RedirectResponse|BinaryFileResponse
+     * @throws AuthorizationException
+     * @throws \Throwable
+     */
+    public function export(Export $export)
+    {
+        $this->authorize('show-doc', $export);
 
+        $validator = Validator::make(request()->all(), [
+            'pdf' => 'nullable|boolean',
+            'excel' => 'nullable|boolean'
+        ]);
 
+        if ($validator->fails()) {
+            return redirect()->route('user.export', $export->id)->with('errors', ['Choose at least one']);
+        }
 
-      public function export(Export $export){
-          $this->authorize('show-doc', $export);
+        if (request('pdf')) {
+            return $this->downloadPdf($export);
+        } else if (request('excel')) {
+            return $this->downloadExcel($export);
+        } else {
+            return redirect()->route('user.export', $export->id)->with('errors', ['Choose at least one']);
+        }
+    }
 
-          $validator = Validator::make(request()->all(),[
-              'pdf' => 'nullable|boolean',
-              'excel' => 'nullable|boolean'
-          ]);
+    /**
+     * @param Export $export
+     * @return BinaryFileResponse
+     */
+    public function downloadExcel(Export $export): BinaryFileResponse
+    {
+        $name = 'My Excel Document.xlsx';
+        return Excel::download(new UsersExport($export), $name);
+    }
 
-          if ($validator->fails()){
-               return redirect()->route('user.export', $export->id)->with('errors', ['Choose at least one']);
-          }
+    /**
+     * @param Export $export
+     * @return bool
+     * @throws AuthorizationException
+     * @throws \Throwable
+     */
+    public function downloadPdf(Export $export): bool
+    {
+        $this->authorize('show-doc', $export);
 
-          if (request('pdf')){
-              return $this->downloadPdf($export);
-          }
+        $filename = $export->filename;
 
-          else if (request('excel')){
-              return $this->downloadExcel($export);
-          }
+        $dompdf = new Dompdf();
+        $customPaper = array(0, 0, 900, 2700);
+        $dompdf->set_paper($customPaper);
 
-          else {
-              return redirect()->route('user.export', $export->id)->with('errors', ['Choose at least one']);
-          }
-      }
+        $con = new Content($export, 'pdf');
+        $con = $con->getData();
 
-      public function downloadExcel(Export $export){
-          $name = 'My Excel Document.xlsx';
-          return Excel::download(new UsersExport($export), $name);
-      }
+        $view = view('user.docs.pdf_table', [
+            'countAll' => $con[0],
+            'object' => $con[1]
+        ])->render();
 
-      public function downloadPdf(Export $export){
-           $this->authorize('show-doc', $export);
+        $dompdf->loadHtml($view);
+        $dompdf->render();
 
-           $filename = $export->filename;
+        $dompdf->stream();
 
-           $dompdf = new Dompdf();
-           $customPaper = array(0,0,900,2700);
-           $dompdf->set_paper($customPaper);
+        return true;
+    }
 
-           $con = new Content($export, 'pdf');
-           $con = $con->getData();
+    /**
+     * @param Export $export
+     * @return RedirectResponse
+     * @throws AuthorizationException
+     */
+    public function delete(Export $export): RedirectResponse
+    {
+        $this->authorize('show-doc', $export);
 
-           $view = view('user.docs.pdf_table', [
-               'countAll' => $con[0],
-               'object'   => $con[1]
-           ])->render();
+        $export->delete();
 
-           $dompdf->loadHtml($view);
-           $dompdf->render();
-
-           $dompdf->stream();
-
-           return true;
-      }
-
-      public function delete(Export $export): RedirectResponse
-      {
-          $this->authorize('show-doc', $export);
-
-          $export->delete();
-
-          return back();
-      }
+        return back();
+    }
 }
