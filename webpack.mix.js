@@ -10,10 +10,13 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-
-mix.js('resources/js/proc.js', 'public/js')
-     .js('resources/js/ch.js', 'public/js')
-      .js('resources/js/q.js', 'public/js')
-        .js('resources/js/services.js', 'public/js')
+//
+// mix.js('resources/js/proc.js', 'public/js')
+//      .js('resources/js/ch.js', 'public/js')
+//       .js('resources/js/q.js', 'public/js')
+//         .js('resources/js/services.js', 'public/js')
+//          .js('resources/js/preQuestions.js', 'public/js');
     // .sass('resources/sass/app.scss', 'public/css');
 
+mix.js('resources/js/preQuestions.js', 'public/js')
+    .js('resources/js/q.js', 'public/js');
