@@ -367,6 +367,8 @@ $abpath = $_SERVER['HTTP_HOST'];
     <script type='application/javascript' src="/js/ch.js"></script>
 @elseif ($route == 'user.questions')
     <script type='application/javascript' src="/js/q.js"></script>
+@elseif ($route == 'user.preQuestions')
+    <script type="application/javascript" src="/js/preQuestions.js"></script>
 @endif
 
 <br/><br/><br/>
