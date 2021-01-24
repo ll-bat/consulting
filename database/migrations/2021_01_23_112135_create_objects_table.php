@@ -25,7 +25,8 @@ class CreateObjectsTable extends Migration
 
         });
 
-        \App\Objects::create(['user_id' => 1,  'name' => 'General']);
+        $userId = \App\User::where('is_admin')->first()->id;
+        \App\Objects::create(['user_id' => $userId,  'name' => 'General']);
     }
 
     /**
