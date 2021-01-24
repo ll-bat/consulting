@@ -47,10 +47,17 @@ class MyDocsController extends Controller
 
         $this->data = $con;
 
+        $userObjects = Objects::where('user_id', current_user()->id)
+            ->select('id', 'name')
+            ->get();
+
         return view('user.docs.form', [
             'countAll' => $con[0],
             'object' => $con[1],
-            'docId' => $id
+            'docId' => $id,
+            'filename' => $export->filename,
+            'objects' => $userObjects,
+            'objectId' => $export->object_id
         ]);
     }
 
@@ -70,6 +77,38 @@ class MyDocsController extends Controller
         session()->put('_questionsData', ['data' => json_encode($data), 'exportId' => $export->id]);
 
         return redirect()->route('user.questions');
+    }
+
+    /**
+     * @param Export $export
+     * @return mixed
+     */
+    public function update(Export $export) {
+        \request()->validate([
+            'filename' => 'required|string|max:512',
+            'objectId' => 'required|integer'
+        ]);
+
+        $query = ['filename' => \request('filename')];
+
+        if (!$export->object_id !== \request('objectId')) {
+            $ok = Objects::where('id', \request('objectId'))
+                ->where('user_id', current_user()->id)
+                ->limit(1)
+                ->count() > 0;
+
+            if (!$ok) {
+                throw new \Exception('Such object does note exist', 404);
+            } else {
+                $query['object_id'] = \request('objectId');
+            }
+        }
+
+        $ok = $export->update($query);
+        if ($ok) {
+            return 'all-done';
+        }
+        throw new \Exception('Error occurred', 400);
     }
 
     /**
