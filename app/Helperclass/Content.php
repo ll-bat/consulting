@@ -9,10 +9,19 @@ class Content {
 
     protected $data = [];
 
+    /**
+     * Content constructor.
+     * @param $export
+     * @param string $exportAs
+     */
     public function __construct($export, $exportAs = ''){
         $this->init($export, $exportAs);
     }
 
+    /**
+     * @param $export
+     * @param $exportAs
+     */
     public function init($export, $exportAs){
         $json = new Json();
         $data = $json->load($export);
@@ -23,7 +32,11 @@ class Content {
         $this->data =  [$countAll, $object];
     }
 
-    public function getData(){
+    /**
+     * @return array
+     */
+    public function getData(): array
+    {
         return $this->data;
     }
 }
