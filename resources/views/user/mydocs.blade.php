@@ -44,7 +44,7 @@
                                         <img src="/icons/document2.png" style="width:3rem;"/>
                                     </div>
                                     <div class="mt-2">
-                                        <span class="pl-2 mydocs-text text-primary font-weight-bolder" style=""> ჩემი დოკუმენტი {{ $index + 1 }}</span>
+                                        <span class="pl-2 mydocs-text text-primary font-weight-bolder" style=""> {{ $doc->filename }} </span>
                                         <div class="mydocs-border mt-2 ml-2"></div>
                                     </div>
                                 </div>
