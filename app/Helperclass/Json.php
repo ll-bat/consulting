@@ -3,6 +3,7 @@
 namespace App\Helperclass;
 
 use App\Export;
+use App\Objects;
 
 class Json {
     private int $exportId;
@@ -30,6 +31,7 @@ class Json {
     /**
      * @param $data
      * @return int
+     * @throws \Exception
      */
     public function save($data): int
     {
@@ -47,10 +49,29 @@ class Json {
      * @return mixed
      */
     public function create($data) {
-        $name = md5(uniqid());
-        $path = "$name.json";
+        $docData = session()->get('_docData') ?? false;
+        if (!$docData) {
+            throw new \Exception('Bad request', 400);
+        }
 
-        $export = Export::create(['user_id' => current_user()->id, 'filename' => $path, 'data' => $data]);
+        $objectId = $docData['objectId'];
+
+        $ok = Objects::where('id', $objectId)->where('user_id', current_user()->id)->limit(1)->count() > 0;
+        if (!$ok) {
+            throw new \Exception('Such object does not exist', 400);
+        }
+
+        $filename = $docData['filename'];
+        if (!$filename) {
+            throw new \Exception('Document filename not provided', 400);
+        }
+
+        $export = Export::create([
+            'user_id' => current_user()->id,
+            'filename' => $filename,
+            'object_id' => $objectId,
+            'data' => $data
+        ]);
 
         return $export->id;
     }
@@ -61,9 +82,18 @@ class Json {
      */
     public function update($data): int
     {
-        $export = Export::findOrFail($this->exportId);
+        $export = Export::where('id', $this->exportId)
+            ->where('user_id', current_user()->id)
+            ->first();
 
-        $export->update(['data' => $data]);
+        if (!$export) {
+            throw new \Exception('Such export does not exist', 400);
+        }
+
+        $ok = $export->update(['data' => $data]);
+        if (!$ok) {
+            throw new \Exception('ვერ მოხერხდა დოკუმენტის განახლება გაურკვეველი მიზეზების გამო. გთხოვთ, სცადოთ ახლიდან', 400);
+        }
 
         return $this->exportId;
     }
