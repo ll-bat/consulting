@@ -43,10 +43,19 @@ const app = new Vue({
         exportId: null
     },
     methods: {
+        async chooseProcess(id) {
+            return await this.filterDangers(id);
+        },
+
+        async chooseDanger(id) {
+            return await this.filterControls(id);
+        },
+
         filterDangers(selectedValue) {
             return new Promise(async res => {
                 this.currentDangers = [];
-                Event.$emit('setDefaultValue')
+                this.dangerId = -1;
+                // Event.$emit('setDefaultValue')
 
                 let id = selectedValue;
                 const process = this.processes.find(p => p.id === id);
@@ -55,10 +64,7 @@ const app = new Vue({
                 const dangerIds = await fetcher.getDangers(process.id);
 
                 this.processId = id
-                this.currentDangers = this.dangers.filter(d => dangerIds.includes(d.id))
-                    .map(d => {
-                        return { name: d.name, value: d.id }
-                    });
+                this.currentDangers = this.dangers.filter(d => dangerIds.includes(d.id));
 
                 this.dangerSelect = JSON.parse(JSON.stringify(this.currentDangers));
 
@@ -73,7 +79,7 @@ const app = new Vue({
                 this.currentControls = [];
 
                 let id = selectedValue
-                let danger = this.currentDangers.find(d => d.value === id)
+                let danger = this.currentDangers.find(d => d.id === id)
                 if (!danger) {
                     this.showControls = false;
                     return;
@@ -240,14 +246,6 @@ const app = new Vue({
             this.newDoc = false;
             // console.log(this.info);
         }
-    },
-
-    computed: {
-        allProcess: function () {
-            return this.processes.map(p => {
-                return {name: p.name, value: p.id}
-            })
-        },
     },
 
     created() {

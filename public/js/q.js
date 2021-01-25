@@ -52117,56 +52117,96 @@ var app = new Vue({
     exportId: null
   },
   methods: {
-    filterDangers: function filterDangers(selectedValue) {
+    chooseProcess: function chooseProcess(id) {
       var _this = this;
 
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _this.filterDangers(id);
+
+              case 2:
+                return _context.abrupt("return", _context.sent);
+
+              case 3:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    chooseDanger: function chooseDanger(id) {
+      var _this2 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return _this2.filterControls(id);
+
+              case 2:
+                return _context2.abrupt("return", _context2.sent);
+
+              case 3:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    filterDangers: function filterDangers(selectedValue) {
+      var _this3 = this;
+
       return new Promise( /*#__PURE__*/function () {
-        var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(res) {
+        var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(res) {
           var id, process, dangerIds;
-          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
             while (1) {
-              switch (_context.prev = _context.next) {
+              switch (_context3.prev = _context3.next) {
                 case 0:
-                  _this.currentDangers = [];
-                  Event.$emit('setDefaultValue');
+                  _this3.currentDangers = [];
+                  _this3.dangerId = -1; // Event.$emit('setDefaultValue')
+
                   id = selectedValue;
-                  process = _this.processes.find(function (p) {
+                  process = _this3.processes.find(function (p) {
                     return p.id === id;
                   });
 
                   if (process) {
-                    _context.next = 6;
+                    _context3.next = 6;
                     break;
                   }
 
-                  return _context.abrupt("return");
+                  return _context3.abrupt("return");
 
                 case 6:
-                  _context.next = 8;
+                  _context3.next = 8;
                   return _classes_Fetcher__WEBPACK_IMPORTED_MODULE_6__["default"].getDangers(process.id);
 
                 case 8:
-                  dangerIds = _context.sent;
-                  _this.processId = id;
-                  _this.currentDangers = _this.dangers.filter(function (d) {
+                  dangerIds = _context3.sent;
+                  _this3.processId = id;
+                  _this3.currentDangers = _this3.dangers.filter(function (d) {
                     return dangerIds.includes(d.id);
-                  }).map(function (d) {
-                    return {
-                      name: d.name,
-                      value: d.id
-                    };
                   });
-                  _this.dangerSelect = JSON.parse(JSON.stringify(_this.currentDangers));
-                  _this.showDangers = true;
-                  _this.showControls = false;
+                  _this3.dangerSelect = JSON.parse(JSON.stringify(_this3.currentDangers));
+                  _this3.showDangers = true;
+                  _this3.showControls = false;
                   res();
 
                 case 15:
                 case "end":
-                  return _context.stop();
+                  return _context3.stop();
               }
             }
-          }, _callee);
+          }, _callee3);
         }));
 
         return function (_x) {
@@ -52175,73 +52215,73 @@ var app = new Vue({
       }());
     },
     filterControls: function filterControls(selectedValue) {
-      var _this2 = this;
+      var _this4 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                return _context3.abrupt("return", new Promise( /*#__PURE__*/function () {
-                  var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(res) {
+                return _context5.abrupt("return", new Promise( /*#__PURE__*/function () {
+                  var _ref2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(res) {
                     var id, danger, controlIds;
-                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
                       while (1) {
-                        switch (_context2.prev = _context2.next) {
+                        switch (_context4.prev = _context4.next) {
                           case 0:
-                            _this2.currentControls = [];
+                            _this4.currentControls = [];
                             id = selectedValue;
-                            danger = _this2.currentDangers.find(function (d) {
-                              return d.value === id;
+                            danger = _this4.currentDangers.find(function (d) {
+                              return d.id === id;
                             });
 
                             if (danger) {
-                              _context2.next = 6;
+                              _context4.next = 6;
                               break;
                             }
 
-                            _this2.showControls = false;
-                            return _context2.abrupt("return");
+                            _this4.showControls = false;
+                            return _context4.abrupt("return");
 
                           case 6:
-                            _this2.dangerId = id;
-                            _context2.next = 9;
+                            _this4.dangerId = id;
+                            _context4.next = 9;
                             return _classes_Fetcher__WEBPACK_IMPORTED_MODULE_6__["default"].getControls(id);
 
                           case 9:
-                            controlIds = _context2.sent;
-                            _this2.currentControls = _this2.controls.filter(function (c) {
+                            controlIds = _context4.sent;
+                            _this4.currentControls = _this4.controls.filter(function (c) {
                               return controlIds.includes(c.id);
                             });
-                            _this2.elm = _this2.info.find(function (e) {
-                              return e.pid === _this2.processId && e.did === _this2.dangerId;
+                            _this4.elm = _this4.info.find(function (e) {
+                              return e.pid === _this4.processId && e.did === _this4.dangerId;
                             });
 
-                            if (!_this2.elm) {
-                              _this2.data = new _classes_Data__WEBPACK_IMPORTED_MODULE_4__["Data"]();
-                              _this2.elm = {
-                                pid: _this2.processId,
-                                did: _this2.dangerId,
-                                data: _this2.data
+                            if (!_this4.elm) {
+                              _this4.data = new _classes_Data__WEBPACK_IMPORTED_MODULE_4__["Data"]();
+                              _this4.elm = {
+                                pid: _this4.processId,
+                                did: _this4.dangerId,
+                                data: _this4.data
                               };
 
-                              _this2.info.push(_this2.elm);
+                              _this4.info.push(_this4.elm);
                             } else {
-                              _this2.data = _this2.elm.data;
+                              _this4.data = _this4.elm.data;
                             }
 
-                            _this2.showControls = true;
+                            _this4.showControls = true;
 
-                            Object(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["chainedAnim"])('sizeable-control', _this2.currentControls.length, 0);
+                            Object(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["chainedAnim"])('sizeable-control', _this4.currentControls.length, 0);
 
                             res();
 
                           case 16:
                           case "end":
-                            return _context2.stop();
+                            return _context4.stop();
                         }
                       }
-                    }, _callee2);
+                    }, _callee4);
                   }));
 
                   return function (_x2) {
@@ -52251,22 +52291,22 @@ var app = new Vue({
 
               case 1:
               case "end":
-                return _context3.stop();
+                return _context5.stop();
             }
           }
-        }, _callee3);
+        }, _callee5);
       }))();
     },
     vueImageLoad: function vueImageLoad(ev) {
-      var _this3 = this;
+      var _this5 = this;
 
       imageLoad(ev, null, function (val) {
-        _this3.data.image = val;
-        _this3.data.hasImage = true;
+        _this5.data.image = val;
+        _this5.data.hasImage = true;
 
-        _this3.fm.append("image_".concat(_this3.processId, "_").concat(_this3.dangerId), ev.target.files[0]);
+        _this5.fm.append("image_".concat(_this5.processId, "_").concat(_this5.dangerId), ev.target.files[0]);
 
-        _this3.data.imageName = "image_".concat(_this3.processId, "_").concat(_this3.dangerId);
+        _this5.data.imageName = "image_".concat(_this5.processId, "_").concat(_this5.dangerId);
       });
     },
     clearUpload: function clearUpload() {
@@ -52289,15 +52329,15 @@ var app = new Vue({
       });
     },
     submit: function submit() {
-      var _this4 = this;
+      var _this6 = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
         var res;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _this4.info = _this4.info.filter(function (d) {
+                _this6.info = _this6.info.filter(function (d) {
                   var ys = false;
                   d.data.image = '';
                   d.data.control.forEach(function (c) {
@@ -52308,37 +52348,37 @@ var app = new Vue({
                   });
 
                   if (!ys) {
-                    _this4.fm["delete"](d.data.imageName);
+                    _this6.fm["delete"](d.data.imageName);
                   }
 
                   return ys;
                 });
 
-                if (!(_this4.info.length === 0)) {
-                  _context4.next = 5;
+                if (!(_this6.info.length === 0)) {
+                  _context6.next = 5;
                   break;
                 }
 
                 alert('Please, fill up the form');
                 window.location = '';
-                return _context4.abrupt("return");
+                return _context6.abrupt("return");
 
               case 5:
-                _this4.testify();
+                _this6.testify();
 
-                _this4.fm.append('data', JSON.stringify(_this4.info));
+                _this6.fm.append('data', JSON.stringify(_this6.info));
 
                 $('#data-processing').removeClass('d-none');
                 $('#data-submit').addClass('disabled');
-                _context4.next = 11;
-                return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].post('docs/submit', _this4.fm)["catch"](function (err) {
+                _context6.next = 11;
+                return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].post('docs/submit', _this6.fm)["catch"](function (err) {
                   alert("დაფიქსირდა შეცდომა. გთხოვთ, სცადოთ თავიდან.");
                   $('#data-processing').addClass('d-none');
                   $('#data-submit').removeClass('disabled');
                 });
 
               case 11:
-                res = _context4.sent;
+                res = _context6.sent;
 
                 if (res) {
                   window.location = res;
@@ -52346,82 +52386,82 @@ var app = new Vue({
 
               case 13:
               case "end":
-                return _context4.stop();
-            }
-          }
-        }, _callee4);
-      }))();
-    },
-    testify: function testify() {},
-    init: function init() {
-      var _this5 = this;
-
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
-        var data, a, _this5$info$, pid, did;
-
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
-          while (1) {
-            switch (_context6.prev = _context6.next) {
-              case 0:
-                _context6.next = 2;
-                return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].get('api/all-data');
-
-              case 2:
-                data = _context6.sent;
-
-                for (a in data) {
-                  _this5[a] = data[a];
-                }
-
-                _this5.setHelpers();
-
-                _this5.helpers.combine();
-
-                _this5.helpers.setControlAnswers();
-
-                if (_this5.newDoc) {
-                  _context6.next = 14;
-                  break;
-                }
-
-                _this5$info$ = _this5.info[0], pid = _this5$info$.pid, did = _this5$info$.did;
-                _context6.next = 11;
-                return _this5.filterDangers(pid);
-
-              case 11:
-                _context6.next = 13;
-                return _this5.filterControls(did);
-
-              case 13:
-                tout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
-                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
-                    while (1) {
-                      switch (_context5.prev = _context5.next) {
-                        case 0:
-                          Event.$emit('selectProcess', pid);
-                          Event.$emit('selectDanger', did);
-
-                        case 2:
-                        case "end":
-                          return _context5.stop();
-                      }
-                    }
-                  }, _callee5);
-                })), 250);
-
-              case 14:
-                _this5.helpers.removeLoader();
-
-              case 15:
-              case "end":
                 return _context6.stop();
             }
           }
         }, _callee6);
       }))();
     },
+    testify: function testify() {},
+    init: function init() {
+      var _this7 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee8() {
+        var data, a, _this7$info$, pid, did;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                _context8.next = 2;
+                return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].get('api/all-data');
+
+              case 2:
+                data = _context8.sent;
+
+                for (a in data) {
+                  _this7[a] = data[a];
+                }
+
+                _this7.setHelpers();
+
+                _this7.helpers.combine();
+
+                _this7.helpers.setControlAnswers();
+
+                if (_this7.newDoc) {
+                  _context8.next = 14;
+                  break;
+                }
+
+                _this7$info$ = _this7.info[0], pid = _this7$info$.pid, did = _this7$info$.did;
+                _context8.next = 11;
+                return _this7.filterDangers(pid);
+
+              case 11:
+                _context8.next = 13;
+                return _this7.filterControls(did);
+
+              case 13:
+                tout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7() {
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
+                    while (1) {
+                      switch (_context7.prev = _context7.next) {
+                        case 0:
+                          Event.$emit('selectProcess', pid);
+                          Event.$emit('selectDanger', did);
+
+                        case 2:
+                        case "end":
+                          return _context7.stop();
+                      }
+                    }
+                  }, _callee7);
+                })), 250);
+
+              case 14:
+                _this7.helpers.removeLoader();
+
+              case 15:
+              case "end":
+                return _context8.stop();
+            }
+          }
+        }, _callee8);
+      }))();
+    },
     setHelpers: function setHelpers() {
-      var _this6 = this;
+      var _this8 = this;
 
       this.helpers = {
         chboxId: _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["chboxId"],
@@ -52431,93 +52471,83 @@ var app = new Vue({
             params[_key] = arguments[_key];
           }
 
-          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["checkControl"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["checkControl"], [_this6].concat(params));
+          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["checkControl"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["checkControl"], [_this8].concat(params));
         },
         toggleControl: function toggleControl() {
           for (var _len2 = arguments.length, params = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
             params[_key2] = arguments[_key2];
           }
 
-          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["toggleControl"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["toggleControl"], [_this6].concat(params));
+          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["toggleControl"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["toggleControl"], [_this8].concat(params));
         },
         toggleInput: function toggleInput() {
           for (var _len3 = arguments.length, params = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
             params[_key3] = arguments[_key3];
           }
 
-          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["toggleInput"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["toggleInput"], [_this6].concat(params));
+          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["toggleInput"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["toggleInput"], [_this8].concat(params));
         },
         checkPloss: function checkPloss() {
           for (var _len4 = arguments.length, params = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
             params[_key4] = arguments[_key4];
           }
 
-          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["checkPloss"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["checkPloss"], [_this6].concat(params));
+          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["checkPloss"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["checkPloss"], [_this8].concat(params));
         },
         togglePloss: function togglePloss() {
           for (var _len5 = arguments.length, params = new Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
             params[_key5] = arguments[_key5];
           }
 
-          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["togglePloss"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["togglePloss"], [_this6].concat(params));
+          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["togglePloss"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["togglePloss"], [_this8].concat(params));
         },
         checkUdanger: function checkUdanger() {
           for (var _len6 = arguments.length, params = new Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
             params[_key6] = arguments[_key6];
           }
 
-          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["checkUdanger"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["checkUdanger"], [_this6].concat(params));
+          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["checkUdanger"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["checkUdanger"], [_this8].concat(params));
         },
         toggleUdanger: function toggleUdanger() {
           for (var _len7 = arguments.length, params = new Array(_len7), _key7 = 0; _key7 < _len7; _key7++) {
             params[_key7] = arguments[_key7];
           }
 
-          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["toggleUdanger"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["toggleUdanger"], [_this6].concat(params));
+          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["toggleUdanger"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["toggleUdanger"], [_this8].concat(params));
         },
         chainedAnim: function chainedAnim() {
           for (var _len8 = arguments.length, params = new Array(_len8), _key8 = 0; _key8 < _len8; _key8++) {
             params[_key8] = arguments[_key8];
           }
 
-          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["chainedAnim"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["chainedAnim"], [_this6].concat(params));
+          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["chainedAnim"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["chainedAnim"], [_this8].concat(params));
         },
         removeLoader: function removeLoader() {
           for (var _len9 = arguments.length, params = new Array(_len9), _key9 = 0; _key9 < _len9; _key9++) {
             params[_key9] = arguments[_key9];
           }
 
-          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["removeLoader"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["removeLoader"], [_this6].concat(params));
+          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["removeLoader"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["removeLoader"], [_this8].concat(params));
         },
         setControlAnswers: function setControlAnswers() {
           for (var _len10 = arguments.length, params = new Array(_len10), _key10 = 0; _key10 < _len10; _key10++) {
             params[_key10] = arguments[_key10];
           }
 
-          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["setControlAnswers"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["setControlAnswers"], [_this6].concat(params));
+          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["setControlAnswers"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["setControlAnswers"], [_this8].concat(params));
         },
         combine: function combine() {
           for (var _len11 = arguments.length, params = new Array(_len11), _key11 = 0; _key11 < _len11; _key11++) {
             params[_key11] = arguments[_key11];
           }
 
-          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["combine"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["combine"], [_this6].concat(params));
+          return _helpers_fns__WEBPACK_IMPORTED_MODULE_5__["combine"].call.apply(_helpers_fns__WEBPACK_IMPORTED_MODULE_5__["combine"], [_this8].concat(params));
         }
       };
     },
     copyObj: function copyObj() {
       this.info = JSON.parse(JSON.stringify(this.$doc));
       this.newDoc = false; // console.log(this.info);
-    }
-  },
-  computed: {
-    allProcess: function allProcess() {
-      return this.processes.map(function (p) {
-        return {
-          name: p.name,
-          value: p.id
-        };
-      });
     }
   },
   created: function created() {
