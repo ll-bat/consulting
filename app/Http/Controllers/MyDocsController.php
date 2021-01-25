@@ -159,14 +159,15 @@ class MyDocsController extends Controller
     {
         $this->authorize('show-doc', $export);
 
-        $filename = $export->filename;
-
-        $dompdf = new Dompdf();
-        $customPaper = array(0, 0, 900, 2700);
-        $dompdf->set_paper($customPaper);
-
         $con = new Content($export, 'pdf');
         $con = $con->getData();
+
+        $height = $con[0] * 50 + 400;
+        $height = max($height, 900);
+
+        $dompdf = new Dompdf();
+        $customPaper = array(0, 0, 1000, $height);
+        $dompdf->setPaper($customPaper);
 
         $view = view('user.docs.pdf_table', [
             'countAll' => $con[0],
