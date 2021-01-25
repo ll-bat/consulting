@@ -52174,23 +52174,25 @@ var app = new Vue({
                   _this3.currentDangers = [];
                   _this3.dangerId = -1; // Event.$emit('setDefaultValue')
 
+                  _this3.showControls = false;
+                  _this3.showDangers = false;
                   id = selectedValue;
                   process = _this3.processes.find(function (p) {
                     return p.id === id;
                   });
 
                   if (process) {
-                    _context3.next = 6;
+                    _context3.next = 8;
                     break;
                   }
 
                   return _context3.abrupt("return");
 
-                case 6:
-                  _context3.next = 8;
+                case 8:
+                  _context3.next = 10;
                   return _classes_Fetcher__WEBPACK_IMPORTED_MODULE_6__["default"].getDangers(process.id);
 
-                case 8:
+                case 10:
                   dangerIds = _context3.sent;
                   _this3.processId = id;
                   _this3.currentDangers = _this3.dangers.filter(function (d) {
@@ -52198,10 +52200,9 @@ var app = new Vue({
                   });
                   _this3.dangerSelect = JSON.parse(JSON.stringify(_this3.currentDangers));
                   _this3.showDangers = true;
-                  _this3.showControls = false;
                   res();
 
-                case 15:
+                case 16:
                 case "end":
                   return _context3.stop();
               }
@@ -52230,25 +52231,26 @@ var app = new Vue({
                         switch (_context4.prev = _context4.next) {
                           case 0:
                             _this4.currentControls = [];
+                            _this4.showControls = false;
                             id = selectedValue;
                             danger = _this4.currentDangers.find(function (d) {
                               return d.id === id;
                             });
 
                             if (danger) {
-                              _context4.next = 6;
+                              _context4.next = 7;
                               break;
                             }
 
                             _this4.showControls = false;
                             return _context4.abrupt("return");
 
-                          case 6:
+                          case 7:
                             _this4.dangerId = id;
-                            _context4.next = 9;
+                            _context4.next = 10;
                             return _classes_Fetcher__WEBPACK_IMPORTED_MODULE_6__["default"].getControls(id);
 
-                          case 9:
+                          case 10:
                             controlIds = _context4.sent;
                             _this4.currentControls = _this4.controls.filter(function (c) {
                               return controlIds.includes(c.id);
@@ -52276,7 +52278,7 @@ var app = new Vue({
 
                             res();
 
-                          case 16:
+                          case 17:
                           case "end":
                             return _context4.stop();
                         }

@@ -57,6 +57,9 @@ const app = new Vue({
                 this.dangerId = -1;
                 // Event.$emit('setDefaultValue')
 
+                this.showControls = false;
+                this.showDangers = false;
+
                 let id = selectedValue;
                 const process = this.processes.find(p => p.id === id);
                 if (!process) return
@@ -69,7 +72,6 @@ const app = new Vue({
                 this.dangerSelect = JSON.parse(JSON.stringify(this.currentDangers));
 
                 this.showDangers = true;
-                this.showControls = false;
                 res();
             })
         },
@@ -77,6 +79,8 @@ const app = new Vue({
         async filterControls(selectedValue) {
             return new Promise(async res => {
                 this.currentControls = [];
+
+                this.showControls = false;
 
                 let id = selectedValue
                 let danger = this.currentDangers.find(d => d.id === id)
