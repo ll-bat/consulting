@@ -23,7 +23,7 @@
 <div class="bg-white px-4 py-3 border rounded-10 partial-shadow border-0 mt-3">
     <div class="d-flex " style="justify-content: space-between;">
         <div class="d-flex">
-            <img src="/icons/sphere.png" width="40" height="40" />
+            <img src="/icons/3d.png" width="40" height="40" />
             <a href="objects/{{ $object['id'] }}" class="text-lg mx-4 mt-2"> {{ $object['name'] }} </a>
         </div>
         <div class="d-flex">
