@@ -145,7 +145,16 @@ class MyDocsController extends Controller
      */
     public function downloadExcel(Export $export): BinaryFileResponse
     {
-        $name = 'My Excel Document.xlsx';
+        $name = $export->filename;
+        $parts = explode('.', $name);
+        if (count($parts) < 2) {
+            $name .= '.xlsx';
+        } else {
+            $extension = $parts[count($parts) - 1];
+            if (!in_array($extension, ['xlsx', 'csv', 'xlsm', 'xlt'])) {
+                $name .= '.xlsx';
+            }
+        }
         return Excel::download(new UsersExport($export), $name);
     }
 
@@ -177,7 +186,7 @@ class MyDocsController extends Controller
         $dompdf->loadHtml($view);
         $dompdf->render();
 
-        $dompdf->stream();
+        $dompdf->stream($export->filename);
 
         return true;
     }
