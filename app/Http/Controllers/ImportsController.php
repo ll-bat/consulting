@@ -7,27 +7,25 @@ use App\Control;
 use App\ControlDanger;
 use App\Helperclass\ExcelReader;
 use App\Imports\ProcessesImport;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
 class ImportsController extends Controller
 {
-
-
-    public function importProcess(Request $request)
-    {
-
-    }
-
-    public function importDanger(Request $request)
+    /**
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function importDanger(Request $request): RedirectResponse
     {
         request()->validate([
             'danger' => 'required'
         ]);
 
         $extension = $request->file('danger')->getClientOriginalExtension();
-        if (!in_array($extension, explode(',', "csv,xlsx,xls"))) {
+        if (!in_array($extension, explode(',', "csv,xlsx,xls,xlt"))) {
             return back()->with('error', 'გთხოვთ ატვირთოთ ექსელის დოკუმენტი');
         }
 
@@ -39,61 +37,97 @@ class ImportsController extends Controller
             return back()->with('error', 'სამწუხაროდ, შეცდომა დაფიქსირდა. გთხოვთ, სცადოთ თავიდან.');
         }
 
+
+        foreach ($data as $ind => $d) {
+            if (!$reader->filterDangerField($d)) {
+                return back()->with('error', "ინფორმაციის განლაგება ექსელის დოკუმენტში არასწორია. შეამოწმეთ მონაცემი - ". ($ind+1));
+            }
+        }
+
         $dangers = [];
         $controls = [];
+
+        $used = []; $conUsed = [];
+        foreach ($data as $ind => $d) {
+            if (!isset($used[$d[0]])) {
+                $used[$d[0]] = true;
+                $dangers[] = $d[0];
+            }
+            if (!isset($conUsed[$d[2]])) {
+                $conUsed[$d[2]] = true;
+                $controls[] = $d[2];
+            }
+        }
+
+        $dangers = Danger::whereIn('name', $dangers)->get();
+        $controls = Control::whereIn('name', $controls)->get();
+
+        $mappedDangers = [];
+        foreach ($dangers as $danger) {
+            $mappedDangers[$danger->name] = $danger;
+        }
+
+        $mappedControls = [];
+        foreach ($controls as $control) {
+            $mappedControls[$control->name] = $control;
+        }
 
         DB::beginTransaction();
 
         foreach ($data as $ind => $d) {
-            if (!$reader->filterDangerField($d)) {
-                DB::rollBack();
-                return back()->with('error', "ინფორმაციის განლაგება ექსელის დოკუმენტში არასწორია. შეამოწმეთ მონაცემი - ". ($ind+1));
+            $currentDanger = $d[0];
+            $dangerK = $d[1];
+            $currentControl = $d[2];
+            $controlK = $d[3];
+            $rploss=  $d[4];
+
+            if (!isset($mappedDangers[$currentDanger])) {
+                $mappedDangers[$currentDanger] = Danger::create(['name' => $currentDanger, 'k' => $dangerK]);
+            } else {
+                if ($mappedDangers[$currentDanger]->k != $dangerK) {
+                    $mappedDangers[$currentDanger]->update(['k' => $dangerK]);
+                }
             }
 
-            if (!isset($dangers[$d[0]])) {
-                $danger = Danger::where('name', $d[0])->first();
-                if ($danger == null) {
-                    $danger = Danger::create(['name' => $d[0], 'k' => $d[1]]);
-                } else {
-                    $danger->update(['k' => $d[1]]);
+            if (!isset($mappedControls[$currentControl])) {
+                $mappedControls[$currentControl] = Control::create(['name' => $currentControl, 'k' => $controlK, 'rploss' => $rploss]);
+            } else {
+                if (!($mappedControls[$currentControl]->k == $controlK && $mappedControls[$currentControl]->rploss == $rploss)) {
+                    $mappedControls[$currentControl]->update(['k' => $controlK, 'rploss' => $rploss]);
                 }
-
-                $dangers[$d[0]] = $danger->id;
-            }
-
-            if (!isset($controls[$d[2]])) {
-                $control = Control::where('name', $d[2])->first();
-
-                if ($control == null) {
-                    $control = Control::create(['name' => $d[2], 'k' => $d[3], 'rploss' => $d[4]]);
-                } else {
-                    $control->update(['name' => $d[2], 'k' => $d[3], 'rploss' => $d[4]]);
-                }
-
-                $controls[$d[2]] = $control->id;
             }
         }
 
         foreach ($data as $d) {
-            $has = ControlDanger::where('control_id', $controls[$d[2]])->where('danger_id', $dangers[$d[0]])->first();
+            $currentDanger = $d[0];
+            $currentControl = $d[2];
 
-            if ($has == null)
-                ControlDanger::create(['control_id' => $controls[$d[2]], 'danger_id' => $dangers[$d[0]]]);
+            $dangerId = $mappedDangers[$currentDanger]->id;
+            $controlId = $mappedControls[$currentControl]->id;
+
+            $ok = ControlDanger::where('control_id', $controlId)->where('danger_id', $dangerId)->limit(1)->count() > 0;
+            if (!$ok) {
+                ControlDanger::create(['control_id' => $controlId, 'danger_id' => $dangerId]);
+            }
         }
 
         DB::commit();
         return back()->with('message', 'ოპერაცია წარმატებით დასრულდა');
     }
 
-
-    public function importControl(Request $request, Danger $danger)
+    /**
+     * @param Request $request
+     * @param Danger $danger
+     * @return RedirectResponse
+     */
+    public function importControl(Request $request, Danger $danger): RedirectResponse
     {
         request()->validate([
             'control' => 'required'
         ]);
 
         $extension = $request->file('control')->getClientOriginalExtension();
-        if (!in_array($extension, explode(',', "csv,xlsx,xls"))) {
+        if (!in_array($extension, explode(',', "csv,xlsx,xls,xlt"))) {
             return back()->with('error', 'გთხოვთ ატვირთოთ ექსელის დოკუმენტი');
         }
 
@@ -107,35 +141,55 @@ class ImportsController extends Controller
             return back()->with('error', 'სამწუხაროდ, შეცდომა დაფიქსირდა. გთხოვთ, სცადოთ თავიდან.');
         }
 
-        $controls = [];
+
+        foreach ($data as $ind => $d) {
+            if (!$reader->filterControlField($d)){
+                return redirect()->route($route, [$danger->id])->with('error', 'ინფორმაციის განლაგება ექსელის დოკუმენტში არასწორია. მონაცემი - '. ($ind+1));
+            }
+        }
 
         DB::beginTransaction();
 
-        foreach ($data as $ind => $d) {
+        $controls = [];
+        $used = [];
 
-            if (!$reader->filterControlField($d)){
-                DB::rollBack();
-                return redirect()->route($route, [$danger->id])->with('error', 'ინფორმაციის განლაგება ექსელის დოკუმენტში არასწორია. მონაცემი - '. ($ind+1));
+        foreach ($data as $d) {
+            $currentControl = $d[0];
+            if (!isset($used[$currentControl])) {
+                $used[$currentControl] = true;
+                $controls[] = $currentControl;
             }
+        }
 
-            if (!isset($controls[$d[0]])) {
-                $control = Control::where('name', $d[0])->first();
+        $controls = Control::whereIn('name', $controls)->get();
 
-                if ($control == null) {
-                    $control = Control::create(['name' => $d[0], 'k' => $d[1], 'rploss' => $d[2]]);
-                } else {
-                    $control->update(['k' => $d[1], 'rploss' => $d[2]]);
+        $mappedControls = [];
+        foreach ($controls as $control) {
+            $mappedControls[$control->name] = $control;
+        }
+
+        foreach ($data as $ind => $d) {
+            $currentControl = $d[0];
+            $controlK = $d[1];
+            $rploss = $d[2];
+
+            if (!isset($mappedControls[$currentControl])) {
+                $mappedControls[$currentControl] = Control::create(['name' => $currentControl, 'k' => $controlK, 'rploss' => $rploss]);
+            } else {
+                if (!($mappedControls[$currentControl]->k == $controlK && $mappedControls[$currentControl]->rploss == $rploss)) {
+                    $mappedControls[$currentControl]->update(['k' => $controlK, 'rploss' => $rploss]);
                 }
-
-                $controls[$d[0]] = $control->id;
             }
         }
 
         foreach ($data as $d) {
-            $has = ControlDanger::where('control_id', $controls[$d[0]])->where('danger_id', $danger->id)->first();
+            $currentControl = $d[0];
+            $controlId = $mappedControls[$currentControl]->id;
 
-            if ($has == null)
-                ControlDanger::create(['control_id' => $controls[$d[0]], 'danger_id' => $danger->id]);
+            $ok = ControlDanger::where('control_id', $ind)->where('danger_id', $danger->id)->limit(1)->count() > 0;
+            if (!$ok) {
+                ControlDanger::create(['danger_id' => $danger->id, 'control_id' => $controlId]);
+            }
         }
 
         DB::commit();
