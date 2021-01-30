@@ -7,6 +7,7 @@ use App\Danger;
 use App\Ploss;
 use App\Process;
 use App\Udanger;
+use Exception;
 use Illuminate\Http\Request;
 
 class ApiController extends Controller
@@ -17,8 +18,10 @@ class ApiController extends Controller
      */
     public function getDangers(Process $process): array
     {
-        return $process->getDangerIds();
+        $dangerIds = $process->getDangerIds();
+        return Danger::whereIn('id', $dangerIds)->select('id', 'name')->get()->toArray();
     }
+
 
     /**
      * @param Danger $danger
@@ -26,20 +29,37 @@ class ApiController extends Controller
      */
     public function getControls(Danger $danger): array
     {
-        return $danger->getControlIds();
+        $controlIds = $danger->getControlIds();
+        return Control::whereIn('id', $controlIds)->select('id', 'name')->get()->toArray();
+    }
+
+    /**
+     * @return int
+     * @throws Exception
+     */
+    public function getFieldId(): int
+    {
+        if (session()->has('_docData')) {
+            return session()->get('_docData')['fieldId'];
+        }
+        if (session()->has('_questionsData')) {
+            return session()->get('_questionsData')['fieldId'];
+        }
+        throw new Exception('Field not specified');
     }
 
     /**
      * returns all data
+     * @throws Exception
      */
     public function getAllData(): array
     {
-        $processes = Process::select('id', 'name')->get();
-        $dangers = Danger::select('id', 'name')->get();
-        $controls = Control::select('id', 'name')->get();
-        $ploss = Ploss::select('id', 'name')->get();
-        $udanger = Udanger::select('id', 'name')->get();
+        $fieldId = $this->getFieldId();
 
-        return compact('processes', 'dangers', 'controls', 'ploss', 'udanger');
+        $processes = Process::where('field_id', $fieldId)->select('id', 'name')->get();
+        $ploss = Ploss::where('field_id', $fieldId)->select('id', 'name')->get();
+        $udanger = Udanger::where('field_id', $fieldId)->select('id', 'name')->get();
+
+        return compact('processes','ploss', 'udanger');
     }
 }
