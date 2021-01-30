@@ -83,6 +83,7 @@ const app = new Vue({
 
     created() {
         this.form = new Form();
+        this.form.setupRedirect();
     }
 
 });
