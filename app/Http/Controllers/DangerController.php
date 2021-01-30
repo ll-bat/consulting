@@ -62,7 +62,6 @@ class DangerController extends Controller
            $list[] = $p;
 
         $l = [];
-
         foreach ($danger->getControl() as $c){
             $l[] = $c;
         }
@@ -72,7 +71,7 @@ class DangerController extends Controller
 
         return view('admin.docs.edit-danger', [
             'danger' => $danger,
-            'procs'  => Process::all(),
+            'procs'  => Process::where('field_id', $this->fieldId)->get(),
             'list'   => $list,
             'ycontrol' => $ycontrol,
             'ncontrol' => $ncontrol
