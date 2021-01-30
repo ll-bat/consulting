@@ -1,41 +1,43 @@
-
-
-
-
-
+import httpService from "../services/httpService";
 
 
 export class Form {
 
+    constructor() {
+    }
+
+    setupRedirect() {
+        httpService.setup({
+            redirect: true,
+            path: '/user/fields'
+        })
+    }
+
     async getPloss(){
-        let {status,data} = await this.send('get', 'docs/all-ploss', null, null);
-        if (status === 200){
-            data.forEach(p => {
-                if (p.name == ' ') p.name = ''
-            })
-            return data;
-        }
-        return null;
+        const data = await httpService.get('docs/all-ploss');
+        data.forEach(p => {
+            if (p.name == ' ') p.name = ''
+        })
+        return data;
     }
 
-    createPloss(fn){
-        this.send('post', 'docs/new-ploss', null, null).then(res => fn(res))
+    async createPloss(fn){
+        const res = await httpService.post('docs/new-ploss');
+        fn(res);
     }
 
 
-    async getUdanger(obj){
-        let {status, data} = await this.send('get', 'docs/all-udanger', null, null);
-        if (status == 200){
-            data.forEach(u => {
-                if (u.name == ' ') u.name = ''
-            })
-            return data;
-        }
-        return null;
+    async getUdanger(){
+        let data = await httpService.get('docs/all-udanger');
+        data.forEach(u => {
+            if (u.name == ' ') u.name = ''
+        })
+        return data;
     }
 
-    createUdanger(fn){
-        this.send('post', 'docs/new-udanger', null, null).then(res => fn(res))
+    async createUdanger(fn){
+        const res = await httpService.post('docs/new-udanger');
+        fn(res);
     }
 
     async submit(url, data, fm){
@@ -68,7 +70,7 @@ export class Form {
                   resolve(res.data)
               })
               .catch((errors) => {
-                  alert('Unfortunately, error occurred. Please check the console tab')
+                  alert('სამწუხაროდ, დაფიქსირდა შეცდომა. სცადეთ თავიდან')
                   console.log(errors.response.data)
                   reject(errors.response.data)
                   if (fn) (fn(errors.response.data))
