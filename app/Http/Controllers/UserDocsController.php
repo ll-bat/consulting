@@ -24,7 +24,7 @@ class UserDocsController extends Controller
         session()->forget("_docData");
         session()->forget("_questionsData");
 
-        $objects = Objects::select('id', 'name')->get()->toArray();
+        $objects = Objects::select('id', 'name')->where(['user_id' => current_user()->id])->get()->toArray();
         $fields = Field::select('id', 'name')->get()->toArray();
         $docs = Export::where('user_id', current_user()->id)
             ->select('id', 'filename')
