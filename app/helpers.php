@@ -44,7 +44,7 @@ function userRoutes()
 function adminRoutes()
 {
     return [
-        ['route' => 'admin.docs', 'icon' => 'nc-icon nc-paper', 'name' => 'დოკუმენტები'],
+        ['route' => 'admin.fields', 'icon' => 'nc-icon nc-paper', 'name' => 'დოკუმენტები'],
         ['route' => 'admin.users', 'icon' => 'far fa-user-friends', 'name' => 'მომხმარებლები'],
         ['route' => 'admin.blog', 'icon' => 'nc-icon nc-tag-content', 'name' => 'ბლოგები'],
         ['route' => 'admin.customize', 'icon' => 'nc-icon nc-ruler-pencil', 'name' => 'საიტის შეცვლა'],
