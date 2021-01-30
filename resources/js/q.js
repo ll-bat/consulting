@@ -39,6 +39,8 @@ const app = new Vue({
         currentControls: [],
         showDangers: false,
         showControls: false,
+        showDangerLoader: false,
+        showControlsLoader: false,
         helpers: {},
         exportId: null
     },
@@ -53,24 +55,22 @@ const app = new Vue({
 
         filterDangers(selectedValue) {
             return new Promise(async res => {
+                this.showDangerLoader = true;
+                this.showDangers = false;
+                this.showControls = false;
+
                 this.currentDangers = [];
                 this.dangerId = -1;
                 // Event.$emit('setDefaultValue')
-
-                this.showControls = false;
-                this.showDangers = false;
 
                 let id = selectedValue;
                 const process = this.processes.find(p => p.id === id);
                 if (!process) return
 
-                const dangerIds = await fetcher.getDangers(process.id);
-
                 this.processId = id
-                this.currentDangers = this.dangers.filter(d => dangerIds.includes(d.id));
+                this.currentDangers = await fetcher.getDangers(process.id);
 
-                this.dangerSelect = JSON.parse(JSON.stringify(this.currentDangers));
-
+                this.showDangerLoader = false;
                 this.showDangers = true;
                 res();
             })
@@ -78,9 +78,9 @@ const app = new Vue({
 
         async filterControls(selectedValue) {
             return new Promise(async res => {
-                this.currentControls = [];
-
+                this.showControlsLoader = true;
                 this.showControls = false;
+                this.currentControls = [];
 
                 let id = selectedValue
                 let danger = this.currentDangers.find(d => d.id === id)
@@ -90,8 +90,7 @@ const app = new Vue({
                 }
 
                 this.dangerId = id
-                const controlIds = await fetcher.getControls(id);
-                this.currentControls = this.controls.filter(c => controlIds.includes(c.id));
+                this.currentControls = await fetcher.getControls(id);
 
                 this.elm = this.info.find(e => e.pid === this.processId && e.did === this.dangerId)
                 if (!this.elm) {
@@ -102,6 +101,7 @@ const app = new Vue({
                     this.data = this.elm.data
                 }
 
+                this.showControlsLoader = false;
                 this.showControls = true;
                 chainedAnim('sizeable-control', this.currentControls.length, 0);
                 res();

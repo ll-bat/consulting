@@ -2069,17 +2069,33 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "preQuestions",
   props: {
     _objects: String,
-    _docs: String
+    _docs: String,
+    _fields: String
   },
   data: function data() {
     return {
       objects: null,
       docs: null,
+      fields: null,
       filteredDocs: null,
       showNewCopyButtons: true,
       isNew: false,
@@ -2089,10 +2105,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       showDocumentName: false,
       showUserDocs: false,
       showDocSpinner: false,
+      showDocAbout: false,
+      showFields: false,
       spinnerTime: 800,
       queryWord: '',
       debouncedTime: null,
-      filename: ''
+      filename: '',
+      fieldId: null
     };
   },
   methods: {
@@ -2153,6 +2172,19 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.showDocObjects = false;
       this.showDocumentName = true;
     },
+    nameDocument: function nameDocument() {
+      if (!this.filename) {
+        alert("გთხოვთ, შეიყვანოთ სახელი");
+        return;
+      }
+
+      this.showDocumentName = false;
+      this.showFields = true;
+    },
+    chooseField: function chooseField(id) {
+      this.fieldId = id;
+      this.createDoc();
+    },
     createDoc: function createDoc() {
       var _this4 = this;
 
@@ -2163,68 +2195,61 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (_this4.filename) {
-                  _context.next = 3;
-                  break;
-                }
-
-                alert("გთხოვთ, შეიყვანოთ სახელი");
-                return _context.abrupt("return");
-
-              case 3:
                 if (!_this4.isNew) {
-                  _context.next = 11;
+                  _context.next = 8;
                   break;
                 }
 
                 data = {
                   isNew: true,
                   objectId: parseInt(_this4.objectId),
-                  filename: _this4.filename.toString()
+                  filename: _this4.filename.toString(),
+                  fieldId: parseInt(_this4.fieldId)
                 };
-                _context.next = 7;
+                _context.next = 4;
                 return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].post('/user/docs/prepare-doc', data)["catch"](function (err) {
                   alert('სამწუხაროდ შეცდომა დაფიქსირდა. სცადეთ თავიდან');
                   $('#create-doc-spinner').addClass('d-none');
                   $('#create-doc-button').removeClass('disabled');
                 });
 
-              case 7:
+              case 4:
                 res = _context.sent;
 
                 if (res) {
                   window.location = '/user/questions';
                 }
 
-                _context.next = 16;
+                _context.next = 13;
                 break;
 
-              case 11:
+              case 8:
                 _data = {
                   isNew: false,
                   objectId: parseInt(_this4.objectId),
                   docId: parseInt(_this4.docId),
-                  filename: _this4.filename.toString()
+                  filename: _this4.filename.toString(),
+                  fieldId: parseInt(_this4.fieldId)
                 };
-                _context.next = 14;
+                _context.next = 11;
                 return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].post('/user/docs/prepare-doc', _data)["catch"](function (err) {
                   alert('სამწუხაროდ შეცდომა დაფიქსირდა. სცადეთ თავიდან');
                   $('#create-doc-spinner').addClass('d-none');
                   $('#create-doc-button').removeClass('disabled');
                 });
 
-              case 14:
+              case 11:
                 _res = _context.sent;
 
                 if (_res) {
                   window.location = '/user/questions';
                 }
 
-              case 16:
+              case 13:
                 $('#create-doc-spinner').removeClass('d-none');
                 $('#create-doc-button').addClass('disabled');
 
-              case 18:
+              case 15:
               case "end":
                 return _context.stop();
             }
@@ -2236,6 +2261,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   created: function created() {
     this.objects = JSON.parse(this._objects);
     this.docs = JSON.parse(this._docs);
+    this.fields = JSON.parse(this._fields);
+    console.log(this.fields);
     tout(function () {
       $1('pre-questions').style.height = window.screen.availHeight + 'px';
     });
@@ -39489,7 +39516,7 @@ var render = function() {
                         _c("div", { staticClass: "card-body d-flex " }, [
                           _c("img", {
                             attrs: {
-                              src: "/icons/object.png",
+                              src: "/icons/3d.png",
                               width: "30",
                               height: "30"
                             }
@@ -39573,7 +39600,11 @@ var render = function() {
                       staticClass:
                         "btn btn-primary border-0 rounded-0 px-4 my-4",
                       attrs: { id: "create-doc-button" },
-                      on: { click: _vm.createDoc }
+                      on: {
+                        click: function($event) {
+                          return _vm.nameDocument()
+                        }
+                      }
                     },
                     [
                       _c("span", {
@@ -39589,6 +39620,51 @@ var render = function() {
               ])
             ]
           )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.showFields
+        ? _c("div", [
+            _c(
+              "div",
+              { staticClass: "m-auto", staticStyle: { "max-width": "700px" } },
+              [
+                _c("p", [_vm._v(" აირჩიეთ სფერო ")]),
+                _vm._v(" "),
+                _vm._l(_vm.fields, function(field) {
+                  return _c("div", [
+                    _c(
+                      "div",
+                      {
+                        staticClass:
+                          "card card-hover border-0 partial-shadow rounded-10",
+                        on: {
+                          click: function($event) {
+                            return _vm.chooseField(field.id)
+                          }
+                        }
+                      },
+                      [
+                        _c("div", { staticClass: "card-body d-flex " }, [
+                          _c("img", {
+                            attrs: {
+                              src: "/icons/slack_1.png",
+                              width: "30",
+                              height: "30"
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "ml-4 mt-1" }, [
+                            _vm._v(" " + _vm._s(field.name) + " ")
+                          ])
+                        ])
+                      ]
+                    )
+                  ])
+                })
+              ],
+              2
+            )
+          ])
         : _vm._e()
     ]
   )
@@ -51973,17 +52049,17 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_PreQuestions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/PreQuestions */ "./resources/js/components/PreQuestions.vue");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-window.Event = new Vue();
 
-var app = new Vue({
+
+var app = new vue__WEBPACK_IMPORTED_MODULE_1___default.a({
   el: '#app',
   components: {
     PreQuestions: _components_PreQuestions__WEBPACK_IMPORTED_MODULE_0__["default"]
-  },
-  data: {}
+  }
 });
 
 /***/ }),
@@ -52013,25 +52089,40 @@ function run(method, url, data) {
 }
 
 function errorHandler(status, data) {
+  alert('დაფიქსირდა შეცდომა. სცადეთ თავიდან');
   throw new Error("Error occurred when processing your request. status - ".concat(status, ", body - ").concat(data));
 }
 
 var httpService = {
+  redirect: false,
+  path: null,
+  setup: function setup(obj) {
+    for (var a in obj) {
+      httpService[a] = obj[a];
+    }
+  },
   get: function () {
     var _get = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(url, options) {
-      var _yield$run, status, data;
+      var _yield$run$catch, status, data;
 
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return run('get', url, null, options);
+              return run('get', url, null, options)["catch"](function (err) {
+                if (httpService.redirect) {
+                  window.location = httpService.path;
+                } else {
+                  errorHandler(status, data);
+                  console.log(err);
+                }
+              });
 
             case 2:
-              _yield$run = _context.sent;
-              status = _yield$run.status;
-              data = _yield$run.data;
+              _yield$run$catch = _context.sent;
+              status = _yield$run$catch.status;
+              data = _yield$run$catch.data;
 
               if (!(status < STATUS_OK)) {
                 _context.next = 9;
@@ -52059,19 +52150,24 @@ var httpService = {
   }(),
   post: function () {
     var _post = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(url, params, options) {
-      var _yield$run2, status, data;
+      var _yield$run$catch2, status, data;
 
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
               _context2.next = 2;
-              return run('post', url, params, options);
+              return run('post', url, params, options)["catch"](function (err) {
+                if (httpService.redirect) {
+                  alert('დაფიქსირდა შეცდომა. სცადეთ გვერდის დარეფრეშება');
+                  return;
+                }
+              });
 
             case 2:
-              _yield$run2 = _context2.sent;
-              status = _yield$run2.status;
-              data = _yield$run2.data;
+              _yield$run$catch2 = _context2.sent;
+              status = _yield$run$catch2.status;
+              data = _yield$run$catch2.data;
 
               if (!(status < STATUS_OK)) {
                 _context2.next = 9;
