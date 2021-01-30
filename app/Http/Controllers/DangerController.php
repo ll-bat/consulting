@@ -7,27 +7,48 @@ use App\Danger;
 use App\Control;
 use App\DangerProcess;
 use App\ControlDanger;
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class DangerController extends Controller
 {
+    private int $fieldId = 0;
+
+    /**
+     * @param string $method
+     * @param array $parameters
+     * @return Response
+     */
+    public function callAction($method, $parameters)
+    {
+        $this->fieldId = session()->get('_fieldId');
+        return parent::callAction($method, $parameters);
+    }
+
     public function show(){
         return view('admin.docs.danger', [
-            'procs' => Process::all(),
-            'dangers' => Danger::orderBy('created_at','asc')->get()
+            'procs' => Process::where('field_id', $this->fieldId)->get(),
+            'dangers' => Danger::where('field_id', $this->fieldId)->orderBy('created_at','asc')->get()
         ]);
     }
 
-    public function create(){
+    /**
+     * @return RedirectResponse
+     */
+    public function create(): RedirectResponse
+    {
         $data = \request()->validate([
             'name' => 'required|string',
             'k'   => 'numeric|nullable',
             'process' => 'array',
             'process.*' => 'integer|exists:processes,id',
         ]);
-        
+
         $data['k'] = $data['k'] ?? 1;
-        
+        $data['field_id'] = $this->fieldId;
+
         $danger = Danger::create($data);
         if (isset($data['process']))
           $danger->getAllProcess()->attach($data['process']);
@@ -42,13 +63,12 @@ class DangerController extends Controller
 
         $l = [];
 
-
         foreach ($danger->getControl() as $c){
             $l[] = $c;
         }
 
         $ycontrol = Control::whereIn('id', $l)->get();
-        $ncontrol = Control::whereNotIn('id', $l)->get();
+        $ncontrol = Control::whereNotIn('id', $l)->where(['field_id' => $this->fieldId])->get();
 
         return view('admin.docs.edit-danger', [
             'danger' => $danger,
@@ -59,7 +79,12 @@ class DangerController extends Controller
         ]);
     }
 
-    public function update(Danger $danger){
+    /**
+     * @param Danger $danger
+     * @return RedirectResponse
+     */
+    public function update(Danger $danger): RedirectResponse
+    {
         $data = \request()->validate([
             'name' => 'required|string',
             'k'   => 'numeric|nullable',
@@ -70,7 +95,7 @@ class DangerController extends Controller
         $data['process'] = $data['process'] ?? [];
 
         $data['k'] = $data['k'] ?? 1;
-        
+
         $list = [];
         foreach ($danger->processes() as $proc){
               $list[] = $proc->process_id;
@@ -93,12 +118,16 @@ class DangerController extends Controller
         return back()->with('message', 'საფრთხე წარმატებით განახლდა');
     }
 
-    public function delete(Danger $danger){
-
-
+    /**
+     * @param Danger $danger
+     * @return RedirectResponse
+     * @throws Exception
+     */
+    public function delete(Danger $danger): RedirectResponse
+    {
         DangerProcess::where('danger_id', $danger->id)->delete();
         ControlDanger::where('danger_id', $danger->id)->delete();
-        
+
         if ($danger->getAllControl()->count() > 0){
             // return back()->with('error', 'გთხოვთ, ამოშალოთ ყველა შემავალი კონტროლის ზომა');
         }
@@ -108,24 +137,42 @@ class DangerController extends Controller
         return redirect()->to('user/docs/new-danger')->with('message', 'საფრთხე წარმატებით წაიშალა');
     }
 
+    /**
+     * @param Danger $danger
+     * @return RedirectResponse
+     */
+    public function copy(Danger $danger): RedirectResponse
+    {
+        $newdanger = Danger::create(['name' => $danger->name, 'k' => $danger->k, 'field_id' => $danger->field_id]);
 
-    public function copy(Danger $danger){
-        $newdanger = Danger::create(['name' => $danger->name, 'k' => $danger->k]);
-        
+        $data = [];
         foreach ($danger->getAllControl() as $c){
-            ControlDanger::create(['control_id' => $c->control_id, 'danger_id' => $newdanger->id]);
+            $data[] = ['control_id' => $c->control_id, 'danger_id' => $newdanger->id];
         }
+        ControlDanger::insert($data);
 
         return back()->with('message','საფრთხე წარმატებით დაკოპირდა')->with('created', 1);
     }
 
-    public function detach(Danger $danger, Control $control){
+    /**
+     * @param Danger $danger
+     * @param Control $control
+     * @return RedirectResponse
+     */
+    public function detach(Danger $danger, Control $control): RedirectResponse
+    {
         ControlDanger::where('danger_id', $danger->id)->where('control_id',$control->id)->delete();
 
         return back()->with('message', 'კონტროლის ზომა წარმატებით ამოიშალა');
    }
 
-   public function attach(Danger $danger, Control $control){
+    /**
+     * @param Danger $danger
+     * @param Control $control
+     * @return RedirectResponse
+     */
+   public function attach(Danger $danger, Control $control): RedirectResponse
+   {
         ControlDanger::create(['danger_id' => $danger->id, 'control_id' => $control->id]);
 
         return back()->with('message', 'კონტროლის ზომა წარმატებით დაემატა');

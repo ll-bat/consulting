@@ -9,19 +9,21 @@ use App\DangerProcess;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ProcessController extends Controller
 {
+    private int $fieldId = 0;
+
     /**
-     * @return RedirectResponse|int
+     * @param string $method
+     * @param array $parameters
+     * @return Response
      */
-    public function check()
+    public function callAction($method, $parameters)
     {
-        $fieldId = session()->get('_fieldId') ?? false;
-        if (!$fieldId) {
-            return redirect()->route("admin.fields");
-        }
-        return $fieldId;
+        $this->fieldId = session()->get('_fieldId');
+        return parent::callAction($method, $parameters);
     }
 
     /**
@@ -29,13 +31,11 @@ class ProcessController extends Controller
      */
     public function create(): RedirectResponse
     {
-        $fieldId = $this->check();
-
         $data = request()->validate([
             'name' => 'required|string'
         ]);
 
-        Process::create(['name' => $data['name'], 'field_id' => $fieldId]);
+        Process::create(['name' => $data['name'], 'field_id' => $this->fieldId]);
 
         return back()->with('message', 'პროცესი წარმატებით შეიქმნა')->with('created', 1);
     }
@@ -45,7 +45,7 @@ class ProcessController extends Controller
         $list = $process->getDangerIds();
 
         $ydanger = Danger::whereIn('id', $list)->get();
-        $ndanger = Danger::whereNotIn('id', $list)->get();
+        $ndanger = Danger::whereNotIn('id', $list)->where(['field_id' => $this->fieldId])->get();
 
         return view('admin.docs.edit-process', compact('process', 'ydanger', 'ndanger'));
     }
@@ -56,11 +56,6 @@ class ProcessController extends Controller
      */
     public function update(Process $process): RedirectResponse
     {
-        $fieldId = $this->check();
-        if ($fieldId != $process->field_id) {
-            return redirect()->route('admin.fields');
-        }
-
         $data = \request()->validate([
             'name' => 'required|string'
         ]);
@@ -76,11 +71,6 @@ class ProcessController extends Controller
      */
     public function delete(Process $process): RedirectResponse
     {
-        $fieldId = $this->check();
-        if ($fieldId != $process->field_id) {
-            return redirect()->route('admin.fields');
-        }
-
         if (DangerProcess::where('process_id', $process->id)->count() > 0) {
             //    return back()->with('error', 'გთხოვთ, ამოშალოთ ყველა შემავალი საფრთხე');
             DangerProcess::where('process_id', $process->id)->delete();
@@ -96,12 +86,7 @@ class ProcessController extends Controller
      */
     public function copy(Process $process): RedirectResponse
     {
-        $fieldId = $this->check();
-        if ($fieldId != $process->field_id) {
-            return redirect()->route('admin.fields');
-        }
-
-        $newProcess = Process::create(['name' => $process->name, 'field_id' => $fieldId]);
+        $newProcess = Process::create(['name' => $process->name, 'field_id' => $process->field_id]);
 
         $data = [];
         foreach ($process->getDangers() as $d) {

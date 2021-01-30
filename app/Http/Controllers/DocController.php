@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Control;
 use App\Danger;
 use App\Export;
+use App\Field;
 use App\Helperclass\QuestionsJson;
 use App\Objects;
 use App\Process;
@@ -35,7 +36,7 @@ class DocController extends Controller
         if (!$fieldId) {
             return redirect()->route('admin.fields');
         }
-        $cnt = UserText::count();
+        $cnt = UserText::where('field_id', $fieldId)->count();
         $procs = Process::where('field_id', $fieldId)->orderBy('created_at', 'asc')->get();
 
         return view('admin.docs.index', compact('procs', 'cnt'));
@@ -51,10 +52,12 @@ class DocController extends Controller
         request()->validate([
             'isNew' => 'boolean|required',
             'objectId' => 'integer',
+            'fieldId' => 'integer',
             'filename' => 'string|max:512'
         ]);
 
         $objectId = \request('objectId');
+        $fieldId = \request('fieldId');
         $filename = \request('filename');
 
         $ok = Objects::where('id', $objectId)->where('user_id', current_user()->id)->limit(1)->count() > 0;
@@ -62,11 +65,17 @@ class DocController extends Controller
             return response('Such object does not exist', 404);
         }
 
+        $ok = Field::where('id', $fieldId)->limit(1)->count() > 0;
+        if (!$ok) {
+            return \response('Such field does not exit', 404);
+        }
+
         if (request('isNew')) {
             $data = [
                 'isNew' => true,
                 'objectId' => $objectId,
-                'filename' => $filename
+                'filename' => $filename,
+                'fieldId' => $fieldId
             ];
 
             session()->put('_docData', $data);
@@ -94,6 +103,7 @@ class DocController extends Controller
                 'isNew' => false,
                 'docId' => $docId,
                 'objectId' => $objectId,
+                'fieldId' => $fieldId,
                 'filename' => $filename,
                 'data' => \Psy\Util\Json::encode($data)
             ];
@@ -128,12 +138,24 @@ class DocController extends Controller
     }
 
     /**
+     *@return int
+     */
+    public function getFieldId(): int
+    {
+        return session()->has('_docData') ?
+            session()->get('_docData')['fieldId'] :
+            session()->get('_questionsData')['fieldId'];
+    }
+
+    /**
      * @return string
      * @throws Exception
      */
     public function submit(): string
     {
         $data = $this->validateRequest()['data'];
+        $fieldId = $this->getFieldId();
+
         try {
             $data = json_decode($data);
         } catch (Exception $exception) {
@@ -144,7 +166,7 @@ class DocController extends Controller
             throw new Exception("Invalid data format", 400);
         }
 
-        $filter = new Filter($data);
+        $filter = new Filter($data, $fieldId);
         $data = $filter->getData();
 
         request()->validate(
@@ -159,7 +181,7 @@ class DocController extends Controller
             }
         }
 
-        $exportId = $this->showData($data);
+        $exportId = $this->showData($data, $fieldId);
         $this->clearSession();
         return route('user.export', ['export' => $exportId]);
     }
@@ -173,10 +195,11 @@ class DocController extends Controller
 
     /**
      * @param $data
+     * @param int $fieldId
      * @return false|Application|ResponseFactory|RedirectResponse|Response
      * @throws Exception
      */
-    public function showData($data)
+    public function showData($data, int $fieldId)
     {
         $exportId = false;
         if (session()->has('_questionsData')) {
@@ -184,7 +207,7 @@ class DocController extends Controller
         }
 
         $reader = new FinalData($exportId);
-        $reader->init($data);
+        $reader->init($data, $fieldId);
 
         return $reader->getExportId();
     }

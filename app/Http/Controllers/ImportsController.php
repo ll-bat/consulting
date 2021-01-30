@@ -11,9 +11,23 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ImportsController extends Controller
 {
+    private int $fieldId = 0;
+
+    /**
+     * @param string $method
+     * @param array $parameters
+     * @return Response
+     */
+    public function callAction($method, $parameters)
+    {
+        $this->fieldId = session()->get('_fieldId');
+        return parent::callAction($method, $parameters);
+    }
+
     /**
      * @param Request $request
      * @return RedirectResponse
@@ -82,7 +96,7 @@ class ImportsController extends Controller
             $rploss=  $d[4];
 
             if (!isset($mappedDangers[$currentDanger])) {
-                $mappedDangers[$currentDanger] = Danger::create(['name' => $currentDanger, 'k' => $dangerK]);
+                $mappedDangers[$currentDanger] = Danger::create(['name' => $currentDanger, 'k' => $dangerK, 'field_id' => $this->fieldId]);
             } else {
                 if ($mappedDangers[$currentDanger]->k != $dangerK) {
                     $mappedDangers[$currentDanger]->update(['k' => $dangerK]);
@@ -90,7 +104,7 @@ class ImportsController extends Controller
             }
 
             if (!isset($mappedControls[$currentControl])) {
-                $mappedControls[$currentControl] = Control::create(['name' => $currentControl, 'k' => $controlK, 'rploss' => $rploss]);
+                $mappedControls[$currentControl] = Control::create(['name' => $currentControl, 'k' => $controlK, 'rploss' => $rploss, 'field_id' => $this->fieldId]);
             } else {
                 if (!($mappedControls[$currentControl]->k == $controlK && $mappedControls[$currentControl]->rploss == $rploss)) {
                     $mappedControls[$currentControl]->update(['k' => $controlK, 'rploss' => $rploss]);
@@ -174,7 +188,7 @@ class ImportsController extends Controller
             $rploss = $d[2];
 
             if (!isset($mappedControls[$currentControl])) {
-                $mappedControls[$currentControl] = Control::create(['name' => $currentControl, 'k' => $controlK, 'rploss' => $rploss]);
+                $mappedControls[$currentControl] = Control::create(['name' => $currentControl, 'k' => $controlK, 'rploss' => $rploss, 'field_id' => $danger->field_id]);
             } else {
                 if (!($mappedControls[$currentControl]->k == $controlK && $mappedControls[$currentControl]->rploss == $rploss)) {
                     $mappedControls[$currentControl]->update(['k' => $controlK, 'rploss' => $rploss]);
