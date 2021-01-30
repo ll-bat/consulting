@@ -6,68 +6,135 @@ use App\Process;
 use App\Danger;
 use App\DangerProcess;
 
+use Exception;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ProcessController extends Controller
 {
-    public function addProcess(){
-        $data  = request()->validate([
+    /**
+     * @return RedirectResponse|int
+     */
+    public function check()
+    {
+        $fieldId = session()->get('_fieldId') ?? false;
+        if (!$fieldId) {
+            return redirect()->route("admin.fields");
+        }
+        return $fieldId;
+    }
+
+    /**
+     * @return RedirectResponse
+     */
+    public function create(): RedirectResponse
+    {
+        $fieldId = $this->check();
+
+        $data = request()->validate([
             'name' => 'required|string'
         ]);
 
-        Process::create($data);
-        
+        Process::create(['name' => $data['name'], 'field_id' => $fieldId]);
+
         return back()->with('message', 'პროცესი წარმატებით შეიქმნა')->with('created', 1);
-   }
+    }
 
-   public function edit(Process $process){
-       $list = $process->getDangerIds();
+    public function edit(Process $process)
+    {
+        $list = $process->getDangerIds();
 
-       $ydanger = Danger::whereIn('id', $list)->get();
-       $ndanger = Danger::whereNotIn('id', $list)->get();
+        $ydanger = Danger::whereIn('id', $list)->get();
+        $ndanger = Danger::whereNotIn('id', $list)->get();
 
-       return view('admin.docs.edit-process', compact('process', 'ydanger', 'ndanger'));
-   }
+        return view('admin.docs.edit-process', compact('process', 'ydanger', 'ndanger'));
+    }
 
-   public function update(Process $process){
-       $data = \request()->validate([
-           'name' => 'required|string'
-       ]);
+    /**
+     * @param Process $process
+     * @return RedirectResponse
+     */
+    public function update(Process $process): RedirectResponse
+    {
+        $fieldId = $this->check();
+        if ($fieldId != $process->field_id) {
+            return redirect()->route('admin.fields');
+        }
 
-       $process->update($data);
-       return redirect()->to('user/docs')->with('message', 'პროცესი წარმატებით განახლდა');
-   }
+        $data = \request()->validate([
+            'name' => 'required|string'
+        ]);
 
-   public function delete(Process $process){
-       if (DangerProcess::where('process_id', $process->id)->count() > 0){
-        //    return back()->with('error', 'გთხოვთ, ამოშალოთ ყველა შემავალი საფრთხე');
-           DangerProcess::where('process_id', $process->id)->delete();
-       }
-       
-       $process->delete();
-       return redirect()->to('user/docs')->with('message', 'პროცესი წარმატებით წაიშალა');
-   }
+        $process->update(['name' => $data['name']]);
+        return redirect()->to('user/docs')->with('message', 'პროცესი წარმატებით განახლდა');
+    }
 
-   public function copy(Process $process){
-       $newprocess = Process::create(['name' => $process->name]);
+    /**
+     * @param Process $process
+     * @return RedirectResponse
+     * @throws Exception
+     */
+    public function delete(Process $process): RedirectResponse
+    {
+        $fieldId = $this->check();
+        if ($fieldId != $process->field_id) {
+            return redirect()->route('admin.fields');
+        }
 
-       foreach ($process->getDangers() as $d){
-           DangerProcess::create(['danger_id' => $d->danger_id, 'process_id' => $newprocess->id]);
-       }
+        if (DangerProcess::where('process_id', $process->id)->count() > 0) {
+            //    return back()->with('error', 'გთხოვთ, ამოშალოთ ყველა შემავალი საფრთხე');
+            DangerProcess::where('process_id', $process->id)->delete();
+        }
 
-       return back()->with('message', 'პროცესი წარმატებით დაკოპირდა')->with('created', 1);
-   }
+        $process->delete();
+        return redirect()->to('user/docs')->with('message', 'პროცესი წარმატებით წაიშალა');
+    }
 
-   public function detach(Process $process, Danger $danger){
-        DangerProcess::where('process_id', $process->id)->where('danger_id',$danger->id)->delete();
+    /**
+     * @param Process $process
+     * @return RedirectResponse
+     */
+    public function copy(Process $process): RedirectResponse
+    {
+        $fieldId = $this->check();
+        if ($fieldId != $process->field_id) {
+            return redirect()->route('admin.fields');
+        }
+
+        $newProcess = Process::create(['name' => $process->name, 'field_id' => $fieldId]);
+
+        $data = [];
+        foreach ($process->getDangers() as $d) {
+            $data[] = ['danger_id' => $d->danger_id, 'process_id' => $newProcess->id];
+        }
+
+        DangerProcess::insert($data);
+
+        return back()->with('message', 'პროცესი წარმატებით დაკოპირდა')->with('created', 1);
+    }
+
+    /**
+     * @param Process $process
+     * @param Danger $danger
+     * @return RedirectResponse
+     */
+    public function detach(Process $process, Danger $danger): RedirectResponse
+    {
+        DangerProcess::where('process_id', $process->id)->where('danger_id', $danger->id)->delete();
 
         return back()->with('message', 'საფრთხე წარმატებით ამოიშალა');
-   }
+    }
 
-   public function attach(Process $process, Danger $danger){
+    /**
+     * @param Process $process
+     * @param Danger $danger
+     * @return RedirectResponse
+     */
+    public function attach(Process $process, Danger $danger): RedirectResponse
+    {
         DangerProcess::create(['process_id' => $process->id, 'danger_id' => $danger->id]);
 
         return back()->with('message', 'საფრთხე წარმატებით დაემატა');
-   }
+    }
 
 }

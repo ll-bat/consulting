@@ -3,43 +3,79 @@
 namespace App\Http\Controllers;
 
 use App\Ploss;
-use Illuminate\Http\Request;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Http\Response;
+use phpDocumentor\Reflection\Types\Integer;
 
 class PlossController extends Controller
 {
-      public function index(){
-          return $this->response(Ploss::all(), 200);
-      }
+    private int $fieldId = 0;
 
-      public function create(){
-         return Ploss::create(['name' => 'null', 'k' => '3'])->id;
-      }
+    /**
+     * @param string $method
+     * @param array $parameters
+     * @return Application|ResponseFactory|Response|\Symfony\Component\HttpFoundation\Response
+     * @throws Exception
+     */
+    public function callAction($method, $parameters)
+    {
+        $fieldId = session()->get('_fieldId') ?? 0;
+        if (!$fieldId) {
+            return response(['redirect' => true], 400);
+        }
+        $this->fieldId = (int)$fieldId;
+        return parent::callAction($method, $parameters);
+    }
 
-      public function save(){
+    /**
+     * @throws Exception
+     */
+    public function index()
+    {
+        return Ploss::where('field_id', $this->fieldId)->get();
+    }
 
-          $data = \request()->validate([
-              'id' => 'integer|required|exists:plosses,id',
-              'name' => 'nullable|string',
-              'k' => 'string'
-          ]);
+    /**
+     * @return array|integer
+     */
+    public function create()
+    {
+        return Ploss::create(['name' => 'null', 'k' => '3', 'field_id' => $this->fieldId])->id;
+    }
 
-          if ($data['name'] == '') $data['name'] = ' ';
-          $ploss = Ploss::find($data['id']);
-          $ploss->update($data);
+    public function save()
+    {
+        $data = \request()->validate([
+            'id' => 'integer|required|exists:plosses,id',
+            'name' => 'nullable|string',
+            'k' => 'string'
+        ]);
 
-          return response('success', 200);
-      }
+        if ($data['name'] == '') {
+            $data['name'] = ' ';
+        }
 
-     public function delete(Ploss $ploss){
-         $ploss->delete();
+        $ploss = Ploss::where('id', $data['id'])->where('field_id', $this->fieldId)->first();
+        if ($ploss) {
+            $ploss->update($data);
+        } else {
+            throw new Exception("Can't update ploss");
+        }
 
-         return response('deleted', 200);
-     }
+        return response('success', 200);
+    }
 
-     public function response($data, $status){
-          return [
-              'status' => $status,
-              'data' => $data,
-          ];
-     }
+    public function delete(Ploss $ploss)
+    {
+        if ($ploss->field_id != $this->fieldId) {
+            throw new Exception('Choose field', 400);
+        }
+
+        $ploss->delete();
+
+        return response('deleted', 200);
+    }
+
 }

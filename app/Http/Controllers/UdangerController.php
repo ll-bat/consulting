@@ -3,23 +3,55 @@
 namespace App\Http\Controllers;
 
 use App\Udanger;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use PHPUnit\Util\Exception;
 
 class UdangerController extends Controller
 {
-     public function index(){
-         return [
-             'status' => 200,
-             'data' => Udanger::all()
-         ];
-     }
+    private int $fieldId = 0;
 
-     public function create(){
-         return Udanger::create(['name' => 'null'])->id;
-     }
+    /**
+     * @param string $method
+     * @param array $parameters
+     * @return Application|ResponseFactory|Response|\Symfony\Component\HttpFoundation\Response
+     * @throws Exception
+     */
+    public function callAction($method, $parameters)
+    {
+        $fieldId = session()->get('_fieldId') ?? 0;
+        if (!$fieldId) {
+            return response(['redirect' => true], 400);
+        }
+        $this->fieldId = (int)$fieldId;
+        return parent::callAction($method, $parameters);
+    }
 
-     public function save(){
+    /**
+     * @return mixed
+     */
+    public function index()
+    {
+        return Udanger::where('field_id', $this->fieldId)->get();
+    }
 
+    /**
+     * @return mixed
+     * @throws Exception
+     */
+    public function create()
+    {
+        return Udanger::create(['name' => 'null', 'field_id' => $this->fieldId])->id;
+    }
+
+    /**
+     * @return Application|ResponseFactory|Response
+     * @throws Exception
+     */
+    public function save()
+    {
         $data = \request()->validate([
             'id' => 'integer|required|exists:udangers,id',
             'name' => 'nullable|string',
@@ -27,15 +59,29 @@ class UdangerController extends Controller
 
         if ($data['name'] == '') $data['name'] = ' ';
 
-        $udanger = Udanger::find($data['id']);
+        $udanger = Udanger::where('id', $data['id'])->where('field_id', $this->fieldId)->first();
+        if (!$udanger) {
+            throw new Exception('Such udanger does not exist');
+        }
+
         $udanger->update($data);
 
         return response('success', 200);
     }
 
-   public function delete(Udanger $udanger){
-       $udanger->delete();
+    /**
+     * @param Udanger $udanger
+     * @return Application|ResponseFactory|Response
+     * @throws \Exception
+     */
+    public function delete(Udanger $udanger)
+    {
+        if ($udanger->field_id != $this->fieldId) {
+            throw new \Exception('field_id mismatch');
+        }
 
-       return response('deleted', 200);
-   }
+        $udanger->delete();
+
+        return response('deleted', 200);
+    }
 }
