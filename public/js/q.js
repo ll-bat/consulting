@@ -52217,24 +52217,28 @@ var app = new Vue({
                   });
 
                   if (process) {
-                    _context3.next = 9;
+                    _context3.next = 13;
                     break;
                   }
 
+                  alert('სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი პროცესი წაშლილია...');
+                  _this3.showDangerLoader = false;
+                  _this3.showDangers = false;
+                  res();
                   return _context3.abrupt("return");
 
-                case 9:
+                case 13:
                   _this3.processId = id;
-                  _context3.next = 12;
+                  _context3.next = 16;
                   return _classes_Fetcher__WEBPACK_IMPORTED_MODULE_6__["default"].getDangers(process.id);
 
-                case 12:
+                case 16:
                   _this3.currentDangers = _context3.sent;
                   _this3.showDangerLoader = false;
                   _this3.showDangers = true;
                   res();
 
-                case 16:
+                case 20:
                 case "end":
                   return _context3.stop();
               }
@@ -52271,19 +52275,23 @@ var app = new Vue({
                             });
 
                             if (danger) {
-                              _context4.next = 8;
+                              _context4.next = 12;
                               break;
                             }
 
                             _this4.showControls = false;
+                            alert('სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი საფრთხე წაშლილია...');
+                            _this4.showControlsLoader = false;
+                            _this4.showControls = false;
+                            res();
                             return _context4.abrupt("return");
 
-                          case 8:
+                          case 12:
                             _this4.dangerId = id;
-                            _context4.next = 11;
+                            _context4.next = 15;
                             return _classes_Fetcher__WEBPACK_IMPORTED_MODULE_6__["default"].getControls(id);
 
-                          case 11:
+                          case 15:
                             _this4.currentControls = _context4.sent;
                             _this4.elm = _this4.info.find(function (e) {
                               return e.pid === _this4.processId && e.did === _this4.dangerId;
@@ -52309,7 +52317,7 @@ var app = new Vue({
 
                             res();
 
-                          case 18:
+                          case 22:
                           case "end":
                             return _context4.stop();
                         }
