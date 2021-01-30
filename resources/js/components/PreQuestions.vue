@@ -102,7 +102,7 @@
                 <div v-for="object in objects">
                     <div class="card card-hover border-0 partial-shadow rounded-10" @click="chooseDocObject(object.id)">
                         <div class="card-body d-flex ">
-                            <img src="/icons/object.png" width="30" height="30"/>
+                            <img src="/icons/3d.png" width="30" height="30"/>
                             <p class="ml-4 mt-1"> {{ object.name }} </p>
                         </div>
                     </div>
@@ -135,9 +135,17 @@
             </div>
         </div>
 
-        <div v-if="showDocAbout" class="m-auto" style="max-width: 700px">
-            <div class="card rounded-5 border-0">
-
+        <div v-if="showFields">
+            <div class="m-auto" style="max-width: 700px">
+                <p> აირჩიეთ სფერო </p>
+                <div v-for="field in fields">
+                    <div class="card card-hover border-0 partial-shadow rounded-10" @click="chooseField(field.id)">
+                        <div class="card-body d-flex ">
+                            <img src="/icons/slack_1.png" width="30" height="30"/>
+                            <p class="ml-4 mt-1"> {{ field.name }} </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -152,11 +160,13 @@ export default {
     props: {
         _objects: String,
         _docs: String,
+        _fields: String,
     },
     data() {
         return {
             objects: null,
             docs: null,
+            fields: null,
             filteredDocs: null,
             showNewCopyButtons: true,
             isNew: false,
@@ -167,10 +177,12 @@ export default {
             showUserDocs: false,
             showDocSpinner: false,
             showDocAbout: false,
+            showFields: false,
             spinnerTime: 800,
             queryWord: '',
             debouncedTime: null,
             filename: '',
+            fieldId: null,
         }
     },
 
@@ -230,7 +242,11 @@ export default {
                 return;
             }
             this.showDocumentName = false;
-            this.showDocAbout = true;
+            this.showFields = true;
+        },
+        chooseField(id) {
+            this.fieldId = id;
+            this.createDoc();
         },
         async createDoc() {
             if (this.isNew) {
@@ -238,6 +254,7 @@ export default {
                     isNew : true,
                     objectId: parseInt(this.objectId),
                     filename: this.filename.toString(),
+                    fieldId: parseInt(this.fieldId),
                 };
 
                 const res = await httpService.post('/user/docs/prepare-doc', data).catch(err => {
@@ -254,6 +271,7 @@ export default {
                     objectId: parseInt(this.objectId),
                     docId: parseInt(this.docId),
                     filename: this.filename.toString(),
+                    fieldId: parseInt(this.fieldId),
                 }
 
                 const res = await httpService.post('/user/docs/prepare-doc', data).catch(err => {
@@ -274,6 +292,8 @@ export default {
     created() {
         this.objects = JSON.parse(this._objects);
         this.docs = JSON.parse(this._docs);
+        this.fields = JSON.parse(this._fields);
+        console.log(this.fields);
 
         tout(() => {
             $1('pre-questions').style.height = window.screen.availHeight + 'px';
