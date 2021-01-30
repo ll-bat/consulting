@@ -6,8 +6,6 @@ $path = '';
 
 if (in_array($route, $abroutes))
     $path = route($route);
-
-$abpath = $_SERVER['HTTP_HOST'];
 ?>
 
     <!doctype html>
