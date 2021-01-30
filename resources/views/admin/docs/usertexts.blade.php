@@ -219,11 +219,12 @@
                         }
                     }
 
-                    let path = '{{url()->previous()}}'
-                    let hs = path.split('/').includes('added-by-users')
+                    {{--let path = '{{url()->previous()}}'--}}
+                    {{--let hs = path.split('/').includes('added-by-users')--}}
 
-                    if (!hs) startAnimation()
-                    else $('.is-moving').css({'opacity': '1'})
+                    {{--if (!hs) startAnimation()--}}
+                    {{--else --}}
+                    $('.is-moving').css({'opacity': '1'})
 
                 </script>
 @endsection
