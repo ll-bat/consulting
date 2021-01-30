@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Control;
+use App\Danger;
+use App\Export;
 use App\Field;
 use App\Ploss;
 use App\Process;
 use App\Udanger;
+use App\UserText;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
@@ -102,12 +106,30 @@ class FieldController extends Controller
         if (!$ok) {
             return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => 'გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(ვინ იმყოფება საფრთხის ქვეშ)']);
         }
-
-        $ok = $field->delete();
-        if ($ok) {
-            return redirect()->route('admin.fields')->with('message', ['success' => true, 'message' => 'სფერო წარმატებით წაიშალა']);
+        $ok = Danger::where('field_id', $field->id)->limit(1)->count() < 1;
+        if (!$ok) {
+            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => 'გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(საფრთხეები)']);
         }
-        return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => 'ვერ მოხერხდა სფეროს წაშლა. სცადეთ თავიდან']);
+        $ok = Control::where('field_id', $field->id)->limit(1)->count() < 1;
+        if (!$ok) {
+            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => 'გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(კონტროლის ზომები)']);
+        }
+        $ok = UserText::where('field_id', $field->id)->limit(1)->count() < 1;
+        if (!$ok) {
+            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => 'გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(მომხმარებლების მიერ დამატებული კონტროლის ზომები/ვინ იმყოფება საფრთხის ქვეშ)']);
+        }
+        $ok = Export::where('field_id', $field->id)->limit(1)->count() < 1;
+        if (!$ok) {
+            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => 'ვერ მოხერხდა სფეროს წაშლა, რადგანაც მომხმარებლებს შექმნილი აქვთ ამ სფეროში  დოკუმენტები']);
+        }
+
+        try {
+            $field->delete();
+        } catch (\Throwable $e) {
+            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => 'ვერ მოხერხდა სფეროს წაშლა. სცადეთ თავიდან']);
+        }
+
+        return redirect()->route('admin.fields')->with('message', ['success' => true, 'message' => 'სფერო წარმატებით წაიშალა']);
     }
 
     /**
