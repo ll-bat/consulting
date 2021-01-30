@@ -64,7 +64,7 @@
                     style=''>
                     <div class='card-title mb-1 mt-3 pointer' id='add-new-danger'
                          onclick="toggleCollapse(this, 'new-danger')">
-                        <i class='fa fa-plus float-left ml-3 mt-1'></i>
+                        <i class='fa fa-plus float-left my-color ml-3 mt-1'></i>
                         <p class='pl-5 font-weight-bold my-color'> დაამატეთ ახალი საფრთხე </p>
                     </div>
                 </div>
