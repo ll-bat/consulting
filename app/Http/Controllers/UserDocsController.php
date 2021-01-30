@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Docs;
 use App\Export;
+use App\Field;
 use App\Objects;
 use App\Rels;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -24,12 +25,13 @@ class UserDocsController extends Controller
         session()->forget("_questionsData");
 
         $objects = Objects::select('id', 'name')->get()->toArray();
+        $fields = Field::select('id', 'name')->get()->toArray();
         $docs = Export::where('user_id', current_user()->id)
             ->select('id', 'filename')
             ->get()
             ->toArray();
 
-        return view('user.preQuestions', compact('objects', 'docs'));
+        return view('user.preQuestions', compact('objects', 'docs', 'fields'));
     }
 
     /**
