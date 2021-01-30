@@ -129,7 +129,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
             Route::get('{field}/docs', 'FieldController@show');
         });
 
-        Route::group(['prefix' => 'docs'], function () {
+        Route::group(['prefix' => 'docs', "middleware" => 'App\Http\Middleware\FieldMiddleware'], function () {
             Route::get('', 'DocController@index')->name('admin.docs');
             Route::get('new-danger', 'DangerController@show');
             Route::post('new-danger', 'DangerController@create')->name('danger.create');
@@ -179,7 +179,6 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
             Route::post('add-udanger/{UserText}', 'UserTextsController@storeUdanger');
 
             Route::get('check', 'DocController@show')->name('admin.check');
-
         });
 
         Route::group(['prefix' => 'types'], function() {
