@@ -121,6 +121,14 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
             Route::delete('/{blog}/delete', 'BlogController@delete');
         });
 
+        Route::group(['prefix' => 'fields'], function() {
+            Route::get('', 'FieldController@index')->name('admin.fields');
+            Route::post('create', 'FieldController@create')->name('admin.fields.create');
+            Route::post('{field}/update', 'FieldController@update');
+            Route::get('{field}/delete', 'FieldController@delete');
+            Route::get('{field}/docs', 'FieldController@show');
+        });
+
         Route::group(['prefix' => 'docs'], function () {
             Route::get('', 'DocController@index')->name('admin.docs');
             Route::get('new-danger', 'DangerController@show');
@@ -148,7 +156,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
             Route::delete('control/{control}/rdelete', 'ControlController@rdelete');
             Route::delete('control/{control}/delete', 'ControlController@delete');
 
-            Route::post('add-process', 'ProcessController@addProcess');
+            Route::post('add-process', 'ProcessController@create');
             Route::get('process/{process}/edit', 'ProcessController@edit');
             Route::post('process/{process}/update', 'ProcessController@update');
             Route::delete('process/{process}/delete', 'ProcessController@delete');
