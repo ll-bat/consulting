@@ -7,9 +7,14 @@ use App\Objects;
 
 class Json {
     private int $exportId;
+    private int $fieldId;
 
     public function __construct($exportId = 0){
         $this->exportId = $exportId;
+    }
+
+    public function setFieldId($fieldId) {
+        $this->fieldId = $fieldId;
     }
 
     /**
@@ -70,6 +75,7 @@ class Json {
             'user_id' => current_user()->id,
             'filename' => $filename,
             'object_id' => $objectId,
+            'field_id' => $this->fieldId,
             'data' => $data
         ]);
 
