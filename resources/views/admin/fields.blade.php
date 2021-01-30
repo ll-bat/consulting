@@ -65,7 +65,7 @@
                     <div class="bg-white px-4 py-3 border rounded-10 partial-shadow border-0 mt-3">
                         <div class="d-flex modal-div" style="justify-content: space-between;">
                             <div class="d-flex">
-                                <img src="/icons/slack.png" width="40" height="40" />
+                                <img src="/icons/slack_1.png" width="40" height="40" />
                                 <a href="fields/{{ $field->id }}/docs" class="text-lg mx-4 mt-2"> {{ $field['name'] }} </a>
                             </div>
                             <div class="d-flex">
