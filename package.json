@@ -26,6 +26,7 @@
         "websocket-extensions": ">=0.1.4"
     },
     "dependencies": {
-        "core-js": "3.6.5"
+        "core-js": "3.6.5",
+        "vuex": "^3.6.2"
     }
 }
