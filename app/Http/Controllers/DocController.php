@@ -31,8 +31,12 @@ class DocController extends Controller
 {
     public function index()
     {
+        $fieldId = session()->get('_fieldId') ?? false;
+        if (!$fieldId) {
+            return redirect()->route('admin.fields');
+        }
         $cnt = UserText::count();
-        $procs = Process::orderBy('created_at', 'asc')->get();
+        $procs = Process::where('field_id', $fieldId)->orderBy('created_at', 'asc')->get();
 
         return view('admin.docs.index', compact('procs', 'cnt'));
     }
