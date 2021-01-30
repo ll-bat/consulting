@@ -16,11 +16,13 @@ class Filter
 {
 
     private $data;
+    private $fieldId;
     private $oldImages;
     private $imageNameValidator = [];
 
-    public function __construct($obj)
+    public function __construct($obj, $fieldId)
     {
+        $this->fieldId = $fieldId;
         $this->oldImages = session()->get('_oldImages') ?? [];
 
         $this->filterData(
@@ -98,31 +100,29 @@ class Filter
         $false = false;
 
         /**
-         * DangerId should of type integer
+         * DangerId should be integer
          */
 
         if ($this->isInt($o['did'], '', $false)) {
             $obj['did'] = $o['did'];
-        }
-        else {
+        } else {
             return false;
         }
 
 
         /**
-         * ProcessId should of type integer
+         * ProcessId should be integer
          */
         if ($this->isInt($o['pid'], '', $false)) {
             $obj['pid'] = $o['pid'];
-        }
-        else {
+        } else {
             return false;
         }
 
         list($pid, $did) = [$obj['pid'], $obj['did']];
 
         /**
-         * Data should be of type array
+         * Data should be array
          */
         if (gettype($o['data']) != 'array') {
             return false;
@@ -236,7 +236,7 @@ class Filter
     }
 
     /**
-     *  Checks process, danger, control - ids. Omit element if proper records does not exist in database
+     *  Checks process, danger, control - ids. Omit whole element if such records does not exist in database
      * @param $data
      * @return array
      */
@@ -254,6 +254,7 @@ class Filter
         }
 
         $processes = Process::whereIn('id', $processes)
+            ->where('field_id', $this->fieldId)
             ->select('id', 'name')
             ->get()
             ->toArray();
@@ -320,8 +321,12 @@ class Filter
 
 //        dd($dangerProcessIds);
 
-        $controls = [];$potentialLoss = []; $underDanger = [];
-        $used = []; $first = []; $second = [];
+        $controls = [];
+        $potentialLoss = [];
+        $underDanger = [];
+        $used = [];
+        $first = [];
+        $second = [];
         foreach ($data as $ind => $d) {
             [$pid, $did] = [$d['pid'], $d['did']];
 
@@ -374,6 +379,7 @@ class Filter
 //        dd($controlDangerIds);
 
         $potentialLoss = Ploss::whereIn('id', $potentialLoss)
+            ->where('field_id', $this->fieldId)
             ->select('id', 'name', 'k')
             ->get()
             ->toArray();
@@ -384,6 +390,7 @@ class Filter
         }
 
         $underDanger = Udanger::whereIn('id', $underDanger)
+            ->where('field_id', $this->fieldId)
             ->select('id', 'name')
             ->get()
             ->toArray();
@@ -451,7 +458,7 @@ class Filter
         /**
          *  Usage of high-order functions to filter user data;
          */
-        $data = filter($data, function (&$d) use($processIds, $dangerProcessIds, $controlDangerIds, $potentialLossIds, $underDangerIds, $dangersMap, $controlsMap, &$inputUdangers, &$inputControls) {
+        $data = filter($data, function (&$d) use ($processIds, $dangerProcessIds, $controlDangerIds, $potentialLossIds, $underDangerIds, $dangersMap, $controlsMap, &$inputUdangers, &$inputControls) {
             [$pid, $did] = [$d['pid'], $d['did']];
             if (!isset($dangerProcessIds[$pid]) || !isset($dangerProcessIds[$pid][$did])) {
                 return false;
@@ -463,49 +470,53 @@ class Filter
             /**
              * Controls are divided into 3 parts, so we iterate each of them separately and filter each properly
              */
-            $d['data']['control'] = array_map(function ($type) use($controlDangerIds, $did, $controlsMap) {
-                return filter($type, function (&$c) use($controlDangerIds, $did, $controlsMap) {
-                   if (!isset($controlDangerIds[$did]) || !isset($controlDangerIds[$did][$c['id']])) {
-                       return false;
-                   }
-                   $c['model'] = $controlsMap[$c['id']];
-                   return true;
+            $d['data']['control'] = array_map(function ($type) use ($controlDangerIds, $did, $controlsMap) {
+                return filter($type, function (&$c) use ($controlDangerIds, $did, $controlsMap) {
+                    if (!isset($controlDangerIds[$did]) || !isset($controlDangerIds[$did][$c['id']])) {
+                        return false;
+                    }
+                    $c['model'] = $controlsMap[$c['id']];
+                    return true;
                 });
             }, $d['data']['control']);
 
             /**
              * Ploss and udanger have same structure, we can combine these two loops into one, but to make it easier to understand, we write them separately.
              */
-            $d['data']['ploss'] = filter($d['data']['ploss'], function (&$p) use($potentialLossIds) {
-               $is = isset($potentialLossIds[$p['id']]);
-               if ($is) {
-                   $p['model'] = $potentialLossIds[$p['id']];
-                   return true;
-               }
-               return false;
+            $d['data']['ploss'] = filter($d['data']['ploss'], function (&$p) use ($potentialLossIds) {
+                $is = isset($potentialLossIds[$p['id']]);
+                if ($is) {
+                    $p['model'] = $potentialLossIds[$p['id']];
+                    return true;
+                }
+                return false;
             });
 
             /**
              * Filter udanger field;
              */
-            $d['data']['udanger'] = filter($d['data']['udanger'], function (&$p) use($underDangerIds) {
-               $is = isset($underDangerIds[$p['id']]);
-               if ($is) {
-                   $p['model'] = $underDangerIds[$p['id']];
-                   return true;
-               }
-               return false;
+            $d['data']['udanger'] = filter($d['data']['udanger'], function (&$p) use ($underDangerIds) {
+                $is = isset($underDangerIds[$p['id']]);
+                if ($is) {
+                    $p['model'] = $underDangerIds[$p['id']];
+                    return true;
+                }
+                return false;
             });
 
             /**
              * Iterate over user input control/udangers.
              */
             foreach ($d['data']['newControls'] as $newControl) {
-                $inputControls[] = $newControl['value'];
+                if (strlen($newControl['value']) > 1) {
+                    $inputControls[] = $newControl['value'];
+                }
             }
 
             foreach ($d['data']['newUdangers'] as $newUdanger) {
-                $inputUdangers[] = $newUdanger['value'];
+                if (strlen($newUdanger['value']) > 1) {
+                    $inputUdangers[] = $newUdanger['value'];
+                }
             }
 
             return true;
@@ -515,12 +526,14 @@ class Filter
 
         $controlModels = UserText::whereIn('name', $inputControls)
             ->where(['type' => 'control'])
+            ->where(['field_id' => $this->fieldId])
             ->select('name', 'danger_id')
             ->get()
             ->toArray();
 
         $udangerModels = UserText::whereIn('name', $inputUdangers)
             ->where(['type' => 'udanger'])
+            ->where(['field_id' => $this->fieldId])
             ->select('name', 'danger_id')
             ->get()
             ->toArray();
@@ -556,6 +569,7 @@ class Filter
                 if (!$model) {
                     UserText::create([
                         'user_id' => $userId,
+                        'field_id' => $this->fieldId,
                         'danger_id' => $did,
                         'name' => $nc['value'],
                         'type' => 'control'
@@ -570,10 +584,11 @@ class Filter
                 if (!$model) {
                     UserText::create([
                         'user_id' => current_user()->id,
+                        'field_id' => $this->fieldId,
                         'danger_id' => $did,
                         'name' => $nc['value'],
-                        'type' => 'udanger']
-                    );
+                        'type' => 'udanger'
+                    ]);
                     $inputUdangersMap[$did][$nc['value']] = true;
                 }
             }
@@ -602,7 +617,7 @@ class Filter
 
         $dangerControlsMap = [];
         foreach ($dangerControlsSum as $dc) {
-            $dangerControlsMap[$dc->danger_id] = (double) $dc->controls_sum;
+            $dangerControlsMap[$dc->danger_id] = (double)$dc->controls_sum;
         }
 
         foreach ($data as &$d) {

@@ -2,6 +2,8 @@
 
 namespace App\Helperclass;
 
+use Exception;
+
 class FinalData
 {
     protected $exportId = null;
@@ -20,13 +22,14 @@ class FinalData
 
     /**
      * @param $obj
+     * @param int $fieldId
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
-    public function init($obj)
+    public function init($obj, int $fieldId): array
     {
         if (count($obj) < 1) {
-            throw new \Exception('No data provided', 400);
+            throw new Exception('No data provided', 400);
         }
         /**
          * $countAll is number of table columns;
@@ -41,7 +44,9 @@ class FinalData
 
         if ($this->mode === self::DEFAULT_MODE) {
             $json = new Json($this->exportId);
+            $json->setFieldId($fieldId);
             $this->exportId = $json->save([$object, $links, $countAll]);
+            return [];
         } else {
             return [$object, $links, $countAll];
         }
