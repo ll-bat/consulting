@@ -11,9 +11,9 @@
 {{--                                  id="danger-id"--}}
 {{--                                  @select="filterControls"--}}
 {{--                ></select-component>--}}
-                <div class="mt-4">
+                <div class="mt-2">
                     <div v-for='(d,i) in currentDangers'>
-                        <label class="ns-container m-3" style="color: #393838;" @mousedown="chooseDanger(d.id)"> @{{  d.name }}
+                        <label class="ns-container mb-3" style="color: #393838;" @mousedown="chooseDanger(d.id)"> @{{  d.name }}
                             <div class="mod-chbox-checkmark" :class="{'hovered-checkmark': (d.id === dangerId) }"
                                  style='border-radius:50%;'>
 
@@ -25,6 +25,12 @@
                     </div>
                 </div>
             </div>
+{{--            <div v-if="showDangerLoader">--}}
+{{--                <div class="m-auto text-center">--}}
+{{--                    <div class="spinner spinner-border m-5" style="width: 80px; height: 80px; border-width: .61rem; color: rgb(103, 58, 183)"></div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
         </div>
     </div>
+    <div class="danger-skeleton" v-if="showDangerLoader"></div>
 </div>

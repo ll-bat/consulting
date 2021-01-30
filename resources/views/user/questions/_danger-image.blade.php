@@ -31,4 +31,9 @@
             </div>
         </div>
     </div>
+    <div v-if="showControlsLoader">
+        <div class="controls-skeleton"></div>
+        <div class="danger-skeleton my-4"></div>
+        <div class="danger-skeleton"></div>
+    </div>
 </div>
