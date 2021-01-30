@@ -65,7 +65,13 @@ const app = new Vue({
 
                 let id = selectedValue;
                 const process = this.processes.find(p => p.id === id);
-                if (!process) return
+                if (!process) {
+                    alert('სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი პროცესი წაშლილია...');
+                    this.showDangerLoader = false;
+                    this.showDangers = false;
+                    res();
+                    return;
+                }
 
                 this.processId = id
                 this.currentDangers = await fetcher.getDangers(process.id);
@@ -86,6 +92,10 @@ const app = new Vue({
                 let danger = this.currentDangers.find(d => d.id === id)
                 if (!danger) {
                     this.showControls = false;
+                    alert('სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი საფრთხე წაშლილია...');
+                    this.showControlsLoader = false;
+                    this.showControls = false;
+                    res();
                     return;
                 }
 
