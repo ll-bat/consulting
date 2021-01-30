@@ -455,10 +455,12 @@ class Filter
         $inputControls = [];
         $inputUdangers = [];
 
+        $validatedControls = [];
+        $validatedUdangers = [];
         /**
          *  Usage of high-order functions to filter user data;
          */
-        $data = filter($data, function (&$d) use ($processIds, $dangerProcessIds, $controlDangerIds, $potentialLossIds, $underDangerIds, $dangersMap, $controlsMap, &$inputUdangers, &$inputControls) {
+        $data = filter($data, function (&$d) use ($processIds, $dangerProcessIds, $controlDangerIds, $potentialLossIds, $underDangerIds, $dangersMap, $controlsMap, &$inputUdangers, &$inputControls, &$validatedControls, &$validatedUdangers) {
             [$pid, $did] = [$d['pid'], $d['did']];
             if (!isset($dangerProcessIds[$pid]) || !isset($dangerProcessIds[$pid][$did])) {
                 return false;
@@ -507,22 +509,28 @@ class Filter
             /**
              * Iterate over user input control/udangers.
              */
+            if (!isset($validatedControls[$did])) {
+                $validatedControls[$did] = [];
+            }
+            if (!isset($validatedUdangers[$did])) {
+                $validatedUdangers[$did] = [];
+            }
             foreach ($d['data']['newControls'] as $newControl) {
                 if (strlen($newControl['value']) > 1) {
                     $inputControls[] = $newControl['value'];
+                    $validatedControls[$did][] = $newControl['value'];
                 }
             }
 
             foreach ($d['data']['newUdangers'] as $newUdanger) {
                 if (strlen($newUdanger['value']) > 1) {
                     $inputUdangers[] = $newUdanger['value'];
+                    $validatedUdangers[$did][] = $newUdanger['value'];
                 }
             }
 
             return true;
         });
-
-//        dd($inputUdangers);
 
         $controlModels = UserText::whereIn('name', $inputControls)
             ->where(['type' => 'control'])
@@ -555,41 +563,35 @@ class Filter
         $userId = current_user()->id;
 
         /**
-         * Finally , we iterate over whole filtered data again and create a record for new control/udanger
-         * or
+         * Finally , we iterate over whole filtered data again and create a record for new control/udanger or
          * omit them if that value already exists under current danger
          */
-        foreach ($data as $ind => $d) {
-            $did = $d['did'];
-            $d = $d['data'];
-
-            foreach ($d['newControls'] as $nc) {
-                $model = isset($inputControlsMap[$did][$nc['value']]);
-
-                if (!$model) {
+        foreach ($validatedControls as $did => $controls) {
+            foreach ($controls as $control) {
+                if (!isset($inputControlsMap[$did][$control])) {
+                    $inputControlsMap[$did][$control] = true;
                     UserText::create([
                         'user_id' => $userId,
                         'field_id' => $this->fieldId,
                         'danger_id' => $did,
-                        'name' => $nc['value'],
+                        'name' => $control,
                         'type' => 'control'
                     ]);
-                    $inputControlsMap[$did][$nc['value']] = true;
                 }
             }
+        }
 
-            foreach ($d['newUdangers'] as $nc) {
-                $model = isset($inputUdangersMap[$did][$nc['value']]);
-
-                if (!$model) {
+        foreach ($validatedUdangers as $did => $udangers) {
+            foreach ($udangers as $udanger) {
+                if (!isset($inputUdangersMap[$did][$udanger])) {
+                    $inputUdangersMap[$did][$udanger] = true;
                     UserText::create([
                         'user_id' => current_user()->id,
                         'field_id' => $this->fieldId,
                         'danger_id' => $did,
-                        'name' => $nc['value'],
+                        'name' => $udanger,
                         'type' => 'udanger'
                     ]);
-                    $inputUdangersMap[$did][$nc['value']] = true;
                 }
             }
         }
