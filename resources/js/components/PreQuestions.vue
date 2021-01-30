@@ -127,11 +127,17 @@
                         <div class="ns-underline" style='background-color:#e2479D !important;'></div>
                     </div>
 
-                    <button class="btn btn-primary border-0 rounded-0 px-4 my-4" id="create-doc-button" @click="createDoc">
+                    <button class="btn btn-primary border-0 rounded-0 px-4 my-4" id="create-doc-button" @click="nameDocument()">
                         <span class="spinner-border spinner-border-sm d-none" id="create-doc-spinner"></span>
                         დოკუმენტის დაწყება
                     </button>
                 </div>
+            </div>
+        </div>
+
+        <div v-if="showDocAbout" class="m-auto" style="max-width: 700px">
+            <div class="card rounded-5 border-0">
+
             </div>
         </div>
 
@@ -160,12 +166,14 @@ export default {
             showDocumentName: false,
             showUserDocs: false,
             showDocSpinner: false,
+            showDocAbout: false,
             spinnerTime: 800,
             queryWord: '',
             debouncedTime: null,
             filename: '',
         }
     },
+
     methods: {
         searchDebounced(){
             if (this.debouncedTime) {
@@ -216,12 +224,15 @@ export default {
             this.showDocObjects = false;
             this.showDocumentName = true;
         },
-        async createDoc() {
+        nameDocument() {
             if (!this.filename) {
                 alert("გთხოვთ, შეიყვანოთ სახელი");
                 return;
             }
-
+            this.showDocumentName = false;
+            this.showDocAbout = true;
+        },
+        async createDoc() {
             if (this.isNew) {
                 let data = {
                     isNew : true,
