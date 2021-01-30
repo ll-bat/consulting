@@ -11,7 +11,7 @@
 
 <button class="btn btn-outline-primary font-weight-bold border-0 m-0 px-3 py-1"
         onclick="_createNewObject()"
-        style="margin-bottom: 4px !important;">
+        style="margin-bottom: 4px !important;color:rgba(0,0,200, .5)">
     <i class="fa fa-plus pl-0 pr-2"></i>
     ობიექტის დამატება
 </button>
@@ -35,7 +35,9 @@
     </div>
 </div>
 @endforeach
-
+@if (count($objects) < 1)
+    <p class="alert text-white" style="background-color:rgba(0,0,200, .5)"> თქვენ არ გაქვთ ობიექტები </p>
+@endif
 
 @include('user._modal')
 
