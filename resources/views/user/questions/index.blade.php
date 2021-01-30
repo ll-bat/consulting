@@ -1,6 +1,8 @@
 @extends('layouts/zim')
 
 @section('header')
+    <link rel="stylesheet" href="/css/skeleton-loader.css" />
+
     <style>
         .border-bottom {
             border-bottom: 1px dotted lightgrey !important;
@@ -126,6 +128,7 @@
 @endsection
 @section('content')
 
+
     <div class="" id='app' style="width: 100% !important;">
         <div class="row justify-content-center align-items-center">
             <div class="col-xl-6 col-lg-7 col-md-10 col-sm-12 col-12 mt-md-0 mt-sm-5 mt-5">
@@ -134,6 +137,7 @@
                     <div class="spinner-border text-warning"
                          style="width:7rem; height: 7rem;border-width: 1rem;"></div>
                 </div>
+
 
                 @include('user.questions._proccesses')
 
