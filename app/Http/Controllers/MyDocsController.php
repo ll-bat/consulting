@@ -74,7 +74,7 @@ class MyDocsController extends Controller
         $data = (new QuestionsJson($data))->getData();
 
         session()->forget('_docData');
-        session()->put('_questionsData', ['data' => json_encode($data), 'exportId' => $export->id]);
+        session()->put('_questionsData', ['data' => json_encode($data), 'exportId' => $export->id, 'fieldId' => $export->field_id]);
 
         return redirect()->route('user.questions');
     }
