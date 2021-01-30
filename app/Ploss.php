@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ploss extends Model
 {
-      protected $fillable = ['name', 'k'];
+      protected $fillable = ['name', 'k', 'field_id'];
 }

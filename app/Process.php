@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Process extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'field_id'];
 
     public function getDangers(){
         return DangerProcess::where('process_id', $this->id)->get();
@@ -21,5 +21,5 @@ class Process extends Model
         return $list;
     }
 
-    
+
 }
