@@ -1,32 +1,37 @@
 <template>
-    <div class="m-auto text-center w-100" id="pre-questions">
-        <div class="" style="height: 500px" v-if="showNewCopyButtons">
-            <div class="row justify-content-center" style="margin-top: 10%">
-                <div class="col-md-6 col-sm-12 card rounded-10 m-2 border-0 pb-2 px-4 card-hover" @click="createNew">
-                    <div class="card-body">
-                        <p class="text-lg text-primary m-1 user-select-none">
-                            <i class="fa fa-plus mr-2"> </i>
-                            ახლის შექმნა
-                        </p>
+    <div class="w-100 h-100" style="" id="pre-questions">
+        <div class="d-flex justify-content-center align-items-center" :class="{'h-100' : showNewCopyButtons || loading}">
+            <div class="text-center" id="content-spinner">
+                <div class="spinner spinner-border text-secondary"
+                     style="width: 100px; height: 100px; border-width: 1.2rem;margin-top: -100px"></div>
+            </div>
+            <div class="w-100 " style="" v-if="showNewCopyButtons & !loading">
+                <div class="row justify-content-center" style="">
+                    <div class="col-md-6 col-sm-12 card rounded-10 m-2 border-0 pb-2 px-4 card-hover"
+                         @click="createNew">
+                        <div class="card-body text-center">
+                            <p class="text-lg text-primary m-1 user-select-none">
+                                <i class="fa fa-plus mr-2"> </i>
+                                ახლის შექმნა
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6 col-sm-12 card rounded-10 m-2 pb-2 border-0 partial-shadow card-hover" @click="copyDoc">
-                    <div class="card-body border-0 ">
-                        <p class="text-lg text-danger m-1 user-select-none">
-                            <i class="nc-icon nc-paper mr-2"></i>
-                            არსებულის კოპირება
-                        </p>
+                    <div class="col-md-6 col-sm-12 card rounded-10 m-2 pb-2 border-0 partial-shadow card-hover"
+                         @click="copyDoc">
+                        <div class="card-body border-0 text-center">
+                            <p class="text-lg text-danger m-1 user-select-none">
+                                <i class="nc-icon nc-paper mr-2"></i>
+                                არსებულის კოპირება
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
         <div>
             <div v-if="showUserDocs">
                 <button type="button" class="btn btn-primary d-none" id="user-docs-modal-button" data-toggle="modal"
-                        data-target="#user-docs-modal">
-                    Open modal
-                </button>
+                        data-target="#user-docs-modal"></button>
 
                 <!-- The Modal -->
                 <div class="modal fade" id="user-docs-modal">
@@ -40,7 +45,7 @@
                             </div>
 
                             <!-- Modal body -->
-                            <div class="modal-body" style="min-height: 500px">
+                            <div class="modal-body text-center" style="min-height: 500px">
 
                                 <div class="spinner spinner-border text-purple" v-if="showDocSpinner" style="font-size: 3.7rem; width: 80px; height: 80px; margin-top: 180px"></div>
 
@@ -97,7 +102,7 @@
 
 
         <div v-if="showDocObjects">
-            <div class="m-auto" style="max-width: 700px">
+            <div class="m-auto text-center mb-5" style="max-width: 700px;">
                 <p> აირჩიეთ ობიექტი </p>
                 <div v-for="object in objects">
                     <div class="card card-hover border-0 partial-shadow rounded-10" @click="chooseDocObject(object.id)">
@@ -107,12 +112,13 @@
                         </div>
                     </div>
                 </div>
+                <br /><br />
             </div>
         </div>
 
 
-        <div v-if="showDocumentName" class="m-auto" style="max-width: 700px">
-            <div class="card rounded-5 border-0">
+        <div v-if="showDocumentName" class="m-auto text-center d-flex justify-content-center align-items-center w-100 h-100" style="max-width: 700px">
+            <div class="card rounded-5 border-0 w-100">
                 <div class="card-body">
                     <p class="my-4"> დაარქვით დოკუმენტს სახელი </p>
                     <div class='card-body ns-input-container pl-4 pb-3 mt-0 pt-0'>
@@ -129,14 +135,14 @@
 
                     <button class="btn btn-primary border-0 rounded-0 px-4 my-4" id="create-doc-button" @click="nameDocument()">
                         <span class="spinner-border spinner-border-sm d-none" id="create-doc-spinner"></span>
-                        დოკუმენტის დაწყება
+                        შემდეგი
                     </button>
                 </div>
             </div>
         </div>
 
         <div v-if="showFields">
-            <div class="m-auto" style="max-width: 700px">
+            <div class="m-auto text-center" style="max-width: 700px">
                 <p> აირჩიეთ სფერო </p>
                 <div v-for="field in fields">
                     <div class="card card-hover border-0 partial-shadow rounded-10" @click="chooseField(field.id)">
@@ -183,6 +189,7 @@ export default {
             debouncedTime: null,
             filename: '',
             fieldId: null,
+            loading: true
         }
     },
 
@@ -289,15 +296,16 @@ export default {
             $('#create-doc-button').addClass('disabled');
         }
     },
+    mounted() {
+        tout(() => {
+            this.loading = false;
+            $1('content-spinner').remove()
+        })
+    },
     created() {
         this.objects = JSON.parse(this._objects);
         this.docs = JSON.parse(this._docs);
         this.fields = JSON.parse(this._fields);
-        console.log(this.fields);
-
-        tout(() => {
-            $1('pre-questions').style.height = window.screen.availHeight + 'px';
-        })
     }
 
 }

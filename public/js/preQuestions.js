@@ -2083,6 +2083,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "preQuestions",
@@ -2111,7 +2117,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       queryWord: '',
       debouncedTime: null,
       filename: '',
-      fieldId: null
+      fieldId: null,
+      loading: true
     };
   },
   methods: {
@@ -2258,14 +2265,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     }
   },
+  mounted: function mounted() {
+    var _this5 = this;
+
+    tout(function () {
+      _this5.loading = false;
+      $1('content-spinner').remove();
+    });
+  },
   created: function created() {
     this.objects = JSON.parse(this._objects);
     this.docs = JSON.parse(this._docs);
     this.fields = JSON.parse(this._fields);
-    console.log(this.fields);
-    tout(function () {
-      $1('pre-questions').style.height = window.screen.availHeight + 'px';
-    });
   }
 });
 
@@ -39250,57 +39261,57 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "m-auto text-center w-100", attrs: { id: "pre-questions" } },
+    { staticClass: "w-100 h-100", attrs: { id: "pre-questions" } },
     [
-      _vm.showNewCopyButtons
-        ? _c("div", { staticStyle: { height: "500px" } }, [
-            _c(
-              "div",
-              {
-                staticClass: "row justify-content-center",
-                staticStyle: { "margin-top": "10%" }
-              },
-              [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "col-md-6 col-sm-12 card rounded-10 m-2 border-0 pb-2 px-4 card-hover",
-                    on: { click: _vm.createNew }
-                  },
-                  [_vm._m(0)]
-                ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "col-md-6 col-sm-12 card rounded-10 m-2 pb-2 border-0 partial-shadow card-hover",
-                    on: { click: _vm.copyDoc }
-                  },
-                  [_vm._m(1)]
-                )
-              ]
-            )
-          ])
-        : _vm._e(),
+      _c(
+        "div",
+        {
+          staticClass: "d-flex justify-content-center align-items-center",
+          class: { "h-100": _vm.showNewCopyButtons || _vm.loading }
+        },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _vm.showNewCopyButtons & !_vm.loading
+            ? _c("div", { staticClass: "w-100 " }, [
+                _c("div", { staticClass: "row justify-content-center" }, [
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "col-md-6 col-sm-12 card rounded-10 m-2 border-0 pb-2 px-4 card-hover",
+                      on: { click: _vm.createNew }
+                    },
+                    [_vm._m(1)]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass:
+                        "col-md-6 col-sm-12 card rounded-10 m-2 pb-2 border-0 partial-shadow card-hover",
+                      on: { click: _vm.copyDoc }
+                    },
+                    [_vm._m(2)]
+                  )
+                ])
+              ])
+            : _vm._e()
+        ]
+      ),
       _vm._v(" "),
       _c("div", [
         _vm.showUserDocs
           ? _c("div", [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-primary d-none",
-                  attrs: {
-                    type: "button",
-                    id: "user-docs-modal-button",
-                    "data-toggle": "modal",
-                    "data-target": "#user-docs-modal"
-                  }
-                },
-                [_vm._v("\n                Open modal\n            ")]
-              ),
+              _c("button", {
+                staticClass: "btn btn-primary d-none",
+                attrs: {
+                  type: "button",
+                  id: "user-docs-modal-button",
+                  "data-toggle": "modal",
+                  "data-target": "#user-docs-modal"
+                }
+              }),
               _vm._v(" "),
               _c(
                 "div",
@@ -39308,12 +39319,12 @@ var render = function() {
                 [
                   _c("div", { staticClass: "modal-dialog modal-xl" }, [
                     _c("div", { staticClass: "modal-content" }, [
-                      _vm._m(2),
+                      _vm._m(3),
                       _vm._v(" "),
                       _c(
                         "div",
                         {
-                          staticClass: "modal-body",
+                          staticClass: "modal-body text-center",
                           staticStyle: { "min-height": "500px" }
                         },
                         [
@@ -39386,7 +39397,7 @@ var render = function() {
                                               }
                                             }),
                                             _vm._v(" "),
-                                            _vm._m(3)
+                                            _vm._m(4)
                                           ]
                                         )
                                       ]
@@ -39482,7 +39493,7 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      _vm._m(4)
+                      _vm._m(5)
                     ])
                   ])
                 ]
@@ -39495,7 +39506,10 @@ var render = function() {
         ? _c("div", [
             _c(
               "div",
-              { staticClass: "m-auto", staticStyle: { "max-width": "700px" } },
+              {
+                staticClass: "m-auto text-center mb-5",
+                staticStyle: { "max-width": "700px" }
+              },
               [
                 _c("p", [_vm._v(" აირჩიეთ ობიექტი ")]),
                 _vm._v(" "),
@@ -39529,7 +39543,10 @@ var render = function() {
                       ]
                     )
                   ])
-                })
+                }),
+                _vm._v(" "),
+                _c("br"),
+                _c("br")
               ],
               2
             )
@@ -39539,9 +39556,13 @@ var render = function() {
       _vm.showDocumentName
         ? _c(
             "div",
-            { staticClass: "m-auto", staticStyle: { "max-width": "700px" } },
+            {
+              staticClass:
+                "m-auto text-center d-flex justify-content-center align-items-center w-100 h-100",
+              staticStyle: { "max-width": "700px" }
+            },
             [
-              _c("div", { staticClass: "card rounded-5 border-0" }, [
+              _c("div", { staticClass: "card rounded-5 border-0 w-100" }, [
                 _c("div", { staticClass: "card-body" }, [
                   _c("p", { staticClass: "my-4" }, [
                     _vm._v(" დაარქვით დოკუმენტს სახელი ")
@@ -39611,9 +39632,7 @@ var render = function() {
                         staticClass: "spinner-border spinner-border-sm d-none",
                         attrs: { id: "create-doc-spinner" }
                       }),
-                      _vm._v(
-                        "\n                    დოკუმენტის დაწყება\n                "
-                      )
+                      _vm._v("\n                    შემდეგი\n                ")
                     ]
                   )
                 ])
@@ -39626,7 +39645,10 @@ var render = function() {
         ? _c("div", [
             _c(
               "div",
-              { staticClass: "m-auto", staticStyle: { "max-width": "700px" } },
+              {
+                staticClass: "m-auto text-center",
+                staticStyle: { "max-width": "700px" }
+              },
               [
                 _c("p", [_vm._v(" აირჩიეთ სფერო ")]),
                 _vm._v(" "),
@@ -39674,10 +39696,32 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-body" }, [
+    return _c(
+      "div",
+      { staticClass: "text-center", attrs: { id: "content-spinner" } },
+      [
+        _c("div", {
+          staticClass: "spinner spinner-border text-secondary",
+          staticStyle: {
+            width: "100px",
+            height: "100px",
+            "border-width": "1.2rem",
+            "margin-top": "-100px"
+          }
+        })
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-body text-center" }, [
       _c("p", { staticClass: "text-lg text-primary m-1 user-select-none" }, [
         _c("i", { staticClass: "fa fa-plus mr-2" }),
-        _vm._v("\n                        ახლის შექმნა\n                    ")
+        _vm._v(
+          "\n                            ახლის შექმნა\n                        "
+        )
       ])
     ])
   },
@@ -39685,11 +39729,11 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-body border-0 " }, [
+    return _c("div", { staticClass: "card-body border-0 text-center" }, [
       _c("p", { staticClass: "text-lg text-danger m-1 user-select-none" }, [
         _c("i", { staticClass: "nc-icon nc-paper mr-2" }),
         _vm._v(
-          "\n                        არსებულის კოპირება\n                    "
+          "\n                            არსებულის კოპირება\n                        "
         )
       ])
     ])
