@@ -3,29 +3,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Control;
-use App\Danger;
 use App\Export;
 use App\Field;
 use App\Helperclass\QuestionsJson;
 use App\Objects;
 use App\Process;
-use App\Ploss;
-use App\Udanger;
 use App\UserText;
-use App\Helperclass\Data;
 use App\Helperclass\Filter;
 use App\Helperclass\FinalData;
-use App\Helperclass\Obj;
-use App\Helperclass\Json;
-use App\Helperclass\RiskCalculator;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
 
 
 class DocController extends Controller
@@ -49,12 +39,30 @@ class DocController extends Controller
 
     public function prepareDoc()
     {
-        request()->validate([
+        $rules = [
             'isNew' => 'boolean|required',
-            'objectId' => 'integer',
-            'fieldId' => 'integer',
-            'filename' => 'string|max:512'
-        ]);
+            'objectId' => 'integer|required',
+            'fieldId' => 'integer|required',
+            'filename' => 'required|string|max:512',
+            '_documentAuthorNames' => 'required|string|max:400',
+            '_documentAddress' => 'required|string|max:600',
+            '_documentDescription' => 'required|string|max:900',
+            '_documentFirstDate' => 'required|string|max:50',
+            '_documentSecondDate' => 'required|string|max:50',
+            '_documentNumber' => 'required|string|max:50'
+        ];
+
+        $messages = [
+            '_documentAuthorNames' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 400 - ს',
+            '_documentAddress' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 600 - ს',
+            '_documentDescription' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 900 - ს',
+            '_documentFirstDate' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 50 - ს',
+            '_documentSecondDate' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 50 - ს',
+            '_documentNumber' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 50 - ს'
+        ];
+
+        \Illuminate\Support\Facades\Validator::make(request()->all(), $rules, $messages)
+            ->validate();
 
         $objectId = \request('objectId');
         $fieldId = \request('fieldId');
@@ -70,14 +78,20 @@ class DocController extends Controller
             return \response('Such field does not exit', 404);
         }
 
-        if (request('isNew')) {
-            $data = [
-                'isNew' => true,
-                'objectId' => $objectId,
-                'filename' => $filename,
-                'fieldId' => $fieldId
-            ];
+        $data = [
+            'objectId' => $objectId,
+            'filename' => $filename,
+            'fieldId' => $fieldId,
+            'author-names' => request('_documentAuthorNames'),
+            'address' => request('_documentAddress'),
+            'description' => request('_documentDescription'),
+            'first_date' => request('_documentFirstDate'),
+            'second_date' => request('_documentSecondDate'),
+            'number' => request('_documentNumber')
+        ];
 
+        if (request('isNew')) {
+            $data['isNew'] = true;
             session()->put('_docData', $data);
 
         } else {
@@ -96,17 +110,12 @@ class DocController extends Controller
                 return \response('Such document does not exist', 404);
             }
 
-            $data = json_decode($export[0]['data']);
-            $data = (new QuestionsJson($data))->getData();
+            $content = json_decode($export[0]['data']);
+            $content = (new QuestionsJson($content))->getData();
 
-            $data = [
-                'isNew' => false,
-                'docId' => $docId,
-                'objectId' => $objectId,
-                'fieldId' => $fieldId,
-                'filename' => $filename,
-                'data' => \Psy\Util\Json::encode($data)
-            ];
+            $data['isNew'] = false;
+            $data['docId'] = $docId;
+            $data['data'] = \Psy\Util\Json::encode($content);
 
             session()->put('_docData', $data);
         }
