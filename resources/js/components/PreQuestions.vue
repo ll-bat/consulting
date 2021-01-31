@@ -1,19 +1,33 @@
 <template>
-    <div class="w-100 h-100" style="" id="pre-questions">
+    <div class="position-relative w-100 h-100" style="" id="pre-questions">
+        <div class="row justify-content-center" style="margin-top: -35px">
+            <div class="col-xl-6 col-lg-9 col-md-11 col-12">
+                <div class="m-auto bg-white p-3 pl-4 partial-shadow"
+                     style="line-height: 2.1rem;border-bottom-left-radius: 15px; border-bottom-right-radius: 15px" v-if="!loading">
+                    <template v-for="(b, i) in breadcrumb">
+                        <span class="underline-on-hover mr-2" style="color: darkcyan" @click="toRoute(b.route)"> {{ b.name }}</span>
+<!--                        <span class="mx-2" v-if="i !== breadcrumb.length - 1"> / </span>-->
+                        <img src="/icons/right-arrow1.png"  class="mx-2" width="14" height="14"  v-if="i !== breadcrumb.length - 1" />
+                    </template>
+                </div>
+            </div>
+        </div>
+
+
         <div class="d-flex justify-content-center align-items-center"
              :class="{'h-100' : showNewCopyButtons || loading}">
             <div class="w-100 " style="" v-if="showNewCopyButtons & !loading">
                 <div class="row justify-content-center" style="">
-                    <div class="col-md-6 col-sm-12 card rounded-10 m-2 border-0 pb-2 px-4 card-hover"
+                    <div class="col-xl-6 col-lg-9 col-md-11 col-12 card rounded-10 m-2 border-0 pb-2 px-4 card-hover"
                          @click="createNew">
                         <div class="card-body text-center">
                             <p class="text-lg text-primary m-1 user-select-none">
                                 <i class="fa fa-plus mr-2"> </i>
-                                ახლის შექმნა
+                                ახალი დოკუმენტის შექმნა
                             </p>
                         </div>
                     </div>
-                    <div class="col-md-6 col-sm-12 card rounded-10 m-2 pb-2 border-0 partial-shadow card-hover"
+                    <div class="col-xl-6 col-lg-9 col-md-11 col-12 card rounded-10 m-2 pb-2 border-0 partial-shadow card-hover"
                          @click="copyDoc">
                         <div class="card-body border-0 text-center">
                             <p class="text-lg text-danger m-1 user-select-none">
@@ -25,7 +39,7 @@
                 </div>
             </div>
         </div>
-        <div>
+        <div class="mt-5">
             <div v-if="showUserDocs">
                 <button type="button" class="btn btn-primary d-none" id="user-docs-modal-button" data-toggle="modal"
                         data-target="#user-docs-modal"></button>
@@ -100,28 +114,34 @@
 
 
         <div v-if="showDocObjects">
-            <div class="m-auto text-center mb-5" style="max-width: 700px;">
-                <p> აირჩიეთ ობიექტი </p>
-                <div v-for="object in objects">
-                    <div class="card card-hover border-0 partial-shadow rounded-10" @click="chooseDocObject(object.id)">
-                        <div class="card-body d-flex ">
-                            <img src="/icons/3d.png" width="30" height="30"/>
-                            <p class="ml-4 mt-1"> {{ object.name }} </p>
+            <div class="row justify-content-center">
+                <div class="col-xl-6 col-lg-9 col-md-11 col-12">
+                    <div class="m-auto text-center mb-5" style="">
+                        <p> აირჩიეთ ობიექტი </p>
+                        <div v-for="object in objects">
+                            <div class="card card-hover border-0 partial-shadow rounded-10" @click="chooseDocObject(object.id)">
+                                <div class="card-body d-flex ">
+                                    <img src="/icons/3d.png" width="30" height="30"/>
+                                    <p class="ml-4 mt-1"> {{ object.name }} </p>
+                                </div>
+                            </div>
                         </div>
+                        <br/><br/>
                     </div>
                 </div>
-                <br/><br/>
             </div>
+
         </div>
 
 
         <div v-if="showDocumentName"
-             class="m-auto text-center d-flex justify-content-center align-items-center w-100 h-100"
-             style="max-width: 700px">
-            <div class="card rounded-5 border-0 w-100">
-                <div class="card-body">
-                    <p class="my-4"> დაარქვით დოკუმენტს სახელი </p>
-                    <div class='card-body ns-input-container pl-4 pb-3 mt-0 pt-0'>
+             class="m-auto text-center d-flex justify-content-center align-items-center w-100 h-100">
+            <div class="row justify-content-center w-100">
+                <div class="col-xl-6 col-lg-9 col-md-11 col-12" :class="{'go-upper' : shouldGoUpper }"  style="max-width: 700px" >
+                    <div class="card rounded-5 border-0 w-100" style="">
+                        <div class="card-body">
+                            <p class="my-4"> დაარქვით დოკუმენტს სახელი </p>
+                            <div class='card-body ns-input-container pl-4 pb-3 mt-0 pt-0'>
                         <textarea type="text"
                                   rows='1'
                                   class="form-control border-0 border-bottom-dotted"
@@ -130,26 +150,35 @@
                                   onclick="$(this).next().addClass('ns-test-underline');"
                                   onblur="$(this).next().removeClass('ns-test-underline');"
                         ></textarea>
-                        <div class="ns-underline" style='background-color:#e2479D !important; height: 1px !important;'></div>
-                    </div>
+                                <div class="ns-underline"
+                                     style='background-color:#e2479D !important; height: 1px !important;'></div>
+                            </div>
 
-                    <button class="btn btn-primary border-0 rounded-0 px-4 my-4" id="create-doc-button"
-                            @click="nameDocument()">
-                        <span class="spinner-border spinner-border-sm d-none" id="create-doc-spinner"></span>
-                        შემდეგი
-                    </button>
+                            <button class="btn btn-primary border-0 rounded-0 px-4 my-4" id="create-doc-button"
+                                    @click="nameDocument()">
+                                <span class="spinner-border spinner-border-sm d-none" id="create-doc-spinner"></span>
+                                შემდეგი
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
 
         <div v-if="showFields">
-            <div class="m-auto text-center" style="max-width: 700px">
-                <p> აირჩიეთ სფერო </p>
-                <div v-for="field in fields">
-                    <div class="card card-hover border-0 partial-shadow rounded-10" @click="chooseField(field.id)">
-                        <div class="card-body d-flex ">
-                            <img src="/icons/slack_1.png" width="30" height="30"/>
-                            <p class="ml-4 mt-1"> {{ field.name }} </p>
+            <div class="row justify-content-center">
+                <div class="col-xl-6 col-lg-9 col-md-11 col-12">
+                    <div class="m-auto text-center">
+                        <p> აირჩიეთ სფერო </p>
+                        <div v-for="field in fields">
+                            <div class="card card-hover border-0 partial-shadow rounded-10"
+                                 @click="chooseField(field.id)">
+                                <div class="card-body d-flex ">
+                                    <img src="/icons/slack_1.png" width="30" height="30"/>
+                                    <p class="ml-4 mt-1"> {{ field.name }} </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -157,13 +186,16 @@
         </div>
 
         <div v-if="showDocAbout">
-            <div class="m-auto text-center" style="max-width: 700px">
-                <div class="card rounded-5 border-0 w-100">
-                    <p class="mt-4 mb-0 text-center"> შეავსეთ მონაცემები </p>
-                    <div class="card-body">
-                        <template v-for="obj in docAboutProperties">
-                            <p class="mt-4 mb-3 text-left ml-4 text-sm" :class="{'text-danger' : obj.hasError}"> {{ obj.name }} <span v-if="obj.hasError"> * </span> </p>
-                            <div class='card-body ns-input-container ml-4 pb-3 mt-0 pt-0'>
+            <div class="row justify-content-center">
+                <div class="col-xl-6 col-lg-9 col-md-11 col-12">
+                    <div class="m-auto text-center" style="max-width: 700px">
+                        <div class="card rounded-5 border-0 w-100">
+                            <p class="mt-4 mb-0 text-center"> შეავსეთ მონაცემები </p>
+                            <div class="card-body">
+                                <template v-for="obj in docAboutProperties">
+                                    <p class="mt-4 mb-3 text-left ml-4 text-sm" :class="{'text-danger' : obj.hasError}">
+                                        {{ obj.name }} <span v-if="obj.hasError"> * </span></p>
+                                    <div class='card-body ns-input-container ml-4 pb-3 mt-0 pt-0'>
                             <textarea type="text"
                                       :rows="obj.rows || 1"
                                       class="form-control border-0 border-bottom-dotted p-1 pl-3 font-size-09-rem"
@@ -173,15 +205,18 @@
                                       onclick="$(this).next().addClass('ns-test-underline');$(this).addClass('border-bottom-transparent')"
                                       onblur="$(this).next().removeClass('ns-test-underline');$(this).removeClass('border-bottom-transparent')"
                             ></textarea>
-                                <div class="ns-underline" style='background-color:#63759b !important; height: 1px !important;'></div>
-                            </div>
-                        </template>
+                                        <div class="ns-underline"
+                                             style='background-color:#63759b !important; height: 1px !important;'></div>
+                                    </div>
+                                </template>
 
-                        <button class="btn btn-primary border-0 px-4 my-4" id="doc-about-button"
-                                @click="validateDocAbout()">
-                            <span class="spinner-border spinner-border-sm d-none" id="doc-about-spinner"></span>
-                            შემდეგი
-                        </button>
+                                <button class="btn btn-primary border-0 px-4 my-4" id="doc-about-button"
+                                        @click="validateDocAbout()">
+                                    <span class="spinner-border spinner-border-sm d-none" id="doc-about-spinner"></span>
+                                    შემდეგი
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -222,6 +257,14 @@ export default {
             debouncedTime: null,
             filename: '',
             fieldId: null,
+            resetFields: [
+                'showNewCopyButtons',
+                'showDocObjects',
+                'showDocumentName',
+                'showDocSpinner',
+                'showDocAbout',
+                'showFields'
+            ],
             docAbout: {
                 authorNames: '',
                 address: '',
@@ -231,6 +274,10 @@ export default {
                 number: ''
             },
             docAboutProperties: [],
+            breadcrumb: [],
+            routes: {},
+            current: null,
+            shouldGoUpper: false,
             loading: true
         }
     },
@@ -253,6 +300,12 @@ export default {
             this.showNewCopyButtons = false;
             this.showUserDocs = false;
             this.showDocObjects = true;
+            this.breadcrumb.push({
+                route: 'objects',
+                name: 'ობიექტის არჩევა',
+                color: 'text-primary'
+            });
+            this.current = 'objects';
         },
         copyDoc() {
             this.showUserDocs = true;
@@ -284,6 +337,12 @@ export default {
             this.objectId = id;
             this.showDocObjects = false;
             this.showDocumentName = true;
+            this.breadcrumb.push({
+                route: 'documentName',
+                name: 'დოკუმენტის სახელი',
+                color: 'text-success'
+            });
+            this.current = 'documentName';
         },
         nameDocument() {
             if (!this.filename) {
@@ -292,11 +351,23 @@ export default {
             }
             this.showDocumentName = false;
             this.showFields = true;
+            this.breadcrumb.push({
+                route: 'field',
+                name: 'სფეროს არჩევა',
+                color: 'text-orange'
+            });
+            this.current = 'field';
         },
         chooseField(id) {
             this.fieldId = id;
             this.showFields = false;
             this.showDocAbout = true;
+            this.breadcrumb.push({
+                route: 'docAbout',
+                name: 'დოკუმენტის შესახებ',
+                color: 'text-purple'
+            });
+            this.current = 'docAbout';
         },
         validateDocAbout() {
             let hasErrors = false;
@@ -364,6 +435,56 @@ export default {
             }
 
             stop();
+        },
+
+        initBreadcrumb() {
+            this.breadcrumb.push({
+                route: 'home',
+                name: 'მთავარი',
+                color: 'text-danger'
+            });
+
+            this.current = 'home';
+            this.initRoutes();
+        },
+
+        initRoutes() {
+            this.routes = {
+                home: () => {
+                   this.showNewCopyButtons = true;
+                },
+                objects: () => {
+                    this.showDocObjects = true;
+                },
+                documentName: () => {
+                    this.showDocumentName = true;
+                },
+                field: () => {
+                    this.showFields = true;
+                }
+            }
+        },
+
+        resetRoutes() {
+            this.resetFields.forEach(field => {
+                this[field] = false
+            });
+        },
+
+        toRoute(route) {
+            if (route === this.current) {
+                return;
+            }
+
+            let index = this.breadcrumb.findIndex(b => b.route === route);
+            if (index < 0) {
+                return;
+            }
+
+
+            this.resetRoutes();
+            this.breadcrumb = this.breadcrumb.slice(0, index + 1);
+            this.routes[route]();
         }
     },
     mounted() {
@@ -374,7 +495,7 @@ export default {
 
         this.docAboutProperties = [
             {
-                name : '1. შემფასებლის/ების სახელი და გვარი:',
+                name: '1. შემფასებლის/ების სახელი და გვარი:',
                 placeholder: 'სახელი, გვარი',
                 property: 'authorNames',
                 hasError: false,
@@ -424,6 +545,8 @@ export default {
                 })
             });
 
+        this.initBreadcrumb();
+        this.shouldGoUpper = window.innerHeight > 800;
     },
     created() {
         this.objects = JSON.parse(this._objects);
@@ -461,19 +584,32 @@ export default {
     background-color: #999696;
     border: 2px solid #8a8888
 }
+
 .font-size-09-rem {
     font-size: .9rem;
 }
+
 .border-bottom-transparent {
     border-bottom: 1px solid transparent !important;
 }
+
 .border-transparent {
     border: 1px solid transparent;
 }
+
 .hovered-bg:hover {
     background: #f5f4f6;
 }
+
 .hovered-bg:focus {
     background: #faf9fc;
+}
+
+.underline-on-hover:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+.go-upper {
+    margin-top: -100px;
 }
 </style>

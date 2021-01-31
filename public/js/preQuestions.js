@@ -2122,6 +2122,41 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "preQuestions",
@@ -2151,6 +2186,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       debouncedTime: null,
       filename: '',
       fieldId: null,
+      resetFields: ['showNewCopyButtons', 'showDocObjects', 'showDocumentName', 'showDocSpinner', 'showDocAbout', 'showFields'],
       docAbout: {
         authorNames: '',
         address: '',
@@ -2160,6 +2196,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         number: ''
       },
       docAboutProperties: [],
+      breadcrumb: [],
+      routes: {},
+      current: null,
+      shouldGoUpper: false,
       loading: true
     };
   },
@@ -2186,6 +2226,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.showNewCopyButtons = false;
       this.showUserDocs = false;
       this.showDocObjects = true;
+      this.breadcrumb.push({
+        route: 'objects',
+        name: 'ობიექტის არჩევა',
+        color: 'text-primary'
+      });
+      this.current = 'objects';
     },
     copyDoc: function copyDoc() {
       this.showUserDocs = true;
@@ -2220,6 +2266,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.objectId = id;
       this.showDocObjects = false;
       this.showDocumentName = true;
+      this.breadcrumb.push({
+        route: 'documentName',
+        name: 'დოკუმენტის სახელი',
+        color: 'text-success'
+      });
+      this.current = 'documentName';
     },
     nameDocument: function nameDocument() {
       if (!this.filename) {
@@ -2229,11 +2281,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       this.showDocumentName = false;
       this.showFields = true;
+      this.breadcrumb.push({
+        route: 'field',
+        name: 'სფეროს არჩევა',
+        color: 'text-orange'
+      });
+      this.current = 'field';
     },
     chooseField: function chooseField(id) {
       this.fieldId = id;
       this.showFields = false;
       this.showDocAbout = true;
+      this.breadcrumb.push({
+        route: 'docAbout',
+        name: 'დოკუმენტის შესახებ',
+        color: 'text-purple'
+      });
+      this.current = 'docAbout';
     },
     validateDocAbout: function validateDocAbout() {
       var _this4 = this;
@@ -2336,13 +2400,64 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    initBreadcrumb: function initBreadcrumb() {
+      this.breadcrumb.push({
+        route: 'home',
+        name: 'მთავარი',
+        color: 'text-danger'
+      });
+      this.current = 'home';
+      this.initRoutes();
+    },
+    initRoutes: function initRoutes() {
+      var _this6 = this;
+
+      this.routes = {
+        home: function home() {
+          _this6.showNewCopyButtons = true;
+        },
+        objects: function objects() {
+          _this6.showDocObjects = true;
+        },
+        documentName: function documentName() {
+          _this6.showDocumentName = true;
+        },
+        field: function field() {
+          _this6.showFields = true;
+        }
+      };
+    },
+    resetRoutes: function resetRoutes() {
+      var _this7 = this;
+
+      this.resetFields.forEach(function (field) {
+        _this7[field] = false;
+      });
+    },
+    toRoute: function toRoute(route) {
+      if (route === this.current) {
+        return;
+      }
+
+      var index = this.breadcrumb.findIndex(function (b) {
+        return b.route === route;
+      });
+
+      if (index < 0) {
+        return;
+      }
+
+      this.resetRoutes();
+      this.breadcrumb = this.breadcrumb.slice(0, index + 1);
+      this.routes[route]();
     }
   },
   mounted: function mounted() {
-    var _this6 = this;
+    var _this8 = this;
 
     tout(function () {
-      _this6.loading = false;
+      _this8.loading = false;
       $1('content-spinner').remove();
     });
     this.docAboutProperties = [{
@@ -2379,8 +2494,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       hasError: false
     }];
     this.docAboutProperties.forEach(function (p) {
-      _this6.$watch(function () {
-        return _this6.docAbout[p.property];
+      _this8.$watch(function () {
+        return _this8.docAbout[p.property];
       }, function (a) {
         if (a.length < 1) {
           p.hasError = true;
@@ -2389,6 +2504,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }
       });
     });
+    this.initBreadcrumb();
+    this.shouldGoUpper = window.innerHeight > 800;
   },
   created: function created() {
     this.objects = JSON.parse(this._objects);
@@ -6841,7 +6958,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.card-hover[data-v-2e1364d5] {\n    cursor: pointer;\n}\n.card-hover[data-v-2e1364d5]:hover {\n    background-color: #e8eceb;\n}\n.border-bottom-dotted[data-v-2e1364d5] {\n    border-bottom: 1px dotted lightgrey !important;\n}\n.hover[data-v-2e1364d5] {\n    border: 2px solid transparent;\n}\n.hover[data-v-2e1364d5]:hover {\n    background-color: lightgrey;\n}\n.hover[data-v-2e1364d5]:active {\n    transition: all .1s ease-in;\n    background-color: #999696;\n    border: 2px solid #8a8888\n}\n.font-size-09-rem[data-v-2e1364d5] {\n    font-size: .9rem;\n}\n.border-bottom-transparent[data-v-2e1364d5] {\n    border-bottom: 1px solid transparent !important;\n}\n.border-transparent[data-v-2e1364d5] {\n    border: 1px solid transparent;\n}\n.hovered-bg[data-v-2e1364d5]:hover {\n    background: #f5f4f6;\n}\n.hovered-bg[data-v-2e1364d5]:focus {\n    background: #faf9fc;\n}\n", ""]);
+exports.push([module.i, "\n.card-hover[data-v-2e1364d5] {\n    cursor: pointer;\n}\n.card-hover[data-v-2e1364d5]:hover {\n    background-color: #e8eceb;\n}\n.border-bottom-dotted[data-v-2e1364d5] {\n    border-bottom: 1px dotted lightgrey !important;\n}\n.hover[data-v-2e1364d5] {\n    border: 2px solid transparent;\n}\n.hover[data-v-2e1364d5]:hover {\n    background-color: lightgrey;\n}\n.hover[data-v-2e1364d5]:active {\n    transition: all .1s ease-in;\n    background-color: #999696;\n    border: 2px solid #8a8888\n}\n.font-size-09-rem[data-v-2e1364d5] {\n    font-size: .9rem;\n}\n.border-bottom-transparent[data-v-2e1364d5] {\n    border-bottom: 1px solid transparent !important;\n}\n.border-transparent[data-v-2e1364d5] {\n    border: 1px solid transparent;\n}\n.hovered-bg[data-v-2e1364d5]:hover {\n    background: #f5f4f6;\n}\n.hovered-bg[data-v-2e1364d5]:focus {\n    background: #faf9fc;\n}\n.underline-on-hover[data-v-2e1364d5]:hover {\n    text-decoration: underline;\n    cursor: pointer;\n}\n.go-upper[data-v-2e1364d5] {\n    margin-top: -100px;\n}\n", ""]);
 
 // exports
 
@@ -39378,8 +39495,67 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "w-100 h-100", attrs: { id: "pre-questions" } },
+    {
+      staticClass: "position-relative w-100 h-100",
+      attrs: { id: "pre-questions" }
+    },
     [
+      _c(
+        "div",
+        {
+          staticClass: "row justify-content-center",
+          staticStyle: { "margin-top": "-35px" }
+        },
+        [
+          _c("div", { staticClass: "col-xl-6 col-lg-9 col-md-11 col-12" }, [
+            !_vm.loading
+              ? _c(
+                  "div",
+                  {
+                    staticClass: "m-auto bg-white p-3 pl-4 partial-shadow",
+                    staticStyle: {
+                      "line-height": "2.1rem",
+                      "border-bottom-left-radius": "15px",
+                      "border-bottom-right-radius": "15px"
+                    }
+                  },
+                  [
+                    _vm._l(_vm.breadcrumb, function(b, i) {
+                      return [
+                        _c(
+                          "span",
+                          {
+                            staticClass: "underline-on-hover mr-2",
+                            staticStyle: { color: "darkcyan" },
+                            on: {
+                              click: function($event) {
+                                return _vm.toRoute(b.route)
+                              }
+                            }
+                          },
+                          [_vm._v(" " + _vm._s(b.name))]
+                        ),
+                        _vm._v(" "),
+                        i !== _vm.breadcrumb.length - 1
+                          ? _c("img", {
+                              staticClass: "mx-2",
+                              attrs: {
+                                src: "/icons/right-arrow1.png",
+                                width: "14",
+                                height: "14"
+                              }
+                            })
+                          : _vm._e()
+                      ]
+                    })
+                  ],
+                  2
+                )
+              : _vm._e()
+          ])
+        ]
+      ),
+      _vm._v(" "),
       _c(
         "div",
         {
@@ -39394,7 +39570,7 @@ var render = function() {
                     "div",
                     {
                       staticClass:
-                        "col-md-6 col-sm-12 card rounded-10 m-2 border-0 pb-2 px-4 card-hover",
+                        "col-xl-6 col-lg-9 col-md-11 col-12 card rounded-10 m-2 border-0 pb-2 px-4 card-hover",
                       on: { click: _vm.createNew }
                     },
                     [_vm._m(0)]
@@ -39404,7 +39580,7 @@ var render = function() {
                     "div",
                     {
                       staticClass:
-                        "col-md-6 col-sm-12 card rounded-10 m-2 pb-2 border-0 partial-shadow card-hover",
+                        "col-xl-6 col-lg-9 col-md-11 col-12 card rounded-10 m-2 pb-2 border-0 partial-shadow card-hover",
                       on: { click: _vm.copyDoc }
                     },
                     [_vm._m(1)]
@@ -39415,7 +39591,7 @@ var render = function() {
         ]
       ),
       _vm._v(" "),
-      _c("div", [
+      _c("div", { staticClass: "mt-5" }, [
         _vm.showUserDocs
           ? _c("div", [
               _c("button", {
@@ -39619,52 +39795,53 @@ var render = function() {
       _vm._v(" "),
       _vm.showDocObjects
         ? _c("div", [
-            _c(
-              "div",
-              {
-                staticClass: "m-auto text-center mb-5",
-                staticStyle: { "max-width": "700px" }
-              },
-              [
-                _c("p", [_vm._v(" აირჩიეთ ობიექტი ")]),
-                _vm._v(" "),
-                _vm._l(_vm.objects, function(object) {
-                  return _c("div", [
-                    _c(
-                      "div",
-                      {
-                        staticClass:
-                          "card card-hover border-0 partial-shadow rounded-10",
-                        on: {
-                          click: function($event) {
-                            return _vm.chooseDocObject(object.id)
-                          }
-                        }
-                      },
-                      [
-                        _c("div", { staticClass: "card-body d-flex " }, [
-                          _c("img", {
-                            attrs: {
-                              src: "/icons/3d.png",
-                              width: "30",
-                              height: "30"
+            _c("div", { staticClass: "row justify-content-center" }, [
+              _c("div", { staticClass: "col-xl-6 col-lg-9 col-md-11 col-12" }, [
+                _c(
+                  "div",
+                  { staticClass: "m-auto text-center mb-5" },
+                  [
+                    _c("p", [_vm._v(" აირჩიეთ ობიექტი ")]),
+                    _vm._v(" "),
+                    _vm._l(_vm.objects, function(object) {
+                      return _c("div", [
+                        _c(
+                          "div",
+                          {
+                            staticClass:
+                              "card card-hover border-0 partial-shadow rounded-10",
+                            on: {
+                              click: function($event) {
+                                return _vm.chooseDocObject(object.id)
+                              }
                             }
-                          }),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "ml-4 mt-1" }, [
-                            _vm._v(" " + _vm._s(object.name) + " ")
-                          ])
-                        ])
-                      ]
-                    )
-                  ])
-                }),
-                _vm._v(" "),
-                _c("br"),
-                _c("br")
-              ],
-              2
-            )
+                          },
+                          [
+                            _c("div", { staticClass: "card-body d-flex " }, [
+                              _c("img", {
+                                attrs: {
+                                  src: "/icons/3d.png",
+                                  width: "30",
+                                  height: "30"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "ml-4 mt-1" }, [
+                                _vm._v(" " + _vm._s(object.name) + " ")
+                              ])
+                            ])
+                          ]
+                        )
+                      ])
+                    }),
+                    _vm._v(" "),
+                    _c("br"),
+                    _c("br")
+                  ],
+                  2
+                )
+              ])
+            ])
           ])
         : _vm._e(),
       _vm._v(" "),
@@ -39673,177 +39850,32 @@ var render = function() {
             "div",
             {
               staticClass:
-                "m-auto text-center d-flex justify-content-center align-items-center w-100 h-100",
-              staticStyle: { "max-width": "700px" }
+                "m-auto text-center d-flex justify-content-center align-items-center w-100 h-100"
             },
             [
-              _c("div", { staticClass: "card rounded-5 border-0 w-100" }, [
-                _c("div", { staticClass: "card-body" }, [
-                  _c("p", { staticClass: "my-4" }, [
-                    _vm._v(" დაარქვით დოკუმენტს სახელი ")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    {
-                      staticClass:
-                        "card-body ns-input-container pl-4 pb-3 mt-0 pt-0"
-                    },
-                    [
-                      _c("textarea", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.filename,
-                            expression: "filename"
-                          }
-                        ],
-                        staticClass:
-                          "form-control border-0 border-bottom-dotted",
-                        attrs: {
-                          type: "text",
-                          rows: "1",
-                          placeholder: "სახელი",
-                          onclick:
-                            "$(this).next().addClass('ns-test-underline');",
-                          onblur:
-                            "$(this).next().removeClass('ns-test-underline');"
-                        },
-                        domProps: { value: _vm.filename },
-                        on: {
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.filename = $event.target.value
-                          }
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("div", {
-                        staticClass: "ns-underline",
-                        staticStyle: {
-                          "background-color": "#e2479D !important",
-                          height: "1px !important"
-                        }
-                      })
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "button",
-                    {
-                      staticClass:
-                        "btn btn-primary border-0 rounded-0 px-4 my-4",
-                      attrs: { id: "create-doc-button" },
-                      on: {
-                        click: function($event) {
-                          return _vm.nameDocument()
-                        }
-                      }
-                    },
-                    [
-                      _c("span", {
-                        staticClass: "spinner-border spinner-border-sm d-none",
-                        attrs: { id: "create-doc-spinner" }
-                      }),
-                      _vm._v("\n                    შემდეგი\n                ")
-                    ]
-                  )
-                ])
-              ])
-            ]
-          )
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.showFields
-        ? _c("div", [
-            _c(
-              "div",
-              {
-                staticClass: "m-auto text-center",
-                staticStyle: { "max-width": "700px" }
-              },
-              [
-                _c("p", [_vm._v(" აირჩიეთ სფერო ")]),
-                _vm._v(" "),
-                _vm._l(_vm.fields, function(field) {
-                  return _c("div", [
+              _c("div", { staticClass: "row justify-content-center w-100" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "col-xl-6 col-lg-9 col-md-11 col-12",
+                    class: { "go-upper": _vm.shouldGoUpper },
+                    staticStyle: { "max-width": "700px" }
+                  },
+                  [
                     _c(
                       "div",
-                      {
-                        staticClass:
-                          "card card-hover border-0 partial-shadow rounded-10",
-                        on: {
-                          click: function($event) {
-                            return _vm.chooseField(field.id)
-                          }
-                        }
-                      },
+                      { staticClass: "card rounded-5 border-0 w-100" },
                       [
-                        _c("div", { staticClass: "card-body d-flex " }, [
-                          _c("img", {
-                            attrs: {
-                              src: "/icons/slack_1.png",
-                              width: "30",
-                              height: "30"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "ml-4 mt-1" }, [
-                            _vm._v(" " + _vm._s(field.name) + " ")
-                          ])
-                        ])
-                      ]
-                    )
-                  ])
-                })
-              ],
-              2
-            )
-          ])
-        : _vm._e(),
-      _vm._v(" "),
-      _vm.showDocAbout
-        ? _c("div", [
-            _c(
-              "div",
-              {
-                staticClass: "m-auto text-center",
-                staticStyle: { "max-width": "700px" }
-              },
-              [
-                _c("div", { staticClass: "card rounded-5 border-0 w-100" }, [
-                  _c("p", { staticClass: "mt-4 mb-0 text-center" }, [
-                    _vm._v(" შეავსეთ მონაცემები ")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "div",
-                    { staticClass: "card-body" },
-                    [
-                      _vm._l(_vm.docAboutProperties, function(obj) {
-                        return [
-                          _c(
-                            "p",
-                            {
-                              staticClass: "mt-4 mb-3 text-left ml-4 text-sm",
-                              class: { "text-danger": obj.hasError }
-                            },
-                            [
-                              _vm._v(" " + _vm._s(obj.name) + " "),
-                              obj.hasError
-                                ? _c("span", [_vm._v(" * ")])
-                                : _vm._e()
-                            ]
-                          ),
+                        _c("div", { staticClass: "card-body" }, [
+                          _c("p", { staticClass: "my-4" }, [
+                            _vm._v(" დაარქვით დოკუმენტს სახელი ")
+                          ]),
                           _vm._v(" "),
                           _c(
                             "div",
                             {
                               staticClass:
-                                "card-body ns-input-container ml-4 pb-3 mt-0 pt-0"
+                                "card-body ns-input-container pl-4 pb-3 mt-0 pt-0"
                             },
                             [
                               _c("textarea", {
@@ -39851,33 +39883,28 @@ var render = function() {
                                   {
                                     name: "model",
                                     rawName: "v-model",
-                                    value: _vm.docAbout[obj.property],
-                                    expression: "docAbout[obj.property]"
+                                    value: _vm.filename,
+                                    expression: "filename"
                                   }
                                 ],
                                 staticClass:
-                                  "form-control border-0 border-bottom-dotted p-1 pl-3 font-size-09-rem",
-                                class: obj.class || "",
+                                  "form-control border-0 border-bottom-dotted",
                                 attrs: {
                                   type: "text",
-                                  rows: obj.rows || 1,
-                                  placeholder: obj.placeholder,
+                                  rows: "1",
+                                  placeholder: "სახელი",
                                   onclick:
-                                    "$(this).next().addClass('ns-test-underline');$(this).addClass('border-bottom-transparent')",
+                                    "$(this).next().addClass('ns-test-underline');",
                                   onblur:
-                                    "$(this).next().removeClass('ns-test-underline');$(this).removeClass('border-bottom-transparent')"
+                                    "$(this).next().removeClass('ns-test-underline');"
                                 },
-                                domProps: { value: _vm.docAbout[obj.property] },
+                                domProps: { value: _vm.filename },
                                 on: {
                                   input: function($event) {
                                     if ($event.target.composing) {
                                       return
                                     }
-                                    _vm.$set(
-                                      _vm.docAbout,
-                                      obj.property,
-                                      $event.target.value
-                                    )
+                                    _vm.filename = $event.target.value
                                   }
                                 }
                               }),
@@ -39885,43 +39912,229 @@ var render = function() {
                               _c("div", {
                                 staticClass: "ns-underline",
                                 staticStyle: {
-                                  "background-color": "#63759b !important",
+                                  "background-color": "#e2479D !important",
                                   height: "1px !important"
                                 }
                               })
                             ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass:
+                                "btn btn-primary border-0 rounded-0 px-4 my-4",
+                              attrs: { id: "create-doc-button" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.nameDocument()
+                                }
+                              }
+                            },
+                            [
+                              _c("span", {
+                                staticClass:
+                                  "spinner-border spinner-border-sm d-none",
+                                attrs: { id: "create-doc-spinner" }
+                              }),
+                              _vm._v(
+                                "\n                                შემდეგი\n                            "
+                              )
+                            ]
                           )
-                        ]
-                      }),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-primary border-0 px-4 my-4",
-                          attrs: { id: "doc-about-button" },
-                          on: {
-                            click: function($event) {
-                              return _vm.validateDocAbout()
-                            }
-                          }
-                        },
-                        [
-                          _c("span", {
+                        ])
+                      ]
+                    )
+                  ]
+                )
+              ])
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.showFields
+        ? _c("div", [
+            _c("div", { staticClass: "row justify-content-center" }, [
+              _c("div", { staticClass: "col-xl-6 col-lg-9 col-md-11 col-12" }, [
+                _c(
+                  "div",
+                  { staticClass: "m-auto text-center" },
+                  [
+                    _c("p", [_vm._v(" აირჩიეთ სფერო ")]),
+                    _vm._v(" "),
+                    _vm._l(_vm.fields, function(field) {
+                      return _c("div", [
+                        _c(
+                          "div",
+                          {
                             staticClass:
-                              "spinner-border spinner-border-sm d-none",
-                            attrs: { id: "doc-about-spinner" }
-                          }),
-                          _vm._v(
-                            "\n                        შემდეგი\n                    "
-                          )
-                        ]
-                      )
-                    ],
-                    2
-                  )
-                ])
-              ]
-            )
+                              "card card-hover border-0 partial-shadow rounded-10",
+                            on: {
+                              click: function($event) {
+                                return _vm.chooseField(field.id)
+                              }
+                            }
+                          },
+                          [
+                            _c("div", { staticClass: "card-body d-flex " }, [
+                              _c("img", {
+                                attrs: {
+                                  src: "/icons/slack_1.png",
+                                  width: "30",
+                                  height: "30"
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("p", { staticClass: "ml-4 mt-1" }, [
+                                _vm._v(" " + _vm._s(field.name) + " ")
+                              ])
+                            ])
+                          ]
+                        )
+                      ])
+                    })
+                  ],
+                  2
+                )
+              ])
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.showDocAbout
+        ? _c("div", [
+            _c("div", { staticClass: "row justify-content-center" }, [
+              _c("div", { staticClass: "col-xl-6 col-lg-9 col-md-11 col-12" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass: "m-auto text-center",
+                    staticStyle: { "max-width": "700px" }
+                  },
+                  [
+                    _c(
+                      "div",
+                      { staticClass: "card rounded-5 border-0 w-100" },
+                      [
+                        _c("p", { staticClass: "mt-4 mb-0 text-center" }, [
+                          _vm._v(" შეავსეთ მონაცემები ")
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "card-body" },
+                          [
+                            _vm._l(_vm.docAboutProperties, function(obj) {
+                              return [
+                                _c(
+                                  "p",
+                                  {
+                                    staticClass:
+                                      "mt-4 mb-3 text-left ml-4 text-sm",
+                                    class: { "text-danger": obj.hasError }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                        " +
+                                        _vm._s(obj.name) +
+                                        " "
+                                    ),
+                                    obj.hasError
+                                      ? _c("span", [_vm._v(" * ")])
+                                      : _vm._e()
+                                  ]
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "card-body ns-input-container ml-4 pb-3 mt-0 pt-0"
+                                  },
+                                  [
+                                    _c("textarea", {
+                                      directives: [
+                                        {
+                                          name: "model",
+                                          rawName: "v-model",
+                                          value: _vm.docAbout[obj.property],
+                                          expression: "docAbout[obj.property]"
+                                        }
+                                      ],
+                                      staticClass:
+                                        "form-control border-0 border-bottom-dotted p-1 pl-3 font-size-09-rem",
+                                      class: obj.class || "",
+                                      attrs: {
+                                        type: "text",
+                                        rows: obj.rows || 1,
+                                        placeholder: obj.placeholder,
+                                        onclick:
+                                          "$(this).next().addClass('ns-test-underline');$(this).addClass('border-bottom-transparent')",
+                                        onblur:
+                                          "$(this).next().removeClass('ns-test-underline');$(this).removeClass('border-bottom-transparent')"
+                                      },
+                                      domProps: {
+                                        value: _vm.docAbout[obj.property]
+                                      },
+                                      on: {
+                                        input: function($event) {
+                                          if ($event.target.composing) {
+                                            return
+                                          }
+                                          _vm.$set(
+                                            _vm.docAbout,
+                                            obj.property,
+                                            $event.target.value
+                                          )
+                                        }
+                                      }
+                                    }),
+                                    _vm._v(" "),
+                                    _c("div", {
+                                      staticClass: "ns-underline",
+                                      staticStyle: {
+                                        "background-color":
+                                          "#63759b !important",
+                                        height: "1px !important"
+                                      }
+                                    })
+                                  ]
+                                )
+                              ]
+                            }),
+                            _vm._v(" "),
+                            _c(
+                              "button",
+                              {
+                                staticClass:
+                                  "btn btn-primary border-0 px-4 my-4",
+                                attrs: { id: "doc-about-button" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.validateDocAbout()
+                                  }
+                                }
+                              },
+                              [
+                                _c("span", {
+                                  staticClass:
+                                    "spinner-border spinner-border-sm d-none",
+                                  attrs: { id: "doc-about-spinner" }
+                                }),
+                                _vm._v(
+                                  "\n                                    შემდეგი\n                                "
+                                )
+                              ]
+                            )
+                          ],
+                          2
+                        )
+                      ]
+                    )
+                  ]
+                )
+              ])
+            ])
           ])
         : _vm._e()
     ]
@@ -39936,7 +40149,7 @@ var staticRenderFns = [
       _c("p", { staticClass: "text-lg text-primary m-1 user-select-none" }, [
         _c("i", { staticClass: "fa fa-plus mr-2" }),
         _vm._v(
-          "\n                            ახლის შექმნა\n                        "
+          "\n                                ახალი დოკუმენტის შექმნა\n                            "
         )
       ])
     ])
@@ -39949,7 +40162,7 @@ var staticRenderFns = [
       _c("p", { staticClass: "text-lg text-danger m-1 user-select-none" }, [
         _c("i", { staticClass: "nc-icon nc-paper mr-2" }),
         _vm._v(
-          "\n                            არსებულის კოპირება\n                        "
+          "\n                                არსებულის კოპირება\n                            "
         )
       ])
     ])
