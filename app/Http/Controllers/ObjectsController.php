@@ -144,7 +144,7 @@ class ObjectsController extends Controller
             return redirect()->route('user.objects')->with('message', ['success' => false, 'message' => 'ვერ მოხერხდა ობიექტის წაშლა. მოცემული ობიექტი შეიცავს დოკუმენტებს']);
         }
 
-        return redirect()->route('user.objects')->with('message', ['success' => true, 'message' => 'ობეიქტი წარმატებით წაიშალა']);
+        return redirect()->route('user.objects')->with('message', ['success' => true, 'message' => 'ობიექტი წარმატებით წაიშალა']);
     }
 
     /**
