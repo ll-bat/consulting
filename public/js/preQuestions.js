@@ -2085,10 +2085,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "preQuestions",
@@ -39270,8 +39266,6 @@ var render = function() {
           class: { "h-100": _vm.showNewCopyButtons || _vm.loading }
         },
         [
-          _vm._m(0),
-          _vm._v(" "),
           _vm.showNewCopyButtons & !_vm.loading
             ? _c("div", { staticClass: "w-100 " }, [
                 _c("div", { staticClass: "row justify-content-center" }, [
@@ -39282,7 +39276,7 @@ var render = function() {
                         "col-md-6 col-sm-12 card rounded-10 m-2 border-0 pb-2 px-4 card-hover",
                       on: { click: _vm.createNew }
                     },
-                    [_vm._m(1)]
+                    [_vm._m(0)]
                   ),
                   _vm._v(" "),
                   _c(
@@ -39292,7 +39286,7 @@ var render = function() {
                         "col-md-6 col-sm-12 card rounded-10 m-2 pb-2 border-0 partial-shadow card-hover",
                       on: { click: _vm.copyDoc }
                     },
-                    [_vm._m(2)]
+                    [_vm._m(1)]
                   )
                 ])
               ])
@@ -39319,7 +39313,7 @@ var render = function() {
                 [
                   _c("div", { staticClass: "modal-dialog modal-xl" }, [
                     _c("div", { staticClass: "modal-content" }, [
-                      _vm._m(3),
+                      _vm._m(2),
                       _vm._v(" "),
                       _c(
                         "div",
@@ -39397,7 +39391,7 @@ var render = function() {
                                               }
                                             }),
                                             _vm._v(" "),
-                                            _vm._m(4)
+                                            _vm._m(3)
                                           ]
                                         )
                                       ]
@@ -39493,7 +39487,7 @@ var render = function() {
                         ]
                       ),
                       _vm._v(" "),
-                      _vm._m(5)
+                      _vm._m(4)
                     ])
                   ])
                 ]
@@ -39692,26 +39686,6 @@ var render = function() {
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "text-center", attrs: { id: "content-spinner" } },
-      [
-        _c("div", {
-          staticClass: "spinner spinner-border text-secondary",
-          staticStyle: {
-            width: "100px",
-            height: "100px",
-            "border-width": "1.2rem",
-            "margin-top": "-100px"
-          }
-        })
-      ]
-    )
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

@@ -1,10 +1,6 @@
 <template>
     <div class="w-100 h-100" style="" id="pre-questions">
         <div class="d-flex justify-content-center align-items-center" :class="{'h-100' : showNewCopyButtons || loading}">
-            <div class="text-center" id="content-spinner">
-                <div class="spinner spinner-border text-secondary"
-                     style="width: 100px; height: 100px; border-width: 1.2rem;margin-top: -100px"></div>
-            </div>
             <div class="w-100 " style="" v-if="showNewCopyButtons & !loading">
                 <div class="row justify-content-center" style="">
                     <div class="col-md-6 col-sm-12 card rounded-10 m-2 border-0 pb-2 px-4 card-hover"
