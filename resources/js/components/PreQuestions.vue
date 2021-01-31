@@ -1,6 +1,7 @@
 <template>
     <div class="w-100 h-100" style="" id="pre-questions">
-        <div class="d-flex justify-content-center align-items-center" :class="{'h-100' : showNewCopyButtons || loading}">
+        <div class="d-flex justify-content-center align-items-center"
+             :class="{'h-100' : showNewCopyButtons || loading}">
             <div class="w-100 " style="" v-if="showNewCopyButtons & !loading">
                 <div class="row justify-content-center" style="">
                     <div class="col-md-6 col-sm-12 card rounded-10 m-2 border-0 pb-2 px-4 card-hover"
@@ -43,7 +44,8 @@
                             <!-- Modal body -->
                             <div class="modal-body text-center" style="min-height: 500px">
 
-                                <div class="spinner spinner-border text-purple" v-if="showDocSpinner" style="font-size: 3.7rem; width: 80px; height: 80px; margin-top: 180px"></div>
+                                <div class="spinner spinner-border text-purple" v-if="showDocSpinner"
+                                     style="font-size: 3.7rem; width: 80px; height: 80px; margin-top: 180px"></div>
 
                                 <div v-if="!showDocSpinner">
                                     <div class="row justify-content-center mb-4" @keyup="searchDebounced()">
@@ -63,11 +65,12 @@
                                     </div>
 
                                     <div class="row">
-                                        <template v-for="doc in filteredDocs" >
-                                            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-11" @click="chooseUserDoc(doc.id)">
+                                        <template v-for="doc in filteredDocs">
+                                            <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 col-11"
+                                                 @click="chooseUserDoc(doc.id)">
                                                 <div class="hover pt-3 rounded-10 pointer">
                                                     <div class="text-center">
-                                                        <img src="/icons/document2.png" style="max-width: 70px" />
+                                                        <img src="/icons/document2.png" style="max-width: 70px"/>
                                                         <p class="p-2 text-break"> {{ doc.filename }}</p>
                                                     </div>
                                                 </div>
@@ -96,7 +99,6 @@
         </div>
 
 
-
         <div v-if="showDocObjects">
             <div class="m-auto text-center mb-5" style="max-width: 700px;">
                 <p> აირჩიეთ ობიექტი </p>
@@ -108,28 +110,31 @@
                         </div>
                     </div>
                 </div>
-                <br /><br />
+                <br/><br/>
             </div>
         </div>
 
 
-        <div v-if="showDocumentName" class="m-auto text-center d-flex justify-content-center align-items-center w-100 h-100" style="max-width: 700px">
+        <div v-if="showDocumentName"
+             class="m-auto text-center d-flex justify-content-center align-items-center w-100 h-100"
+             style="max-width: 700px">
             <div class="card rounded-5 border-0 w-100">
                 <div class="card-body">
                     <p class="my-4"> დაარქვით დოკუმენტს სახელი </p>
                     <div class='card-body ns-input-container pl-4 pb-3 mt-0 pt-0'>
-                      <textarea type="text"
-                                rows='1'
-                                class="form-control border-0 border-bottom-dotted"
-                                placeholder='სახელი'
-                                v-model="filename"
-                                onclick="$(this).next().addClass('ns-test-underline');$(this).removeClass('border-bottom-dotted')"
-                                onblur="$(this).next().removeClass('ns-test-underline');$(this).addClass('border-bottom-dotted')"
-                      ></textarea>
-                        <div class="ns-underline" style='background-color:#e2479D !important;'></div>
+                        <textarea type="text"
+                                  rows='1'
+                                  class="form-control border-0 border-bottom-dotted"
+                                  placeholder='სახელი'
+                                  v-model="filename"
+                                  onclick="$(this).next().addClass('ns-test-underline');"
+                                  onblur="$(this).next().removeClass('ns-test-underline');"
+                        ></textarea>
+                        <div class="ns-underline" style='background-color:#e2479D !important; height: 1px !important;'></div>
                     </div>
 
-                    <button class="btn btn-primary border-0 rounded-0 px-4 my-4" id="create-doc-button" @click="nameDocument()">
+                    <button class="btn btn-primary border-0 rounded-0 px-4 my-4" id="create-doc-button"
+                            @click="nameDocument()">
                         <span class="spinner-border spinner-border-sm d-none" id="create-doc-spinner"></span>
                         შემდეგი
                     </button>
@@ -150,6 +155,38 @@
                 </div>
             </div>
         </div>
+
+        <div v-if="showDocAbout">
+            <div class="m-auto text-center" style="max-width: 700px">
+                <div class="card rounded-5 border-0 w-100">
+                    <p class="mt-4 mb-0 text-center"> შეავსეთ მონაცემები </p>
+                    <div class="card-body">
+                        <template v-for="obj in docAboutProperties">
+                            <p class="mt-4 mb-3 text-left ml-4 text-sm" :class="{'text-danger' : obj.hasError}"> {{ obj.name }} <span v-if="obj.hasError"> * </span> </p>
+                            <div class='card-body ns-input-container ml-4 pb-3 mt-0 pt-0'>
+                            <textarea type="text"
+                                      :rows="obj.rows || 1"
+                                      class="form-control border-0 border-bottom-dotted p-1 pl-3 font-size-09-rem"
+                                      :class="obj.class || ''"
+                                      :placeholder='obj.placeholder'
+                                      v-model="docAbout[obj.property]"
+                                      onclick="$(this).next().addClass('ns-test-underline');$(this).addClass('border-bottom-transparent')"
+                                      onblur="$(this).next().removeClass('ns-test-underline');$(this).removeClass('border-bottom-transparent')"
+                            ></textarea>
+                                <div class="ns-underline" style='background-color:#63759b !important; height: 1px !important;'></div>
+                            </div>
+                        </template>
+
+                        <button class="btn btn-primary border-0 px-4 my-4" id="doc-about-button"
+                                @click="validateDocAbout()">
+                            <span class="spinner-border spinner-border-sm d-none" id="doc-about-spinner"></span>
+                            შემდეგი
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 </template>
@@ -185,12 +222,21 @@ export default {
             debouncedTime: null,
             filename: '',
             fieldId: null,
+            docAbout: {
+                authorNames: '',
+                address: '',
+                description: '',
+                first_date: '',
+                second_date: '',
+                number: ''
+            },
+            docAboutProperties: [],
             loading: true
         }
     },
 
     methods: {
-        searchDebounced(){
+        searchDebounced() {
             if (this.debouncedTime) {
                 clearTimeout(this.debouncedTime);
             }
@@ -249,38 +295,67 @@ export default {
         },
         chooseField(id) {
             this.fieldId = id;
-            this.createDoc();
+            this.showFields = false;
+            this.showDocAbout = true;
+        },
+        validateDocAbout() {
+            let hasErrors = false;
+            this.docAboutProperties.forEach((p, ind) => {
+                if (this.docAbout[p.property].length < 1) {
+                    this.docAboutProperties[ind].hasError = true;
+                    if (!hasErrors) {
+                        hasErrors = true;
+                    }
+                } else {
+                    this.docAboutProperties[ind].hasError = false;
+                }
+            });
+            if (!hasErrors) {
+                this.createDoc();
+            }
         },
         async createDoc() {
+            let data = {
+                objectId: parseInt(this.objectId),
+                filename: this.filename.toString(),
+                fieldId: parseInt(this.fieldId),
+                _documentAuthorNames: this.docAbout.authorNames,
+                _documentAddress: this.docAbout.address,
+                _documentDescription: this.docAbout.description,
+                _documentFirstDate: this.docAbout.first_date,
+                _documentSecondDate: this.docAbout.second_date,
+                _documentNumber: this.docAbout.number,
+            };
+
+            function start() {
+                $('#doc-about-button').addClass('disabled');
+                $('#doc-about-spinner').removeClass('d-none');
+            }
+
+            function stop() {
+                $('#doc-about-button').removeClass('disabled');
+                $('#doc-about-spinner').addClass('d-none');
+            }
+
+            start();
+
             if (this.isNew) {
-                let data = {
-                    isNew : true,
-                    objectId: parseInt(this.objectId),
-                    filename: this.filename.toString(),
-                    fieldId: parseInt(this.fieldId),
-                };
+                data['isNew'] = true;
 
                 const res = await httpService.post('/user/docs/prepare-doc', data).catch(err => {
                     alert('სამწუხაროდ შეცდომა დაფიქსირდა. სცადეთ თავიდან');
-                    $('#create-doc-spinner').addClass('d-none');
-                    $('#create-doc-button').removeClass('disabled');
+                    stop();
                 });
                 if (res) {
-                   window.location = '/user/questions';
+                    window.location = '/user/questions';
                 }
             } else {
-                let data = {
-                    isNew : false,
-                    objectId: parseInt(this.objectId),
-                    docId: parseInt(this.docId),
-                    filename: this.filename.toString(),
-                    fieldId: parseInt(this.fieldId),
-                }
+                data['isNew'] = false;
+                data['docId'] = parseInt(this.docId);
 
                 const res = await httpService.post('/user/docs/prepare-doc', data).catch(err => {
                     alert('სამწუხაროდ შეცდომა დაფიქსირდა. სცადეთ თავიდან');
-                    $('#create-doc-spinner').addClass('d-none');
-                    $('#create-doc-button').removeClass('disabled');
+                    stop();
                 })
 
                 if (res) {
@@ -288,20 +363,73 @@ export default {
                 }
             }
 
-            $('#create-doc-spinner').removeClass('d-none');
-            $('#create-doc-button').addClass('disabled');
+            stop();
         }
     },
     mounted() {
         tout(() => {
             this.loading = false;
             $1('content-spinner').remove()
-        })
+        });
+
+        this.docAboutProperties = [
+            {
+                name : '1. შემფასებლის/ების სახელი და გვარი:',
+                placeholder: 'სახელი, გვარი',
+                property: 'authorNames',
+                hasError: false,
+            },
+            {
+                name: ' 2. სამუშაო ობიექტის დასახელება და მისამართი:',
+                placeholder: 'დასახელება და მისამართი',
+                property: 'address',
+                hasError: false,
+            },
+            {
+                name: '3. სამუშაოს მოკლე აღწერა:',
+                placeholder: 'აღწერა',
+                property: 'description',
+                hasError: false,
+                rows: 2,
+                class: 'hovered-bg',
+            },
+            {
+                name: '4. რისკების შეფასების თარიღი:',
+                placeholder: 'თარიღი',
+                property: 'first_date',
+                hasError: false,
+            },
+            {
+                name: '5. დოკუმენტის გადახედვის სავარაუდო თარიღი:',
+                placeholder: 'თარიღი',
+                property: 'second_date',
+                hasError: false,
+            },
+            {
+                name: '6. დოკუმენტის N:',
+                placeholder: 'N: ',
+                property: 'number',
+                hasError: false,
+            }
+        ];
+
+        this.docAboutProperties
+            .forEach(p => {
+                this.$watch(() => this.docAbout[p.property], (a) => {
+                    if (a.length < 1) {
+                        p.hasError = true;
+                    } else {
+                        p.hasError = false;
+                    }
+                })
+            });
+
     },
     created() {
         this.objects = JSON.parse(this._objects);
         this.docs = JSON.parse(this._docs);
         this.fields = JSON.parse(this._fields);
+        // this.showNewCopyButtons = false;
     }
 
 }
@@ -311,21 +439,41 @@ export default {
 .card-hover {
     cursor: pointer;
 }
+
 .card-hover:hover {
     background-color: #e8eceb;
 }
+
 .border-bottom-dotted {
     border-bottom: 1px dotted lightgrey !important;
 }
+
 .hover {
     border: 2px solid transparent;
 }
+
 .hover:hover {
     background-color: lightgrey;
 }
+
 .hover:active {
     transition: all .1s ease-in;
     background-color: #999696;
     border: 2px solid #8a8888
+}
+.font-size-09-rem {
+    font-size: .9rem;
+}
+.border-bottom-transparent {
+    border-bottom: 1px solid transparent !important;
+}
+.border-transparent {
+    border: 1px solid transparent;
+}
+.hovered-bg:hover {
+    background: #f5f4f6;
+}
+.hovered-bg:focus {
+    background: #faf9fc;
 }
 </style>
