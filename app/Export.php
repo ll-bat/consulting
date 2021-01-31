@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 class Export extends Model
 {
       public $table = 'exports';
-      public $fillable = ['user_id', 'object_id', 'filename', 'data', 'field_id'];
+      protected $fillable = ['user_id', 'object_id', 'filename', 'data', 'field_id', 'author-names', 'address', 'description', 'first_date', 'second_date', 'number'];
 
       public function path(){
           return 'exports/'.$this->filename;
