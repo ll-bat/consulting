@@ -2085,6 +2085,43 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "preQuestions",
@@ -2114,6 +2151,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       debouncedTime: null,
       filename: '',
       fieldId: null,
+      docAbout: {
+        authorNames: '',
+        address: '',
+        description: '',
+        first_date: '',
+        second_date: '',
+        number: ''
+      },
+      docAboutProperties: [],
       loading: true
     };
   },
@@ -2186,73 +2232,104 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     chooseField: function chooseField(id) {
       this.fieldId = id;
-      this.createDoc();
+      this.showFields = false;
+      this.showDocAbout = true;
     },
-    createDoc: function createDoc() {
+    validateDocAbout: function validateDocAbout() {
       var _this4 = this;
 
+      var hasErrors = false;
+      this.docAboutProperties.forEach(function (p, ind) {
+        if (_this4.docAbout[p.property].length < 1) {
+          _this4.docAboutProperties[ind].hasError = true;
+
+          if (!hasErrors) {
+            hasErrors = true;
+          }
+        } else {
+          _this4.docAboutProperties[ind].hasError = false;
+        }
+      });
+
+      if (!hasErrors) {
+        this.createDoc();
+      }
+    },
+    createDoc: function createDoc() {
+      var _this5 = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var data, res, _data, _res;
+        var data, start, stop, res, _res;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!_this4.isNew) {
-                  _context.next = 8;
+                stop = function _stop() {
+                  $('#doc-about-button').removeClass('disabled');
+                  $('#doc-about-spinner').addClass('d-none');
+                };
+
+                start = function _start() {
+                  $('#doc-about-button').addClass('disabled');
+                  $('#doc-about-spinner').removeClass('d-none');
+                };
+
+                data = {
+                  objectId: parseInt(_this5.objectId),
+                  filename: _this5.filename.toString(),
+                  fieldId: parseInt(_this5.fieldId),
+                  _documentAuthorNames: _this5.docAbout.authorNames,
+                  _documentAddress: _this5.docAbout.address,
+                  _documentDescription: _this5.docAbout.description,
+                  _documentFirstDate: _this5.docAbout.first_date,
+                  _documentSecondDate: _this5.docAbout.second_date,
+                  _documentNumber: _this5.docAbout.number
+                };
+                start();
+
+                if (!_this5.isNew) {
+                  _context.next = 12;
                   break;
                 }
 
-                data = {
-                  isNew: true,
-                  objectId: parseInt(_this4.objectId),
-                  filename: _this4.filename.toString(),
-                  fieldId: parseInt(_this4.fieldId)
-                };
-                _context.next = 4;
+                data['isNew'] = true;
+                _context.next = 8;
                 return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].post('/user/docs/prepare-doc', data)["catch"](function (err) {
                   alert('სამწუხაროდ შეცდომა დაფიქსირდა. სცადეთ თავიდან');
-                  $('#create-doc-spinner').addClass('d-none');
-                  $('#create-doc-button').removeClass('disabled');
+                  stop();
                 });
 
-              case 4:
+              case 8:
                 res = _context.sent;
 
                 if (res) {
                   window.location = '/user/questions';
                 }
 
-                _context.next = 13;
+                _context.next = 18;
                 break;
 
-              case 8:
-                _data = {
-                  isNew: false,
-                  objectId: parseInt(_this4.objectId),
-                  docId: parseInt(_this4.docId),
-                  filename: _this4.filename.toString(),
-                  fieldId: parseInt(_this4.fieldId)
-                };
-                _context.next = 11;
-                return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].post('/user/docs/prepare-doc', _data)["catch"](function (err) {
+              case 12:
+                data['isNew'] = false;
+                data['docId'] = parseInt(_this5.docId);
+                _context.next = 16;
+                return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].post('/user/docs/prepare-doc', data)["catch"](function (err) {
                   alert('სამწუხაროდ შეცდომა დაფიქსირდა. სცადეთ თავიდან');
-                  $('#create-doc-spinner').addClass('d-none');
-                  $('#create-doc-button').removeClass('disabled');
+                  stop();
                 });
 
-              case 11:
+              case 16:
                 _res = _context.sent;
 
                 if (_res) {
                   window.location = '/user/questions';
                 }
 
-              case 13:
-                $('#create-doc-spinner').removeClass('d-none');
-                $('#create-doc-button').addClass('disabled');
+              case 18:
+                stop();
 
-              case 15:
+              case 19:
               case "end":
                 return _context.stop();
             }
@@ -2262,17 +2339,61 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   mounted: function mounted() {
-    var _this5 = this;
+    var _this6 = this;
 
     tout(function () {
-      _this5.loading = false;
+      _this6.loading = false;
       $1('content-spinner').remove();
+    });
+    this.docAboutProperties = [{
+      name: '1. შემფასებლის/ების სახელი და გვარი:',
+      placeholder: 'სახელი, გვარი',
+      property: 'authorNames',
+      hasError: false
+    }, {
+      name: ' 2. სამუშაო ობიექტის დასახელება და მისამართი:',
+      placeholder: 'დასახელება და მისამართი',
+      property: 'address',
+      hasError: false
+    }, {
+      name: '3. სამუშაოს მოკლე აღწერა:',
+      placeholder: 'აღწერა',
+      property: 'description',
+      hasError: false,
+      rows: 2,
+      "class": 'hovered-bg'
+    }, {
+      name: '4. რისკების შეფასების თარიღი:',
+      placeholder: 'თარიღი',
+      property: 'first_date',
+      hasError: false
+    }, {
+      name: '5. დოკუმენტის გადახედვის სავარაუდო თარიღი:',
+      placeholder: 'თარიღი',
+      property: 'second_date',
+      hasError: false
+    }, {
+      name: '6. დოკუმენტის N:',
+      placeholder: 'N: ',
+      property: 'number',
+      hasError: false
+    }];
+    this.docAboutProperties.forEach(function (p) {
+      _this6.$watch(function () {
+        return _this6.docAbout[p.property];
+      }, function (a) {
+        if (a.length < 1) {
+          p.hasError = true;
+        } else {
+          p.hasError = false;
+        }
+      });
     });
   },
   created: function created() {
     this.objects = JSON.parse(this._objects);
     this.docs = JSON.parse(this._docs);
-    this.fields = JSON.parse(this._fields);
+    this.fields = JSON.parse(this._fields); // this.showNewCopyButtons = false;
   }
 });
 
@@ -6720,7 +6841,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.card-hover[data-v-2e1364d5] {\n    cursor: pointer;\n}\n.card-hover[data-v-2e1364d5]:hover {\n    background-color: #e8eceb;\n}\n.border-bottom-dotted[data-v-2e1364d5] {\n    border-bottom: 1px dotted lightgrey !important;\n}\n.hover[data-v-2e1364d5] {\n    border: 2px solid transparent;\n}\n.hover[data-v-2e1364d5]:hover {\n    background-color: lightgrey;\n}\n.hover[data-v-2e1364d5]:active {\n    transition: all .1s ease-in;\n    background-color: #999696;\n    border: 2px solid #8a8888\n}\n", ""]);
+exports.push([module.i, "\n.card-hover[data-v-2e1364d5] {\n    cursor: pointer;\n}\n.card-hover[data-v-2e1364d5]:hover {\n    background-color: #e8eceb;\n}\n.border-bottom-dotted[data-v-2e1364d5] {\n    border-bottom: 1px dotted lightgrey !important;\n}\n.hover[data-v-2e1364d5] {\n    border: 2px solid transparent;\n}\n.hover[data-v-2e1364d5]:hover {\n    background-color: lightgrey;\n}\n.hover[data-v-2e1364d5]:active {\n    transition: all .1s ease-in;\n    background-color: #999696;\n    border: 2px solid #8a8888\n}\n.font-size-09-rem[data-v-2e1364d5] {\n    font-size: .9rem;\n}\n.border-bottom-transparent[data-v-2e1364d5] {\n    border-bottom: 1px solid transparent !important;\n}\n.border-transparent[data-v-2e1364d5] {\n    border: 1px solid transparent;\n}\n.hovered-bg[data-v-2e1364d5]:hover {\n    background: #f5f4f6;\n}\n.hovered-bg[data-v-2e1364d5]:focus {\n    background: #faf9fc;\n}\n", ""]);
 
 // exports
 
@@ -39585,9 +39706,9 @@ var render = function() {
                           rows: "1",
                           placeholder: "სახელი",
                           onclick:
-                            "$(this).next().addClass('ns-test-underline');$(this).removeClass('border-bottom-dotted')",
+                            "$(this).next().addClass('ns-test-underline');",
                           onblur:
-                            "$(this).next().removeClass('ns-test-underline');$(this).addClass('border-bottom-dotted')"
+                            "$(this).next().removeClass('ns-test-underline');"
                         },
                         domProps: { value: _vm.filename },
                         on: {
@@ -39603,7 +39724,8 @@ var render = function() {
                       _c("div", {
                         staticClass: "ns-underline",
                         staticStyle: {
-                          "background-color": "#e2479D !important"
+                          "background-color": "#e2479D !important",
+                          height: "1px !important"
                         }
                       })
                     ]
@@ -39679,6 +39801,126 @@ var render = function() {
                 })
               ],
               2
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.showDocAbout
+        ? _c("div", [
+            _c(
+              "div",
+              {
+                staticClass: "m-auto text-center",
+                staticStyle: { "max-width": "700px" }
+              },
+              [
+                _c("div", { staticClass: "card rounded-5 border-0 w-100" }, [
+                  _c("p", { staticClass: "mt-4 mb-0 text-center" }, [
+                    _vm._v(" შეავსეთ მონაცემები ")
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "card-body" },
+                    [
+                      _vm._l(_vm.docAboutProperties, function(obj) {
+                        return [
+                          _c(
+                            "p",
+                            {
+                              staticClass: "mt-4 mb-3 text-left ml-4 text-sm",
+                              class: { "text-danger": obj.hasError }
+                            },
+                            [
+                              _vm._v(" " + _vm._s(obj.name) + " "),
+                              obj.hasError
+                                ? _c("span", [_vm._v(" * ")])
+                                : _vm._e()
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "card-body ns-input-container ml-4 pb-3 mt-0 pt-0"
+                            },
+                            [
+                              _c("textarea", {
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.docAbout[obj.property],
+                                    expression: "docAbout[obj.property]"
+                                  }
+                                ],
+                                staticClass:
+                                  "form-control border-0 border-bottom-dotted p-1 pl-3 font-size-09-rem",
+                                class: obj.class || "",
+                                attrs: {
+                                  type: "text",
+                                  rows: obj.rows || 1,
+                                  placeholder: obj.placeholder,
+                                  onclick:
+                                    "$(this).next().addClass('ns-test-underline');$(this).addClass('border-bottom-transparent')",
+                                  onblur:
+                                    "$(this).next().removeClass('ns-test-underline');$(this).removeClass('border-bottom-transparent')"
+                                },
+                                domProps: { value: _vm.docAbout[obj.property] },
+                                on: {
+                                  input: function($event) {
+                                    if ($event.target.composing) {
+                                      return
+                                    }
+                                    _vm.$set(
+                                      _vm.docAbout,
+                                      obj.property,
+                                      $event.target.value
+                                    )
+                                  }
+                                }
+                              }),
+                              _vm._v(" "),
+                              _c("div", {
+                                staticClass: "ns-underline",
+                                staticStyle: {
+                                  "background-color": "#63759b !important",
+                                  height: "1px !important"
+                                }
+                              })
+                            ]
+                          )
+                        ]
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary border-0 px-4 my-4",
+                          attrs: { id: "doc-about-button" },
+                          on: {
+                            click: function($event) {
+                              return _vm.validateDocAbout()
+                            }
+                          }
+                        },
+                        [
+                          _c("span", {
+                            staticClass:
+                              "spinner-border spinner-border-sm d-none",
+                            attrs: { id: "doc-about-spinner" }
+                          }),
+                          _vm._v(
+                            "\n                        შემდეგი\n                    "
+                          )
+                        ]
+                      )
+                    ],
+                    2
+                  )
+                ])
+              ]
             )
           ])
         : _vm._e()
