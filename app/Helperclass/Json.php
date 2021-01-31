@@ -76,7 +76,13 @@ class Json {
             'filename' => $filename,
             'object_id' => $objectId,
             'field_id' => $this->fieldId,
-            'data' => $data
+            'data' => $data,
+            'author-names' => $docData['author-names'],
+            'address' => $docData['address'],
+            'description' => $docData['description'],
+            'first_date' => $docData['first_date'],
+            'second_date' => $docData['second_date'],
+            'number' => $docData['number']
         ]);
 
         return $export->id;
