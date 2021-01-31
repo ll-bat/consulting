@@ -9,15 +9,34 @@ use App\Process;
 use App\Udanger;
 use Exception;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ApiController extends Controller
 {
+    private int $fieldId = 0;
+
+    /**
+     * @param string $method
+     * @param array $parameters
+     * @return Response
+     * @throws Exception
+     */
+    public function callAction($method, $parameters)
+    {
+        $this->fieldId = $this->getFieldId();
+        return parent::callAction($method, $parameters);
+    }
+
     /**
      * @param Process $process
      * @return array
+     * @throws Exception
      */
     public function getDangers(Process $process): array
     {
+        if ($process->field_id != $this->fieldId) {
+            throw new Exception('Field mismatch');
+        }
         $dangerIds = $process->getDangerIds();
         return Danger::whereIn('id', $dangerIds)->select('id', 'name')->get()->toArray();
     }
@@ -26,9 +45,14 @@ class ApiController extends Controller
     /**
      * @param Danger $danger
      * @return array
+     * @throws Exception
      */
     public function getControls(Danger $danger): array
     {
+        if ($danger->field_id != $this->fieldId) {
+            throw new Exception('Field mismatch');
+        }
+
         $controlIds = $danger->getControlIds();
         return Control::whereIn('id', $controlIds)->select('id', 'name')->get()->toArray();
     }

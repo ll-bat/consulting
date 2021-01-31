@@ -5,6 +5,12 @@ namespace App;
 use App\ControlDanger;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Danger
+ * @package App
+ * @property string $name
+ * @property integer $field_id
+ */
 class Danger extends Model
 {
     protected $fillable = ['name', 'k', 'field_id'];

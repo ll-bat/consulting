@@ -4,6 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Process
+ * @package App
+ * @property string $name
+ * @property integer $field_id
+ */
 class Process extends Model
 {
     protected $fillable = ['name', 'field_id'];
