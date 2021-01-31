@@ -50,7 +50,6 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
     })->name('user.home');
 
     Route::get('/profile', 'ProfileController@show')->name('user.profile');
-    Route::get('/objects', 'ObjectsController@index')->name('user.objects');
 
     Route::get('/pre-questions', 'UserDocsController@index')->name('user.preQuestions');
     Route::get('/questions', 'UserDocsController@show')->name('user.questions');
@@ -82,8 +81,10 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
     });
 
     Route::group(['prefix' => 'objects'], function(){
+        Route::get('', 'ObjectsController@index')->name('user.objects');
         Route::post('create', 'ObjectsController@create');
         Route::post('{objects}/update', 'ObjectsController@update');
+        Route::get('{objects}/delete', 'ObjectsController@delete');
         Route::get('{objects}', 'ObjectsController@show');
     });
 

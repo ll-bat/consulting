@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Export;
 use App\Objects;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\View\View;
@@ -48,7 +50,7 @@ class ObjectsController extends Controller
 
         Objects::create(['user_id' => current_user()->id, 'name' => $name]);
 
-        return 'all-done';
+        return route('user.objects');
     }
 
     /**
@@ -64,19 +66,19 @@ class ObjectsController extends Controller
         $name = $req['name'];
 
         if ($objects->name === $name) {
-            return 'all-done';
+            return route('user.objects');
         }
 
         if (!$this->isUnique($name)) {
-            return response('nop1', 400);
+            return $this->fail('ასეთი ობიექტი უკვე არსებობს', 400);
         }
 
         $ok = $objects->update(['name' => $name]);
         if (!$ok) {
-            return response("nop2", 400);
+            return $this->fail("დაფიქსირდა შეცდომა, სცადეთ თავიდან", 400);
         }
 
-        return 'all-done';
+        return route('user.objects');
     }
 
     /**
@@ -123,5 +125,38 @@ class ObjectsController extends Controller
             ->get();
 
         return view('user.mydocs', compact('docs'));
+    }
+
+    /**
+     * @param Objects $objects
+     * @return RedirectResponse
+     * @throws Exception
+     */
+    public function delete(Objects $objects): RedirectResponse
+    {
+        if ($objects->user_id !== current_user()->id) {
+            throw new Exception('Forbidden', 403);
+        }
+
+        try {
+            $objects->delete();
+        } catch (\Throwable $e) {
+            return redirect()->route('user.objects')->with('message', ['success' => false, 'message' => 'ვერ მოხერხდა ობიექტის წაშლა. მოცემული ობიექტი შეიცავს დოკუმენტებს']);
+        }
+
+        return redirect()->route('user.objects')->with('message', ['success' => true, 'message' => 'ობეიქტი წარმატებით წაიშალა']);
+    }
+
+    /**
+     * @param $message
+     * @param int $code
+     * @return Application|ResponseFactory|Response
+     */
+    public function fail($message, $code = 400) {
+        return response([
+            'errors' => [
+                'name' => [$message]
+            ]
+        ], $code);
     }
 }
