@@ -11,6 +11,7 @@ use Maatwebsite\Excel\Concerns\WithDrawings;
 use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
@@ -47,6 +48,8 @@ class UsersExport implements FromView, WithDrawings, ShouldAutoSize
 
     public function drawings()
     {
+//        new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
+
         // $all = $this->data->getImages();
         $all = [];
         $images = [];
@@ -79,7 +82,11 @@ class UsersExport implements FromView, WithDrawings, ShouldAutoSize
 
     public function styles(Worksheet $sheet)
     {
-        $sheet->getStyle('B2:O2')->getFont()->setBold(true);
+//        getFont()->setBold(true)
+        $sheet->getStyle('B2:O2')->getAlignment()->setVertical(Alignment::VERTICAL_TOP);
+        $sheet->cell('E13', function($cell) {
+            $cell->setValignment('center');
+        });
     }
 
 }
