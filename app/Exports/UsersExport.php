@@ -14,29 +14,34 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class UsersExport implements FromView,WithDrawings,ShouldAutoSize
+class UsersExport implements FromView, WithDrawings, ShouldAutoSize
 {
     protected $export = null;
-    protected $data           = null;
-    protected $all            = null;
+    protected $data = null;
+    protected $all = null;
+    protected $docAbout = [];
 
-    public function __construct($export){
+    public function __construct($export)
+    {
         $this->export = $export;
         $this->init();
     }
 
-    public function init(){
+    public function init()
+    {
         $con = new Content($this->export);
+        $this->docAbout = $con->docAbout;
         $con = $con->getData();
         $this->data = $con[1];
-        $this->all  = $con[0];
+        $this->all = $con[0];
     }
 
     public function view(): View
     {
         return view('user.docs.table', [
             'countAll' => $this->all,
-            'object'   => $this->data
+            'object' => $this->data,
+            'docAbout' => $this->docAbout
         ]);
     }
 
@@ -47,7 +52,7 @@ class UsersExport implements FromView,WithDrawings,ShouldAutoSize
         $images = [];
         $c = 7;
 
-        foreach ($all as $image){
+        foreach ($all as $image) {
             if (!$image['has']) {
                 $c += $image['max'];
                 continue;
@@ -57,11 +62,11 @@ class UsersExport implements FromView,WithDrawings,ShouldAutoSize
             $drawing->setName('Image');
             $drawing->setDescription('This is my Image');
             $path = $image['path'];
-            $drawing->setPath($path);       
+            $drawing->setPath($path);
             $drawing->setHeight(35);
             $drawing->setWidth(70);
             $drawing->setOffsetX(15);
-            $drawing->setOffsetY(18*($image['max']-1) + 3);
+            $drawing->setOffsetY(18 * ($image['max'] - 1) + 3);
             $drawing->setCoordinates("D$c");
             $images[] = $drawing;
 
@@ -76,5 +81,5 @@ class UsersExport implements FromView,WithDrawings,ShouldAutoSize
     {
         $sheet->getStyle('B2:O2')->getFont()->setBold(true);
     }
-    
+
 }
