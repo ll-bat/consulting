@@ -39,7 +39,10 @@
 
     </style>
   <body>
-    <table>
+
+  @include('user.docs.doc-header', compact('docAbout'))
+
+  <table>
           <thead>
                   <tr>
                      <td rowspan='2'> პროცესი </td>
@@ -135,10 +138,10 @@
                          {{$object->getResult('second_level', $i)}}
                        </td>
                        @endif
-                       <td class='small'> 
+                       <td class='small'>
                          {{ $object->getOptionalArrayElement('rpersons', $i)}}
                        </td>
-                       <td class='small'> 
+                       <td class='small'>
                           {{ $object->getOptionalArrayElement('etimes', $i)}}
                         </td>
                     </tr>

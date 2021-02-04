@@ -114,7 +114,6 @@
         </h5>
 
         @include('user.docs.doc-header', compact('docAbout'))
-        <br />
         @include('user/docs/_table', compact('countAll', 'object'))
 
         <div class='d-block position-relative' style='margin-top:5rem;'>
