@@ -3,15 +3,15 @@
     display: inline-block;
     width: 35px;
     height: 12px;
-  }
+}
 
-  .switch input {
+.switch input {
     opacity: 0;
     width: 0;
     height: 0;
-  }
+}
 
-  .slider {
+.slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -21,9 +21,9 @@
     background-color: #ccc;
     -webkit-transition: .4s;
     transition: .4s;
-  }
+}
 
-  .slider:before {
+.slider:before {
     position: absolute;
     content: "";
     height: 20px;
@@ -31,36 +31,36 @@
     left: 0px;
     bottom: -4px;
     background-color: white;
-    border:1px solid lightgrey;
+    border: 1px solid lightgrey;
     -webkit-transition: .4s;
     transition: .4s;
-  }
+}
 
 
-  input:checked + .slider {
+input:checked + .slider {
     background-color: #4abb5d;
-  }
+}
 
-  input:focus + .slider {
+input:focus + .slider {
     box-shadow: 0 0 1px #25a53b;
-  }
+}
 
-  input:checked + .slider:before {
+input:checked + .slider:before {
     -webkit-transform: translateX(20px);
     -ms-transform: translateX(20px);
     transform: translateX(20px);
-  }
+}
 
-  .slider.round {
+.slider.round {
     border-radius: 34px;
-  }
+}
 
-  .slider.round:before {
+.slider.round:before {
     border-radius: 50%;
-  }
+}
 
 
-  .ns-container {
+.ns-container {
     display: block;
     position: relative;
     padding-left: 35px;
@@ -71,52 +71,56 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-  }
+}
 
-  /* Hide the browser's default radio button */
-  .ns-container input {
+/* Hide the browser's default radio button */
+.ns-container input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
-  }
+}
 
-  /* Create a custom radio button */
-  .checkmark, .chbox-checkmark, .mod-chbox-checkmark {
+/* Create a custom radio button */
+.checkmark, .chbox-checkmark, .mod-chbox-checkmark {
     position: absolute;
     top: 0;
     left: 0;
     height: 20px;
     width: 20px;
-    background-color: rgba(255,255,255,.8);
-    border-radius:50%;
-    border:2px solid lightgrey;
-  }
+    background-color: rgba(255, 255, 255, .8);
+    border-radius: 50%;
+    border: 2px solid lightgrey;
+}
 
-  .chbox-checkmark, .mod-chbox-checkmark {
-    border-radius:5px;
-  }
+.chbox-checkmark, .mod-chbox-checkmark {
+    border-radius: 5px;
+}
 
-  .ns-container .mod-chbox-checkmark {
-    transition:all .8s ease;
-  }
+.ns-container .mod-chbox-checkmark {
+    transition: all .8s ease;
+}
 
-  .ns-container:hover .mod-chbox-checkmark {
-    border:2px solid grey;
-  }
+.ns-container:hover .mod-chbox-checkmark {
+    border: 2px solid grey;
+}
 
-  .hovered-checkmark {
-    border:2px solid rgba(0, 191, 255, 1) !important;
-  }
+.hovered-checkmark {
+    border: 2px solid rgba(0, 191, 255, 1) !important;
+}
 
-  .checked {
+.hovered-checkmark-diff {
+    border: 2px solid rgb(103, 58, 183) !important;
+}
+
+.checked {
     position: absolute;
-  }
+}
 
-  .checked-circle {
+.checked-circle {
     position: absolute;
-  }
+}
 
-  .mod-chbox-checkmark .checked {
+.mod-chbox-checkmark .checked {
     left: 6px;
     top: 3px;
     width: 5px;
@@ -126,117 +130,147 @@
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
-  }
+}
 
-  .mod-chbox-checkmark .checked-circle {
+.mod-chbox-checkmark .checked-circle {
     left: 3px;
     top: 3px;
     width: 10px;
     height: 10px;
     background-color: rgba(0, 191, 255, 1);
-    border-radius:50%;
-  }
+    border-radius: 50%;
+}
 
-  /* On mouse-over, add a grey background color */
-  .ns-container:hover input ~ .checkmark {
+.mod-chbox-checkmark-diff {
+    width: 24px !important;
+    height: 24px !important;
+}
+
+@keyframes _animateGrow {
+    from {
+        left: 9px;
+        top: 9px;
+        width: 0;
+        height: 0;
+        border-radius: 0;
+    }
+}
+
+.mod-chbox-checkmark .checked-circle-diff {
+    left: 4px;
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    background-color: rgb(103, 58, 183);
+    border-radius: 50%;
+    animation: _animateGrow .2s ease-out;
+}
+
+.checked-circle-diff {
+    position: absolute;
+}
+
+/* On mouse-over, add a grey background color */
+.ns-container:hover input ~ .checkmark {
     background-color: lightgrey;
-  }
+}
 
-  .ns-container:hover input ~ .chbox-checkmark {
+.ns-container:hover input ~ .chbox-checkmark {
     /* background-color: lightgrey; */
-    border:2px solid grey;
-  }
+    border: 2px solid grey;
+}
 
-  .hover-chbox {
-    position:absolute;
-    left:0;
-    width:20px;
-    height:20px;
+.hover-chbox {
+    position: absolute;
+    left: 0;
+    width: 20px;
+    height: 20px;
     background-color: white;
     visibility: hidden;
-  }
+}
 
 
-  .ns-container:hover .hover-chbox {
+.ns-container:hover .hover-chbox {
     transition: all .8s ease-in;
-  }
+}
 
-  .ns-container:hover .hovered-checkmark ~ .hover-chbox {
+.ns-container:hover .hovered-checkmark ~ .hover-chbox {
     visibility: hidden;
-  }
+}
 
-  .chbox-checkmark-sm {
-    position:absolute;
-    left:4px;
-    top:4px;
-    width:12px;
-    height:12px;
-    border:1px solid grey;
-    border-radius:2px;
-  }
+.chbox-checkmark-sm {
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    width: 12px;
+    height: 12px;
+    border: 1px solid grey;
+    border-radius: 2px;
+}
 
-  .hover-chbox-small {
-    position:absolute;
-    left:3px;
-    bottom:6px;
-    width:14px;
-    height:14px;
+.hover-chbox-small {
+    position: absolute;
+    left: 3px;
+    bottom: 6px;
+    width: 14px;
+    height: 14px;
     background-color: white;
-  }
+}
 
-  .ns-container:hover input ~ .hover-chbox-small{
+.ns-container:hover input ~ .hover-chbox-small {
     transition: all .9s ease-in-out;
     height: 0;
-    bottom:0;
-  }
-  /* When the radio button is checked, add a blue background */
-  .ns-container input:checked ~ .checkmark {
+    bottom: 0;
+}
+
+/* When the radio button is checked, add a blue background */
+.ns-container input:checked ~ .checkmark {
     transition: all .21s ease-in;
     /* background-color: rgba(0, 191, 255, 1); */
     background-color: white;
     border: 2px solid rgba(0, 191, 255, 1);
-  }
+}
 
-  .ns-container input:checked ~ .chbox-checkmark {
+.ns-container input:checked ~ .chbox-checkmark {
     transition: all .21s ease-in;
     /* background-color: rgba(0, 191, 255, 1); */
     background-color: white;
     border: 2px solid rgba(0, 191, 255, 1);
-  }
+}
 
-  /* Create the indicator (the dot/circle - hidden when not checked) */
-  .checkmark:after {
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
     content: "";
     position: absolute;
     display: none;
-  }
+}
 
-  .chbox-checkmark:after {
+.chbox-checkmark:after {
     content: "";
     position: absolute;
     display: none;
-  }
+}
 
-  /* Show the indicator (dot/circle) when checked */
-  .ns-container input:checked ~ .checkmark:after {
+/* Show the indicator (dot/circle) when checked */
+.ns-container input:checked ~ .checkmark:after {
     display: block;
-  }
+}
 
-  .ns-container input:checked ~ .chbox-checkmark:after {
+.ns-container input:checked ~ .chbox-checkmark:after {
     display: block;
-  }
+}
 
-  /* Style the indicator (dot/circle) */
-  .ns-container .checkmark:after {
-     top: 3px;
+/* Style the indicator (dot/circle) */
+.ns-container .checkmark:after {
+    top: 3px;
     left: 3px;
     width: 10px;
     height: 10px;
     border-radius: 50%;
     background: rgba(0, 191, 255, 1);
-  }
+}
 
-  .ns-container .chbox-checkmark:after {
+.ns-container .chbox-checkmark:after {
     left: 6px;
     top: 3px;
     width: 5px;
@@ -246,8 +280,7 @@
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
- }
-
+}
 
 
 .ns-input-container {
@@ -259,13 +292,15 @@
     border: 0;
     outline: 0;
 }
+
 .ns-underline {
-    background: rgba(0,0,0,0.12) !important;
+    background: rgba(0, 0, 0, 0.12) !important;
     height: 1px;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
 }
+
 .ns-underline.active {
     background-color: #673ab7 !important;
     height: 2px !important;
@@ -274,6 +309,7 @@
     animation-timing-function: ease;
     animation-fill-mode: forwards;
 }
+
 .ns-test-underline {
     background-color: #673ab7 !important;
     height: 2px !important;
@@ -284,8 +320,12 @@
 }
 
 @keyframes _underline {
-    0%   {width:0}
-    100% {width:96%}
+    0% {
+        width: 0
+    }
+    100% {
+        width: 96%
+    }
 }
 
 .ns-color {
@@ -293,8 +333,8 @@
 
 }
 
-.ns-font-family{
-    font-family: 'Google Sans',Roboto,Arial,sans-serif;
+.ns-font-family {
+    font-family: 'Google Sans', Roboto, Arial, sans-serif;
     font-size: 16px;
     font-weight: 500;
     letter-spacing: .1px;
@@ -311,4 +351,8 @@
 
 .rounded-10 {
     border-radius: 10px;
+}
+
+.black-75 {
+    color: #5f5d5d !important;
 }

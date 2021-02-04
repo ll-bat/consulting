@@ -52148,7 +52148,8 @@ var app = new Vue({
     showDangerLoader: false,
     showControlsLoader: false,
     helpers: {},
-    exportId: null
+    exportId: null,
+    focuses: false
   },
   methods: {
     chooseProcess: function chooseProcess(id) {

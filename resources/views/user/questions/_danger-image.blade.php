@@ -1,5 +1,5 @@
 <div class=''>
-    <div class='card shadow-none rounded-10 pl-4' style="padding-top: 30px !important;" v-if='showControls'>
+    <div class='card test-shadow rounded-8 pl-4' style="padding-top: 30px !important;border-left: 8px solid #6957b8;" v-if='showControls'>
         <p class='text-lg mb-0'>
             ატვირთეთ საფრთხის ამსახველი ფოტო
             <span class='text-muted text-sm'>(არასავალდებულო)</span>
@@ -7,7 +7,7 @@
 
         <div class='card-body pb-5 px-2' style="padding-top: 30px">
             <div class='text-muted' style='margin-bottom:-8px;'>
-                <button class='btn btn-outline-info px-5 py-2 bg-white'
+                <button class='btn transparent-hover-nice border-nice color-nice px-5 py-2 bg-white'
                         id="image-upload-button"
                         onclick="$1('danger-image-input').click()"
                         v-if="!data.image && !data.oldImage"

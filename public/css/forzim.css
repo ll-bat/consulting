@@ -255,3 +255,42 @@
 .text-hoverable:hover {
     opacity: .7;
 }
+
+.test-shadow {
+   box-shadow:  0 0 1px -1px rgba(0,0,0,0.2),
+   0 1px 1px 0 rgba(0,0,0,0.141),
+   0 1px 3px 0 rgba(0,0,0,0.122);
+   transition: box-shadow 1.25s cubic-bezier(0.0,0.0,0.2,1);
+}
+
+.rounded-8 {
+    border-radius: 8px !important;
+}
+
+.bg-nice {
+    background: #6957b8 !important;
+}
+
+.color-nice {
+    color: #6957b8 !important;
+}
+
+.border-nice {
+    border: 1px solid #6957b8 !important;;
+}
+
+.transparent-hover-nice:hover {
+    background: #6957b8 !important;
+}
+
+.transparent-hover-nice:focus {
+    background: #6957b8 !important;
+}
+
+.controls-border-color {
+    border-color: #7979f1 !important;
+}
+
+.controls-bg-color {
+    background: #7979f1 !important;
+}

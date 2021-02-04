@@ -1,17 +1,15 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from 'vue'
+import Vuex from 'vuex'
 import preQuestions from './modules/preQuestions';
 
-Vue.use(Vuex);
+Vue.use(Vuex)
+
+const debug = true;
 
 export default new Vuex.Store({
-    state: {
-        showDocAbout: false
-    },
-    getters: {},
-    actions: {},
-    mutations: {},
+    namespaced: true,
     modules: {
         preQuestions
-    }
+    },
+    strict: debug
 })

@@ -124,6 +124,7 @@
 @section('script')
     <script>
         const $doc = `{!! $data !!}`;
+        $(dom.body).css({backgroundColor: '#f3eff6'})
     </script>
 @endsection
 @section('content')

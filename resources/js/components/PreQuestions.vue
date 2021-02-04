@@ -228,6 +228,9 @@
 
 <script>
 import httpService from "../services/httpService";
+import {createNamespacedHelpers} from "vuex/dist/vuex.mjs";
+
+const {mapState, mapActions} = createNamespacedHelpers('preQuestions');
 
 export default {
     name: "preQuestions",
@@ -235,6 +238,9 @@ export default {
         _objects: String,
         _docs: String,
         _fields: String,
+    },
+    computed: {
+        ...mapState(['test'])
     },
     data() {
         return {
@@ -283,6 +289,8 @@ export default {
     },
 
     methods: {
+        ...mapActions(['letsTest']),
+
         searchDebounced() {
             if (this.debouncedTime) {
                 clearTimeout(this.debouncedTime);
@@ -547,6 +555,11 @@ export default {
 
         this.initBreadcrumb();
         this.shouldGoUpper = window.innerHeight > 800;
+
+
+        this.letsTest()
+
+
     },
     created() {
         this.objects = JSON.parse(this._objects);

@@ -42,7 +42,8 @@ const app = new Vue({
         showDangerLoader: false,
         showControlsLoader: false,
         helpers: {},
-        exportId: null
+        exportId: null,
+        focuses: false
     },
     methods: {
         async chooseProcess(id) {
