@@ -53,7 +53,7 @@
         <td class="text-sm font-weight-bold" colspan="2" style="background: #DEEBF7; padding: 10px 0; border:7px solid #b8b894">
             <b> სამუშაოს მოკლე აღწერა: </b>
         </td>
-        <td class="text-sm" colspan="13" height="40" style="background: #f4f8f8; border:7px solid #b8b894">
+        <td class="text-sm" colspan="13" align="center" height="40" style="background: #f4f8f8; border:7px solid #b8b894">
             {{ $docAbout['description'] }}
         </td>
     </tr>
