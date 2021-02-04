@@ -39,14 +39,11 @@ class MyDocsController extends Controller
         $this->authorize('show-doc', $export);
 
         $con = new Content($export);
+        $docAbout = $con->docAbout;
         $con = $con->getData();
 
-        //  dd($con);
-
         $id = $export->id;
-
         $this->data = $con;
-
         $userObjects = Objects::where('user_id', current_user()->id)
             ->select('id', 'name')
             ->get();
@@ -57,7 +54,8 @@ class MyDocsController extends Controller
             'docId' => $id,
             'filename' => $export->filename,
             'objects' => $userObjects,
-            'objectId' => $export->object_id
+            'objectId' => $export->object_id,
+            'docAbout' => $docAbout
         ]);
     }
 

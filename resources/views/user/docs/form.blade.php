@@ -113,10 +113,9 @@
             </a>
         </h5>
 
-    @include('user/docs/_table', compact('countAll', 'object'))
-    <!-- <div class='form-group'>
-               <button class='btn btn-primary' onclick='exportData()'> Export </button>
-           </div> -->
+        @include('user.docs.doc-header', compact('docAbout'))
+        <br />
+        @include('user/docs/_table', compact('countAll', 'object'))
 
         <div class='d-block position-relative' style='margin-top:5rem;'>
             <span class='mt-4 mr-3'> შეინახეთ დოკუმენტი როგორც: </span>
@@ -139,7 +138,8 @@
         </div>
     </div>
 
-    <button type="button" id="modal-button" class="btn btn-primary d-none" data-toggle="modal" data-target="#form-modal"></button>
+    <button type="button" id="modal-button" class="btn btn-primary d-none" data-toggle="modal"
+            data-target="#form-modal"></button>
     <div class="modal" id="form-modal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -156,7 +156,7 @@
                         <label class="text-muted">სახელი:</label>
                         <input class="form-control p-3"
                                id="modal-input"
-                               placeholder="შეიყვანეთ სახელი" />
+                               placeholder="შეიყვანეთ სახელი"/>
 
                         <div class="valid-feedback">
                             <p> ოპერაცია წარმატებით დასრულდა </p>
@@ -165,7 +165,7 @@
                     <div class="form-group">
                         <label class="text-muted">ობიექტი:</label>
                         <select class="form-control" id="modal-doc-object-id">
-                            <option value disabled> აირჩიეთ ობიექტი </option>
+                            <option value disabled> აირჩიეთ ობიექტი</option>
                             @foreach($objects as $o)
                                 <option value="{{ $o['id'] }}"> {{ $o['name'] }} </option>
                             @endforeach

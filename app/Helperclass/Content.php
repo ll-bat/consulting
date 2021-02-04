@@ -8,6 +8,7 @@ use App\Helperclass\Obj;
 class Content {
 
     protected $data = [];
+    public $docAbout = [];
 
     /**
      * Content constructor.
@@ -16,6 +17,7 @@ class Content {
      */
     public function __construct($export, $exportAs = ''){
         $this->init($export, $exportAs);
+        $this->initDocAbout($export);
     }
 
     /**
@@ -30,6 +32,12 @@ class Content {
         $object = new Obj($data[0], $data[1], $data[2], $exportAs);
 
         $this->data =  [$countAll, $object];
+    }
+
+    public function initDocAbout($export) {
+        foreach (['author-names', 'address', 'description', 'first_date', 'second_date', 'number'] as $val) {
+            $this->docAbout[$val] = $export->$val;
+        }
     }
 
     /**
