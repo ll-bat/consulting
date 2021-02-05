@@ -97,7 +97,7 @@ input:checked + .slider:before {
 }
 
 .ns-container .mod-chbox-checkmark {
-    transition: all .8s ease;
+    transition: all .2s ease;
 }
 
 .ns-container:hover .mod-chbox-checkmark {
@@ -110,6 +110,14 @@ input:checked + .slider:before {
 
 .hovered-checkmark-diff {
     border: 2px solid rgb(103, 58, 183) !important;
+}
+
+.hovered-checkmark-diff-cyan {
+    border: 2px solid #5463e5 !important;
+}
+
+.hovered-checkmark-bg {
+    background: #5463e5;
 }
 
 .checked {
@@ -125,12 +133,30 @@ input:checked + .slider:before {
     top: 3px;
     width: 5px;
     height: 10px;
-    border: solid rgba(0, 191, 255, 1);
+    border: solid white;
     border-width: 0 3px 3px 0;
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
 }
+
+.checked-diff {
+    position: absolute;
+}
+
+
+.mod-chbox-checkmark .checked-diff {
+    left: 7px;
+    top: 3px;
+    width: 7px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
 
 .mod-chbox-checkmark .checked-circle {
     left: 3px;
@@ -144,6 +170,7 @@ input:checked + .slider:before {
 .mod-chbox-checkmark-diff {
     width: 24px !important;
     height: 24px !important;
+    padding: 5px;
 }
 
 @keyframes _animateGrow {
@@ -180,6 +207,10 @@ input:checked + .slider:before {
     border: 2px solid grey;
 }
 
+.ns-container:hover .ns-test {
+    background: #f1efef;
+}
+
 .hover-chbox {
     position: absolute;
     left: 0;
@@ -189,6 +220,20 @@ input:checked + .slider:before {
     visibility: hidden;
 }
 
+.ns-test {
+    left: -9px;
+    top: -9px;
+    padding: 4px;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.ns-test-margin {
+    margin-left: 13px;
+    margin-top: 12px;
+}
 
 .ns-container:hover .hover-chbox {
     transition: all .8s ease-in;
@@ -197,6 +242,10 @@ input:checked + .slider:before {
 .ns-container:hover .hovered-checkmark ~ .hover-chbox {
     visibility: hidden;
 }
+
+.ns-container:hover .hovered-checkmark-diff ~ .hover-chbox {
+     visibility: hidden;
+ }
 
 .chbox-checkmark-sm {
     position: absolute;
@@ -356,3 +405,4 @@ input:checked + .slider:before {
 .black-75 {
     color: #5f5d5d !important;
 }
+

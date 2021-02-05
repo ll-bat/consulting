@@ -24,15 +24,17 @@
                 <label class="ns-container"
                        @mousedown="helpers.toggleControl(o.id, ind, 'checked-circle');">
 
-                    <div class="mod-chbox-checkmark mod-chbox-checkmark-diff"
-                         :class="{'hovered-checkmark-diff controls-border-color': helpers.checkControl(o.id,ind)}"
-                         :id="helpers.chboxId(o.id, ind, 'control')"
-                         style='border-radius:50%; left:calc(50% - 10px);'>
+                    <div class="ns-test" style="left: calc(50% - 25px);">
+                        <div class="mod-chbox-checkmark mod-chbox-checkmark-diff ns-test-margin"
+                             :class="{'hovered-checkmark-diff controls-border-color': helpers.checkControl(o.id,ind)}"
+                             :id="helpers.chboxId(o.id, ind, 'control')"
+                             style='border-radius:50%;'>
 
                         <span class='text-center'
                               :class="{'checked-circle-diff controls-bg-color': helpers.checkControl(o.id,ind)}"
                               :id="helpers.checkedId(o.id, ind, 'control')">
                         </span>
+                        </div>
                     </div>
 
                 </label>

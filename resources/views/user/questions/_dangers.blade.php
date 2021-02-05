@@ -6,8 +6,12 @@
                 <div class="mt-2">
                     <div v-for='(d,i) in currentDangers'>
                         <label class="ns-container mb-3 pl-5 pt-1" style="color: #393838;" @mousedown="chooseDanger(d.id)">@{{d.name}}
-                            <div class="mod-chbox-checkmark mod-chbox-checkmark-diff" :class="{'hovered-checkmark-diff': (d.id === dangerId) }" style='border-radius:50%;'>
-                                <span class='text-center' :class="{'checked-circle-diff': (d.id === dangerId)}"></span>
+                            <div class="ns-test">
+                                <div class="mod-chbox-checkmark mod-chbox-checkmark-diff ns-test-margin" :class="{'hovered-checkmark-diff': (d.id === dangerId) }"
+                                     style='border-radius:50%;'>
+                                    <span class='text-center'
+                                          :class="{'checked-circle-diff': (d.id === dangerId)}"></span>
+                                </div>
                             </div>
                         </label>
                     </div>

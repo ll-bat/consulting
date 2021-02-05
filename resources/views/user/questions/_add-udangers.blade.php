@@ -3,9 +3,7 @@
 
  <div>
       <div class="card rounded-10 ns-font-family ns-dark-color my-4 p-2 ns-card partial-shadow"
-           style='border-top:10px solid purple !important;'
-           v-for = '(u,idx) in data.newUdangers'
-           >
+           style='border-top:10px solid purple !important;' v-for = '(u,idx) in data.newUdangers'>
            <div class='d-flex'>
               <div style='width:85%'>
                   <p class='p-4 pb-0 mb-0 text-secondary'

@@ -7,8 +7,12 @@
                 <div class="mt-4">
                     <div v-for='(p,i) in processes'>
                         <label class="ns-container black-75 m-4 pl-5 pt-1" @mousedown="chooseProcess(p.id)"> @{{ p.name }}
-                            <div class="mod-chbox-checkmark mod-chbox-checkmark-diff" :class="{'hovered-checkmark-diff': (p.id === processId) }" style='border-radius:50%;'>
-                                <span class='text-center' :class="{'checked-circle-diff': (p.id === processId)}"></span>
+                            <div class="ns-test">
+                                <div class="mod-chbox-checkmark mod-chbox-checkmark-diff ns-test-margin" :class="{'hovered-checkmark-diff': (p.id === processId) }"
+                                     style='border-radius:50%;'>
+                                    <span class='text-center'
+                                          :class="{'checked-circle-diff': (p.id === processId)}"></span>
+                                </div>
                             </div>
                         </label>
                     </div>

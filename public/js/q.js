@@ -51943,17 +51943,16 @@ function toggleControl(id, i, cls) {
 }
 function toggleInput(id, i, type, cls) {
   var sym = "".concat(id, "_").concat(type, "_").concat(i);
-  if (!cls) cls = 'checked';
-  var selector = $("#chboxId".concat(sym));
-
-  if (!selector.hasClass('hovered-checkmark')) {
-    selector.addClass('hovered-checkmark');
-    $("#checkedId".concat(sym)).addClass(cls);
-  } else {
-    if (cls === 'checked-circle') return;
-    selector.removeClass('hovered-checkmark');
-    $("#checkedId".concat(sym)).removeClass(cls);
-  }
+  if (!cls) cls = 'checked-diff'; // const selector = $(`#chboxId${sym}`);
+  //
+  // if (!selector.hasClass('hovered-checkmark-diff')) {
+  //     selector.addClass('hovered-checkmark-diff');
+  //     $(`#checkedId${sym}`).addClass(cls);
+  // } else {
+  //     if (cls === 'checked-circle') return
+  //     selector.removeClass('hovered-checkmark-diff');
+  //     $(`#checkedId${sym}`).removeClass(cls);
+  // }
 }
 function checkPloss(id) {
   var el = this.data.ploss.find(function (p) {
@@ -52063,8 +52062,8 @@ function setControlAnswers() {
 function combine() {
   this.combined = [];
   this.combined.push({
-    "class": '',
-    style: 'border-radius:0;border-bottom:0;box-shadow: 1px 2px 5px lightgrey',
+    "class": 'mb-4 rounded-8 test-shadow',
+    style: 'border-radius:0;border-bottom:0;',
     text: 'აირჩიეთ პოტენციური ზიანი',
     data: this.ploss,
     update: this.helpers.togglePloss,
@@ -52072,8 +52071,8 @@ function combine() {
     type: 'ploss'
   });
   this.combined.push({
-    "class": 'pb-0',
-    style: 'border-radius:0;padding-bottom:0 !important; box-shadow: 1px 2px 5px lightgrey',
+    "class": 'pb-0 rounded-8 test-shadow',
+    style: 'border-radius:0;padding-bottom:0 !important; ',
     text: 'ვინ იმყოფება საფრთხის ქვეშ',
     data: this.udanger,
     update: this.helpers.toggleUdanger,
