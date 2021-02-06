@@ -29,9 +29,9 @@ export function toggleControl(id, i, cls) {
 }
 
 export function toggleInput(id, i, type, cls) {
-    let sym = `${id}_${type}_${i}`;
-
-    if (!cls) cls = 'checked-diff';
+    // let sym = `${id}_${type}_${i}`;
+    //
+    // if (!cls) cls = 'checked-diff';
 
     // const selector = $(`#chboxId${sym}`);
     //

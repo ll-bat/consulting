@@ -51941,9 +51941,10 @@ function toggleControl(id, i, cls) {
 
   toggleInput(id, i, 'control', cls);
 }
-function toggleInput(id, i, type, cls) {
-  var sym = "".concat(id, "_").concat(type, "_").concat(i);
-  if (!cls) cls = 'checked-diff'; // const selector = $(`#chboxId${sym}`);
+function toggleInput(id, i, type, cls) {// let sym = `${id}_${type}_${i}`;
+  //
+  // if (!cls) cls = 'checked-diff';
+  // const selector = $(`#chboxId${sym}`);
   //
   // if (!selector.hasClass('hovered-checkmark-diff')) {
   //     selector.addClass('hovered-checkmark-diff');
