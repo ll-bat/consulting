@@ -17,22 +17,23 @@ export function checkControl(id, i) {
 }
 
 export function toggleControl(id, i, cls) {
-    let el = this.data.control.find(e => e.id === id)
     // el.values[i] = (el.values[i] + 1) % 2
-    if (!el) {
-        this.data.control.push({id: id, value: i})
-    } else {
-        el.value = i
+    let fn = (store) => {
+        const el = store.data.control.find(e => e.id === id)
+        if (!el) {
+            store.data.control.push({id: id, value: i})
+        } else {
+            el.value = i
+        }
     }
-
-    toggleInput(id, i, 'control', cls)
+    this.update(fn);
 }
 
 export function toggleInput(id, i, type, cls) {
     // let sym = `${id}_${type}_${i}`;
     //
     // if (!cls) cls = 'checked-diff';
-
+    //
     // const selector = $(`#chboxId${sym}`);
     //
     // if (!selector.hasClass('hovered-checkmark-diff')) {
@@ -56,20 +57,16 @@ export function checkPloss(id) {
 }
 
 export function togglePloss(id) {
-    let el = this.data.ploss.find(p => p.id === id)
-
-    if (!el) {
-        tout(() => {
-            el = {value: 1, id: id}
-            this.data.ploss.push(el)
-        })
-    } else {
-        tout(() => {
-            el.value = (el.value + 1) % 2
-        })
+    const fn = (store) => {
+        let el = store.data.ploss.find(p => p.id === id)
+        if (!el) {
+            store.data.ploss.push({value: 1, id: id});
+        } else {
+            el.value = (el.value + 1) % 2;
+        }
     }
-
-    toggleInput(id, 0, 'ploss')
+    this.update(fn);
+    // toggleInput(id, 0, 'ploss')
 }
 
 export function checkUdanger(id) {
@@ -83,20 +80,16 @@ export function checkUdanger(id) {
 }
 
 export function toggleUdanger(id) {
-    let el = this.data.udanger.find(e => e.id === id)
-
-    if (!el) {
-        tout(() => {
-            el = {value: 1, id: id}
-            this.data.udanger.push(el)
-        })
-    } else {
-        tout(() => {
+    const fn = (store) => {
+        let el = store.data.udanger.find(e => e.id === id)
+        if (!el) {
+            store.data.udanger.push({value: 1, id: id})
+        } else {
             el.value = (el.value + 1) % 2
-        }, 20)
+        }
     }
-
-    toggleInput(id, 0, 'udanger')
+    this.update(fn);
+    // toggleInput(id, 0, 'udanger')
 }
 
 export function chainedAnim(cname, len, c) {
