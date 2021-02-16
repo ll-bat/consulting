@@ -86,7 +86,7 @@
 
             <div class = 'alert alert-info text-white' style='background-color:rgba(0,0,200, .5)'>
                 <p> თქვენ არ გაქვთ დოკუმენტები. შეავსეთ
-                    <a href='/user/questions' class='text-white font-weight-bolder'>  კითქვარი  </a>
+                    <a href='/user/pre-questions' class='text-white font-weight-bolder'>  კითქვარი  </a>
                 </p>
             </div>
         @endif

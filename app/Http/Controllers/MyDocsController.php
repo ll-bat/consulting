@@ -8,6 +8,7 @@ use App\Helperclass\Obj;
 use App\Helperclass\Content;
 use App\Helperclass\QuestionsJson;
 use App\Objects;
+use Exception;
 use FontLib\EOT\File;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Foundation\Application;
@@ -80,8 +81,12 @@ class MyDocsController extends Controller
     /**
      * @param Export $export
      * @return mixed
+     * @throws Exception
      */
     public function update(Export $export) {
+
+        $this->authorize('show-doc', $export);
+
         \request()->validate([
             'filename' => 'required|string|max:512',
             'objectId' => 'required|integer'
@@ -96,7 +101,7 @@ class MyDocsController extends Controller
                 ->count() > 0;
 
             if (!$ok) {
-                throw new \Exception('Such object does note exist', 404);
+                throw new Exception('Such object does note exist', 404);
             } else {
                 $query['object_id'] = \request('objectId');
             }
@@ -106,7 +111,7 @@ class MyDocsController extends Controller
         if ($ok) {
             return 'all-done';
         }
-        throw new \Exception('Error occurred', 400);
+        throw new Exception('Error occurred', 400);
     }
 
     /**
@@ -140,9 +145,12 @@ class MyDocsController extends Controller
     /**
      * @param Export $export
      * @return BinaryFileResponse
+     * @throws AuthorizationException
      */
     public function downloadExcel(Export $export): BinaryFileResponse
     {
+        $this->authorize('show-doc', $export);
+
         $name = $export->filename;
         $parts = explode('.', $name);
         if (count($parts) < 2) {

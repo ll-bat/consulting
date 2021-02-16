@@ -51,7 +51,7 @@
             <td class='small1'>
                 {{ $object->getArrayElement('udanger', $i)}}
             </td>
-            <td class='smaller'>
+            <td class='smaller py-2'>
                 {{ $object->getControl(0, $i)}}
             </td>
             @if ($object->hasNewDanger($i))
@@ -65,7 +65,7 @@
                     {{$object->getResult('first_level', $i)}}
                 </td>
             @endif
-            <td class='smaller'>
+            <td class='smaller py-2'>
                 {{ $object->getControl(1, $i)}}
             </td>
             @if ($object->hasNewDanger($i))
@@ -82,7 +82,7 @@
             <td class='small'>
                 {{ $object->getOptionalArrayElement('rpersons', $i)}}
             </td>
-            <td class='small'>
+            <td class='small1 px-2'>
                 {{ $object->getOptionalArrayElement('etimes', $i)}}
             </td>
         </tr>

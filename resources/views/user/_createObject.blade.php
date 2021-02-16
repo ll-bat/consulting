@@ -6,6 +6,6 @@
         <p class="text-danger"> ასეთი ობიექტი უკვე არსებობს </p>
     </div>
     <div class="valid-feedback">
-        <p class="text-success"> სფერო წარმატებით დაემატა </p>
+        <p class="text-success"> ობიექტი წარმატებით დაემატა/განახლდა </p>
     </div>
 </div>

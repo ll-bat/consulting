@@ -33,7 +33,7 @@
         }
 
         .hovered-ns-button {
-            background-color: #673ab7 !important;
+            background: darkcyan !important;
         }
 
         @keyframes _animateProcess {
@@ -123,7 +123,6 @@
 
 @section('script')
     <script>
-        const $doc = `{!! $data !!}`;
         $(dom.body).css({backgroundColor: '#f3eff6'})
     </script>
 @endsection
@@ -131,46 +130,36 @@
 
 
     <div class="" id='app' style="width: 100% !important;">
-        <div class="row justify-content-center align-items-center">
-            <div class="col-xl-6 col-lg-7 col-md-10 col-sm-12 col-12 mt-md-0 mt-sm-5 mt-5">
-
-                <div class="text-center" :class="{'d-none': !loading}" style="margin-top:30%;">
-                    <div class="spinner-border text-warning"
-                         style="width:7rem; height: 7rem;border-width: 1rem;"></div>
-                </div>
 
 
-                @include('user.questions._proccesses')
+                <questions :data="`{{ $data }}`"></questions>
 
-                <div class="d-none" id="questions-content">
-                    @foreach (['dangers', 'danger-image', 'controls', 'add-controls'] as $view)
-                        @include('user.questions._'.$view)
-                    @endforeach
+{{--                @include('user.questions._proccesses')--}}
 
-                    <div v-if='showControls'>
-                        @foreach (['udanger-ploss', 'add-udangers', 'add-rpersons', 'add-etimes'] as $view)
-                            @include('user.questions._'.$view)
-                        @endforeach
+{{--                <div class="d-none" id="questions-content">--}}
+{{--                    @foreach (['dangers', 'danger-image', 'controls', 'add-controls'] as $view)--}}
+{{--                        @include('user.questions._'.$view)--}}
+{{--                    @endforeach--}}
 
-                            <div class='mb-4 animate-submit-button'>
-                                <button
-                                    class='btn btn-primary bg-primary hovered-ns-button border-info capitalize text-sm px-4 py-1'
-                                    id='data-submit'
-                                    @click='submit()'
-                                ><span class="spinner-border spinner-border-sm p-2 mr-2 d-none" id='data-processing'
-                                       style='margin-left:-.6rem;'></span>
-                                    Submit
-                                </button>
-                            </div>
-                    </div>
-                </div>
+{{--                    <div v-if='showControls'>--}}
+{{--                        @foreach (['udanger-ploss', 'add-udangers', 'add-rpersons', 'add-etimes'] as $view)--}}
+{{--                            @include('user.questions._'.$view)--}}
+{{--                        @endforeach--}}
 
-                <form method='get' action='docs/show-data' id='red_to_fin'>
-                    @csrf
-                </form>
+{{--                            <div class='mb-4 animate-submit-button'>--}}
+{{--                                <button--}}
+{{--                                    class='btn btn-primary bg-primary hovered-ns-button border-info capitalize text-sm px-4 py-1'--}}
+{{--                                    id='data-submit'--}}
+{{--                                    @click='submit()'--}}
+{{--                                ><span class="spinner-border spinner-border-sm p-2 mr-2 d-none" id='data-processing'--}}
+{{--                                       style='margin-left:-.6rem;'></span>--}}
+{{--                                    Submit--}}
+{{--                                </button>--}}
+{{--                            </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-            </div>
-        </div>
+
     </div>
     <script type="application/javascript">
         function _onFocusHandler(el) {

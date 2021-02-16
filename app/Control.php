@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Control extends Model
 {
     protected $fillable = ['name', 'k', 'rploss', 'field_id'];
+    public const k = 4;
 
     public function dangers(){
         return $this->belongsToMany(Danger::class,'control_dangers');
