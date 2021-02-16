@@ -196,15 +196,15 @@
                                     <p class="mt-4 mb-3 text-left ml-4 text-sm" :class="{'text-danger' : obj.hasError}">
                                         {{ obj.name }} <span v-if="obj.hasError"> * </span></p>
                                     <div class='card-body ns-input-container ml-4 pb-3 mt-0 pt-0'>
-                            <textarea type="text"
-                                      :rows="obj.rows || 1"
-                                      class="form-control border-0 border-bottom-dotted p-1 pl-3 font-size-09-rem"
-                                      :class="obj.class || ''"
-                                      :placeholder='obj.placeholder'
-                                      v-model="docAbout[obj.property]"
-                                      onclick="$(this).next().addClass('ns-test-underline');$(this).addClass('border-bottom-transparent')"
-                                      onblur="$(this).next().removeClass('ns-test-underline');$(this).removeClass('border-bottom-transparent')"
-                            ></textarea>
+                                        <textarea type="text"
+                                                  :rows="obj.rows || 1"
+                                                  class="form-control border-0 border-bottom-dotted p-1 pl-3 font-size-09-rem"
+                                                  :class="obj.class || ''"
+                                                  :placeholder='obj.placeholder'
+                                                  v-model="docAbout[obj.property]"
+                                                  onclick="$(this).next().addClass('ns-test-underline');$(this).addClass('border-bottom-transparent')"
+                                                  onblur="$(this).next().removeClass('ns-test-underline');$(this).removeClass('border-bottom-transparent')"
+                                        ></textarea>
                                         <div class="ns-underline"
                                              style='background-color:#63759b !important; height: 1px !important;'></div>
                                     </div>

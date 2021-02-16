@@ -5,8 +5,7 @@ function run(method, url, data, options = null) {
     return axios[method](url, data, options);
 }
 
-function errorHandler(status, data) {
-    alert('დაფიქსირდა შეცდომა. სცადეთ თავიდან')
+function errorHandler({status, data}) {
     throw new Error(`Error occurred when processing your request. status - ${status}, body - ${data}`)
 }
 
@@ -26,14 +25,14 @@ const httpService = {
             if (httpService.redirect) {
                 window.location = httpService.path;
             } else {
-                errorHandler(status, data)
+                errorHandler({status, data})
                 console.log(err);
             }
         });
         if (status < STATUS_OK) {
             return data;
         } else {
-            errorHandler(status, data)
+            errorHandler({status, data})
         }
     },
 
@@ -42,13 +41,12 @@ const httpService = {
             if (httpService.redirect) {
                 alert('დაფიქსირდა შეცდომა. სცადეთ გვერდის დარეფრეშება');
                 return;
+            } else {
+                errorHandler({status, data});
             }
         });
-        if (status < STATUS_OK) {
-            return data;
-        } else {
-            errorHandler(status, data);
-        }
+
+        return data;
     }
 }
 

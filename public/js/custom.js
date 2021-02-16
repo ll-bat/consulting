@@ -13,18 +13,22 @@ function $2(cname){
 
 
 function imageLoad(event, id, fn){
-    let input = event.target
-    let reader = new FileReader();
-    reader.onload = function(){
-        let dataURL = reader.result;
+    return new Promise((res) => {
+        let input = event.target
+        let reader = new FileReader();
+        reader.onload = function(){
+            let dataURL = reader.result;
 
-        if (id)
-            $1(id).src = dataURL
-        if (fn){
-            fn(dataURL)
-        }
-    };
-    reader.readAsDataURL(input.files[0]);
+            if (id)
+                $1(id).src = dataURL
+            if (fn){
+                fn(dataURL)
+            }
+
+            res();
+        };
+        reader.readAsDataURL(input.files[0]);
+    })
 }
 
 let u = {
