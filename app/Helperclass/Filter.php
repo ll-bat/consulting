@@ -14,11 +14,13 @@ use Illuminate\Support\Facades\DB;
 
 class Filter
 {
-
     private $data;
-    private $fieldId;
+    private int $fieldId;
     private $oldImages;
-    private $imageNameValidator = [];
+    private array $imageNameValidator = [];
+
+    private array $addedValues = [];
+
 
     public function __construct($obj, $fieldId)
     {
@@ -30,6 +32,79 @@ class Filter
                 $this->makeAssoc($obj)
             )
         );
+
+        $this->saveAddedValues();
+    }
+
+    /**
+     * @return array|array[]
+     */
+    public function getAddedValues(): array
+    {
+        return $this->addedValues;
+    }
+
+    /**
+     * This function appends user inputs to actual data attributes. Say, user added two potential losses(ploss),
+     * if they pass validation tests, then we take them and append to data['ploss'] attribute to show them in the form
+     * Also , we should make a record in UserTexts to notify admin that new 'type' has been added
+     * Admin has three options: Add, Ignore, Delete
+     * Add: Adds new 'type' to actual data, so it becomes available for all users.
+     * Ignore: this 'type' remains in only current form and is not available for others.
+     * Delete: this 'type' is deleted from current form and no one can see it.
+     */
+    private function saveAddedValues() {
+        foreach ($this->data as $ind => &$d) {
+
+            /**
+             * We divide all added data by danger id and save in that format
+             * When editing each danger, there should be corresponding form of these values at the very bottom of danger.
+             */
+            $did = $d['did'];
+            if (!isset($this->addedValues[$did])) {
+                $this->addedValues[$did] = [
+                    'newControls' => [],
+                    'newPloss' => [],
+                    'newUdangers' => []
+                ];
+            }
+
+            foreach ($d['data']['newUdangers'] as $newUdanger) {
+                $d['data']['udanger'][] = [
+                    'model' => ['name' => $newUdanger['value']],
+                    'added' => true,
+                ];
+                $this->addedValues[$did]['newUdangers'][] = $newUdanger['value'];
+            }
+
+            foreach ($d['data']['newPloss'] as $newPloss) {
+                $d['data']['ploss'][] = [
+                    'model' => ['name' => $newPloss['value'], 'k' => Ploss::k],
+                    'added' => true,
+                ];
+                $this->addedValues[$did]['newPloss'][] = $newPloss['value'];
+            }
+
+            foreach ($d['data']['newControls'] as $type => $controls) {
+                $ind = $type === 'first' ? 0 : 1;
+
+                foreach ($controls as $control) {
+                    $d['data']['control'][$ind][] = [
+                        'model' => ['name' => $control['value'], 'k' => Control::k, 'rploss' => 0],
+                        'added' => true,
+                    ];
+                    $this->addedValues[$did]['newControls'][] = $control['value'];
+                }
+            }
+
+            $d['data']['newControls'] = [];
+            $d['data']['newPloss'] = [];
+            $d['data']['newUdangers'] = [];
+
+            /**
+             * TODO: udangers are not recovered to correct state when editing form
+             */
+        }
     }
 
     /**
@@ -92,7 +167,7 @@ class Filter
     public function filter($o)
     {
         /**
-         * Check variables and their values. If at least one variable has invalid type or value, omit whole element...
+         * Check variables and their values. If at least one variable has invalid type or value, ignore whole element...
          */
 
         $obj = [];
@@ -178,6 +253,10 @@ class Filter
             return false;
         }
 
+        if (!count($o['control'])) {
+            return false;
+        }
+
         $data['control'] = [[], [], []];
         foreach ($o['control'] as $c) {
             if (!isset($c['id']) || !isset($c['value'])) {
@@ -210,25 +289,80 @@ class Filter
         /**
          * Filter input[type='text'] fields. Array keys are form names and values - validator functions
          */
+
+        $data['newUdangers'] = $data['rpersons'] = $data['newPloss'] = [];
+
         $types = [
-            'newControls' => 'isString',
             'newUdangers' => 'isString',
             'rpersons' => 'isString',
-            'etimes' => 'isDate'
+            'newPloss' => 'isString'
         ];
 
         foreach ($types as $type => $filter) {
             $data[$type] = [];
-            if (gettype($o[$type]) == 'array') {
+            if (gettype($o[$type]) === 'array') {
                 foreach ($o[$type] as $n) {
                     if (isset($n['value'])) {
                         if (call_user_func([static::class, $filter], $n['value'])) {
-                            $data[$type][] = ['value' => $n['value']];
+                            if (mb_strlen($n['value'] < 350)) {
+                                $data[$type][] = ['value' => $n['value']];
+                            }
                         }
                     }
                 }
             }
         }
+
+        /**
+         * Filter added controls
+         * there should be two different arrays with keys: first: [], second: []
+         * each element in each type should be presented this way: ['value' => '...']
+         */
+
+        $newControls = [
+            'first' => [],
+            'second' => []
+        ];
+
+        foreach (['first', 'second'] as $type) {
+            if (isset($o['newControls'][$type]) && gettype($o['newControls'][$type]) === 'array') {
+                foreach ($o['newControls'][$type] as $cur) {
+                    if (isset($cur['value']) && $this->isString($cur['value'])) {
+                        $newControls[$type][] = ['value' =>  $cur['value']];
+                    }
+                }
+            }
+        }
+
+        $data['newControls'] = $newControls;
+
+        /**
+         * Filter added etimes
+         * As above, there should be two different arrays with keys: normal: [], time: []
+         * 'normal' has input[type='text'] format
+         * 'time' has input[type='date'] format
+         * array elements should be presented this way: ['value' => '...']
+         */
+
+        $etimes = [];
+        $validators = [
+            'normal' => 'isString',
+            'time' => 'isDate'
+        ];
+
+        foreach ($validators as $type => $validator) {
+            if (isset($o['etimes'][$type]) && gettype($o['etimes']) === 'array') {
+                foreach ($o['etimes'][$type] as $cur) {
+                    if (isset($cur['value'])) {
+                        if (call_user_func([static::class, $validator], $cur['value'])) {
+                            $etimes[] = ['value' => $cur['value'], 'type' => $type];
+                        }
+                    }
+                }
+            }
+        }
+
+        $data['etimes'] = $etimes;
 
         $obj['data'] = $data;
 
@@ -452,15 +586,22 @@ class Filter
         /**
          * These variables will store all added controls/udangers.
          */
-        $inputControls = [];
-        $inputUdangers = [];
 
-        $validatedControls = [];
-        $validatedUdangers = [];
+//        $inputControls = [];
+//        $inputUdangers = [];
+
+//        $validatedControls = [];
+//        $validatedUdangers = [];
+
+        /**
+         * This variable stores sum of all controls' k's grouped by its type [0,1]
+         */
+//        $userControlsSumByPidDid = [];
+//        $controlK = Control::k;
         /**
          *  Usage of high-order functions to filter user data;
          */
-        $data = filter($data, function (&$d) use ($processIds, $dangerProcessIds, $controlDangerIds, $potentialLossIds, $underDangerIds, $dangersMap, $controlsMap, &$inputUdangers, &$inputControls, &$validatedControls, &$validatedUdangers) {
+        $data = filter($data, function (&$d) use ($processIds, $dangerProcessIds, $controlDangerIds, $potentialLossIds, $underDangerIds, $dangersMap, $controlsMap) {
             [$pid, $did] = [$d['pid'], $d['did']];
             if (!isset($dangerProcessIds[$pid]) || !isset($dangerProcessIds[$pid][$did])) {
                 return false;
@@ -483,7 +624,7 @@ class Filter
             }, $d['data']['control']);
 
             /**
-             * Ploss and udanger have same structure, we can combine these two loops into one, but to make it easier to understand, we write them separately.
+             * Ploss and udanger have same structure, we can combine these two loops into one, but to make it easier for understanding, we write them separately.
              */
             $d['data']['ploss'] = filter($d['data']['ploss'], function (&$p) use ($potentialLossIds) {
                 $is = isset($potentialLossIds[$p['id']]);
@@ -508,93 +649,115 @@ class Filter
 
             /**
              * Iterate over user input control/udangers.
+             * $validatedControls are all controls divided by - $did.
              */
-            if (!isset($validatedControls[$did])) {
-                $validatedControls[$did] = [];
-            }
-            if (!isset($validatedUdangers[$did])) {
-                $validatedUdangers[$did] = [];
-            }
-            foreach ($d['data']['newControls'] as $newControl) {
-                if (strlen($newControl['value']) > 1) {
-                    $inputControls[] = $newControl['value'];
-                    $validatedControls[$did][] = $newControl['value'];
-                }
-            }
+//            if (!isset($validatedControls[$did])) {
+//                $validatedControls[$did] = [];
+//            }
+//            if (!isset($validatedUdangers[$did])) {
+//                $validatedUdangers[$did] = [];
+//            }
+//            foreach ($d['data']['newControls'] as $type => $newControls) {
+////                $index = $type === 'first' ? 0 : 1;
+//
+//                foreach ($newControls as $newControl) {
+//                    if (strlen($newControl['value']) > 1) {
+//                        $inputControls[] = $newControl['value'];
+//                        $validatedControls[$did][] = $newControl['value'];
+//                    } else {
+//                        continue;
+//                    }
+//
+//                    $d['data']['control'][$index][] = [
+//                        'model' => ['name' => $newControl['value'], 'k' => $controlK, 'rploss' => 0, 'added' => true],
+//                    ];
+//
+//                    if (!isset($userControlsSumByPidDid[$pid][$did])) {
+//                        $userControlsSumByPidDid[$pid][$did] = $controlK;
+//                    } else {
+//                        $userControlsSumByPidDid[$pid][$did] += $controlK;
+//                    }
 
-            foreach ($d['data']['newUdangers'] as $newUdanger) {
-                if (strlen($newUdanger['value']) > 1) {
-                    $inputUdangers[] = $newUdanger['value'];
-                    $validatedUdangers[$did][] = $newUdanger['value'];
-                }
-            }
+                    /**
+                     * TODO controls are added but RiskCalculation changes are not implemented yet.
+                     */
+//                }
+//            }
+
+//            foreach ($d['data']['newUdangers'] as $newUdanger) {
+//                if (strlen($newUdanger['value']) > 1) {
+//                    $inputUdangers[] = $newUdanger['value'];
+//                    $validatedUdangers[$did][] = $newUdanger['value'];
+//                }
+//            }
 
             return true;
         });
 
-        $controlModels = UserText::whereIn('name', $inputControls)
-            ->where(['type' => 'control'])
-            ->where(['field_id' => $this->fieldId])
-            ->select('name', 'danger_id')
-            ->get()
-            ->toArray();
-
-        $udangerModels = UserText::whereIn('name', $inputUdangers)
-            ->where(['type' => 'udanger'])
-            ->where(['field_id' => $this->fieldId])
-            ->select('name', 'danger_id')
-            ->get()
-            ->toArray();
-
-//        dd($udangerModels);
-
-        $inputControlsMap = [];
-        $inputUdangersMap = [];
-
-        foreach ($controlModels as $controlModel) {
-            $inputControlsMap[$controlModel['danger_id']][$controlModel['name']] = true;
-        }
-
-        foreach ($udangerModels as $udangerModel) {
-            $inputUdangersMap[$udangerModel['danger_id']][$udangerModel['name']] = true;
-        }
+//        $controlModels = UserText::whereIn('name', $inputControls)
+//            ->where(['type' => 'control'])
+//            ->where(['field_id' => $this->fieldId])
+//            ->select('name', 'danger_id')
+//            ->get()
+//            ->toArray();
+//
+//        $udangerModels = UserText::whereIn('name', $inputUdangers)
+//            ->where(['type' => 'udanger'])
+//            ->where(['field_id' => $this->fieldId])
+//            ->select('name', 'danger_id')
+//            ->get()
+//            ->toArray();
+//
+//        $inputControlsMap = [];
+//        $inputUdangersMap = [];
+//
+//        foreach ($controlModels as $controlModel) {
+//            $inputControlsMap[$controlModel['danger_id']][$controlModel['name']] = true;
+//        }
+//
+//        foreach ($udangerModels as $udangerModel) {
+//            $inputUdangersMap[$udangerModel['danger_id']][$udangerModel['name']] = true;
+//        }
 
         // Save current user id, instead of querying it for several times;
-        $userId = current_user()->id;
+//        $userId = current_user()->id;
 
         /**
          * Finally , we iterate over whole filtered data again and create a record for new control/udanger or
-         * omit them if that value already exists under current danger
+         * omit them if that value already exists under current danger.
+         * For now we divide user controls by its type and save it in $userControlsByDidForSum
+         * and also we calculate the sum of all controls of each type as it's needed for RiskCalculator
          */
-        foreach ($validatedControls as $did => $controls) {
-            foreach ($controls as $control) {
-                if (!isset($inputControlsMap[$did][$control])) {
-                    $inputControlsMap[$did][$control] = true;
-                    UserText::create([
-                        'user_id' => $userId,
-                        'field_id' => $this->fieldId,
-                        'danger_id' => $did,
-                        'name' => $control,
-                        'type' => 'control'
-                    ]);
-                }
-            }
-        }
+//        foreach ($validatedControls as $did => $controls) {
+//            foreach ($controls as $control) {
+//                if (!isset($inputControlsMap[$did][$control])) {
+//                    $inputControlsMap[$did][$control] = true;
+//                    UserText::create([
+//                        'user_id' => $userId,
+//                        'field_id' => $this->fieldId,
+//                        'danger_id' => $did,
+//                        'name' => $control,
+//                        'type' => 'control'
+//                    ]);
+//                }
+//            }
+//        }
 
-        foreach ($validatedUdangers as $did => $udangers) {
-            foreach ($udangers as $udanger) {
-                if (!isset($inputUdangersMap[$did][$udanger])) {
-                    $inputUdangersMap[$did][$udanger] = true;
-                    UserText::create([
-                        'user_id' => current_user()->id,
-                        'field_id' => $this->fieldId,
-                        'danger_id' => $did,
-                        'name' => $udanger,
-                        'type' => 'udanger'
-                    ]);
-                }
-            }
-        }
+
+//        foreach ($validatedUdangers as $did => $udangers) {
+//            foreach ($udangers as $udanger) {
+//                if (!isset($inputUdangersMap[$did][$udanger])) {
+//                    $inputUdangersMap[$did][$udanger] = true;
+//                    UserText::create([
+//                        'user_id' => current_user()->id,
+//                        'field_id' => $this->fieldId,
+//                        'danger_id' => $did,
+//                        'name' => $udanger,
+//                        'type' => 'udanger'
+//                    ]);
+//                }
+//            }
+//        }
 
         /*
          * Later, we'll need all danger control k's sum, we can calculate it now.
@@ -602,13 +765,14 @@ class Filter
          */
         $used = [];
         $dangerIds = [];
-        foreach ($data as $d) {
+        foreach ($data as $ind => $d) {
             $did = $d['did'];
             if (!isset($used[$did])) {
                 $used[$did] = true;
                 $dangerIds[] = $did;
             }
         }
+
         $dangerControlsSum = DB::table('controls')
             ->join('control_dangers', 'controls.id', '=', 'control_dangers.control_id')
             ->whereIn('control_dangers.danger_id', $dangerIds)
@@ -652,7 +816,7 @@ class Filter
      */
     public function isString($str): bool
     {
-        return is_string($str);
+        return is_string($str) && mb_strlen($str) > 0;
     }
 
     /**

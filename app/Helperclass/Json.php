@@ -4,6 +4,7 @@ namespace App\Helperclass;
 
 use App\Export;
 use App\Objects;
+use Exception;
 
 class Json {
     private int $exportId;
@@ -36,7 +37,7 @@ class Json {
     /**
      * @param $data
      * @return int
-     * @throws \Exception
+     * @throws Exception
      */
     public function save($data): int
     {
@@ -51,24 +52,26 @@ class Json {
 
     /**
      * @param $data
-     * @return mixed
+     * @return int
+     * @throws Exception
      */
-    public function create($data) {
+    public function create($data): int
+    {
         $docData = session()->get('_docData') ?? false;
         if (!$docData) {
-            throw new \Exception('Bad request', 400);
+            throw new Exception('Bad request', 400);
         }
 
         $objectId = $docData['objectId'];
 
         $ok = Objects::where('id', $objectId)->where('user_id', current_user()->id)->limit(1)->count() > 0;
         if (!$ok) {
-            throw new \Exception('Such object does not exist', 400);
+            throw new Exception('Such object does not exist', 400);
         }
 
         $filename = $docData['filename'];
         if (!$filename) {
-            throw new \Exception('Document filename not provided', 400);
+            throw new Exception('Document filename not provided', 400);
         }
 
         $export = Export::create([
@@ -91,6 +94,7 @@ class Json {
     /**
      * @param $data
      * @return int
+     * @throws Exception
      */
     public function update($data): int
     {
@@ -99,12 +103,12 @@ class Json {
             ->first();
 
         if (!$export) {
-            throw new \Exception('Such export does not exist', 400);
+            throw new Exception('Such export does not exist', 400);
         }
 
         $ok = $export->update(['data' => $data]);
         if (!$ok) {
-            throw new \Exception('ვერ მოხერხდა დოკუმენტის განახლება გაურკვეველი მიზეზების გამო. გთხოვთ, სცადოთ ახლიდან', 400);
+            throw new Exception('ვერ მოხერხდა დოკუმენტის განახლება გაურკვეველი მიზეზების გამო. გთხოვთ, სცადოთ ახლიდან', 400);
         }
 
         return $this->exportId;

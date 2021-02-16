@@ -23,10 +23,10 @@ class FinalData
     /**
      * @param $obj
      * @param int $fieldId
-     * @return array
+     * @return array|bool
      * @throws Exception
      */
-    public function init($obj, int $fieldId): array
+    public function init($obj, int $fieldId)
     {
         if (count($obj) < 1) {
             throw new Exception('No data provided', 400);
@@ -43,11 +43,27 @@ class FinalData
         $links = $this->qualify($countAll, $object);
 
         if ($this->mode === self::DEFAULT_MODE) {
+            /**
+             * Create new instance of Json class get/set export data
+             */
             $json = new Json($this->exportId);
+
+            /**
+             * Set field id to search export in.
+             */
             $json->setFieldId($fieldId);
+
+            /**
+             * Update data and get updated/created export id and its data before updating.
+             */
             $this->exportId = $json->save([$object, $links, $countAll]);
-            return [];
+
+            return true;
+
         } else {
+            /**
+             * In this case, this is testing mode, we don't need to update or create anything.
+             */
             return [$object, $links, $countAll];
         }
 
@@ -193,7 +209,7 @@ class FinalData
                 foreach ($o['control'] as $b) $mx = max($mx, count($b));
 
                 foreach ($o as $c => $val) {
-                    if (gettype($val) == 'array' && !in_array($c, ['control', 'newControls', 'newUdangers', 'result']))
+                    if (gettype($val) == 'array' && !in_array($c, ['control', 'newControls', 'newUdangers', 'newPloss', 'result']))
                         $mx = max($mx, count($val));
                 }
                 $object[$n][$m]['max'] = $mx;

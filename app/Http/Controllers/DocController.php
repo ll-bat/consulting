@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Export;
 use App\Field;
 use App\Helperclass\QuestionsJson;
+use App\Helperclass\UserInputs;
 use App\Objects;
 use App\Process;
 use App\UserText;
@@ -182,6 +183,9 @@ class DocController extends Controller
             $filter->getImageRule()
         );
 
+        /**
+         * Upload user images to remote server and save new names.
+         */
         foreach ($data as $ind => $d) {
             if ($d['data']['hasImage'] && !isset($d['data']['oldImage'])) {
                 //   $name = request($d['imageName'])->store('testing');
@@ -190,8 +194,46 @@ class DocController extends Controller
             }
         }
 
-        $exportId = $this->showData($data, $fieldId);
+        /**
+         * As we already have some useful data for creating UserInputs, implement the rest here...
+         */
+
+        /**
+         * Set false to $exportId by default.
+         */
+        $exportId = false;
+
+        /**
+         * If this is an update, then _questionsData must be set in session
+         */
+        if (session()->has('_questionsData')) {
+            $exportId = session()->get("_questionsData")['exportId'];
+        }
+
+        /**
+         * Create finalData instance to save new data.
+         */
+        $reader = new FinalData($exportId);
+        $reader->init($data, $fieldId);
+
+        /**
+         * After FinalData init method, we have exportId.
+         */
+        $exportId = $reader->getExportId();
+
+        /**
+         * If the user adds custom potentialLosses, controls or udangers, we should create corresponding records in database.
+         */
+        UserInputs::createRecords($exportId, $fieldId, $filter->getAddedValues());
+
+        /**
+         * Clear session.
+         */
         $this->clearSession();
+
+        /**
+         * Return new form path to user
+         */
         return route('user.export', ['export' => $exportId]);
     }
 
@@ -200,25 +242,6 @@ class DocController extends Controller
      */
     public function clearSession() {
         session()->forget(['_docData', '_questionsData', '_oldImages', '_exportId']);
-    }
-
-    /**
-     * @param $data
-     * @param int $fieldId
-     * @return false|Application|ResponseFactory|RedirectResponse|Response
-     * @throws Exception
-     */
-    public function showData($data, int $fieldId)
-    {
-        $exportId = false;
-        if (session()->has('_questionsData')) {
-            $exportId = session()->get("_questionsData")['exportId'];
-        }
-
-        $reader = new FinalData($exportId);
-        $reader->init($data, $fieldId);
-
-        return $reader->getExportId();
     }
 
 }
