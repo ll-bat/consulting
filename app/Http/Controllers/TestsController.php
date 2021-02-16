@@ -9,11 +9,13 @@ use App\Helperclass\FinalData;
 use App\Helperclass\Obj;
 use App\Helperclass\Json;
 use App\Helperclass\Content;
+use App\Helperclass\QuestionsJson;
 use App\Helperclass\SiteJson;
 use App\Helperclass\Texts;
 use App\Helperclass\Services;
 use App\Helperclass\Customizable;
 use App\Export;
+use App\Helperclass\UserInputs;
 use App\Process;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
@@ -26,7 +28,13 @@ class TestsController extends Controller
 {
       public function index()
       {
-//          $this->calc();
+//          $a = ['1', '2', '1'];
+//
+//          $b = ['1'];
+//
+//          dd(array_diff($b, $a));
+
+          $this->calc();
 
 //          $sql = 'select danger_id, process_id from danger_process where danger_id in (52) and process_id in (1)';
 //
@@ -51,17 +59,34 @@ class TestsController extends Controller
       }
 
       public function calc() {
-          $export = Export::find(11);
+          $export = Export::find(74);
           $data = json_decode($export->data);
           $data = $data[0];
-          $data = $this->makeAssoc($data);
-          $data = $this->convert($data);
-          $data = $this->correctControls($data);
 
-          $data = (new Filter($data))->getData();
+//          UserInputs::createRecords(1, 1, $data, []);
+//          $data = $this->makeAssoc($data);
 
-          $finalData = new FinalData(false, 1);
-          $data = $finalData->init($data);
+
+//          return $data;
+//          dd($data);
+
+          $questions = new QuestionsJson($data, false);
+//          dd($questions->getData());
+//          $data = $this->convert($data);
+//          $data = $this->correctControls($data);
+
+          $data = $questions->getData();
+
+          $filter = new Filter($data, 1);
+          $data = $filter->getData();
+
+//          dd($filter->getAddedValues());
+          UserInputs::createRecords(74, 1, $filter->getAddedValues());
+
+          dd($data);
+
+//          $finalData = new FinalData(false, 1);
+//          $data = $finalData->init($data, 1);
 
           dd($data);
       }
