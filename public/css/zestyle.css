@@ -359,7 +359,7 @@ input:checked + .slider:before {
     animation-fill-mode: forwards;
 }
 
-.ns-test-underline {
+.ns-test-underline, .ns-test-underline-mx {
     background-color: #673ab7 !important;
     height: 2px !important;
     animation-name: _underline;
@@ -368,12 +368,27 @@ input:checked + .slider:before {
     animation-fill-mode: forwards;
 }
 
+.ns-test-underline-mx {
+    animation-name: _underline-mx;
+    animation-duration: .26s;
+    animation-timing-function: ease-in-out;
+}
+
 @keyframes _underline {
     0% {
         width: 0
     }
     100% {
         width: 96%
+    }
+}
+
+@keyframes _underline-mx {
+    0% {
+        width: 0
+    }
+    100% {
+        width: 100%;
     }
 }
 
