@@ -209,7 +209,8 @@ class DangerController extends Controller
             'user_texts.type' => $type
         ])
             ->join('users', 'user_texts.user_id', 'users.id')
-            ->select('users.username', 'user_texts.name', 'user_texts.export_id', 'user_texts.id')
+            ->select('users.username', 'user_texts.name', 'user_texts.export_id', 'user_texts.id', 'user_texts.is_ignored')
+            ->orderBy('user_texts.updated_at', 'desc')
             ->get()
             ->toArray();
 
@@ -228,10 +229,18 @@ class DangerController extends Controller
         ]);
    }
 
-   public function submitUserText(Danger $danger, $userText, $operationType) {
+    /**
+     * @param Danger $danger
+     * @param $userText
+     * @param $operationType
+     * @return RedirectResponse
+     */
+   public function submitUserText(Danger $danger, $userText, $operationType): RedirectResponse
+   {
        $userText = UserText::find($userText);
 
-       function success() {
+       function success(): RedirectResponse
+       {
            return back()->with('message', 'ოპერაცია წარმატებით დასრულდა');
        }
 
@@ -244,10 +253,7 @@ class DangerController extends Controller
        }
 
        if ($operationType === 'ignore') {
-           /**
-            * TODO: $userText should be flagged as ignored in admin panel.
-            */
-           $userText->delete();
+           $userText->update(['is_ignored' => true]);
            return success();
        }
 

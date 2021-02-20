@@ -49,7 +49,14 @@
                 </li>
                 @foreach($data as $ind => $d)
                 <li class="list-group-item pl-4">
-                    <p class="text-sm text-muted m-0 p-0"> by {{ $d['username'] }}</p>
+                    <p class="text-sm text-muted m-0 p-0">
+                        by {{ $d['username'] }}
+                        @if ($d['is_ignored'])
+                            <b class="text-orange ml-3">
+                                იგნორირებულია !
+                            </b>
+                        @endif
+                    </p>
                     <div class="row">
                         <div class="col-sm-12 col-md-10 col-lg-8 mt-3">
                             <span> {{ $ind + 1 }}. {{ $d['name'] }} </span>
@@ -60,11 +67,13 @@
                                style="border-width: 1px !important;">
                                 <i class="fa fa-check text-sm"></i>
                             </a>
-                            <a class="btn btn-outline-orange"
-                               href="added/{{ $d['id'] }}/ignore"
-                               style="border-width: 1px !important;">
-                                <i class="fa fa-exclamation px-1 text-sm"></i>
-                            </a>
+                            @if (!$d['is_ignored'])
+                                <a class="btn btn-outline-orange"
+                                   href="added/{{ $d['id'] }}/ignore"
+                                   style="border-width: 1px !important;">
+                                    <i class="fa fa-exclamation px-1 text-sm"></i>
+                                </a>
+                            @endif
                             <a class="btn btn-outline-danger"
                                href="added/{{ $d['id'] }}/remove"
                                style="border-width: 1px !important;">

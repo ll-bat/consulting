@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class UserText extends Model
 {
-     protected $fillable = ['user_id','field_id','danger_id', 'export_id', 'name', 'created_at', 'updated_at', 'type'];
+     protected $fillable = ['user_id','field_id','danger_id', 'export_id', 'name', 'created_at', 'updated_at', 'type', 'is_ignored'];
 
     /**
      * @return BelongsTo
