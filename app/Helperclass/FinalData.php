@@ -6,67 +6,21 @@ use Exception;
 
 class FinalData
 {
-    protected $exportId = null;
+    private $exportId = null;
     private int $mode = 0;
-    private const DEFAULT_MODE = 0;
+    public const DEFAULT_MODE = 0;
+    public const RETURN_DATA = 1;
+    private bool $wantsToSave = true;
 
     /**
      * FinalData constructor.
      * @param $exportId
      * @param int $mode
      */
-    public function __construct($exportId, $mode = self::DEFAULT_MODE) {
+    public function __construct($exportId, $mode = self::DEFAULT_MODE)
+    {
         $this->exportId = $exportId;
         $this->mode = $mode;
-    }
-
-    /**
-     * @param $obj
-     * @param int $fieldId
-     * @return array|bool
-     * @throws Exception
-     */
-    public function init($obj, int $fieldId)
-    {
-        if (count($obj) < 1) {
-            throw new Exception('No data provided', 400);
-        }
-        /**
-         * $countAll is number of table columns;
-         * $object is a helper to generate form in user/mydocs
-         */
-        [$object, $countAll] = $this->setData($obj);
-
-        /**
-         * $links is a helper variable for object to generate form. f.e when drawing form when to show new danger column, new process column etc.
-         */
-        $links = $this->qualify($countAll, $object);
-
-        if ($this->mode === self::DEFAULT_MODE) {
-            /**
-             * Create new instance of Json class get/set export data
-             */
-            $json = new Json($this->exportId);
-
-            /**
-             * Set field id to search export in.
-             */
-            $json->setFieldId($fieldId);
-
-            /**
-             * Update data and get updated/created export id and its data before updating.
-             */
-            $this->exportId = $json->save([$object, $links, $countAll]);
-
-            return true;
-
-        } else {
-            /**
-             * In this case, this is testing mode, we don't need to update or create anything.
-             */
-            return [$object, $links, $countAll];
-        }
-
     }
 
     /**
@@ -78,11 +32,65 @@ class FinalData
     }
 
     /**
+     * @param $obj
+     * @param int $fieldId
+     * @return array|bool
+     * @throws Exception
+     */
+    public function init($obj, int $fieldId = -1)
+    {
+        if (count($obj) < 1) {
+            throw new Exception('No data provided', 400);
+        }
+        /**
+         * $countAll is number of table columns;
+         * $object is a helper to generate form in user/mydocs
+         */
+        [$object, $countAll] = $this->formatDataAndDoRisksCalculations($obj);
+
+        /**
+         * $links is a helper variable for object to generate form. f.e when drawing form when to show new danger column, new process column etc.
+         */
+        $links = $this->getTableElements($countAll, $object);
+
+        if ($this->mode === self::DEFAULT_MODE) {
+            /**
+             * Create new instance of Json class to get/set export data
+             */
+            $json = new Json($this->exportId);
+
+            /**
+             * Set fieldId to search export in.
+             */
+            if ($fieldId < 1) {
+                throw new Exception('Wrong field id');
+            }
+
+            $json->setFieldId($fieldId);
+
+            /**
+             * Update data and get updated/created export id and its data before updating
+             */
+            $this->exportId = $json->save([$object, $links, $countAll]);
+
+            return true;
+
+        } else {
+            /**
+             * In this case, we don't want to update or create export.
+             * Instead return that data.
+             */
+            return [$object, $links, $countAll];
+        }
+
+    }
+
+    /**
      * @param $all
      * @param $object
      * @return array
      */
-    public function qualify($all, $object): array
+    public function getTableElements($all, $object): array
     {
         $link = [];
         $currentProcessMax = $object[0]['max'];
@@ -140,7 +148,7 @@ class FinalData
      * @param $obj
      * @return array|false
      */
-    public function setData($obj)
+    public function formatDataAndDoRisksCalculations($obj)
     {
         /**
          * Variable where all the data is stored
@@ -153,20 +161,23 @@ class FinalData
         $links = [];
 
         /**
-         * Iterate over all array elements and process each of them separately
+         * Iterate over each array element and process them separately
+         * First, we group them by processId.
+         * Next, we do risk calculations for each danger
+         * When this is done, we count elements in each group (This is a helper variable to show data in table , later)
          */
         foreach ($obj as $ind => $o) {
             $dangerId = $o['did'];
             $processId = $o['pid'];
 
-            $pkey = "id{$processId}";
+            if (!isset($o['data'])) {
+                continue;
+            }
+
+            $pkey = $processId;
             if (!isset($links[$pkey])) {
                 $object[] = [];
                 $links[$pkey] = count($object) - 1;
-            }
-
-            if (!isset($o['data'])) {
-                return false;
             }
 
             $calculator = new RiskCalculator($o['dangerModel']['k'], [
@@ -177,14 +188,17 @@ class FinalData
 
             $o['data']['result'] = $calculator->getResult();
 
-            $obj[$ind] = [
+            $object[$links[$pkey]][] = [
                 'pid' => $processId,
                 'did' => $dangerId,
                 'data' => $o['data'],
                 'processName' => $o['processModel']['name'],
-                'dangerName' => $o['dangerModel']['name']
+                'processModel' => $o['processModel'],
+                'dangerName' => $o['dangerModel']['name'],
+                'dangerModel' => $o['dangerModel'],
+                'dangerControlsSum' => $o['dangerControlsSum']
             ];
-            $object[$links[$pkey]][] = $obj[$ind];
+
         }
 
         $object = $this->countData($object);

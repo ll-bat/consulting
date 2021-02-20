@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Helperclass\UserInputs;
+use App\Ploss;
 use App\Process;
 use App\Danger;
 use App\Control;
 use App\DangerProcess;
 use App\ControlDanger;
+use App\Udanger;
+use App\UserText;
 use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -69,12 +73,30 @@ class DangerController extends Controller
         $ycontrol = Control::whereIn('id', $l)->get();
         $ncontrol = Control::whereNotIn('id', $l)->where(['field_id' => $this->fieldId])->get();
 
+        $controlsCount = UserText::where([
+            'danger_id' => $danger->id,
+            'type' => 'control'
+        ])->count();
+
+        $plossCount = UserText::where([
+            'danger_id' => $danger->id,
+            'type' => 'ploss'
+        ])->count();
+
+        $udangerCount = UserText::where([
+            'danger_id' => $danger->id,
+            'type' => 'udanger'
+        ])->count();
+
         return view('admin.docs.edit-danger', [
             'danger' => $danger,
             'procs'  => Process::where('field_id', $this->fieldId)->get(),
             'list'   => $list,
             'ycontrol' => $ycontrol,
-            'ncontrol' => $ncontrol
+            'ncontrol' => $ncontrol,
+            'controlsCount' => $controlsCount,
+            'plossCount' => $plossCount,
+            'udangerCount' => $udangerCount
         ]);
     }
 
@@ -176,4 +198,108 @@ class DangerController extends Controller
 
         return back()->with('message', 'კონტროლის ზომა წარმატებით დაემატა');
    }
+
+   public function addedByUsers(Danger $danger, $type) {
+        if (!in_array($type, ['control', 'ploss', 'udanger'])) {
+            return back()->with('error', 'Not found');
+        }
+
+        $data = UserText::where([
+            'user_texts.danger_id' => $danger->id,
+            'user_texts.type' => $type
+        ])
+            ->join('users', 'user_texts.user_id', 'users.id')
+            ->select('users.username', 'user_texts.name', 'user_texts.export_id', 'user_texts.id')
+            ->get()
+            ->toArray();
+
+        $title = 'კონტროლის ზომები';
+        if ($type === 'ploss') {
+            $title = 'პოტენციური ზიანი';
+        } else if ($type === 'udanger') {
+            $title = 'ვინ იმყოფება საფრთხის ქვეშ';
+        }
+
+        return view('admin.docs.danger-controls', [
+            'data' => $data,
+            'danger' => $danger->name,
+            'title' => $title,
+            'type' => $type
+        ]);
+   }
+
+   public function submitUserText(Danger $danger, $userText, $operationType) {
+       $userText = UserText::find($userText);
+
+       function success() {
+           return back()->with('message', 'ოპერაცია წარმატებით დასრულდა');
+       }
+
+       if (!$userText) {
+           return success();
+       }
+
+       if (!in_array($operationType, ['approve', 'ignore', 'remove'])) {
+           return back()->with('error', 'დაფიქსირდა შეცდომა, სცადეთ თავიდან');
+       }
+
+       if ($operationType === 'ignore') {
+           /**
+            * TODO: $userText should be flagged as ignored in admin panel.
+            */
+           $userText->delete();
+           return success();
+       }
+
+       if ($operationType === 'approve') {
+           $name = $userText->name;
+           $k = false;
+           $type = $userText->type;
+
+           if ($type === 'control') {
+               $k = Control::k;
+           } else if ($type === 'ploss') {
+               $k = Ploss::k;
+           }
+
+           $params = ['name' => $name, 'field_id' => $this->fieldId];
+           if ($k) {
+               $params['k'] = $k;
+           }
+
+           $types = [
+               'ploss' => Ploss::class,
+               'udanger' => Udanger::class,
+               'control' => Control::class,
+           ];
+
+           $c = $types[$type]::create($params);
+
+           if ($type === 'control') {
+               ControlDanger::create(['control_id' => $c->id, 'danger_id' => $danger->id]);
+           }
+
+           $userText->delete();
+
+           return success();
+       } else {
+
+           try {
+
+               UserInputs::filterExport($userText->export_id, $danger->id, $userText->name, $userText->type);
+
+               $userText->delete();
+
+               return success();
+
+           } catch (Exception $e) {
+
+               return back()->with('error', 'დაფიქსირდა შეცდომა. გთხოვთ, სცადოთ თავიდან');
+
+           }
+
+       }
+
+   }
+
 }

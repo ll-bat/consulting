@@ -28,17 +28,13 @@ class UserTextsController extends Controller
 
     public function index()
     {
-        $dangers = [];
-        $controls = UserText::where('type', 'control')->where('field_id', $this->fieldId)->get();
-        $udangers = UserText::where('type', 'udanger')->where('field_id', $this->fieldId)->get();
-        $empty = $controls->count() == 0 && $udangers->count() == 0;
+        $dangers = UserText::where(['field_id' => $this->fieldId])
+            ->select('danger_id')
+            ->with(['dangers' =>  fn ($query) => $query->select('id', 'name')])
+            ->distinct()
+            ->simplePaginate(20);
 
-        foreach ($controls as $c) {
-            $d = Danger::find($c->danger_id)->name;
-            $dangers[$d][] = $c;
-        }
-
-        return view('admin.docs.usertexts', compact('dangers', 'udangers', 'empty'));
+        return view('admin.docs.usertexts', compact('dangers'));
     }
 
     public function editControl($id)

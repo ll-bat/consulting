@@ -152,6 +152,9 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
             Route::get('danger/{danger}/edit/{control}/detach', 'DangerController@detach');
             Route::get('danger/{danger}/edit/{control}/attach', 'DangerController@attach');
 
+            Route::get('danger/{danger}/{type}', 'DangerController@addedByUsers');
+            Route::get('danger/{danger}/added/{user_texts}/{type}', 'DangerController@submitUserText');
+
             Route::get('control/{control}/edit', 'ControlController@edit')->name('control.edit');
             Route::post('control/{control}/update', 'ControlController@update');
             Route::delete('control/{control}/rdelete', 'ControlController@rdelete');
@@ -170,14 +173,14 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
             Route::post('import/controls/{danger}', 'ImportsController@importControl')->name('danger.importControls');
 
             Route::get('added-by-users', 'UserTextsController@index');
-            Route::get('added-by-users/control/{UserText}/edit', 'UserTextsController@editControl');
-            Route::get('added-by-users/udanger/{UserText}/edit', 'UserTextsController@editUdanger');
-            Route::post('added-by-users/control/{UserText}/update', 'UserTextsController@updateControl');
-            Route::post('added-by-users/udanger/{UserText}/update', 'UserTextsController@updateUdanger');
-            Route::post('added-by-users/control/{UserText}/delete', 'UserTextsController@deleteControl');
-            Route::post('added-by-users/udanger/{UserText}/delete', 'UserTextsController@deleteUdanger');
-            Route::post('add-control/{UserText}', 'UserTextsController@store');
-            Route::post('add-udanger/{UserText}', 'UserTextsController@storeUdanger');
+//            Route::get('added-by-users/control/{UserText}/edit', 'UserTextsController@editControl');
+//            Route::get('added-by-users/udanger/{UserText}/edit', 'UserTextsController@editUdanger');
+//            Route::post('added-by-users/control/{UserText}/update', 'UserTextsController@updateControl');
+//            Route::post('added-by-users/udanger/{UserText}/update', 'UserTextsController@updateUdanger');
+//            Route::post('added-by-users/control/{UserText}/delete', 'UserTextsController@deleteControl');
+//            Route::p8ost('added-by-users/udanger/{UserText}/delete', 'UserTextsController@deleteUdanger');
+//            Route::post('add-control/{UserText}', 'UserTextsController@store');
+//            Route::post('add-udanger/{UserText}', 'UserTextsController@storeUdanger');
 
             Route::get('check', 'DocController@show')->name('admin.check');
         });

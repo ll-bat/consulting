@@ -131,100 +131,31 @@
 
             <div class="col-lg-7 col-md-10 col-sm-12 col-12">
                 <div class='card rounded-10 border-0 pb-3 animate-scale'>
-                    @include('admin.docs._usertext-control-part')
-                </div>
-            </div>
+                    <div class='card-body text-left px-4' style='font-size:1.2em;'>
+                        <h5 class='text-center py-3 px-2'>
+                            დაემატა საფრთხეებს
+                        </h5>
 
-            <div class="col-lg-7 col-md-10 col-sm-12 col-12" id='udangers'>
-                <div class='card rounded-10 border-0 pb-3 animate-fall-dawn' style="">
-                    @include('admin.docs._usertext-udanger-part')
+                        @foreach ($dangers as $ind => $d)
+                            <div class='mt-2 mb-4 mr-2 ml-4'>
+                                <a href='danger/{{$d->danger_id}}/edit'>
+                                    <h5 class='text-lightblack text-dark text-lowercase py-2 px-0'> {{$ind + 1}}. {{$d->dangers->name}}(*) </h5>
+                                </a>
+                            </div>
+                        @endforeach
+
+                        @if (count($dangers) == 0)
+                            <div class='mt-2 mb-4 mr-2 ml-4'>
+                                <h5 class='text-lightblack text-dark text-lowercase py-2 px-0'> მონაცემები არ არის </h5>
+                            </div>
+                        @endif
+
+                        {{ $dangers->links() }}
+
+                    </div>
                 </div>
             </div>
 
             @endsection
-
-            @section('script')
-                <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-                <script>
-
-                    function clickAction(method, url, id, did, remid) {
-                        axios[method](url, {}).then(res => {
-                            let cnt = res.data
-                            if (cnt == 0) $1(remid).remove();
-                        })
-                            .catch((err) => {
-                                alert('სამწუხაროდ, შეცდომა დაფიქსირდა. გთხოვთ სცადოთ თავიდან')
-                                console.log(err.response.data)
-                            })
-                    }
-
-                    function animateAction(id1, id2, id3, id4, id5) {
-                        $(`#${id1}`).remove()
-                        $(`#${id2}`).addClass("anim-spinner").removeClass('d-none')
-
-                        tout(() => {
-                            $(`#${id3}`).addClass('anim-text')
-                            $(`#${id2}`).remove()
-                            $(`#${id4}`).remove()
-                            tout(() => {
-                                // $(`#${id3}`).remove()
-                                $(`#${id5}`).remove()
-                            }, 700)
-                        }, 400)
-                    }
-
-                    function buttonClick() {
-
-                    }
-
-                    function checkButtonClick(id, type, did) {
-                        let st = `${type}${id}`
-                        let id1 = `check-button-${st}`, id2 = `spinner-${st}`, id3 = `text-${st}`, id4 = `div-${st}`,
-                            id5 = `full-${st}`
-                        let url = `add-control/${id}`, remid = `danger${did}`
-                        if (type == 'udanger') {
-                            url = `add-udanger/${id}`
-                            remid = `udangers`
-                        }
-
-                        clickAction('post', url, id, did, remid)
-                        animateAction(id1, id2, id3, id4, id5)
-                    }
-
-                    function removeButtonClick(id, type, did) {
-                        let st = `${type}${id}`
-                        let id1 = `remove-button-${st}`, id2 = `rspinner-${st}`, id3 = `text-${st}`, id4 = `div-${st}`,
-                            id5 = `full-${st}`
-                        let url = `added-by-users/control/${id}/delete`, remid = `danger${did}`
-                        if (type == 'udanger') {
-                            url = `added-by-users/udanger/${id}/delete`
-                            remid = `udangers`
-                        }
-
-                        clickAction('post', url, id, did, remid)
-                        animateAction(id1, id2, id3, id4, id5)
-                    }
-
-                    function startAnimation() {
-                        let cnt = $2('is-moving').length
-                        let cur = 0
-
-                        let upd = setInterval(() => {
-                            move(cur++)
-                            if (cur == cnt) clearInterval(upd)
-                        }, 100)
-
-                        function move(i) {
-                            add($2('is-moving')[i], 'move')
-                        }
-                    }
-
-                    {{--let path = '{{url()->previous()}}'--}}
-                    {{--let hs = path.split('/').includes('added-by-users')--}}
-
-                    {{--if (!hs) startAnimation()--}}
-                    {{--else --}}
-                    $('.is-moving').css({'opacity': '1'})
-
-                </script>
-@endsection
+        </div>
+    </div>
