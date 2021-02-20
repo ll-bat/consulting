@@ -4,7 +4,7 @@ import {
     SET_DANGERS, SET_ELEMENT, SET_PROCESS,
     TOGGLE_CONTROLS, TOGGLE_CONTROLS_LOADER,
     TOGGLE_DANGER_LOADER,
-    TOGGLE_DANGERS, UPDATE_STORE
+    TOGGLE_DANGERS, TOGGLE_MAIN_LOADER, UPDATE_STORE
 } from "./mutation-types";
 import httpService from "../../../services/httpService";
 import fetcher from "../../../classes/Fetcher";
@@ -16,6 +16,7 @@ export function letsTest({commit}) {
 export async function getProcesses({commit}) {
     let data = await httpService.get('api/all-data');
     commit(SET_API_DATA, data);
+    commit(TOGGLE_MAIN_LOADER, false);
 }
 
 export function setProcess({commit}, id) {

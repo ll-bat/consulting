@@ -1,9 +1,10 @@
 <template>
     <div class="row justify-content-center align-items-center">
         <div class="col-xl-6 col-lg-7 col-md-10 col-sm-12 col-12 mt-md-0 mt-sm-5 mt-5" style="min-width: 900px">
-            <div class="text-center" :class="{'d-none': !loading}" style="margin-top:30%;">
-                <div class="spinner-border text-warning spinner-loader"></div>
-            </div>
+            <div class="danger-skeleton" v-if="loading"></div>
+            <div class="danger-skeleton my-3" v-if="loading"></div>
+            <div class="controls-skeleton" v-if="loading"></div>
+            <div class="danger-skeleton my-3" v-if="loading"></div>
 
             <processes></processes>
 
@@ -59,11 +60,10 @@ export default {
         Processes, Dangers, DangerImage, Controls, PlossUdanger, AddControls, UserInput
     },
     computed: {
-        ...mapState(['showControls', 'info', 'fm', 'processes'])
+        ...mapState(['showControls', 'info', 'fm', 'processes', 'loading'])
     },
     data() {
         return {
-            loading: true,
             rpersons : {},
             etimes : {},
         }
@@ -179,7 +179,6 @@ export default {
     },
 
     mounted() {
-        this.loading = false;
         $('#questions-content').removeClass('d-none');
     }
 }

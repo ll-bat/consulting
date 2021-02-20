@@ -4,7 +4,7 @@ import {
     SET_DANGERS, SET_ELEMENT, SET_PROCESS,
     TOGGLE_CONTROLS, TOGGLE_CONTROLS_LOADER,
     TOGGLE_DANGER_LOADER,
-    TOGGLE_DANGERS, UPDATE_STORE
+    TOGGLE_DANGERS, TOGGLE_MAIN_LOADER, UPDATE_STORE
 } from "./mutation-types";
 import {Data} from "../../../classes/Data";
 
@@ -80,5 +80,9 @@ export default {
 
     [UPDATE_STORE]: (state, fn) => {
         fn(state);
+    },
+
+    [TOGGLE_MAIN_LOADER]: (state, flag) => {
+        state.loading = flag;
     }
 }

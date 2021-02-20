@@ -2152,7 +2152,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_0
         text: 'დამატებითი <br/> <i class="text-muted">(გატარებული ან/და მიმდინარე)</i>',
         label: 'მონიშნეთ თუ სახეზე არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია)'
       }, {
-        text: 'გასატარებელი პრევენციული ღონისძიებ',
+        text: 'გასატარებელი პრევენციული ღონისძიება',
         label: ''
       }, {
         text: 'არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება',
@@ -2695,6 +2695,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1__["createNamespacedHelpers"])('questions'),
@@ -2725,10 +2726,9 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
     AddControls: _AddControls__WEBPACK_IMPORTED_MODULE_7__["default"],
     UserInput: _UserInput__WEBPACK_IMPORTED_MODULE_8__["default"]
   },
-  computed: _objectSpread({}, mapState(['showControls', 'info', 'fm', 'processes'])),
+  computed: _objectSpread({}, mapState(['showControls', 'info', 'fm', 'processes', 'loading'])),
   data: function data() {
     return {
-      loading: true,
       rpersons: {},
       etimes: {}
     };
@@ -2848,7 +2848,6 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
     this.init();
   },
   mounted: function mounted() {
-    this.loading = false;
     $('#questions-content').removeClass('d-none');
   }
 });
@@ -41050,19 +41049,21 @@ var render = function() {
           staticStyle: { "min-width": "900px" }
         },
         [
-          _c(
-            "div",
-            {
-              staticClass: "text-center",
-              class: { "d-none": !_vm.loading },
-              staticStyle: { "margin-top": "30%" }
-            },
-            [
-              _c("div", {
-                staticClass: "spinner-border text-warning spinner-loader"
-              })
-            ]
-          ),
+          _vm.loading
+            ? _c("div", { staticClass: "danger-skeleton" })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.loading
+            ? _c("div", { staticClass: "danger-skeleton my-3" })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.loading
+            ? _c("div", { staticClass: "controls-skeleton" })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.loading
+            ? _c("div", { staticClass: "danger-skeleton my-3" })
+            : _vm._e(),
           _vm._v(" "),
           _c("processes"),
           _vm._v(" "),
@@ -58053,8 +58054,9 @@ function _getProcesses() {
           case 3:
             data = _context.sent;
             commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["SET_API_DATA"], data);
+            commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["TOGGLE_MAIN_LOADER"], false);
 
-          case 5:
+          case 6:
           case "end":
             return _context.stop();
         }
@@ -58197,7 +58199,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!****************************************************************!*\
   !*** ./resources/js/store/modules/questions/mutation-types.js ***!
   \****************************************************************/
-/*! exports provided: ACTION_TEST, SET_API_DATA, SET_DANGERS, TOGGLE_DANGERS, TOGGLE_CONTROLS, TOGGLE_DANGER_LOADER, TOGGLE_CONTROLS_LOADER, SET_DANGER, SET_PROCESS, SET_CONTROLS_DATA, SET_ELEMENT, SET_DANGER_IMAGE, REMOVE_DANGER_IMAGE, UPDATE_STORE */
+/*! exports provided: ACTION_TEST, SET_API_DATA, SET_DANGERS, TOGGLE_DANGERS, TOGGLE_CONTROLS, TOGGLE_DANGER_LOADER, TOGGLE_CONTROLS_LOADER, SET_DANGER, SET_PROCESS, SET_CONTROLS_DATA, SET_ELEMENT, SET_DANGER_IMAGE, REMOVE_DANGER_IMAGE, UPDATE_STORE, TOGGLE_MAIN_LOADER */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -58216,6 +58218,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_DANGER_IMAGE", function() { return SET_DANGER_IMAGE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_DANGER_IMAGE", function() { return REMOVE_DANGER_IMAGE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_STORE", function() { return UPDATE_STORE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TOGGLE_MAIN_LOADER", function() { return TOGGLE_MAIN_LOADER; });
 var ACTION_TEST = 'TEST';
 var SET_API_DATA = 'SET_API_DATA';
 var SET_DANGERS = 'SET_DANGERS';
@@ -58230,6 +58233,7 @@ var SET_ELEMENT = 'SET_ELEMENT';
 var SET_DANGER_IMAGE = 'SET_DANGER_IMAGE';
 var REMOVE_DANGER_IMAGE = 'REMOVE_DANGER_IMAGE';
 var UPDATE_STORE = 'UPDATE_STORE';
+var TOGGLE_MAIN_LOADER = 'TOGGLE_MAIN_LOADER';
 
 /***/ }),
 
@@ -58299,6 +58303,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   state.data.oldImage = false;
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["UPDATE_STORE"], function (state, fn) {
   fn(state);
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["TOGGLE_MAIN_LOADER"], function (state, flag) {
+  state.loading = flag;
 }), _ACTION_TEST$SET_API_);
 
 /***/ }),
