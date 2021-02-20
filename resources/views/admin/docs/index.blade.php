@@ -251,7 +251,7 @@
 
                     <a href='docs/added-by-users' class='btn rounded-pill' style='border:0 !important'>
                         <i class='fa fa-plus'></i>
-                        დამატებული(<b>{{$cnt}}</b>)
+                        დამატებული(<b>{{$cnt > 0 ? '*' : 0}}</b>)
                     </a>
                 </div>
 

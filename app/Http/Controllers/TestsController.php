@@ -34,7 +34,9 @@ class TestsController extends Controller
 //
 //          dd(array_diff($b, $a));
 
-          $this->calc();
+//          $controls = Control::limit(20)->orderBy('k', 'desc')->get()->toArray();
+//          dd($controls);
+//          $this->calc();
 
 //          $sql = 'select danger_id, process_id from danger_process where danger_id in (52) and process_id in (1)';
 //
@@ -60,9 +62,13 @@ class TestsController extends Controller
 
       public function calc() {
           $export = Export::find(74);
-          $data = json_decode($export->data);
+          $data = json_decode($export->data, true);
           $data = $data[0];
 
+//          $data = $this->makeAssoc($data);
+
+
+          dd($data);
 //          UserInputs::createRecords(1, 1, $data, []);
 //          $data = $this->makeAssoc($data);
 
@@ -71,7 +77,7 @@ class TestsController extends Controller
 //          dd($data);
 
           $questions = new QuestionsJson($data, false);
-//          dd($questions->getData());
+          dd($questions->getData());
 //          $data = $this->convert($data);
 //          $data = $this->correctControls($data);
 

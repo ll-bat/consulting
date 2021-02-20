@@ -177,7 +177,7 @@ if (in_array($route, $abroutes))
                             @yield('toolbar')
                             @if (!in_array($route, nbackRoutes()))
                                 <div class="position-absolute" style="top:5px;left: 70px;">
-                                    <a class='btn btn-outline-secondary' href="javascript:history.back()">
+                                    <a class='btn btn-outline-secondary' onclick="history.go(-1)">
                                         Back
                                     </a>
                                 </div>
