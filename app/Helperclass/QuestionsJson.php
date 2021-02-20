@@ -57,6 +57,10 @@ class QuestionsJson
                      ];
 
                      foreach ([0, 1, 2, 3] as $answer) {
+                         if (!isset($danger->control[$answer])) {
+                             $danger->control[$answer] = [];
+                         }
+
                          $index = 'first';
                          if ($answer === 1) {
                              $index = 'second';
