@@ -2696,6 +2696,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1__["createNamespacedHelpers"])('questions'),
@@ -2732,6 +2734,11 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
       rpersons: {},
       etimes: {}
     };
+  },
+  watch: {
+    'loading': function loading(s) {
+      $('#loaders').remove();
+    }
   },
   methods: _objectSpread(_objectSpread({}, mapActions(['updateStore'])), {}, {
     submit: function submit() {
@@ -41049,21 +41056,7 @@ var render = function() {
           staticStyle: { "min-width": "900px" }
         },
         [
-          _vm.loading
-            ? _c("div", { staticClass: "danger-skeleton" })
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.loading
-            ? _c("div", { staticClass: "danger-skeleton my-3" })
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.loading
-            ? _c("div", { staticClass: "controls-skeleton" })
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.loading
-            ? _c("div", { staticClass: "danger-skeleton my-3" })
-            : _vm._e(),
+          _vm._m(0),
           _vm._v(" "),
           _c("processes"),
           _vm._v(" "),
@@ -41127,7 +41120,22 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { attrs: { id: "loaders" } }, [
+      _c("div", { staticClass: "danger-skeleton" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "danger-skeleton my-3" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "controls-skeleton" }),
+      _vm._v(" "),
+      _c("div", { staticClass: "danger-skeleton my-3" })
+    ])
+  }
+]
 render._withStripped = true
 
 

@@ -1,10 +1,12 @@
 <template>
     <div class="row justify-content-center align-items-center">
         <div class="col-xl-6 col-lg-7 col-md-10 col-sm-12 col-12 mt-md-0 mt-sm-5 mt-5" style="min-width: 900px">
-            <div class="danger-skeleton" v-if="loading"></div>
-            <div class="danger-skeleton my-3" v-if="loading"></div>
-            <div class="controls-skeleton" v-if="loading"></div>
-            <div class="danger-skeleton my-3" v-if="loading"></div>
+            <div id="loaders">
+                <div class="danger-skeleton"></div>
+                <div class="danger-skeleton my-3"></div>
+                <div class="controls-skeleton"></div>
+                <div class="danger-skeleton my-3"></div>
+            </div>
 
             <processes></processes>
 
@@ -66,6 +68,11 @@ export default {
         return {
             rpersons : {},
             etimes : {},
+        }
+    },
+    watch: {
+        'loading' : (s) => {
+            $('#loaders').remove();
         }
     },
 
