@@ -1,16 +1,21 @@
 <template>
-    <div>
+    <div id="dangers-part">
         <div class='card test-shadow rounded-8' v-if='showDangers' style="border-left: 8px solid #6957b8;">
             <div class='card-body ml-2 pl-2'>
                 <p class='px-2 py-3 pb-0 size-13'> აირჩიეთ საფრთხე </p>
+                <div class="px-3 my-3" v-for="id in Object.keys(completedData)">
+                    <a href="" @click="chooseCompletedDanger($event, id)" class="text-success">
+                        <i class="nc-icon nc-check-2 px-2 mt-1"></i>
+                        <span> {{ completedData[id] }} </span>
+                    </a>
+                </div>
                 <div class="form-group py-1 px-3" v-if='currentDangers.length > 0'>
                     <div class="mt-2">
                         <div v-for='(d,i) in currentDangers'>
                             <label class="ns-container mb-3 pl-5 pt-1" style="color: #393838;"
                                    @mousedown="chooseDanger(d.id)">{{ d.name }}
                                 <div class="ns-test">
-                                    <div
-                                        class="mod-chbox-checkmark mod-chbox-checkmark-diff ns-test-margin rounded-circle"
+                                    <div class="mod-chbox-checkmark mod-chbox-checkmark-diff ns-test-margin rounded-circle"
                                         :class="{'hovered-checkmark-diff': (d.id === dangerId) }">
                                     <span class='text-center'
                                           :class="{'checked-circle-diff': (d.id === dangerId)}"></span>
@@ -33,7 +38,7 @@ const {mapState, mapActions} = createNamespacedHelpers('questions');
 export default {
     name: "Dangers",
     computed: {
-        ...mapState(['showDangers', 'showDangerLoader', 'currentDangers', 'dangerId', 'processId', 'info'])
+        ...mapState(['showDangers', 'showDangerLoader', 'currentDangers', 'dangerId', 'processId', 'info', 'completedDangers', 'toBeWatched'])
     },
     methods: {
         ...mapActions(['showDangersM', 'showDangerLoaderM', 'setDanger', 'showControlsLoaderM', 'showControlsM', 'setControls', 'getControls', 'setElement']),
@@ -60,15 +65,31 @@ export default {
 
             this.showControlsLoaderM(false);
             this.showControlsM(true);
+        },
+
+        chooseCompletedDanger(ev, id) {
+            ev.preventDefault();
+            alert('2');
+        },
+
+        refreshCompletedDangers() {
+            this.completedData = this.completedDangers[this.processId] || {};
         }
     },
     data() {
         return {
-
+            completedData: {}
+        }
+    },
+    watch: {
+        'processId' : function(obj) {
+            this.refreshCompletedDangers();
         }
     },
     mounted() {
-
+        this.$watch('toBeWatched', (s) => {
+            this.refreshCompletedDangers()
+        });
     }
 }
 </script>

@@ -1,5 +1,5 @@
 import {
-    ACTION_TEST, REMOVE_DANGER_IMAGE,
+    ACTION_TEST, COMPLETE_DANGER, REMOVE_DANGER_IMAGE,
     SET_API_DATA, SET_CONTROLS, SET_CONTROLS_DATA, SET_DANGER, SET_DANGER_IMAGE,
     SET_DANGERS, SET_ELEMENT, SET_PROCESS,
     TOGGLE_CONTROLS, TOGGLE_CONTROLS_LOADER,
@@ -25,7 +25,9 @@ export default {
 
     [SET_DANGERS]: (state, data) => {
         state.dangers = data;
-        state.currentDangers = data;
+
+        let mapper = state.completedDangers[state.processId] || {};
+        state.currentDangers = data.filter(danger => !mapper[danger.id]);
     },
 
     [TOGGLE_DANGERS]: (state, flag) => {
@@ -84,5 +86,24 @@ export default {
 
     [TOGGLE_MAIN_LOADER]: (state, flag) => {
         state.loading = flag;
+    },
+
+    [COMPLETE_DANGER]: (state) => {
+        if (!state.completedDangers[state.processId]) {
+            state.completedDangers[state.processId] = {};
+        }
+        state.currentDangers = state.currentDangers.filter(danger => {
+            if (danger.id === state.dangerId) {
+                state.completedDangers[state.processId][danger.id] = danger.name;
+                return false;
+            }
+            return true;
+        })
+        state.dangerId = -1;
+        state.toBeWatched = !state.toBeWatched;
+        state.showControls = false;
+
+        const x = $("#dangers-part").position().top;
+        window.scrollTo(x,0);
     }
 }

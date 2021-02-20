@@ -1,5 +1,5 @@
 import {
-    ACTION_TEST, REMOVE_DANGER_IMAGE,
+    ACTION_TEST, COMPLETE_DANGER, REMOVE_DANGER_IMAGE,
     SET_API_DATA, SET_CONTROLS_DATA, SET_DANGER, SET_DANGER_IMAGE,
     SET_DANGERS, SET_ELEMENT, SET_PROCESS,
     TOGGLE_CONTROLS, TOGGLE_CONTROLS_LOADER,
@@ -71,4 +71,8 @@ export function removeDangerImage({commit}) {
 
 export function updateStore({commit}, fn) {
     commit(UPDATE_STORE, fn);
+}
+
+export function completeDanger({commit}) {
+    commit(COMPLETE_DANGER);
 }

@@ -5,23 +5,26 @@
 
             <div class="d-none" id="questions-content">
                 <dangers></dangers>
-                <danger-image></danger-image>
                 <div v-if="showControls">
+                    <danger-image></danger-image>
                     <ploss-udanger></ploss-udanger>
                     <controls></controls>
                     <add-controls></add-controls>
                     <user-input :params="rpersons"></user-input>
                     <user-input :params="etimes"></user-input>
 
-                    <button class='btn btn-primary rounded bg-primary hovered-ns-button border-0 text-sm'
-                            id='data-submit'
+                    <button class='btn btn-primary rounded bg-primary hovered-ns-button border-0 text-sm' id='data-submit'
                             style="padding: 6px 16px"
                             @click='submit()'>
                         <span class="spinner-border spinner-border-sm text-sm pr-1 d-none" id='data-processing'
-                            style="margin-left: -.5rem !important;"
-                        >
+                            style="margin-left: -.5rem !important;">
                         </span>
                         დასრულება
+                    </button>
+
+                    <button class='btn btn-primary rounded border-0 text-sm'
+                            @click='next()'>
+                        შემდეგი
                     </button>
                 </div>
             </div>
@@ -55,7 +58,7 @@ export default {
         Processes, Dangers, DangerImage, Controls, PlossUdanger, AddControls, UserInput
     },
     computed: {
-        ...mapState(['showControls', 'info', 'fm', 'processes', 'loading'])
+        ...mapState(['showControls', 'info', 'fm', 'processes', 'loading', 'completedDangers', 'processId', 'dangerId'])
     },
     data() {
         return {
@@ -70,7 +73,18 @@ export default {
     },
 
     methods: {
-        ...mapActions(['updateStore']),
+        ...mapActions(['updateStore', 'completeDanger']),
+        next() {
+            const flag = this.validateCurrentDanger();
+            if (flag) {
+                this.completeDanger();
+            }
+        },
+
+        validateCurrentDanger() {
+            return true;
+        },
+
         async submit() {
 
             const start = () => {

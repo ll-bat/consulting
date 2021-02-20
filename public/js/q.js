@@ -2352,6 +2352,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_0__["createNamespacedHelpers"])('questions'),
@@ -2360,7 +2365,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_0
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Dangers",
-  computed: _objectSpread({}, mapState(['showDangers', 'showDangerLoader', 'currentDangers', 'dangerId', 'processId', 'info'])),
+  computed: _objectSpread({}, mapState(['showDangers', 'showDangerLoader', 'currentDangers', 'dangerId', 'processId', 'info', 'completedDangers', 'toBeWatched'])),
   methods: _objectSpread(_objectSpread({}, mapActions(['showDangersM', 'showDangerLoaderM', 'setDanger', 'showControlsLoaderM', 'showControlsM', 'setControls', 'getControls', 'setElement'])), {}, {
     chooseDanger: function chooseDanger(id) {
       var _this = this;
@@ -2388,12 +2393,32 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_0
       this.setElement(elm);
       this.showControlsLoaderM(false);
       this.showControlsM(true);
+    },
+    chooseCompletedDanger: function chooseCompletedDanger(ev, id) {
+      ev.preventDefault();
+      alert('2');
+    },
+    refreshCompletedDangers: function refreshCompletedDangers() {
+      this.completedData = this.completedDangers[this.processId] || {};
     }
   }),
   data: function data() {
-    return {};
+    return {
+      completedData: {}
+    };
   },
-  mounted: function mounted() {}
+  watch: {
+    'processId': function processId(obj) {
+      this.refreshCompletedDangers();
+    }
+  },
+  mounted: function mounted() {
+    var _this2 = this;
+
+    this.$watch('toBeWatched', function (s) {
+      _this2.refreshCompletedDangers();
+    });
+  }
 });
 
 /***/ }),
@@ -2691,6 +2716,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1__["createNamespacedHelpers"])('questions'),
@@ -2721,7 +2749,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
     AddControls: _AddControls__WEBPACK_IMPORTED_MODULE_7__["default"],
     UserInput: _UserInput__WEBPACK_IMPORTED_MODULE_8__["default"]
   },
-  computed: _objectSpread({}, mapState(['showControls', 'info', 'fm', 'processes', 'loading'])),
+  computed: _objectSpread({}, mapState(['showControls', 'info', 'fm', 'processes', 'loading', 'completedDangers', 'processId', 'dangerId'])),
   data: function data() {
     return {
       rpersons: {},
@@ -2733,7 +2761,17 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
       $('#loaders').remove();
     }
   },
-  methods: _objectSpread(_objectSpread({}, mapActions(['updateStore'])), {}, {
+  methods: _objectSpread(_objectSpread({}, mapActions(['updateStore', 'completeDanger'])), {}, {
+    next: function next() {
+      var flag = this.validateCurrentDanger();
+
+      if (flag) {
+        this.completeDanger();
+      }
+    },
+    validateCurrentDanger: function validateCurrentDanger() {
+      return true;
+    },
     submit: function submit() {
       var _this = this;
 
@@ -40612,97 +40650,93 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", {}, [
-    _vm.showControls
-      ? _c(
+    _c(
+      "div",
+      {
+        staticClass: "card test-shadow rounded-8 pl-4",
+        staticStyle: {
+          "padding-top": "30px !important",
+          "border-left": "8px solid #6957b8"
+        }
+      },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
           "div",
           {
-            staticClass: "card test-shadow rounded-8 pl-4",
-            staticStyle: {
-              "padding-top": "30px !important",
-              "border-left": "8px solid #6957b8"
-            }
+            staticClass: "card-body pb-5 px-2",
+            staticStyle: { "padding-top": "30px" }
           },
           [
-            _vm._m(0),
-            _vm._v(" "),
             _c(
               "div",
               {
-                staticClass: "card-body pb-5 px-2",
-                staticStyle: { "padding-top": "30px" }
+                staticClass: "text-muted",
+                staticStyle: { "margin-bottom": "-8px" }
               },
               [
-                _c(
-                  "div",
-                  {
-                    staticClass: "text-muted",
-                    staticStyle: { "margin-bottom": "-8px" }
-                  },
-                  [
-                    !_vm.data.image && !_vm.data.oldImage
-                      ? _c(
-                          "button",
-                          {
-                            staticClass:
-                              "btn transparent-hover-nice border-nice color-nice px-5 py-2 bg-white",
-                            staticStyle: { "border-width": "1px !important" },
-                            attrs: {
-                              id: "image-upload-button",
-                              onclick: "$1('danger-image-input').click()"
-                            }
-                          },
-                          [
-                            _c("i", { staticClass: "fa fa-upload" }),
-                            _vm._v(
-                              "\n                    Upload\n                "
-                            )
-                          ]
-                        )
-                      : _vm._e(),
-                    _vm._v(" "),
-                    _c("input", {
-                      staticClass: "d-none",
-                      attrs: {
-                        type: "file",
-                        id: "danger-image-input",
-                        accept: "image/x-png,image/jpg,image/jpeg"
+                !_vm.data.image && !_vm.data.oldImage
+                  ? _c(
+                      "button",
+                      {
+                        staticClass:
+                          "btn transparent-hover-nice border-nice color-nice px-5 py-2 bg-white",
+                        staticStyle: { "border-width": "1px !important" },
+                        attrs: {
+                          id: "image-upload-button",
+                          onclick: "$1('danger-image-input').click()"
+                        }
                       },
-                      on: { change: _vm.vueImageLoad }
-                    }),
-                    _vm._v(" "),
-                    _vm.data.image || _vm.data.oldImage
-                      ? _c("div", { staticClass: "uploaded_image" }, [
-                          _c("img", {
-                            staticClass: "mt-2 d-block",
-                            staticStyle: { "max-width": "400px" },
-                            attrs: {
-                              src: _vm.data.image || _vm.data.oldImage,
-                              id: "danger-image-id"
+                      [
+                        _c("i", { staticClass: "fa fa-upload" }),
+                        _vm._v("\n                    Upload\n                ")
+                      ]
+                    )
+                  : _vm._e(),
+                _vm._v(" "),
+                _c("input", {
+                  staticClass: "d-none",
+                  attrs: {
+                    type: "file",
+                    id: "danger-image-input",
+                    accept: "image/x-png,image/jpg,image/jpeg"
+                  },
+                  on: { change: _vm.vueImageLoad }
+                }),
+                _vm._v(" "),
+                _vm.data.image || _vm.data.oldImage
+                  ? _c("div", { staticClass: "uploaded_image" }, [
+                      _c("img", {
+                        staticClass: "mt-2 d-block",
+                        staticStyle: { "max-width": "400px" },
+                        attrs: {
+                          src: _vm.data.image || _vm.data.oldImage,
+                          id: "danger-image-id"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass:
+                            "btn btn-danger bg-lightgrey text-white mt-3 px-3 py-1 capitalize border-0",
+                          on: {
+                            click: function($event) {
+                              return _vm.clearUpload()
                             }
-                          }),
-                          _vm._v(" "),
-                          _c(
-                            "a",
-                            {
-                              staticClass:
-                                "btn btn-danger bg-lightgrey text-white mt-3 px-3 py-1 capitalize border-0",
-                              on: {
-                                click: function($event) {
-                                  return _vm.clearUpload()
-                                }
-                              }
-                            },
-                            [_vm._v(" Remove image ")]
-                          )
-                        ])
-                      : _vm._e()
-                  ]
-                )
+                          }
+                        },
+                        [_vm._v(" Remove image ")]
+                      )
+                    ])
+                  : _vm._e()
               ]
             )
           ]
         )
-      : _vm._e(),
+      ]
+    ),
     _vm._v(" "),
     _vm.showControlsLoader
       ? _c("div", [
@@ -40749,7 +40783,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { attrs: { id: "dangers-part" } }, [
     _vm.showDangers
       ? _c(
           "div",
@@ -40758,65 +40792,96 @@ var render = function() {
             staticStyle: { "border-left": "8px solid #6957b8" }
           },
           [
-            _c("div", { staticClass: "card-body ml-2 pl-2" }, [
-              _c("p", { staticClass: "px-2 py-3 pb-0 size-13" }, [
-                _vm._v(" აირჩიეთ საფრთხე ")
-              ]),
-              _vm._v(" "),
-              _vm.currentDangers.length > 0
-                ? _c("div", { staticClass: "form-group py-1 px-3" }, [
+            _c(
+              "div",
+              { staticClass: "card-body ml-2 pl-2" },
+              [
+                _c("p", { staticClass: "px-2 py-3 pb-0 size-13" }, [
+                  _vm._v(" აირჩიეთ საფრთხე ")
+                ]),
+                _vm._v(" "),
+                _vm._l(Object.keys(_vm.completedData), function(id) {
+                  return _c("div", { staticClass: "px-3 my-3" }, [
                     _c(
-                      "div",
-                      { staticClass: "mt-2" },
-                      _vm._l(_vm.currentDangers, function(d, i) {
-                        return _c("div", [
-                          _c(
-                            "label",
-                            {
-                              staticClass: "ns-container mb-3 pl-5 pt-1",
-                              staticStyle: { color: "#393838" },
-                              on: {
-                                mousedown: function($event) {
-                                  return _vm.chooseDanger(d.id)
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                _vm._s(d.name) +
-                                  "\n                            "
-                              ),
-                              _c("div", { staticClass: "ns-test" }, [
-                                _c(
-                                  "div",
-                                  {
-                                    staticClass:
-                                      "mod-chbox-checkmark mod-chbox-checkmark-diff ns-test-margin rounded-circle",
-                                    class: {
-                                      "hovered-checkmark-diff":
-                                        d.id === _vm.dangerId
-                                    }
-                                  },
-                                  [
-                                    _c("span", {
-                                      staticClass: "text-center",
-                                      class: {
-                                        "checked-circle-diff":
-                                          d.id === _vm.dangerId
-                                      }
-                                    })
-                                  ]
-                                )
-                              ])
-                            ]
-                          )
+                      "a",
+                      {
+                        staticClass: "text-success",
+                        attrs: { href: "" },
+                        on: {
+                          click: function($event) {
+                            return _vm.chooseCompletedDanger($event, id)
+                          }
+                        }
+                      },
+                      [
+                        _c("i", {
+                          staticClass: "nc-icon nc-check-2 px-2 mt-1"
+                        }),
+                        _vm._v(" "),
+                        _c("span", [
+                          _vm._v(" " + _vm._s(_vm.completedData[id]) + " ")
                         ])
-                      }),
-                      0
+                      ]
                     )
                   ])
-                : _vm._e()
-            ])
+                }),
+                _vm._v(" "),
+                _vm.currentDangers.length > 0
+                  ? _c("div", { staticClass: "form-group py-1 px-3" }, [
+                      _c(
+                        "div",
+                        { staticClass: "mt-2" },
+                        _vm._l(_vm.currentDangers, function(d, i) {
+                          return _c("div", [
+                            _c(
+                              "label",
+                              {
+                                staticClass: "ns-container mb-3 pl-5 pt-1",
+                                staticStyle: { color: "#393838" },
+                                on: {
+                                  mousedown: function($event) {
+                                    return _vm.chooseDanger(d.id)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  _vm._s(d.name) +
+                                    "\n                            "
+                                ),
+                                _c("div", { staticClass: "ns-test" }, [
+                                  _c(
+                                    "div",
+                                    {
+                                      staticClass:
+                                        "mod-chbox-checkmark mod-chbox-checkmark-diff ns-test-margin rounded-circle",
+                                      class: {
+                                        "hovered-checkmark-diff":
+                                          d.id === _vm.dangerId
+                                      }
+                                    },
+                                    [
+                                      _c("span", {
+                                        staticClass: "text-center",
+                                        class: {
+                                          "checked-circle-diff":
+                                            d.id === _vm.dangerId
+                                        }
+                                      })
+                                    ]
+                                  )
+                                ])
+                              ]
+                            )
+                          ])
+                        }),
+                        0
+                      )
+                    ])
+                  : _vm._e()
+              ],
+              2
+            )
           ]
         )
       : _vm._e(),
@@ -41057,12 +41122,12 @@ var render = function() {
             [
               _c("dangers"),
               _vm._v(" "),
-              _c("danger-image"),
-              _vm._v(" "),
               _vm.showControls
                 ? _c(
                     "div",
                     [
+                      _c("danger-image"),
+                      _vm._v(" "),
                       _c("ploss-udanger"),
                       _vm._v(" "),
                       _c("controls"),
@@ -41095,6 +41160,24 @@ var render = function() {
                           }),
                           _vm._v(
                             "\n                    დასრულება\n                "
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "btn btn-primary rounded border-0 text-sm",
+                          on: {
+                            click: function($event) {
+                              return _vm.next()
+                            }
+                          }
+                        },
+                        [
+                          _vm._v(
+                            "\n                    შემდეგი\n                "
                           )
                         ]
                       )
@@ -57726,7 +57809,7 @@ var debug = true;
 /*!*********************************************************!*\
   !*** ./resources/js/store/modules/questions/actions.js ***!
   \*********************************************************/
-/*! exports provided: letsTest, getProcesses, setProcess, getDangers, showDangersM, showControlsM, showDangerLoaderM, setDanger, showControlsLoaderM, setControls, getControls, setElement, setDangerImage, removeDangerImage, updateStore */
+/*! exports provided: letsTest, getProcesses, setProcess, getDangers, showDangersM, showControlsM, showDangerLoaderM, setDanger, showControlsLoaderM, setControls, getControls, setElement, setDangerImage, removeDangerImage, updateStore, completeDanger */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -57746,6 +57829,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setDangerImage", function() { return setDangerImage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeDangerImage", function() { return removeDangerImage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateStore", function() { return updateStore; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "completeDanger", function() { return completeDanger; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _mutation_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mutation-types */ "./resources/js/store/modules/questions/mutation-types.js");
@@ -57896,6 +57980,10 @@ function updateStore(_ref15, fn) {
   var commit = _ref15.commit;
   commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["UPDATE_STORE"], fn);
 }
+function completeDanger(_ref16) {
+  var commit = _ref16.commit;
+  commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["COMPLETE_DANGER"]);
+}
 
 /***/ }),
 
@@ -57927,7 +58015,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!****************************************************************!*\
   !*** ./resources/js/store/modules/questions/mutation-types.js ***!
   \****************************************************************/
-/*! exports provided: ACTION_TEST, SET_API_DATA, SET_DANGERS, TOGGLE_DANGERS, TOGGLE_CONTROLS, TOGGLE_DANGER_LOADER, TOGGLE_CONTROLS_LOADER, SET_DANGER, SET_PROCESS, SET_CONTROLS_DATA, SET_ELEMENT, SET_DANGER_IMAGE, REMOVE_DANGER_IMAGE, UPDATE_STORE, TOGGLE_MAIN_LOADER */
+/*! exports provided: ACTION_TEST, SET_API_DATA, SET_DANGERS, TOGGLE_DANGERS, TOGGLE_CONTROLS, TOGGLE_DANGER_LOADER, TOGGLE_CONTROLS_LOADER, SET_DANGER, SET_PROCESS, SET_CONTROLS_DATA, SET_ELEMENT, SET_DANGER_IMAGE, REMOVE_DANGER_IMAGE, UPDATE_STORE, TOGGLE_MAIN_LOADER, COMPLETE_DANGER */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -57947,6 +58035,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_DANGER_IMAGE", function() { return REMOVE_DANGER_IMAGE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_STORE", function() { return UPDATE_STORE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TOGGLE_MAIN_LOADER", function() { return TOGGLE_MAIN_LOADER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "COMPLETE_DANGER", function() { return COMPLETE_DANGER; });
 var ACTION_TEST = 'TEST';
 var SET_API_DATA = 'SET_API_DATA';
 var SET_DANGERS = 'SET_DANGERS';
@@ -57962,6 +58051,7 @@ var SET_DANGER_IMAGE = 'SET_DANGER_IMAGE';
 var REMOVE_DANGER_IMAGE = 'REMOVE_DANGER_IMAGE';
 var UPDATE_STORE = 'UPDATE_STORE';
 var TOGGLE_MAIN_LOADER = 'TOGGLE_MAIN_LOADER';
+var COMPLETE_DANGER = 'COMPLETE_DANGEr';
 
 /***/ }),
 
@@ -57992,7 +58082,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   state.processId = id;
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["SET_DANGERS"], function (state, data) {
   state.dangers = data;
-  state.currentDangers = data;
+  var mapper = state.completedDangers[state.processId] || {};
+  state.currentDangers = data.filter(function (danger) {
+    return !mapper[danger.id];
+  });
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["TOGGLE_DANGERS"], function (state, flag) {
   state.showDangers = flag;
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["TOGGLE_CONTROLS"], function (state, flag) {
@@ -58033,6 +58126,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   fn(state);
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["TOGGLE_MAIN_LOADER"], function (state, flag) {
   state.loading = flag;
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["COMPLETE_DANGER"], function (state) {
+  if (!state.completedDangers[state.processId]) {
+    state.completedDangers[state.processId] = {};
+  }
+
+  state.currentDangers = state.currentDangers.filter(function (danger) {
+    if (danger.id === state.dangerId) {
+      state.completedDangers[state.processId][danger.id] = danger.name;
+      return false;
+    }
+
+    return true;
+  });
+  state.dangerId = -1;
+  state.toBeWatched = !state.toBeWatched;
+  state.showControls = false;
+  var x = $("#dangers-part").position().top;
+  window.scrollTo(x, 0);
 }), _ACTION_TEST$SET_API_);
 
 /***/ }),
@@ -58049,6 +58160,7 @@ __webpack_require__.r(__webpack_exports__);
 var STATE = {
   loading: true,
   newDoc: true,
+  toBeWatched: false,
   processes: [],
   dangers: [],
   controls: [],
@@ -58064,11 +58176,12 @@ var STATE = {
   dangerSelect: [],
   currentDangers: [],
   currentControls: [],
+  completedDangers: {},
+  helpers: {},
   showDangers: false,
   showControls: false,
   showDangerLoader: false,
   showControlsLoader: false,
-  helpers: {},
   exportId: null,
   focuses: false
 };

@@ -55483,7 +55483,7 @@ var debug = true;
 /*!*********************************************************!*\
   !*** ./resources/js/store/modules/questions/actions.js ***!
   \*********************************************************/
-/*! exports provided: letsTest, getProcesses, setProcess, getDangers, showDangersM, showControlsM, showDangerLoaderM, setDanger, showControlsLoaderM, setControls, getControls, setElement, setDangerImage, removeDangerImage, updateStore */
+/*! exports provided: letsTest, getProcesses, setProcess, getDangers, showDangersM, showControlsM, showDangerLoaderM, setDanger, showControlsLoaderM, setControls, getControls, setElement, setDangerImage, removeDangerImage, updateStore, completeDanger */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55503,6 +55503,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setDangerImage", function() { return setDangerImage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeDangerImage", function() { return removeDangerImage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateStore", function() { return updateStore; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "completeDanger", function() { return completeDanger; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _mutation_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mutation-types */ "./resources/js/store/modules/questions/mutation-types.js");
@@ -55653,6 +55654,10 @@ function updateStore(_ref15, fn) {
   var commit = _ref15.commit;
   commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["UPDATE_STORE"], fn);
 }
+function completeDanger(_ref16) {
+  var commit = _ref16.commit;
+  commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["COMPLETE_DANGER"]);
+}
 
 /***/ }),
 
@@ -55684,7 +55689,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!****************************************************************!*\
   !*** ./resources/js/store/modules/questions/mutation-types.js ***!
   \****************************************************************/
-/*! exports provided: ACTION_TEST, SET_API_DATA, SET_DANGERS, TOGGLE_DANGERS, TOGGLE_CONTROLS, TOGGLE_DANGER_LOADER, TOGGLE_CONTROLS_LOADER, SET_DANGER, SET_PROCESS, SET_CONTROLS_DATA, SET_ELEMENT, SET_DANGER_IMAGE, REMOVE_DANGER_IMAGE, UPDATE_STORE, TOGGLE_MAIN_LOADER */
+/*! exports provided: ACTION_TEST, SET_API_DATA, SET_DANGERS, TOGGLE_DANGERS, TOGGLE_CONTROLS, TOGGLE_DANGER_LOADER, TOGGLE_CONTROLS_LOADER, SET_DANGER, SET_PROCESS, SET_CONTROLS_DATA, SET_ELEMENT, SET_DANGER_IMAGE, REMOVE_DANGER_IMAGE, UPDATE_STORE, TOGGLE_MAIN_LOADER, COMPLETE_DANGER */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55704,6 +55709,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_DANGER_IMAGE", function() { return REMOVE_DANGER_IMAGE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_STORE", function() { return UPDATE_STORE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TOGGLE_MAIN_LOADER", function() { return TOGGLE_MAIN_LOADER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "COMPLETE_DANGER", function() { return COMPLETE_DANGER; });
 var ACTION_TEST = 'TEST';
 var SET_API_DATA = 'SET_API_DATA';
 var SET_DANGERS = 'SET_DANGERS';
@@ -55719,6 +55725,7 @@ var SET_DANGER_IMAGE = 'SET_DANGER_IMAGE';
 var REMOVE_DANGER_IMAGE = 'REMOVE_DANGER_IMAGE';
 var UPDATE_STORE = 'UPDATE_STORE';
 var TOGGLE_MAIN_LOADER = 'TOGGLE_MAIN_LOADER';
+var COMPLETE_DANGER = 'COMPLETE_DANGEr';
 
 /***/ }),
 
@@ -55749,7 +55756,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   state.processId = id;
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["SET_DANGERS"], function (state, data) {
   state.dangers = data;
-  state.currentDangers = data;
+  var mapper = state.completedDangers[state.processId] || {};
+  state.currentDangers = data.filter(function (danger) {
+    return !mapper[danger.id];
+  });
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["TOGGLE_DANGERS"], function (state, flag) {
   state.showDangers = flag;
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["TOGGLE_CONTROLS"], function (state, flag) {
@@ -55790,6 +55800,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   fn(state);
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["TOGGLE_MAIN_LOADER"], function (state, flag) {
   state.loading = flag;
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["COMPLETE_DANGER"], function (state) {
+  if (!state.completedDangers[state.processId]) {
+    state.completedDangers[state.processId] = {};
+  }
+
+  state.currentDangers = state.currentDangers.filter(function (danger) {
+    if (danger.id === state.dangerId) {
+      state.completedDangers[state.processId][danger.id] = danger.name;
+      return false;
+    }
+
+    return true;
+  });
+  state.dangerId = -1;
+  state.toBeWatched = !state.toBeWatched;
+  state.showControls = false;
+  var x = $("#dangers-part").position().top;
+  window.scrollTo(x, 0);
 }), _ACTION_TEST$SET_API_);
 
 /***/ }),
@@ -55806,6 +55834,7 @@ __webpack_require__.r(__webpack_exports__);
 var STATE = {
   loading: true,
   newDoc: true,
+  toBeWatched: false,
   processes: [],
   dangers: [],
   controls: [],
@@ -55821,11 +55850,12 @@ var STATE = {
   dangerSelect: [],
   currentDangers: [],
   currentControls: [],
+  completedDangers: {},
+  helpers: {},
   showDangers: false,
   showControls: false,
   showDangerLoader: false,
   showControlsLoader: false,
-  helpers: {},
   exportId: null,
   focuses: false
 };

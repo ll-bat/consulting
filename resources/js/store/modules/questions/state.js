@@ -1,6 +1,7 @@
 const STATE = {
     loading: true,
     newDoc: true,
+    toBeWatched: false,
     processes: [],
     dangers: [],
     controls: [],
@@ -16,11 +17,12 @@ const STATE = {
     dangerSelect: [],
     currentDangers: [],
     currentControls: [],
+    completedDangers: {},
+    helpers: {},
     showDangers: false,
     showControls: false,
     showDangerLoader: false,
     showControlsLoader: false,
-    helpers: {},
     exportId: null,
     focuses: false
 }
