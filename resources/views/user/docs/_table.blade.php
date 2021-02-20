@@ -6,20 +6,21 @@
         <td rowspan='2'> საფრთ.ამს.ფოტო</td>
         <td rowspan='2'> პოტენციური ზიანი</td>
         <td rowspan='2'> ვინ იმყოფება რისკის ქვეშ</td>
-        <td rowspan='2'> არსებული კონტროლის ზომები</td>
-        <td colspan='3' class='text-danger'> საწყისი რისკი</td>
-        <td rowspan='2' class='smaller'> გასატარებელ. ღონისძიებები. დამატებითი კონტროლის ზომები</td>
-        <td colspan='3' class='text-success'> ნარჩენი რისკი</td>
+        <td rowspan='2'> არსებული კონტროლის ზომები <br /> <i class="text-muted">(საწყის ეტაპზე)</i></td>
+        <td colspan='3' class='text-danger py-2'> საწყისი რისკი</td>
+        <td rowspan='2' class='smaller'> კონტროლის დამატებითი ზომები <br /> <i class="text-muted">(გატარებული ან/და მიმდინარე)</i></td>
+        <td colspan='3' class='text-success py-2'> ნარჩენი რისკი</td>
+        <td rowspan='2' class='smaller'> გასატარებელი ღონისძიებები </td>
         <td rowspan='2'> პასუხისმგებელი პირი</td>
         <td rowspan='2'> შესრ.ვადა</td>
     </tr>
     <tr>
-        <td> ალბათობა</td>
-        <td> შედეგი</td>
-        <td> რისკის დონე</td>
-        <td> ალბათობა</td>
-        <td> შედეგი</td>
-        <td> რისკის დონე</td>
+        <td class="px-3"> ა </td>
+        <td class="px-3"> შ </td>
+        <td class="smaller"> რისკის დონე</td>
+        <td class="px-3"> ა </td>
+        <td class="px-3"> შ </td>
+        <td class="smaller"> რისკის დონე</td>
     </tr>
     <thead>
 
@@ -79,7 +80,10 @@
                     {{$object->getResult('second_level', $i)}}
                 </td>
             @endif
-            <td class='small'>
+                <td class="smaller py-2">
+                    {{ $object->getControl(2, $i) }}
+                </td>
+            <td class='small1'>
                 {{ $object->getOptionalArrayElement('rpersons', $i)}}
             </td>
             <td class='small1 px-2'>

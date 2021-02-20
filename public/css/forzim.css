@@ -240,7 +240,7 @@
         opacity: .5;
     }
     100% {
-        margin-top: 0rem;
+        margin-top: 0;
     }
 }
 

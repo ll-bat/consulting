@@ -1,7 +1,7 @@
 <template>
     <div class='text-left' id='show_data'>
         <div class='card test-shadow rounded-8 modified-animation' id='edit-process'
-             style='border-bottom-left-radius: 0; border-bottom-right-radius: 0;'>
+             style='border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-top: 8px solid rgb(105, 87, 184)'>
             <div class='card-body ml-2 pl-2'>
                 <p class='size-13 py-2 px-2'> აირჩიეთ პროცესი </p>
                 <div class="form-group">

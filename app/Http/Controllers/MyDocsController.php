@@ -182,7 +182,7 @@ class MyDocsController extends Controller
         $height = max($height + 300, 900);
 
         $dompdf = new Dompdf();
-        $customPaper = array(0, 0, 1000, $height);
+        $customPaper = array(0, 0, 1200, $height);
         $dompdf->setPaper($customPaper);
 
         $view = view('user.docs.pdf_table', [

@@ -45,7 +45,7 @@ class Obj
         if (mb_strlen($con) == 0) return $con;
 
         $con = trim($con);
-        if (mb_strlen($con) > 30) return mb_substr($con, 0, 28) . '...';
+        if (mb_strlen($con) > 70) return mb_substr($con, 0, 68) . '...';
         return $con;
     }
 

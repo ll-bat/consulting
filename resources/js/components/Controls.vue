@@ -8,8 +8,9 @@
                       color: #9999ff;
                       border-right:1px solid #d3d3d3;'>კონტროლის ზომები
             </th>
-            <th class="text-center align-middle" v-for="answer in controlAnswers" style='font-size: .7rem !important;'>
-                {{ answer.text }}
+            <th class="text-center align-middle" v-for="answer in controlAnswers"
+                v-html="answer.text"
+                style='font-size: .7rem !important;'>
             </th>
             </thead>
             <tbody>
@@ -72,11 +73,14 @@ export default {
 
         init() {
             this.controlAnswers = [{
-                text: 'არსებული',
+                text: 'არსებული <br/><i class="text-muted">(საწყის ეტაპზე)</i>',
                 label: 'მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა'
             }, {
-                text: 'დამატებითი',
+                text: 'დამატებითი <br/> <i class="text-muted">(გატარებული ან/და მიმდინარე)</i>',
                 label: 'მონიშნეთ თუ სახეზე არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია)'
+            }, {
+                text: 'გასატარებელი პრევენციული ღონისძიებ',
+                label: '',
             }, {
                 text: 'არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება',
                 label: ''

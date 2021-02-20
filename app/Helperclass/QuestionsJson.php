@@ -56,7 +56,7 @@ class QuestionsJson
                          'second' => []
                      ];
 
-                     foreach ([0, 1, 2] as $answer) {
+                     foreach ([0, 1, 2, 3] as $answer) {
                          $index = 'first';
                          if ($answer === 1) {
                              $index = 'second';

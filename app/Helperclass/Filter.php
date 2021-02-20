@@ -257,7 +257,7 @@ class Filter
             return false;
         }
 
-        $data['control'] = [[], [], []];
+        $data['control'] = [[], [], [], []];
         foreach ($o['control'] as $c) {
             if (!isset($c['id']) || !isset($c['value'])) {
                 continue;
@@ -265,7 +265,7 @@ class Filter
             if (!$this->isInt($c['id'], '', $false) || !$this->isInt($c['value'], '', $false)) {
                 continue;
             }
-            if (!in_array($c['value'], [0, 1, 2])) continue;
+            if (!in_array($c['value'], [0, 1, 2, 3])) continue;
 
             $data['control'][$c['value']][] = ['id' => $c['id'], 'value' => $c['value']];
         }
