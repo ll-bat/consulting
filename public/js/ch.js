@@ -50694,8 +50694,9 @@ function run(method, url, data) {
   return axios[method](url, data, options);
 }
 
-function errorHandler(status, data) {
-  alert('დაფიქსირდა შეცდომა. სცადეთ თავიდან');
+function errorHandler(_ref) {
+  var status = _ref.status,
+      data = _ref.data;
   throw new Error("Error occurred when processing your request. status - ".concat(status, ", body - ").concat(data));
 }
 
@@ -50720,7 +50721,10 @@ var httpService = {
                 if (httpService.redirect) {
                   window.location = httpService.path;
                 } else {
-                  errorHandler(status, data);
+                  errorHandler({
+                    status: status,
+                    data: data
+                  });
                   console.log(err);
                 }
               });
@@ -50738,7 +50742,10 @@ var httpService = {
               return _context.abrupt("return", data);
 
             case 9:
-              errorHandler(status, data);
+              errorHandler({
+                status: status,
+                data: data
+              });
 
             case 10:
             case "end":
@@ -50767,6 +50774,11 @@ var httpService = {
                 if (httpService.redirect) {
                   alert('დაფიქსირდა შეცდომა. სცადეთ გვერდის დარეფრეშება');
                   return;
+                } else {
+                  errorHandler({
+                    status: status,
+                    data: data
+                  });
                 }
               });
 
@@ -50774,18 +50786,9 @@ var httpService = {
               _yield$run$catch2 = _context2.sent;
               status = _yield$run$catch2.status;
               data = _yield$run$catch2.data;
-
-              if (!(status < STATUS_OK)) {
-                _context2.next = 9;
-                break;
-              }
-
               return _context2.abrupt("return", data);
 
-            case 9:
-              errorHandler(status, data);
-
-            case 10:
+            case 6:
             case "end":
               return _context2.stop();
           }

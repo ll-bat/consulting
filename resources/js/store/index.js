@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import preQuestions from './modules/preQuestions';
+import questions from './modules/questions';
 
 Vue.use(Vuex)
 
@@ -9,7 +9,7 @@ const debug = true;
 export default new Vuex.Store({
     namespaced: true,
     modules: {
-        preQuestions
+        questions
     },
     strict: debug
 })

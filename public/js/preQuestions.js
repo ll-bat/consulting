@@ -55001,6 +55001,203 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 /***/ }),
 
+/***/ "./resources/js/classes/Data.js":
+/*!**************************************!*\
+  !*** ./resources/js/classes/Data.js ***!
+  \**************************************/
+/*! exports provided: Data */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Data", function() { return Data; });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Data = /*#__PURE__*/function () {
+  function Data() {
+    _classCallCheck(this, Data);
+
+    this.image = '';
+    this.hasImage = false;
+    this.control = [];
+    this.ploss = [];
+    this.udanger = [];
+    this.newControls = {
+      first: [],
+      second: []
+    };
+    this.newUdangers = [];
+    this.newPloss = [];
+    this.rpersons = [];
+    this.etimes = {
+      normal: [],
+      time: []
+    };
+  }
+
+  _createClass(Data, [{
+    key: "hasImage",
+    value: function hasImage() {
+      return this.image != '';
+    }
+  }, {
+    key: "fset",
+    value: function fset(obj) {
+      var _this = this;
+
+      var keys = Object.keys(obj);
+      keys.forEach(function (c) {
+        _this[c] = obj[c];
+      });
+    }
+  }]);
+
+  return Data;
+}();
+
+/***/ }),
+
+/***/ "./resources/js/classes/Fetcher.js":
+/*!*****************************************!*\
+  !*** ./resources/js/classes/Fetcher.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _services_httpService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../services/httpService */ "./resources/js/services/httpService.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var Fetcher = /*#__PURE__*/function () {
+  function Fetcher() {
+    _classCallCheck(this, Fetcher);
+
+    this.init();
+  }
+
+  _createClass(Fetcher, [{
+    key: "init",
+    value: function init() {
+      this.store = {
+        process: {},
+        danger: {}
+      };
+    }
+  }, {
+    key: "getDangers",
+    value: function () {
+      var _getDangers = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(processId) {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!this.store.process[processId]) {
+                  _context.next = 4;
+                  break;
+                }
+
+                return _context.abrupt("return", this.store.process[processId]);
+
+              case 4:
+                _context.next = 6;
+                return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].get("api/".concat(processId, "/dangers"));
+
+              case 6:
+                data = _context.sent;
+
+                if (data) {
+                  this.store.process[processId] = data;
+                }
+
+                return _context.abrupt("return", data);
+
+              case 9:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function getDangers(_x) {
+        return _getDangers.apply(this, arguments);
+      }
+
+      return getDangers;
+    }()
+  }, {
+    key: "getControls",
+    value: function () {
+      var _getControls = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(dangerId) {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!this.store.danger[dangerId]) {
+                  _context2.next = 4;
+                  break;
+                }
+
+                return _context2.abrupt("return", this.store.danger[dangerId]);
+
+              case 4:
+                _context2.next = 6;
+                return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].get("api/".concat(dangerId, "/controls"));
+
+              case 6:
+                data = _context2.sent;
+
+                if (data) {
+                  this.store.danger[dangerId] = data;
+                }
+
+                return _context2.abrupt("return", data);
+
+              case 9:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function getControls(_x2) {
+        return _getControls.apply(this, arguments);
+      }
+
+      return getControls;
+    }()
+  }]);
+
+  return Fetcher;
+}();
+
+var fetcher = new Fetcher();
+/* harmony default export */ __webpack_exports__["default"] = (fetcher);
+
+/***/ }),
+
 /***/ "./resources/js/components/PreQuestions.vue":
 /*!**************************************************!*\
   !*** ./resources/js/components/PreQuestions.vue ***!
@@ -55141,8 +55338,9 @@ function run(method, url, data) {
   return axios[method](url, data, options);
 }
 
-function errorHandler(status, data) {
-  alert('დაფიქსირდა შეცდომა. სცადეთ თავიდან');
+function errorHandler(_ref) {
+  var status = _ref.status,
+      data = _ref.data;
   throw new Error("Error occurred when processing your request. status - ".concat(status, ", body - ").concat(data));
 }
 
@@ -55167,7 +55365,10 @@ var httpService = {
                 if (httpService.redirect) {
                   window.location = httpService.path;
                 } else {
-                  errorHandler(status, data);
+                  errorHandler({
+                    status: status,
+                    data: data
+                  });
                   console.log(err);
                 }
               });
@@ -55185,7 +55386,10 @@ var httpService = {
               return _context.abrupt("return", data);
 
             case 9:
-              errorHandler(status, data);
+              errorHandler({
+                status: status,
+                data: data
+              });
 
             case 10:
             case "end":
@@ -55214,6 +55418,11 @@ var httpService = {
                 if (httpService.redirect) {
                   alert('დაფიქსირდა შეცდომა. სცადეთ გვერდის დარეფრეშება');
                   return;
+                } else {
+                  errorHandler({
+                    status: status,
+                    data: data
+                  });
                 }
               });
 
@@ -55221,18 +55430,9 @@ var httpService = {
               _yield$run$catch2 = _context2.sent;
               status = _yield$run$catch2.status;
               data = _yield$run$catch2.data;
-
-              if (!(status < STATUS_OK)) {
-                _context2.next = 9;
-                break;
-              }
-
               return _context2.abrupt("return", data);
 
-            case 9:
-              errorHandler(status, data);
-
-            case 10:
+            case 6:
             case "end":
               return _context2.stop();
           }
@@ -55263,7 +55463,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _modules_preQuestions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/preQuestions */ "./resources/js/store/modules/preQuestions/index.js");
+/* harmony import */ var _modules_questions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/questions */ "./resources/js/store/modules/questions/index.js");
 
 
 
@@ -55272,44 +55472,201 @@ var debug = true;
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   namespaced: true,
   modules: {
-    preQuestions: _modules_preQuestions__WEBPACK_IMPORTED_MODULE_2__["default"]
+    questions: _modules_questions__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   strict: debug
 }));
 
 /***/ }),
 
-/***/ "./resources/js/store/modules/preQuestions/actions.js":
-/*!************************************************************!*\
-  !*** ./resources/js/store/modules/preQuestions/actions.js ***!
-  \************************************************************/
-/*! exports provided: letsTest */
+/***/ "./resources/js/store/modules/questions/actions.js":
+/*!*********************************************************!*\
+  !*** ./resources/js/store/modules/questions/actions.js ***!
+  \*********************************************************/
+/*! exports provided: letsTest, getProcesses, setProcess, getDangers, showDangersM, showControlsM, showDangerLoaderM, setDanger, showControlsLoaderM, setControls, getControls, setElement, setDangerImage, removeDangerImage, updateStore */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "letsTest", function() { return letsTest; });
-/* harmony import */ var _mutation_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mutation-types */ "./resources/js/store/modules/preQuestions/mutation-types.js");
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getProcesses", function() { return getProcesses; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setProcess", function() { return setProcess; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getDangers", function() { return getDangers; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showDangersM", function() { return showDangersM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showControlsM", function() { return showControlsM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showDangerLoaderM", function() { return showDangerLoaderM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setDanger", function() { return setDanger; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "showControlsLoaderM", function() { return showControlsLoaderM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setControls", function() { return setControls; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getControls", function() { return getControls; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setElement", function() { return setElement; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setDangerImage", function() { return setDangerImage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeDangerImage", function() { return removeDangerImage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateStore", function() { return updateStore; });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _mutation_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mutation-types */ "./resources/js/store/modules/questions/mutation-types.js");
+/* harmony import */ var _services_httpService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../services/httpService */ "./resources/js/services/httpService.js");
+/* harmony import */ var _classes_Fetcher__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../classes/Fetcher */ "./resources/js/classes/Fetcher.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
 
 function letsTest(_ref) {
   var commit = _ref.commit;
-  commit(_mutation_types__WEBPACK_IMPORTED_MODULE_0__["ACTION_TEST"], false);
+  commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["ACTION_TEST"], false);
+}
+function getProcesses(_x) {
+  return _getProcesses.apply(this, arguments);
+}
+
+function _getProcesses() {
+  _getProcesses = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(_ref2) {
+    var commit, data;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            commit = _ref2.commit;
+            _context.next = 3;
+            return _services_httpService__WEBPACK_IMPORTED_MODULE_2__["default"].get('api/all-data');
+
+          case 3:
+            data = _context.sent;
+            commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["SET_API_DATA"], data);
+
+          case 5:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+  return _getProcesses.apply(this, arguments);
+}
+
+function setProcess(_ref3, id) {
+  var commit = _ref3.commit;
+  commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["SET_PROCESS"], id);
+}
+function getDangers(_x2, _x3) {
+  return _getDangers.apply(this, arguments);
+}
+
+function _getDangers() {
+  _getDangers = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(_ref4, processId) {
+    var commit, data;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            commit = _ref4.commit;
+            _context2.next = 3;
+            return _classes_Fetcher__WEBPACK_IMPORTED_MODULE_3__["default"].getDangers(processId);
+
+          case 3:
+            data = _context2.sent;
+            commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["SET_DANGERS"], data);
+
+          case 5:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  }));
+  return _getDangers.apply(this, arguments);
+}
+
+function showDangersM(_ref5, flag) {
+  var commit = _ref5.commit;
+  commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["TOGGLE_DANGERS"], flag);
+}
+function showControlsM(_ref6, flag) {
+  var commit = _ref6.commit;
+  commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["TOGGLE_CONTROLS"], flag);
+}
+function showDangerLoaderM(_ref7, flag) {
+  var commit = _ref7.commit;
+  commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["TOGGLE_DANGER_LOADER"], flag);
+}
+function setDanger(_ref8, id) {
+  var commit = _ref8.commit;
+  commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["SET_DANGER"], id);
+}
+function showControlsLoaderM(_ref9, flag) {
+  var commit = _ref9.commit;
+  commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["TOGGLE_CONTROLS_LOADER"], flag);
+}
+function setControls(_ref10, data) {
+  var commit = _ref10.commit;
+  commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["SET_CONTROLS_DATA"], data);
+}
+function getControls(_x4, _x5) {
+  return _getControls.apply(this, arguments);
+}
+
+function _getControls() {
+  _getControls = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(_ref11, dangerId) {
+    var commit, data;
+    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+      while (1) {
+        switch (_context3.prev = _context3.next) {
+          case 0:
+            commit = _ref11.commit;
+            _context3.next = 3;
+            return _classes_Fetcher__WEBPACK_IMPORTED_MODULE_3__["default"].getControls(dangerId);
+
+          case 3:
+            data = _context3.sent;
+            commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["SET_CONTROLS_DATA"], data);
+
+          case 5:
+          case "end":
+            return _context3.stop();
+        }
+      }
+    }, _callee3);
+  }));
+  return _getControls.apply(this, arguments);
+}
+
+function setElement(_ref12, elm) {
+  var commit = _ref12.commit;
+  commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["SET_ELEMENT"], elm);
+}
+function setDangerImage(_ref13, data) {
+  var commit = _ref13.commit;
+  commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["SET_DANGER_IMAGE"], data);
+}
+function removeDangerImage(_ref14) {
+  var commit = _ref14.commit;
+  commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["REMOVE_DANGER_IMAGE"]);
+}
+function updateStore(_ref15, fn) {
+  var commit = _ref15.commit;
+  commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["UPDATE_STORE"], fn);
 }
 
 /***/ }),
 
-/***/ "./resources/js/store/modules/preQuestions/index.js":
-/*!**********************************************************!*\
-  !*** ./resources/js/store/modules/preQuestions/index.js ***!
-  \**********************************************************/
+/***/ "./resources/js/store/modules/questions/index.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/store/modules/questions/index.js ***!
+  \*******************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./actions */ "./resources/js/store/modules/preQuestions/actions.js");
-/* harmony import */ var _mutations__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mutations */ "./resources/js/store/modules/preQuestions/mutations.js");
-/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./state */ "./resources/js/store/modules/preQuestions/state.js");
+/* harmony import */ var _actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./actions */ "./resources/js/store/modules/questions/actions.js");
+/* harmony import */ var _mutations__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mutations */ "./resources/js/store/modules/questions/mutations.js");
+/* harmony import */ var _state__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./state */ "./resources/js/store/modules/questions/state.js");
 
 
 
@@ -55322,50 +55679,150 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/store/modules/preQuestions/mutation-types.js":
-/*!*******************************************************************!*\
-  !*** ./resources/js/store/modules/preQuestions/mutation-types.js ***!
-  \*******************************************************************/
-/*! exports provided: ACTION_TEST */
+/***/ "./resources/js/store/modules/questions/mutation-types.js":
+/*!****************************************************************!*\
+  !*** ./resources/js/store/modules/questions/mutation-types.js ***!
+  \****************************************************************/
+/*! exports provided: ACTION_TEST, SET_API_DATA, SET_DANGERS, TOGGLE_DANGERS, TOGGLE_CONTROLS, TOGGLE_DANGER_LOADER, TOGGLE_CONTROLS_LOADER, SET_DANGER, SET_PROCESS, SET_CONTROLS_DATA, SET_ELEMENT, SET_DANGER_IMAGE, REMOVE_DANGER_IMAGE, UPDATE_STORE */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ACTION_TEST", function() { return ACTION_TEST; });
-var ACTION_TEST = 'action/TEST';
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_API_DATA", function() { return SET_API_DATA; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_DANGERS", function() { return SET_DANGERS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TOGGLE_DANGERS", function() { return TOGGLE_DANGERS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TOGGLE_CONTROLS", function() { return TOGGLE_CONTROLS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TOGGLE_DANGER_LOADER", function() { return TOGGLE_DANGER_LOADER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TOGGLE_CONTROLS_LOADER", function() { return TOGGLE_CONTROLS_LOADER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_DANGER", function() { return SET_DANGER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_PROCESS", function() { return SET_PROCESS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_CONTROLS_DATA", function() { return SET_CONTROLS_DATA; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_ELEMENT", function() { return SET_ELEMENT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SET_DANGER_IMAGE", function() { return SET_DANGER_IMAGE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_DANGER_IMAGE", function() { return REMOVE_DANGER_IMAGE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_STORE", function() { return UPDATE_STORE; });
+var ACTION_TEST = 'TEST';
+var SET_API_DATA = 'SET_API_DATA';
+var SET_DANGERS = 'SET_DANGERS';
+var TOGGLE_DANGERS = 'TOGGLE_DANGERS';
+var TOGGLE_CONTROLS = 'TOGGLE_CONTROLS';
+var TOGGLE_DANGER_LOADER = 'TOGGLE_DANGER_LOADER';
+var TOGGLE_CONTROLS_LOADER = 'TOGGLE_CONTROLS_LOADER';
+var SET_DANGER = 'SET_DANGER';
+var SET_PROCESS = 'SET_PROCESS';
+var SET_CONTROLS_DATA = 'SET_CONTROLS_DATA';
+var SET_ELEMENT = 'SET_ELEMENT';
+var SET_DANGER_IMAGE = 'SET_DANGER_IMAGE';
+var REMOVE_DANGER_IMAGE = 'REMOVE_DANGER_IMAGE';
+var UPDATE_STORE = 'UPDATE_STORE';
 
 /***/ }),
 
-/***/ "./resources/js/store/modules/preQuestions/mutations.js":
-/*!**************************************************************!*\
-  !*** ./resources/js/store/modules/preQuestions/mutations.js ***!
-  \**************************************************************/
+/***/ "./resources/js/store/modules/questions/mutations.js":
+/*!***********************************************************!*\
+  !*** ./resources/js/store/modules/questions/mutations.js ***!
+  \***********************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _mutation_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mutation-types */ "./resources/js/store/modules/preQuestions/mutation-types.js");
+/* harmony import */ var _mutation_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./mutation-types */ "./resources/js/store/modules/questions/mutation-types.js");
+/* harmony import */ var _classes_Data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../classes/Data */ "./resources/js/classes/Data.js");
+var _ACTION_TEST$SET_API_;
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
-/* harmony default export */ __webpack_exports__["default"] = (_defineProperty({}, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["ACTION_TEST"], function (state, payload) {
+
+/* harmony default export */ __webpack_exports__["default"] = (_ACTION_TEST$SET_API_ = {}, _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["ACTION_TEST"], function (state, payload) {
   state.test = false;
-}));
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["SET_API_DATA"], function (state, data) {
+  state.processes = data.processes;
+  state.ploss = data.ploss;
+  state.udanger = data.udanger;
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["SET_PROCESS"], function (state, id) {
+  state.processId = id;
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["SET_DANGERS"], function (state, data) {
+  state.dangers = data;
+  state.currentDangers = data;
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["TOGGLE_DANGERS"], function (state, flag) {
+  state.showDangers = flag;
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["TOGGLE_CONTROLS"], function (state, flag) {
+  state.showControls = flag;
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["TOGGLE_DANGER_LOADER"], function (state, flag) {
+  state.showDangerLoader = flag;
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["SET_DANGER"], function (state, id) {
+  state.dangerId = id;
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["TOGGLE_CONTROLS_LOADER"], function (state, flag) {
+  state.showControlsLoader = flag;
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["SET_CONTROLS_DATA"], function (state, data) {
+  state.currentControls = data;
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["SET_ELEMENT"], function (state, elm) {
+  if (elm) {
+    state.elm = elm;
+    state.data = elm.data;
+  } else {
+    state.data = new _classes_Data__WEBPACK_IMPORTED_MODULE_1__["Data"]();
+    state.elm = {
+      pid: state.processId,
+      did: state.dangerId,
+      data: state.data
+    };
+    state.info.push(state.elm);
+  }
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["SET_DANGER_IMAGE"], function (state, data) {
+  state.data.image = data.image;
+  state.data.hasImage = data.hasImage;
+  state.data.imageName = data.imageName;
+  state.fm.append(data.imageName, data.fm.value);
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["REMOVE_DANGER_IMAGE"], function (state) {
+  state.data.image = '';
+  state.data.hasImage = false;
+  state.fm["delete"](state.data.imageName);
+  state.data.imageName = '';
+  state.data.oldImage = false;
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["UPDATE_STORE"], function (state, fn) {
+  fn(state);
+}), _ACTION_TEST$SET_API_);
 
 /***/ }),
 
-/***/ "./resources/js/store/modules/preQuestions/state.js":
-/*!**********************************************************!*\
-  !*** ./resources/js/store/modules/preQuestions/state.js ***!
-  \**********************************************************/
+/***/ "./resources/js/store/modules/questions/state.js":
+/*!*******************************************************!*\
+  !*** ./resources/js/store/modules/questions/state.js ***!
+  \*******************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var STATE = {
-  test: true
+  loading: true,
+  newDoc: true,
+  processes: [],
+  dangers: [],
+  controls: [],
+  ploss: [],
+  udanger: [],
+  info: [],
+  processId: -1,
+  dangerId: -1,
+  elm: null,
+  data: [],
+  controlAnswers: [],
+  fm: new FormData(),
+  dangerSelect: [],
+  currentDangers: [],
+  currentControls: [],
+  showDangers: false,
+  showControls: false,
+  showDangerLoader: false,
+  showControlsLoader: false,
+  helpers: {},
+  exportId: null,
+  focuses: false
 };
 /* harmony default export */ __webpack_exports__["default"] = (STATE);
 
