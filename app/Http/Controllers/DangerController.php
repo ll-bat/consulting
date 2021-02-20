@@ -210,7 +210,7 @@ class DangerController extends Controller
         ])
             ->join('users', 'user_texts.user_id', 'users.id')
             ->select('users.username', 'user_texts.name', 'user_texts.export_id', 'user_texts.id', 'user_texts.is_ignored')
-            ->orderBy('user_texts.updated_at', 'desc')
+            ->orderBy('user_texts.created_at', 'desc')
             ->get()
             ->toArray();
 
