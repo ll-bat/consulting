@@ -1,7 +1,7 @@
 @extends('layouts/zim')
 
 @section('header')
-    <link rel="stylesheet" href="/css/skeleton-loader.css" />
+    <link rel="stylesheet" href="/css/skeleton-loader.css"/>
 
     <style>
         .border-bottom {
@@ -130,41 +130,30 @@
 
 
     <div class="" id='app' style="width: 100% !important;">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-xl-6 col-lg-7 col-md-10 col-sm-12 col-12 mt-md-0 mt-sm-5 mt-5" style="min-width: 900px">
+                <div id="loaders">
+                    <div class="danger-skeleton"></div>
+                    <div class="danger-skeleton my-3"></div>
+                    <div class="controls-skeleton"></div>
+                    <div class="danger-skeleton my-3"></div>
+                </div>
+            </div>
+        </div>
 
-
-                <questions :data="`{{ $data }}`"></questions>
-
-{{--                @include('user.questions._proccesses')--}}
-
-{{--                <div class="d-none" id="questions-content">--}}
-{{--                    @foreach (['dangers', 'danger-image', 'controls', 'add-controls'] as $view)--}}
-{{--                        @include('user.questions._'.$view)--}}
-{{--                    @endforeach--}}
-
-{{--                    <div v-if='showControls'>--}}
-{{--                        @foreach (['udanger-ploss', 'add-udangers', 'add-rpersons', 'add-etimes'] as $view)--}}
-{{--                            @include('user.questions._'.$view)--}}
-{{--                        @endforeach--}}
-
-{{--                            <div class='mb-4 animate-submit-button'>--}}
-{{--                                <button--}}
-{{--                                    class='btn btn-primary bg-primary hovered-ns-button border-info capitalize text-sm px-4 py-1'--}}
-{{--                                    id='data-submit'--}}
-{{--                                    @click='submit()'--}}
-{{--                                ><span class="spinner-border spinner-border-sm p-2 mr-2 d-none" id='data-processing'--}}
-{{--                                       style='margin-left:-.6rem;'></span>--}}
-{{--                                    Submit--}}
-{{--                                </button>--}}
-{{--                            </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-
+        <questions :data="`{{ $data }}`"></questions>
 
     </div>
+
+
+
+
+
     <script type="application/javascript">
         function _onFocusHandler(el) {
             $(el).parent().parent().removeClass('remove-control-border').addClass('add-control-border')
         }
+
         function _onBlurHandler(el) {
             $(el).parent().parent().removeClass('add-control-border').addClass('remove-control-border');
         }
