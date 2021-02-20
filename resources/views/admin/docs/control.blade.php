@@ -139,9 +139,9 @@
                         </li>
                     @endforeach
                     @if ($controls->count() == 0)
-                        <div class='d-none controls-panel pb-1'>
+                        <li class="list-group-item d-none controls-panel pl-4">
                             <p class='text-secondary'> თქვენ არ გაქვთ კონტროლის ზომები </p>
-                        </div>
+                        </li>
                     @endif
                 </ul>
 
