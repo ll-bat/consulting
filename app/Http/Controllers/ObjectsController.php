@@ -45,7 +45,7 @@ class ObjectsController extends Controller
         $name = $res['name'];
 
         if (!$this->isUnique($name)) {
-            return response('nop1', 400);
+            return $this->fail('ასეთი ობიექტი უკვე არსებობს', 400);
         }
 
         Objects::create(['user_id' => current_user()->id, 'name' => $name]);
