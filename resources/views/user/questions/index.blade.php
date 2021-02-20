@@ -4,34 +4,6 @@
     <link rel="stylesheet" href="/css/skeleton-loader.css"/>
 
     <style>
-        .border-bottom {
-            border-bottom: 1px dotted lightgrey !important;
-        }
-
-        .border-bottom:focus {
-            border-color: transparent !important;
-        }
-
-        .slow-down {
-            transition: all .5s ease-out;
-        }
-
-        .add-control-border {
-            border-bottom: 5px solid white !important;
-        }
-
-        .remove-control-border {
-            border-bottom: 5px solid orange !important;
-        }
-
-        #moveable-control-border {
-            transition: all .3s ease;
-        }
-
-        .control-border-bottom {
-            border-bottom: 5px solid rgba(0, 0, 0, .1) !important;
-        }
-
         .hovered-ns-button {
             background: darkcyan !important;
         }
@@ -63,58 +35,8 @@
 
         /* 673ab7 */
 
-        @keyframes _animateSubmitButton {
-            0% {
-                margin-top: 7rem;
-                transform: rotate(-20deg) rotateX(180deg);
-            }
-            100% {
-                margin-top: 0rem;
-            }
-        }
-
-        .animate-submit-button {
-            animation: _animateSubmitButton .5s ease-out;
-        }
-
-        .hoverable-underline {
-            width: 0;
-            height: .2rem;
-            margin-right: 5px;
-            transition: all .2s ease-out;
-        }
-
-        .hoverable:hover .hoverable-underline {
-            width: 100%;
-        }
-
-        .m-btn:focus {
-            outline: 0;
-        }
-
         .text-orange {
             color: orange;
-        }
-
-        .text-purple {
-            color: purple;
-        }
-
-        .text-blue {
-            color: blue;
-        }
-
-        .bg-purple {
-            background-color: purple;
-        }
-
-        .bg-blue {
-            background-color: blue;
-        }
-
-        .ns-card {
-            border-radius: 0 !important;
-            border-top: 10px solid blue !important;
         }
 
 
@@ -140,22 +62,6 @@
                 </div>
             </div>
         </div>
-
         <questions :data="`{{ $data }}`"></questions>
-
     </div>
-
-
-
-
-
-    <script type="application/javascript">
-        function _onFocusHandler(el) {
-            $(el).parent().parent().removeClass('remove-control-border').addClass('add-control-border')
-        }
-
-        function _onBlurHandler(el) {
-            $(el).parent().parent().removeClass('add-control-border').addClass('remove-control-border');
-        }
-    </script>
 @endsection
