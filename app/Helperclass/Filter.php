@@ -584,21 +584,6 @@ class Filter
         }
 
         /**
-         * These variables will store all added controls/udangers.
-         */
-
-//        $inputControls = [];
-//        $inputUdangers = [];
-
-//        $validatedControls = [];
-//        $validatedUdangers = [];
-
-        /**
-         * This variable stores sum of all controls' k's grouped by its type [0,1]
-         */
-//        $userControlsSumByPidDid = [];
-//        $controlK = Control::k;
-        /**
          *  Usage of high-order functions to filter user data;
          */
         $data = filter($data, function (&$d) use ($processIds, $dangerProcessIds, $controlDangerIds, $potentialLossIds, $underDangerIds, $dangersMap, $controlsMap) {
@@ -647,80 +632,9 @@ class Filter
                 return false;
             });
 
-            /**
-             * Iterate over user input control/udangers.
-             * $validatedControls are all controls divided by - $did.
-             */
-//            if (!isset($validatedControls[$did])) {
-//                $validatedControls[$did] = [];
-//            }
-//            if (!isset($validatedUdangers[$did])) {
-//                $validatedUdangers[$did] = [];
-//            }
-//            foreach ($d['data']['newControls'] as $type => $newControls) {
-////                $index = $type === 'first' ? 0 : 1;
-//
-//                foreach ($newControls as $newControl) {
-//                    if (strlen($newControl['value']) > 1) {
-//                        $inputControls[] = $newControl['value'];
-//                        $validatedControls[$did][] = $newControl['value'];
-//                    } else {
-//                        continue;
-//                    }
-//
-//                    $d['data']['control'][$index][] = [
-//                        'model' => ['name' => $newControl['value'], 'k' => $controlK, 'rploss' => 0, 'added' => true],
-//                    ];
-//
-//                    if (!isset($userControlsSumByPidDid[$pid][$did])) {
-//                        $userControlsSumByPidDid[$pid][$did] = $controlK;
-//                    } else {
-//                        $userControlsSumByPidDid[$pid][$did] += $controlK;
-//                    }
-
-                    /**
-                     * TODO controls are added but RiskCalculation changes are not implemented yet.
-                     */
-//                }
-//            }
-
-//            foreach ($d['data']['newUdangers'] as $newUdanger) {
-//                if (strlen($newUdanger['value']) > 1) {
-//                    $inputUdangers[] = $newUdanger['value'];
-//                    $validatedUdangers[$did][] = $newUdanger['value'];
-//                }
-//            }
-
             return true;
         });
 
-//        $controlModels = UserText::whereIn('name', $inputControls)
-//            ->where(['type' => 'control'])
-//            ->where(['field_id' => $this->fieldId])
-//            ->select('name', 'danger_id')
-//            ->get()
-//            ->toArray();
-//
-//        $udangerModels = UserText::whereIn('name', $inputUdangers)
-//            ->where(['type' => 'udanger'])
-//            ->where(['field_id' => $this->fieldId])
-//            ->select('name', 'danger_id')
-//            ->get()
-//            ->toArray();
-//
-//        $inputControlsMap = [];
-//        $inputUdangersMap = [];
-//
-//        foreach ($controlModels as $controlModel) {
-//            $inputControlsMap[$controlModel['danger_id']][$controlModel['name']] = true;
-//        }
-//
-//        foreach ($udangerModels as $udangerModel) {
-//            $inputUdangersMap[$udangerModel['danger_id']][$udangerModel['name']] = true;
-//        }
-
-        // Save current user id, instead of querying it for several times;
-//        $userId = current_user()->id;
 
         /**
          * Finally , we iterate over whole filtered data again and create a record for new control/udanger or
@@ -728,36 +642,6 @@ class Filter
          * For now we divide user controls by its type and save it in $userControlsByDidForSum
          * and also we calculate the sum of all controls of each type as it's needed for RiskCalculator
          */
-//        foreach ($validatedControls as $did => $controls) {
-//            foreach ($controls as $control) {
-//                if (!isset($inputControlsMap[$did][$control])) {
-//                    $inputControlsMap[$did][$control] = true;
-//                    UserText::create([
-//                        'user_id' => $userId,
-//                        'field_id' => $this->fieldId,
-//                        'danger_id' => $did,
-//                        'name' => $control,
-//                        'type' => 'control'
-//                    ]);
-//                }
-//            }
-//        }
-
-
-//        foreach ($validatedUdangers as $did => $udangers) {
-//            foreach ($udangers as $udanger) {
-//                if (!isset($inputUdangersMap[$did][$udanger])) {
-//                    $inputUdangersMap[$did][$udanger] = true;
-//                    UserText::create([
-//                        'user_id' => current_user()->id,
-//                        'field_id' => $this->fieldId,
-//                        'danger_id' => $did,
-//                        'name' => $udanger,
-//                        'type' => 'udanger'
-//                    ]);
-//                }
-//            }
-//        }
 
         /*
          * Later, we'll need all danger control k's sum, we can calculate it now.
