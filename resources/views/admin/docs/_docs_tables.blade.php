@@ -3,12 +3,12 @@
 <ul class="list-group text-left mt-5 mb-4" style="border-radius:5px;">
     <li class="list-group-item font-weight-bold py-3 pointer"
         onclick="toggleCollapseHandler(this, 'all-in-controls-panel', '{{$color}}')"
-        style="background-color: {{$color}};border: 1px solid {{$color}};color: white;">
+        style="background-color: white;border: 1px solid {{$color}};color: {{$color}};">
         <i class='fa fa-plus float-left'></i>
         <span class="pl-4"> ყველა შემავალი {{$typeName}} </span>
     </li>
     @foreach($has as $ind => $d)
-        <li class="list-group-item all-in-controls-panel pl-4"
+        <li class="list-group-item all-in-controls-panel d-none pl-4"
             style="border:none;border-bottom: 1px solid rgba(0,0,0,.055);
                 border-left: 1px solid rgba(0,0,0,0.09);
                 border-right: 1px solid rgba(0,0,0,.09);
@@ -27,6 +27,11 @@
             </div>
         </li>
     @endforeach
+    @if (count($has) == 0)
+        <li class="list-group-item all-in-controls-panel d-none pl-4">
+            მონაცემები არ არის
+        </li>
+    @endif
 </ul>
 
 
@@ -57,5 +62,10 @@
             </div>
         </li>
     @endforeach
+    @if (count($nhas) == 0)
+        <li class="list-group-item controls-panel d-none pl-4">
+            მონაცემები არ არის
+        </li>
+    @endif
 </ul>
 
