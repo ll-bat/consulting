@@ -54,7 +54,7 @@ class ApiController extends Controller
         }
 
         $controlIds = $danger->getControlIds();
-        return Control::whereIn('id', $controlIds)->select('id', 'name')->get()->toArray();
+        return Control::whereIn('id', $controlIds)->select('id', 'name')->orderBy('k', 'desc')->get()->toArray();
     }
 
     /**
