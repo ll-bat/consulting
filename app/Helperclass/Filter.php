@@ -253,9 +253,9 @@ class Filter
             return false;
         }
 
-        if (!count($o['control'])) {
-            return false;
-        }
+        /**
+         * TODO: danger-completion validation is not implemented
+         */
 
         $data['control'] = [[], [], [], []];
         foreach ($o['control'] as $c) {

@@ -2793,7 +2793,128 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
         this.updateCompletedDanger();
       }
     },
+    getDangerData: function getDangerData() {
+      return this.$store.state.questions.data;
+    },
     validateCurrentDanger: function validateCurrentDanger() {
+      /**
+       * At least one controls should be checked or added.
+       * At least one ploss/udanger should be checked or added
+       * At least one rperson/etime should be added.
+       */
+      var data = this.getDangerData();
+
+      function validateString(p) {
+        return p.value.length > 1;
+      }
+      /**
+       * Validate controls
+       */
+
+
+      var ok = !!data.control.find(function (c) {
+        return c.value < 2;
+      });
+
+      if (!ok) {
+        ok = !!data.newControls.first.find(validateString);
+      }
+
+      if (!ok) {
+        ok = !!data.newControls.second.find(validateString);
+      }
+
+      if (!ok) {
+        alert('აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 არსებითი ან დამატებითი კონტროლის ზომა.');
+        return false;
+      }
+      /**
+       * Validate ploss
+       */
+
+
+      ok = !!data.ploss.find(function (p) {
+        return p.value === 1;
+      });
+
+      if (!ok) {
+        ok = !!data.newPloss.find(validateString);
+      }
+
+      if (!ok) {
+        alert('აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 პოტენციური ზიანი.');
+        return false;
+      }
+      /**
+       * Validate udanger
+       */
+
+
+      ok = !!data.udanger.find(function (p) {
+        return p.value === 1;
+      });
+
+      if (!ok) {
+        ok = !!data.newUdangers.find(validateString);
+      }
+
+      if (!ok) {
+        alert('აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 "ვინ იმყოფება საფრთხის ქვეშ".');
+        return false;
+      }
+      /**
+       * Validate rpersons
+       */
+
+
+      ok = !!data.rpersons.find(function (p) {
+        return validateString;
+      });
+
+      if (!ok) {
+        alert('გთხოვთ დაამატოთ პასუხისმგებელი პირი.');
+        return false;
+      }
+      /**
+       * Validate etimes
+       */
+
+
+      ok = !!data.etimes.normal.find(validateString);
+
+      if (!ok) {
+        ok = !!data.etimes.time.find(validateString);
+      }
+
+      if (!ok) {
+        alert('გთხოვთ, მიუთითოთ შესრულების ვადა.');
+        return false;
+      }
+
+      return true;
+    },
+    wantsToCompletePage: function wantsToCompletePage() {
+      var data = this.getDangerData();
+      var ok = !!data.control.find(function (c) {
+        return c.value < 2;
+      });
+
+      if (!ok) {
+        ok = !!data.newControls.first.find(function (p) {
+          return p.value.length > 1;
+        });
+      }
+
+      if (!ok) {
+        ok = !!data.newControls.second.find(function (p) {
+          return p.value.length > 1;
+        });
+      }
+
+      if (!ok) {
+        return false;
+      }
+
       return true;
     },
     submit: function submit() {
@@ -2805,6 +2926,19 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                if (!_this.wantsToCompletePage()) {
+                  _context.next = 3;
+                  break;
+                }
+
+                if (_this.validateCurrentDanger()) {
+                  _context.next = 3;
+                  break;
+                }
+
+                return _context.abrupt("return", false);
+
+              case 3:
                 start = function start() {
                   $('#data-submit').addClass('disabled');
                   $('#data-processing').removeClass('d-none');
@@ -2822,16 +2956,14 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
                   d.data.image = '';
 
                   if (_this.fm.has(d.data.imageName)) {
-                    if (d.data.control.length) {
-                      formData.append(d.data.imageName, _this.fm.get(d.data.imageName));
-                    }
+                    formData.append(d.data.imageName, _this.fm.get(d.data.imageName));
                   }
 
                   return d;
                 });
 
                 if (data.length) {
-                  _context.next = 10;
+                  _context.next = 13;
                   break;
                 }
 
@@ -2839,27 +2971,24 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
                 end();
                 return _context.abrupt("return");
 
-              case 10:
-                _this.testify();
-
+              case 13:
                 formData.append('data', JSON.stringify(data));
-                _context.next = 14;
+                _context.next = 16;
                 return _services_httpService__WEBPACK_IMPORTED_MODULE_9__["default"].post('docs/submit', formData)["catch"](function (err) {
                   alert("დაფიქსირდა შეცდომა. გთხოვთ, სცადოთ თავიდან.");
                   console.log(err);
                 });
 
-              case 14:
+              case 16:
                 res = _context.sent;
 
                 if (res) {
-                  // console.log(data);
                   window.location = res;
                 }
 
                 end();
 
-              case 17:
+              case 19:
               case "end":
                 return _context.stop();
             }
@@ -2867,7 +2996,6 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
         }, _callee);
       }))();
     },
-    testify: function testify() {},
     prepareOldDoc: function prepareOldDoc() {
       var data = JSON.parse(this.data);
       this.initOldDoc(data);
@@ -2904,6 +3032,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
   },
   mounted: function mounted() {
     $('#questions-content').removeClass('d-none');
+    console.log(this.$store.state.questions.data);
   }
 });
 

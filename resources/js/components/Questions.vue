@@ -62,7 +62,7 @@ export default {
         Processes, Dangers, DangerImage, Controls, PlossUdanger, AddControls, UserInput
     },
     computed: {
-        ...mapState(['showControls', 'info', 'fm', 'processes', 'loading', 'completedDangers', 'processId', 'dangerId', 'isUpdate', 'sendData'])
+        ...mapState(['showControls', 'info', 'fm', 'processes', 'loading', 'completedDangers', 'processId', 'dangerId', 'isUpdate', 'sendData']),
     },
     data() {
         return {
@@ -92,11 +92,112 @@ export default {
             }
         },
 
+        getDangerData() {
+            return this.$store.state.questions.data;
+        },
+
         validateCurrentDanger() {
+            /**
+             * At least one controls should be checked or added.
+             * At least one ploss/udanger should be checked or added
+             * At least one rperson/etime should be added.
+             */
+
+            const data = this.getDangerData();
+
+            function validateString(p) {
+                return p.value.length > 1;
+            }
+
+            /**
+             * Validate controls
+             */
+            let ok = !!data.control.find(c => c.value < 2)
+            if (!ok) {
+                ok = !!data.newControls.first.find(validateString);
+            }
+            if (!ok) {
+                ok = !!data.newControls.second.find(validateString);
+            }
+
+            if (!ok) {
+                alert('აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 არსებითი ან დამატებითი კონტროლის ზომა.')
+                return false;
+            }
+
+            /**
+             * Validate ploss
+             */
+            ok = !!data.ploss.find(p => p.value === 1);
+            if (!ok) {
+                ok = !!data.newPloss.find(validateString);
+            }
+            if (!ok) {
+                alert('აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 პოტენციური ზიანი.')
+                return false;
+            }
+
+            /**
+             * Validate udanger
+             */
+            ok = !!data.udanger.find(p => p.value === 1);
+            if (!ok) {
+                ok = !!data.newUdangers.find(validateString);
+            }
+            if (!ok) {
+                alert('აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 "ვინ იმყოფება საფრთხის ქვეშ".')
+                return false;
+            }
+
+            /**
+             * Validate rpersons
+             */
+            ok = !!data.rpersons.find(p => validateString);
+            if (!ok) {
+                alert('გთხოვთ დაამატოთ პასუხისმგებელი პირი.')
+                return false;
+            }
+
+            /**
+             * Validate etimes
+             */
+            ok = !!data.etimes.normal.find(validateString)
+            if (!ok) {
+                ok = !!data.etimes.time.find(validateString);
+            }
+            if (!ok) {
+                alert('გთხოვთ, მიუთითოთ შესრულების ვადა.');
+                return false;
+            }
+
+            return true;
+        },
+
+        wantsToCompletePage() {
+            const data = this.getDangerData();
+
+            let ok = !!data.control.find(c => c.value < 2)
+            if (!ok) {
+                ok = !!data.newControls.first.find(p => p.value.length > 1);
+            }
+            if (!ok) {
+                ok = !!data.newControls.second.find(p => p.value.length > 1);
+            }
+
+            if (!ok) {
+                return false;
+            }
+
             return true;
         },
 
         async submit() {
+
+            if (this.wantsToCompletePage()) {
+                if (!this.validateCurrentDanger()) {
+                    return false;
+                }
+            }
 
             const start = () => {
                 $('#data-submit').addClass('disabled');
@@ -119,9 +220,7 @@ export default {
                 d.data.image = ''
 
                 if (this.fm.has(d.data.imageName)) {
-                    if (d.data.control.length) {
-                        formData.append(d.data.imageName, this.fm.get(d.data.imageName));
-                    }
+                    formData.append(d.data.imageName, this.fm.get(d.data.imageName));
                 }
 
                 return d;
@@ -133,8 +232,6 @@ export default {
                 return;
             }
 
-            this.testify();
-
             formData.append('data', JSON.stringify(data));
 
             const res = await httpService.post('docs/submit', formData).catch(err => {
@@ -143,15 +240,10 @@ export default {
             });
 
             if (res) {
-                // console.log(data);
                 window.location = res;
             }
 
             end();
-        },
-
-        testify() {
-
         },
 
         prepareOldDoc() {
@@ -197,6 +289,7 @@ export default {
 
     mounted() {
         $('#questions-content').removeClass('d-none');
+        console.log(this.$store.state.questions.data);
     }
 }
 </script>
