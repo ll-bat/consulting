@@ -77,7 +77,7 @@ export default {
     },
 
     methods: {
-        ...mapActions(['updateStore', 'completeDanger', 'updateCompletedDanger']),
+        ...mapActions(['updateStore', 'completeDanger', 'updateCompletedDanger', 'initOldDoc']),
         next() {
             const flag = this.validateCurrentDanger();
             if (flag) {
@@ -156,15 +156,7 @@ export default {
 
         prepareOldDoc() {
             const data = JSON.parse(this.data);
-            this.updateStore(state => {
-                state.newDoc = false;
-                state.info = data;
-            });
-
-            tout(() => {
-                console.log("You are updating old document");
-                console.log(data);
-            })
+            this.initOldDoc(data);
         },
 
         init() {

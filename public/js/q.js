@@ -2778,7 +2778,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
       $('#loaders').remove();
     }
   },
-  methods: _objectSpread(_objectSpread({}, mapActions(['updateStore', 'completeDanger', 'updateCompletedDanger'])), {}, {
+  methods: _objectSpread(_objectSpread({}, mapActions(['updateStore', 'completeDanger', 'updateCompletedDanger', 'initOldDoc'])), {}, {
     next: function next() {
       var flag = this.validateCurrentDanger();
 
@@ -2870,14 +2870,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
     testify: function testify() {},
     prepareOldDoc: function prepareOldDoc() {
       var data = JSON.parse(this.data);
-      this.updateStore(function (state) {
-        state.newDoc = false;
-        state.info = data;
-      });
-      tout(function () {
-        console.log("You are updating old document");
-        console.log(data);
-      });
+      this.initOldDoc(data);
     },
     init: function init() {
       this.rpersons = {
@@ -57870,7 +57863,7 @@ var debug = true;
 /*!*********************************************************!*\
   !*** ./resources/js/store/modules/questions/actions.js ***!
   \*********************************************************/
-/*! exports provided: letsTest, getProcesses, setProcess, getDangers, showDangersM, showControlsM, showDangerLoaderM, setDanger, showControlsLoaderM, setControls, getControls, setElement, setDangerImage, removeDangerImage, updateStore, completeDanger, editDanger, updateCompletedDanger, removeCompletedDanger */
+/*! exports provided: letsTest, getProcesses, setProcess, getDangers, showDangersM, showControlsM, showDangerLoaderM, setDanger, showControlsLoaderM, setControls, getControls, setElement, setDangerImage, removeDangerImage, updateStore, completeDanger, editDanger, updateCompletedDanger, removeCompletedDanger, initOldDoc */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -57894,6 +57887,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "editDanger", function() { return editDanger; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateCompletedDanger", function() { return updateCompletedDanger; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeCompletedDanger", function() { return removeCompletedDanger; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initOldDoc", function() { return initOldDoc; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _mutation_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mutation-types */ "./resources/js/store/modules/questions/mutation-types.js");
@@ -58063,6 +58057,10 @@ function removeCompletedDanger(_ref19, dangerId) {
   commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["REMOVE_COMPLETED_DANGER"], dangerId);
   commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["RESTORE_CURRENT_DANGERS"]);
 }
+function initOldDoc(_ref20, data) {
+  var commit = _ref20.commit;
+  commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["INIT_OLD_DOC"], data);
+}
 
 /***/ }),
 
@@ -58094,7 +58092,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!****************************************************************!*\
   !*** ./resources/js/store/modules/questions/mutation-types.js ***!
   \****************************************************************/
-/*! exports provided: ACTION_TEST, SET_API_DATA, SET_DANGERS, TOGGLE_DANGERS, TOGGLE_CONTROLS, TOGGLE_DANGER_LOADER, TOGGLE_CONTROLS_LOADER, SET_DANGER, SET_PROCESS, SET_CONTROLS_DATA, SET_ELEMENT, SET_DANGER_IMAGE, REMOVE_DANGER_IMAGE, UPDATE_STORE, TOGGLE_MAIN_LOADER, COMPLETE_DANGER, EDIT_DANGER, UPDATE_COMPLETED_DANGER, REMOVE_COMPLETED_DANGER, RESTORE_CURRENT_DANGERS */
+/*! exports provided: ACTION_TEST, SET_API_DATA, SET_DANGERS, TOGGLE_DANGERS, TOGGLE_CONTROLS, TOGGLE_DANGER_LOADER, TOGGLE_CONTROLS_LOADER, SET_DANGER, SET_PROCESS, SET_CONTROLS_DATA, SET_ELEMENT, SET_DANGER_IMAGE, REMOVE_DANGER_IMAGE, UPDATE_STORE, TOGGLE_MAIN_LOADER, COMPLETE_DANGER, EDIT_DANGER, UPDATE_COMPLETED_DANGER, REMOVE_COMPLETED_DANGER, RESTORE_CURRENT_DANGERS, INIT_OLD_DOC */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -58119,6 +58117,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_COMPLETED_DANGER", function() { return UPDATE_COMPLETED_DANGER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_COMPLETED_DANGER", function() { return REMOVE_COMPLETED_DANGER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RESTORE_CURRENT_DANGERS", function() { return RESTORE_CURRENT_DANGERS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "INIT_OLD_DOC", function() { return INIT_OLD_DOC; });
 var ACTION_TEST = 'TEST';
 var SET_API_DATA = 'SET_API_DATA';
 var SET_DANGERS = 'SET_DANGERS';
@@ -58139,6 +58138,7 @@ var EDIT_DANGER = 'EDIT_DANGER';
 var UPDATE_COMPLETED_DANGER = 'UPDATE_COMPLETED_DANGER';
 var REMOVE_COMPLETED_DANGER = 'REMOVE_COMPLETED_DANGER';
 var RESTORE_CURRENT_DANGERS = 'RESTORE_CURRENT_DANGERS';
+var INIT_OLD_DOC = 'INIT_OLD_DOC';
 
 /***/ }),
 
@@ -58170,9 +58170,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["SET_DANGERS"], function (state, data) {
   state.dangers = data;
   var mapper = state.completedDangers[state.processId] || {};
-  state.currentDangers = data.filter(function (danger) {
-    return !mapper[danger.id];
-  });
+
+  if (state.unprocessedProcess[state.processId]) {
+    state.unprocessedProcess[state.processId] = false;
+    state.currentDangers = data.filter(function (danger) {
+      if (mapper[danger.id]) {
+        mapper[danger.id] = danger.name;
+        return false;
+      }
+
+      return true;
+    });
+    var keys = Object.keys(mapper);
+    var removedDangers = {};
+    keys.forEach(function (danger) {
+      if (typeof mapper[danger] === 'boolean') {
+        delete mapper[danger];
+        removedDangers[danger] = true;
+      }
+    });
+    state.sendData = state.sendData.filter(function (el) {
+      return !removedDangers[el.did];
+    });
+  } else {
+    state.currentDangers = data.filter(function (danger) {
+      return !mapper[danger.id];
+    });
+  }
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["RESTORE_CURRENT_DANGERS"], function (state) {
   var mapper = state.completedDangers[state.processId] || {};
   state.currentDangers = state.dangers.filter(function (danger) {
@@ -58291,6 +58315,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   });
   state.info.push(elm);
   state.toBeWatched = !state.toBeWatched;
+
+  if (state.dangerId === dangerId) {
+    state.isUpdate = false;
+  }
+
+  var did = state.dangerId;
+  state.dangerId = -1;
+  state.dangerId = did;
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["INIT_OLD_DOC"], function (state, data) {
+  state.newDoc = false;
+  state.sendData = data;
+  data.forEach(function (el) {
+    if (!state.completedDangers[el.pid]) {
+      state.completedDangers[el.pid] = {};
+    }
+
+    state.completedDangers[el.pid][el.did] = true;
+    state.unprocessedProcess[el.pid] = true;
+  });
 }), _ACTION_TEST$SET_API_);
 
 /***/ }),
@@ -58326,6 +58369,7 @@ var STATE = {
   currentControls: [],
   completedDangers: {},
   helpers: {},
+  unprocessedProcess: {},
   showDangers: false,
   showControls: false,
   showDangerLoader: false,

@@ -20,6 +20,7 @@ const STATE = {
     currentControls: [],
     completedDangers: {},
     helpers: {},
+    unprocessedProcess: {},
     showDangers: false,
     showControls: false,
     showDangerLoader: false,
