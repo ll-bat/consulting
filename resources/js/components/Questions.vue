@@ -22,9 +22,13 @@
                         დასრულება
                     </button>
 
-                    <button class='btn btn-primary rounded border-0 text-sm'
+                    <button v-if="!isUpdate" class='btn btn-primary rounded border-0 text-sm'
                             @click='next()'>
                         შემდეგი
+                    </button>
+                    <button v-else class="btn btn-danger rounded border-0 text-sm"
+                            @click="updateDanger()">
+                        განახლება
                     </button>
                 </div>
             </div>
@@ -58,7 +62,7 @@ export default {
         Processes, Dangers, DangerImage, Controls, PlossUdanger, AddControls, UserInput
     },
     computed: {
-        ...mapState(['showControls', 'info', 'fm', 'processes', 'loading', 'completedDangers', 'processId', 'dangerId'])
+        ...mapState(['showControls', 'info', 'fm', 'processes', 'loading', 'completedDangers', 'processId', 'dangerId', 'isUpdate', 'sendData'])
     },
     data() {
         return {
@@ -73,11 +77,18 @@ export default {
     },
 
     methods: {
-        ...mapActions(['updateStore', 'completeDanger']),
+        ...mapActions(['updateStore', 'completeDanger', 'updateCompletedDanger']),
         next() {
             const flag = this.validateCurrentDanger();
             if (flag) {
                 this.completeDanger();
+            }
+        },
+
+        updateDanger() {
+            const flag = this.validateCurrentDanger();
+            if (flag) {
+                this.updateCompletedDanger();
             }
         },
 
@@ -102,7 +113,7 @@ export default {
 
 
             const formData = new FormData();
-            let data = JSON.parse(JSON.stringify(this.info));
+            let data = JSON.parse(JSON.stringify(this.sendData));
 
             data = data.map(d => {
                 d.data.image = ''
@@ -126,7 +137,7 @@ export default {
 
             formData.append('data', JSON.stringify(data));
 
-            let res = await httpService.post('docs/submit', formData).catch(err => {
+            const res = await httpService.post('docs/submit', formData).catch(err => {
                 alert("დაფიქსირდა შეცდომა. გთხოვთ, სცადოთ თავიდან.");
                 console.log(err);
             });

@@ -1,10 +1,10 @@
 import {
-    ACTION_TEST, COMPLETE_DANGER, REMOVE_DANGER_IMAGE,
+    ACTION_TEST, COMPLETE_DANGER, EDIT_DANGER, REMOVE_COMPLETED_DANGER, REMOVE_DANGER_IMAGE, RESTORE_CURRENT_DANGERS,
     SET_API_DATA, SET_CONTROLS_DATA, SET_DANGER, SET_DANGER_IMAGE,
     SET_DANGERS, SET_ELEMENT, SET_PROCESS,
     TOGGLE_CONTROLS, TOGGLE_CONTROLS_LOADER,
     TOGGLE_DANGER_LOADER,
-    TOGGLE_DANGERS, TOGGLE_MAIN_LOADER, UPDATE_STORE
+    TOGGLE_DANGERS, TOGGLE_MAIN_LOADER, UPDATE_COMPLETED_DANGER, UPDATE_STORE
 } from "./mutation-types";
 import httpService from "../../../services/httpService";
 import fetcher from "../../../classes/Fetcher";
@@ -75,4 +75,18 @@ export function updateStore({commit}, fn) {
 
 export function completeDanger({commit}) {
     commit(COMPLETE_DANGER);
+}
+
+export function editDanger({dispatch, commit}, dangerId) {
+    commit(EDIT_DANGER, dangerId);
+    dispatch('getControls', dangerId);
+}
+
+export function updateCompletedDanger({commit}) {
+    commit(UPDATE_COMPLETED_DANGER);
+}
+
+export function removeCompletedDanger({commit}, dangerId) {
+    commit(REMOVE_COMPLETED_DANGER, dangerId);
+    commit(RESTORE_CURRENT_DANGERS);
 }

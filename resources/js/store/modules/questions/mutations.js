@@ -1,10 +1,10 @@
 import {
-    ACTION_TEST, COMPLETE_DANGER, REMOVE_DANGER_IMAGE,
+    ACTION_TEST, COMPLETE_DANGER, EDIT_DANGER, REMOVE_COMPLETED_DANGER, REMOVE_DANGER_IMAGE, RESTORE_CURRENT_DANGERS,
     SET_API_DATA, SET_CONTROLS, SET_CONTROLS_DATA, SET_DANGER, SET_DANGER_IMAGE,
     SET_DANGERS, SET_ELEMENT, SET_PROCESS,
     TOGGLE_CONTROLS, TOGGLE_CONTROLS_LOADER,
     TOGGLE_DANGER_LOADER,
-    TOGGLE_DANGERS, TOGGLE_MAIN_LOADER, UPDATE_STORE
+    TOGGLE_DANGERS, TOGGLE_MAIN_LOADER, UPDATE_COMPLETED_DANGER, UPDATE_STORE
 } from "./mutation-types";
 import {Data} from "../../../classes/Data";
 
@@ -26,8 +26,13 @@ export default {
     [SET_DANGERS]: (state, data) => {
         state.dangers = data;
 
-        let mapper = state.completedDangers[state.processId] || {};
+        const mapper = state.completedDangers[state.processId] || {};
         state.currentDangers = data.filter(danger => !mapper[danger.id]);
+    },
+
+    [RESTORE_CURRENT_DANGERS]: (state) => {
+        const mapper = state.completedDangers[state.processId] || {};
+        state.currentDangers = state.dangers.filter(danger => !mapper[danger.id]);
     },
 
     [TOGGLE_DANGERS]: (state, flag) => {
@@ -44,6 +49,9 @@ export default {
 
     [SET_DANGER]: (state, id) => {
         state.dangerId = id;
+        if (state.isUpdate) {
+            state.isUpdate = false;
+        }
     },
 
     [TOGGLE_CONTROLS_LOADER]: (state, flag) => {
@@ -89,21 +97,75 @@ export default {
     },
 
     [COMPLETE_DANGER]: (state) => {
-        if (!state.completedDangers[state.processId]) {
-            state.completedDangers[state.processId] = {};
+        const {processId, dangerId} = state;
+
+        if (!state.completedDangers[processId]) {
+            state.completedDangers[processId] = {};
         }
         state.currentDangers = state.currentDangers.filter(danger => {
-            if (danger.id === state.dangerId) {
-                state.completedDangers[state.processId][danger.id] = danger.name;
+            if (danger.id === dangerId) {
+                state.completedDangers[processId][danger.id] = danger.name;
                 return false;
             }
             return true;
-        })
+        });
+
+        state.sendData.push({ pid: processId, did: dangerId, data: state.data });
+
+        state.info = state.info.filter(e => e.did !== dangerId || e.pid !== processId);
+        state.data = new Data();
+
         state.dangerId = -1;
         state.toBeWatched = !state.toBeWatched;
         state.showControls = false;
 
         const x = $("#dangers-part").position().top;
         window.scrollTo(x,0);
+    },
+
+    [EDIT_DANGER]: (state, dangerId) => {
+        dangerId = parseInt(dangerId);
+        const processId = state.processId;
+        const elm = state.sendData.find(el => el.pid === processId && el.did === dangerId);
+
+        state.data = JSON.parse(JSON.stringify(elm.data));
+        state.dangerId = dangerId;
+        state.isUpdate = true;
+        state.showControls = true;
+    },
+
+    [UPDATE_COMPLETED_DANGER]: (state) => {
+        const {processId, dangerId} = state;
+        const elm = state.sendData.find(el => el.pid === processId && el.did === dangerId);
+        elm.data = state.data;
+
+        console.log(elm.data);
+
+        state.data = new Data();
+        state.dangerId = -1;
+        state.isUpdate = false;
+        state.showControls = false;
+
+        const x = $("#dangers-part").position().top;
+        window.scrollTo(x,0);
+    },
+
+    [REMOVE_COMPLETED_DANGER]: (state, dangerId) => {
+        dangerId = parseInt(dangerId);
+        const processId = state.processId;
+
+        delete state.completedDangers[processId][dangerId];
+
+        let elm = null;
+        state.sendData = state.sendData.filter(el => {
+            if (el.pid === processId && el.did === dangerId) {
+                elm = el;
+                return false;
+            }
+            return true;
+        });
+
+        state.info.push(elm);
+        state.toBeWatched = !state.toBeWatched;
     }
 }

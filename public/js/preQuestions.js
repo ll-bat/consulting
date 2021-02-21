@@ -55483,7 +55483,7 @@ var debug = true;
 /*!*********************************************************!*\
   !*** ./resources/js/store/modules/questions/actions.js ***!
   \*********************************************************/
-/*! exports provided: letsTest, getProcesses, setProcess, getDangers, showDangersM, showControlsM, showDangerLoaderM, setDanger, showControlsLoaderM, setControls, getControls, setElement, setDangerImage, removeDangerImage, updateStore, completeDanger */
+/*! exports provided: letsTest, getProcesses, setProcess, getDangers, showDangersM, showControlsM, showDangerLoaderM, setDanger, showControlsLoaderM, setControls, getControls, setElement, setDangerImage, removeDangerImage, updateStore, completeDanger, editDanger, updateCompletedDanger, removeCompletedDanger */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55504,6 +55504,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeDangerImage", function() { return removeDangerImage; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateStore", function() { return updateStore; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "completeDanger", function() { return completeDanger; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "editDanger", function() { return editDanger; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateCompletedDanger", function() { return updateCompletedDanger; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeCompletedDanger", function() { return removeCompletedDanger; });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _mutation_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./mutation-types */ "./resources/js/store/modules/questions/mutation-types.js");
@@ -55658,6 +55661,21 @@ function completeDanger(_ref16) {
   var commit = _ref16.commit;
   commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["COMPLETE_DANGER"]);
 }
+function editDanger(_ref17, dangerId) {
+  var dispatch = _ref17.dispatch,
+      commit = _ref17.commit;
+  commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["EDIT_DANGER"], dangerId);
+  dispatch('getControls', dangerId);
+}
+function updateCompletedDanger(_ref18) {
+  var commit = _ref18.commit;
+  commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["UPDATE_COMPLETED_DANGER"]);
+}
+function removeCompletedDanger(_ref19, dangerId) {
+  var commit = _ref19.commit;
+  commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["REMOVE_COMPLETED_DANGER"], dangerId);
+  commit(_mutation_types__WEBPACK_IMPORTED_MODULE_1__["RESTORE_CURRENT_DANGERS"]);
+}
 
 /***/ }),
 
@@ -55689,7 +55707,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!****************************************************************!*\
   !*** ./resources/js/store/modules/questions/mutation-types.js ***!
   \****************************************************************/
-/*! exports provided: ACTION_TEST, SET_API_DATA, SET_DANGERS, TOGGLE_DANGERS, TOGGLE_CONTROLS, TOGGLE_DANGER_LOADER, TOGGLE_CONTROLS_LOADER, SET_DANGER, SET_PROCESS, SET_CONTROLS_DATA, SET_ELEMENT, SET_DANGER_IMAGE, REMOVE_DANGER_IMAGE, UPDATE_STORE, TOGGLE_MAIN_LOADER, COMPLETE_DANGER */
+/*! exports provided: ACTION_TEST, SET_API_DATA, SET_DANGERS, TOGGLE_DANGERS, TOGGLE_CONTROLS, TOGGLE_DANGER_LOADER, TOGGLE_CONTROLS_LOADER, SET_DANGER, SET_PROCESS, SET_CONTROLS_DATA, SET_ELEMENT, SET_DANGER_IMAGE, REMOVE_DANGER_IMAGE, UPDATE_STORE, TOGGLE_MAIN_LOADER, COMPLETE_DANGER, EDIT_DANGER, UPDATE_COMPLETED_DANGER, REMOVE_COMPLETED_DANGER, RESTORE_CURRENT_DANGERS */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -55710,6 +55728,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_STORE", function() { return UPDATE_STORE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TOGGLE_MAIN_LOADER", function() { return TOGGLE_MAIN_LOADER; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "COMPLETE_DANGER", function() { return COMPLETE_DANGER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EDIT_DANGER", function() { return EDIT_DANGER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_COMPLETED_DANGER", function() { return UPDATE_COMPLETED_DANGER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "REMOVE_COMPLETED_DANGER", function() { return REMOVE_COMPLETED_DANGER; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RESTORE_CURRENT_DANGERS", function() { return RESTORE_CURRENT_DANGERS; });
 var ACTION_TEST = 'TEST';
 var SET_API_DATA = 'SET_API_DATA';
 var SET_DANGERS = 'SET_DANGERS';
@@ -55726,6 +55748,10 @@ var REMOVE_DANGER_IMAGE = 'REMOVE_DANGER_IMAGE';
 var UPDATE_STORE = 'UPDATE_STORE';
 var TOGGLE_MAIN_LOADER = 'TOGGLE_MAIN_LOADER';
 var COMPLETE_DANGER = 'COMPLETE_DANGEr';
+var EDIT_DANGER = 'EDIT_DANGER';
+var UPDATE_COMPLETED_DANGER = 'UPDATE_COMPLETED_DANGER';
+var REMOVE_COMPLETED_DANGER = 'REMOVE_COMPLETED_DANGER';
+var RESTORE_CURRENT_DANGERS = 'RESTORE_CURRENT_DANGERS';
 
 /***/ }),
 
@@ -55760,6 +55786,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   state.currentDangers = data.filter(function (danger) {
     return !mapper[danger.id];
   });
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["RESTORE_CURRENT_DANGERS"], function (state) {
+  var mapper = state.completedDangers[state.processId] || {};
+  state.currentDangers = state.dangers.filter(function (danger) {
+    return !mapper[danger.id];
+  });
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["TOGGLE_DANGERS"], function (state, flag) {
   state.showDangers = flag;
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["TOGGLE_CONTROLS"], function (state, flag) {
@@ -55768,6 +55799,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   state.showDangerLoader = flag;
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["SET_DANGER"], function (state, id) {
   state.dangerId = id;
+
+  if (state.isUpdate) {
+    state.isUpdate = false;
+  }
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["TOGGLE_CONTROLS_LOADER"], function (state, flag) {
   state.showControlsLoader = flag;
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["SET_CONTROLS_DATA"], function (state, data) {
@@ -55801,23 +55836,74 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["TOGGLE_MAIN_LOADER"], function (state, flag) {
   state.loading = flag;
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["COMPLETE_DANGER"], function (state) {
-  if (!state.completedDangers[state.processId]) {
-    state.completedDangers[state.processId] = {};
+  var processId = state.processId,
+      dangerId = state.dangerId;
+
+  if (!state.completedDangers[processId]) {
+    state.completedDangers[processId] = {};
   }
 
   state.currentDangers = state.currentDangers.filter(function (danger) {
-    if (danger.id === state.dangerId) {
-      state.completedDangers[state.processId][danger.id] = danger.name;
+    if (danger.id === dangerId) {
+      state.completedDangers[processId][danger.id] = danger.name;
       return false;
     }
 
     return true;
   });
+  state.sendData.push({
+    pid: processId,
+    did: dangerId,
+    data: state.data
+  });
+  state.info = state.info.filter(function (e) {
+    return e.did !== dangerId || e.pid !== processId;
+  });
+  state.data = new _classes_Data__WEBPACK_IMPORTED_MODULE_1__["Data"]();
   state.dangerId = -1;
   state.toBeWatched = !state.toBeWatched;
   state.showControls = false;
   var x = $("#dangers-part").position().top;
   window.scrollTo(x, 0);
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["EDIT_DANGER"], function (state, dangerId) {
+  dangerId = parseInt(dangerId);
+  var processId = state.processId;
+  var elm = state.sendData.find(function (el) {
+    return el.pid === processId && el.did === dangerId;
+  });
+  state.data = JSON.parse(JSON.stringify(elm.data));
+  state.dangerId = dangerId;
+  state.isUpdate = true;
+  state.showControls = true;
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["UPDATE_COMPLETED_DANGER"], function (state) {
+  var processId = state.processId,
+      dangerId = state.dangerId;
+  var elm = state.sendData.find(function (el) {
+    return el.pid === processId && el.did === dangerId;
+  });
+  elm.data = state.data;
+  console.log(elm.data);
+  state.data = new _classes_Data__WEBPACK_IMPORTED_MODULE_1__["Data"]();
+  state.dangerId = -1;
+  state.isUpdate = false;
+  state.showControls = false;
+  var x = $("#dangers-part").position().top;
+  window.scrollTo(x, 0);
+}), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["REMOVE_COMPLETED_DANGER"], function (state, dangerId) {
+  dangerId = parseInt(dangerId);
+  var processId = state.processId;
+  delete state.completedDangers[processId][dangerId];
+  var elm = null;
+  state.sendData = state.sendData.filter(function (el) {
+    if (el.pid === processId && el.did === dangerId) {
+      elm = el;
+      return false;
+    }
+
+    return true;
+  });
+  state.info.push(elm);
+  state.toBeWatched = !state.toBeWatched;
 }), _ACTION_TEST$SET_API_);
 
 /***/ }),
@@ -55841,6 +55927,7 @@ var STATE = {
   ploss: [],
   udanger: [],
   info: [],
+  sendData: [],
   processId: -1,
   dangerId: -1,
   elm: null,
@@ -55857,7 +55944,8 @@ var STATE = {
   showDangerLoader: false,
   showControlsLoader: false,
   exportId: null,
-  focuses: false
+  focuses: false,
+  isUpdate: false
 };
 /* harmony default export */ __webpack_exports__["default"] = (STATE);
 

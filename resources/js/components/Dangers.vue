@@ -3,11 +3,17 @@
         <div class='card test-shadow rounded-8' v-if='showDangers' style="border-left: 8px solid #6957b8;">
             <div class='card-body ml-2 pl-2'>
                 <p class='px-2 py-3 pb-0 size-13'> აირჩიეთ საფრთხე </p>
-                <div class="px-3 my-3" v-for="id in Object.keys(completedData)">
-                    <a href="" @click="chooseCompletedDanger($event, id)" class="text-success">
+                <div class="px-3 my-0 py-0" v-for="id in Object.keys(completedData)">
+                    <p class="text-success">
                         <i class="nc-icon nc-check-2 px-2 mt-1"></i>
-                        <span> {{ completedData[id] }} </span>
-                    </a>
+                        <span class="p-hover" :class="{'p-hovered' : highlight == id}"
+                              @click="chooseCompletedDanger(id)">
+                            {{ completedData[id] }}
+                        </span>
+                        <span class="trash-hover text-sm mx-2" @click="removeDanger(id)">
+                            (ამოშლა)
+                        </span>
+                    </p>
                 </div>
                 <div class="form-group py-1 px-3" v-if='currentDangers.length > 0'>
                     <div class="mt-2">
@@ -33,15 +39,16 @@
 
 <script>
 import {createNamespacedHelpers} from "vuex/dist/vuex.mjs";
+
 const {mapState, mapActions} = createNamespacedHelpers('questions');
 
 export default {
     name: "Dangers",
     computed: {
-        ...mapState(['showDangers', 'showDangerLoader', 'currentDangers', 'dangerId', 'processId', 'info', 'completedDangers', 'toBeWatched'])
+        ...mapState(['showDangers', 'showDangerLoader', 'currentDangers', 'dangerId', 'processId', 'info', 'completedDangers', 'toBeWatched', 'isUpdate'])
     },
     methods: {
-        ...mapActions(['showDangersM', 'showDangerLoaderM', 'setDanger', 'showControlsLoaderM', 'showControlsM', 'setControls', 'getControls', 'setElement']),
+        ...mapActions(['showDangersM', 'showDangerLoaderM', 'setDanger', 'showControlsLoaderM', 'showControlsM', 'setControls', 'getControls', 'setElement', 'editDanger', 'removeCompletedDanger']),
         chooseDanger(id) {
             this.setDanger(id);
 
@@ -67,24 +74,32 @@ export default {
             this.showControlsM(true);
         },
 
-        chooseCompletedDanger(ev, id) {
-            ev.preventDefault();
-            alert('2');
+        chooseCompletedDanger(id) {
+            this.editDanger(id);
+        },
+
+        removeDanger(id) {
+            this.removeCompletedDanger(id);
         },
 
         refreshCompletedDangers() {
+            this.completedData = {};
             this.completedData = this.completedDangers[this.processId] || {};
         }
     },
     data() {
         return {
-            completedData: {}
+            completedData: {},
+            highlight: -1,
         }
     },
     watch: {
         'processId' : function(obj) {
             this.refreshCompletedDangers();
-        }
+        },
+        'dangerId' : function(s) {
+            this.highlight = this.dangerId;
+        },
     },
     mounted() {
         this.$watch('toBeWatched', (s) => {
@@ -97,5 +112,24 @@ export default {
 <style scoped>
 .size-13 {
     font-size: 1.3rem;
+}
+.text-success {
+    color: #149d76 !important;
+    font-weight: 500 !important;
+}
+.p-hovered {
+    text-decoration: underline;
+}
+.p-hover:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+.trash-hover {
+    cursor: pointer;
+    color: #883434;
+    font-style: italic;
+}
+.trash-hover:hover {
+    text-decoration: underline;
 }
 </style>
