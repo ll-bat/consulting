@@ -46,10 +46,10 @@
                     @endif
                 </td>
             @endif
-            <td class='small1'>
+            <td class='smaller'>
                 {{ $object->getArrayElement('ploss', $i)}}
             </td>
-            <td class='small1'>
+            <td class='smaller'>
                 {{ $object->getArrayElement('udanger', $i)}}
             </td>
             <td class='smaller py-2'>

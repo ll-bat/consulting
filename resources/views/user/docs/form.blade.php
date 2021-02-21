@@ -16,6 +16,7 @@
 
         .smaller {
             font-size: .6rem;
+            padding: 3px;
         }
 
         .small {
