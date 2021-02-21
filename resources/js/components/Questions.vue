@@ -152,7 +152,7 @@ export default {
             /**
              * Validate rpersons
              */
-            ok = !!data.rpersons.find(p => validateString);
+            ok = !!data.rpersons.find(validateString);
             if (!ok) {
                 alert('გთხოვთ დაამატოთ პასუხისმგებელი პირი.')
                 return false;

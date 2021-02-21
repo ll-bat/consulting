@@ -2867,9 +2867,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
        */
 
 
-      ok = !!data.rpersons.find(function (p) {
-        return validateString;
-      });
+      ok = !!data.rpersons.find(validateString);
 
       if (!ok) {
         alert('გთხოვთ დაამატოთ პასუხისმგებელი პირი.');
