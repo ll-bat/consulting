@@ -2921,24 +2921,35 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
       var _this = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var start, end, formData, data, res;
+        var lastPage, start, end, formData, data, res;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                lastPage = null;
+
                 if (!_this.wantsToCompletePage()) {
-                  _context.next = 3;
+                  _context.next = 7;
                   break;
                 }
 
                 if (_this.validateCurrentDanger()) {
-                  _context.next = 3;
+                  _context.next = 6;
                   break;
                 }
 
                 return _context.abrupt("return", false);
 
-              case 3:
+              case 6:
+                if (!_this.isUpdate) {
+                  lastPage = {
+                    pid: _this.processId,
+                    did: _this.dangerId,
+                    data: _this.getDangerData()
+                  };
+                }
+
+              case 7:
                 start = function start() {
                   $('#data-submit').addClass('disabled');
                   $('#data-processing').removeClass('d-none');
@@ -2952,6 +2963,11 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
                 start();
                 formData = new FormData();
                 data = JSON.parse(JSON.stringify(_this.sendData));
+
+                if (lastPage) {
+                  data.push(lastPage);
+                }
+
                 data = data.map(function (d) {
                   d.data.image = '';
 
@@ -2963,7 +2979,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
                 });
 
                 if (data.length) {
-                  _context.next = 13;
+                  _context.next = 18;
                   break;
                 }
 
@@ -2971,15 +2987,15 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
                 end();
                 return _context.abrupt("return");
 
-              case 13:
+              case 18:
                 formData.append('data', JSON.stringify(data));
-                _context.next = 16;
+                _context.next = 21;
                 return _services_httpService__WEBPACK_IMPORTED_MODULE_9__["default"].post('docs/submit', formData)["catch"](function (err) {
                   alert("დაფიქსირდა შეცდომა. გთხოვთ, სცადოთ თავიდან.");
                   console.log(err);
                 });
 
-              case 16:
+              case 21:
                 res = _context.sent;
 
                 if (res) {
@@ -2988,7 +3004,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
 
                 end();
 
-              case 19:
+              case 24:
               case "end":
                 return _context.stop();
             }

@@ -193,9 +193,15 @@ export default {
 
         async submit() {
 
+            let lastPage = null;
+
             if (this.wantsToCompletePage()) {
                 if (!this.validateCurrentDanger()) {
                     return false;
+                } else {
+                    if (!this.isUpdate) {
+                        lastPage = {pid: this.processId, did: this.dangerId, data: this.getDangerData()};
+                    }
                 }
             }
 
@@ -215,6 +221,10 @@ export default {
 
             const formData = new FormData();
             let data = JSON.parse(JSON.stringify(this.sendData));
+
+            if (lastPage) {
+                data.push(lastPage);
+            }
 
             data = data.map(d => {
                 d.data.image = ''
