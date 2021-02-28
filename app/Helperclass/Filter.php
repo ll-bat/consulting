@@ -344,7 +344,7 @@ class Filter
 
                     if (isset($n['value'])) {
                         if (call_user_func([static::class, $filter], $n['value'])) {
-                            if (mb_strlen($n['value'] < 550)) {
+                            if (mb_strlen($n['value']) < 550) {
                                 $data[$type][] = ['value' => $n['value']];
                             }
                         }
