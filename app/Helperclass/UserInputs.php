@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class UserInputs
 {
-
     /**
      * This function takes record with $exportId from 'exports' table
      * Then, it iterates over the '$inputType' values and finds those which were added by users under '$dangerId' (having did = $dangerId)
@@ -204,6 +203,31 @@ class UserInputs
          */
         $userId = current_user()->id;
 
+        /**
+         * Take previous data that were added by an user and that are ignored by the admin
+         */
+        $previousData = UserText::where(['user_id' => $userId])
+            ->where(['field_id' => $fieldId])
+            ->where(['export_id' => $exportId])
+            ->where(['is_ignored' => true])
+            ->get();
+
+        /**
+         * Map $previousData
+         */
+        $globalMapper = [
+            'control' => [],
+            'ploss' => [],
+            'udanger' => []
+        ];
+
+        foreach ($previousData as $datum) {
+            $globalMapper[$datum->type][$datum->name] = true;
+        }
+
+        /**
+         * Delete all of them
+         */
         UserText::where(['user_id' => $userId])
             ->where(['field_id' => $fieldId])
             ->where(['export_id' => $exportId])
@@ -227,13 +251,14 @@ class UserInputs
 
         /**
          * Declare local function for multiple usage
+         * Set is_ignored to true if such user input exists in database
          *
          * @param $name
          * @param $did
          * @param $type
          */
-        $add = function($name, $did, $type) use($exportId, $fieldId, $userId, &$insertData, $now) {
-            $insertData[] = [
+        $add = function($name, $did, $type) use($exportId, $fieldId, $userId, &$insertData, $now, $globalMapper) {
+            $row = [
                 'user_id' => $userId,
                 'field_id' => $fieldId,
                 'danger_id' => $did,
@@ -242,7 +267,14 @@ class UserInputs
                 'created_at' => $now,
                 'updated_at' => $now,
                 'type' => $type,
+                'is_ignored' => false,
             ];
+
+            if (isset($globalMapper[$type][$name])) {
+                $row['is_ignored'] = true;
+            }
+
+            $insertData[] = $row;
         };
 
         foreach ($userInputs as $did => $userInput) {
@@ -265,8 +297,8 @@ class UserInputs
         } catch (Exception $exception) {
 
             DB::rollBack();
-            throw new Exception("Didn't happen to save user data. Try again later.");
-
+//            throw new Exception("Didn't happen to save user data. Try again later.");
+            throw new Exception($exception->getMessage());
         }
 
         return true;
