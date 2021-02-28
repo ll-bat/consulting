@@ -10,6 +10,7 @@ use App\Ploss;
 use App\Process;
 use App\Udanger;
 use App\UserText;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 class Filter
@@ -21,19 +22,45 @@ class Filter
 
     private array $addedValues = [];
 
-
+    /**
+     * Filter constructor.
+     * @param $obj
+     * @param $fieldId
+     * @throws Exception
+     */
     public function __construct($obj, $fieldId)
     {
         $this->fieldId = $fieldId;
         $this->oldImages = session()->get('_oldImages') ?? [];
 
-        $this->filterData(
+        /**
+         * Check if chosen [processes, dangers, controls, potential losses, udangers] are existent in database
+         */
+        $data = $this->filterData(
+        /**
+         * Check if value-types are valid: for example [pid,did] should be integers, [data] should be an array, [added inputs] should be strings, and so on..
+         */
             $this->filterUserInputs(
+            /**
+             * Convert object of stdClass into array
+             */
                 $this->makeAssoc($obj)
             )
         );
 
-        $this->saveAddedValues();
+        /**
+         * Save all added inputs
+         */
+        $data = $this->saveAddedValues($data);
+
+        /**
+         * Check if each danger-page is completed. So, all required fields should be presented
+         */
+        $this->data = $this->checkPageCompletion($data);
+
+        if (!$this->data) {
+            throw new Exception('Please provide the data');
+        }
     }
 
     /**
@@ -52,9 +79,13 @@ class Filter
      * Add: Adds new 'type' to actual data, so it becomes available for all users.
      * Ignore: this 'type' remains in only current form and is not available for others.
      * Delete: this 'type' is deleted from current form and no one can see it.
+     *
+     * @param array $data
+     * @return array
      */
-    private function saveAddedValues() {
-        foreach ($this->data as $ind => &$d) {
+    private function saveAddedValues(array $data): array
+    {
+        foreach ($data as $ind => &$d) {
 
             /**
              * We divide all added data by danger id and save in that format
@@ -105,6 +136,8 @@ class Filter
              * TODO: udangers are not recovered to correct state when editing form
              */
         }
+
+        return $data;
     }
 
     /**
@@ -129,9 +162,9 @@ class Filter
     }
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function getData()
+    public function getData(): array
     {
         return $this->data;
     }
@@ -204,7 +237,7 @@ class Filter
         }
         $o = $o['data'];
 
-        /*
+        /**
          * Filter image name and delete old one if necessary
          */
         if (gettype($o['hasImage']) != 'boolean') {
@@ -270,7 +303,7 @@ class Filter
             $data['control'][$c['value']][] = ['id' => $c['id'], 'value' => $c['value']];
         }
 
-        /*
+        /**
          * Filter ploss and udanger
          */
         $data['ploss'] = $data['udanger'] = [];
@@ -301,10 +334,17 @@ class Filter
         foreach ($types as $type => $filter) {
             $data[$type] = [];
             if (gettype($o[$type]) === 'array') {
-                foreach ($o[$type] as $n) {
+                foreach ($o[$type] as $ind => $n) {
+                    /**
+                     * No more than 2 elements are allowed to add
+                     */
+                    if ($ind > 1) {
+                        break;
+                    };
+
                     if (isset($n['value'])) {
                         if (call_user_func([static::class, $filter], $n['value'])) {
-                            if (mb_strlen($n['value'] < 350)) {
+                            if (mb_strlen($n['value'] < 550)) {
                                 $data[$type][] = ['value' => $n['value']];
                             }
                         }
@@ -326,7 +366,13 @@ class Filter
 
         foreach (['first', 'second'] as $type) {
             if (isset($o['newControls'][$type]) && gettype($o['newControls'][$type]) === 'array') {
-                foreach ($o['newControls'][$type] as $cur) {
+                foreach ($o['newControls'][$type] as $ind => $cur) {
+                    /**
+                     * No more than 2 elements are allowed to add
+                     */
+                    if ($ind > 1) {
+                        break;
+                    }
                     if (isset($cur['value']) && $this->isString($cur['value'])) {
                         $newControls[$type][] = ['value' =>  $cur['value']];
                     }
@@ -352,7 +398,14 @@ class Filter
 
         foreach ($validators as $type => $validator) {
             if (isset($o['etimes'][$type]) && gettype($o['etimes']) === 'array') {
-                foreach ($o['etimes'][$type] as $cur) {
+                foreach ($o['etimes'][$type] as $ind => $cur) {
+                    /**
+                     * No more than 2 elements are allowed to add
+                     */
+                    if ($ind > 1) {
+                        break;
+                    }
+
                     if (isset($cur['value'])) {
                         if (call_user_func([static::class, $validator], $cur['value'])) {
                             $etimes[] = ['value' => $cur['value'], 'type' => $type];
@@ -364,6 +417,9 @@ class Filter
 
         $data['etimes'] = $etimes;
 
+        /**
+         * Set data to $obj and return that validated $obj
+         */
         $obj['data'] = $data;
 
         return $obj;
@@ -674,8 +730,69 @@ class Filter
             $d['dangerControlsSum'] = $dangerControlsMap[$d['did']];
         }
 
-        $this->data = $data;
         return $data;
+    }
+
+    /**
+     * Check page-completion
+     * 1. Omit whole element if some required fields are missing
+     * 2. Take maximum added elements that are acceptable if number of added ones exceed the norm
+     *
+     * @param array $data
+     * @return array
+     */
+    public function checkPageCompletion(array $data): array
+    {
+
+        /**
+         * Validator function
+         *
+         * @param array $element
+         * @return bool
+         */
+        $filter = function (array $element) {
+            $ok = true;
+
+            /**
+             * Whole data is set as 'data' key to $element var
+             */
+            $page = $element['data'];
+            /**
+             * At least one [type-1, type-2] should be checked or added
+             */
+            if (count($page['control'][0]) === 0 && count($page['control'][1]) === 0) {
+                $ok = false;
+            }
+
+            /**
+             * At least one [udanger, ploss] should be checked
+             */
+            if (count($page['udanger']) === 0 || count($page['ploss']) === 0) {
+                $ok = false;
+            }
+
+            /**
+             * At least one [rperson, etime] should be added
+             */
+            if (count($page['rpersons']) === 0 && count($page['etimes']) === 0) {
+                $ok = false;
+            }
+
+            if (!$ok) {
+                /**
+                 * If some page does not pass validations, remove all user inputs in this page
+                 */
+                unset($this->addedValues[$element['did']]);
+                return false;
+            }
+
+            return true;
+        };
+
+        /**
+         * Validate each element separately
+         */
+        return array_filter($data, $filter);
     }
 
     /**
