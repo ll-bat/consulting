@@ -27,7 +27,7 @@ class DocController extends Controller
         if (!$fieldId) {
             return redirect()->route('admin.fields');
         }
-        $cnt = UserText::where('field_id', $fieldId)->select('id')->first();
+        $cnt = UserText::where(['field_id' => $fieldId, 'is_ignored' => false])->select('id')->first();
         if ($cnt) {
             $cnt = 1;
         }
