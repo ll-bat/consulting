@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Control extends Model
 {
-    protected $fillable = ['name', 'k', 'rploss', 'field_id'];
+    protected $fillable = ['name', 'k', 'rploss', 'field_id', 'is_first_option_off'];
     public const k = 4;
 
     public function dangers(){
