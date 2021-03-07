@@ -43,15 +43,7 @@ class ControlController extends Controller
      */
     public function createControl(): RedirectResponse
     {
-        $data = \request()->validate([
-            'name' => 'required|string',
-            'k' => 'nullable|numeric',
-            'rploss' => 'boolean',
-            'danger' => 'array',
-            'danger.*' => 'integer|exists:dangers,id'
-        ]);
-
-        $data['k'] = $data['k'] ?? 1;
+        $data = $this->validateRequest();
         $data['field_id'] = $this->fieldId;
 
         $control = Control::create($data);
@@ -80,21 +72,8 @@ class ControlController extends Controller
      */
     public function update(Control $control): RedirectResponse
     {
-        $data = \request()->validate([
-            'name' => ['required', 'string'],
-            'k' => 'numeric|nullable',
-            'rploss' => 'boolean',
-            'danger' => 'array',
-            'danger.*' => 'integer|exists:dangers,id'
-        ]);
-
+        $data = $this->validateRequest();
         $data['danger'] = $data['danger'] ?? [];
-
-        if (isset($data['rploss'])) {
-            $data['rploss'] = true;
-        } else $data['rploss'] = false;
-
-        $data['k'] = $data['k'] ?? 1;
 
         $list = [];
 
@@ -117,6 +96,33 @@ class ControlController extends Controller
         $control->update($data);
 
         return back()->with('message', 'კონტროლის ზომა წარმატებით განახლდა');
+    }
+
+    /**
+     * @return array
+     */
+    public function validateRequest(): array
+    {
+        $data = \request()->validate([
+            'name' => ['required', 'string'],
+            'k' => 'numeric|nullable',
+            'rploss' => 'boolean',
+            'is_first_option_off' => 'boolean',
+            'danger' => 'array',
+            'danger.*' => 'integer|exists:dangers,id'
+        ]);
+
+        $data['is_first_option_off'] = isset($data['is_first_option_off']);
+
+        if (isset($data['rploss'])) {
+            $data['rploss'] = true;
+        } else {
+            $data['rploss'] = false;
+        }
+
+        $data['k'] = $data['k'] ?? 1;
+
+        return $data;
     }
 
     /**

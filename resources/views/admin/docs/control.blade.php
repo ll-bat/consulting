@@ -78,6 +78,14 @@
                             >
                             <span class="chbox-checkmark"></span>
                         </label>
+
+                        <label class="ns-container text-secondary text-left ml-3 mt-2 mb-3"
+                               style='font-size:.95em; color:rgba(0,0,0,.8);'> არსებული კონტროლის ზომის პასუხის დამალვა
+                            <input type="checkbox"
+                                   name="is_first_option_off"
+                                   value="1">
+                            <span class="chbox-checkmark"></span>
+                        </label>
                     </div>
 
                     <div class='card text-left border-0 partial-shadow'
@@ -144,43 +152,6 @@
                         </li>
                     @endif
                 </ul>
-
-{{--                <div--}}
-{{--                    class='card card-user mt-3 text-left rounded-10 shadow-none left-colored-border top-left-radius-0 bottom-left-radius-0'--}}
-{{--                    style='border-left:5px solid #003366'>--}}
-{{--                    <div class='card-title mb-2 mt-3 pointer' onclick='toggleCollapse()'>--}}
-{{--                        <i class='fa fa-plus float-left ml-3 mt-1'></i>--}}
-{{--                        <p class='pl-5 font-weight-bold'> ყველა კონტროლის ზომა </p>--}}
-{{--                    </div>--}}
-
-{{--                    <div class='pl-4' id='clickable' style=''>--}}
-{{--                        @foreach($controls as $ind => $control)--}}
-{{--                            <div class='d-none controls-panel pb-1 slowly' id='removable-control{{$control->id}}'>--}}
-{{--                                <div style='width:85%' class='pointer'--}}
-{{--                                     onmousedown="hasClick(event,'removable-control{{$control->id}}', {{$control->id}})">--}}
-{{--                                    <p class="@if(Session('created') && $ind == $control->count()-1) font-weight-bolder @else text-muted @endif">--}}
-{{--                                        {{$ind + 1}}. {{$control->name}}--}}
-{{--                                    </p>--}}
-{{--                                </div>--}}
-{{--                                <div class='d-flex' style='width:15%'>--}}
-{{--                                    <div class='w-100 h-100 this-div'>--}}
-{{--                                                                                    <div class='position-absolute this-button' style='width:.2rem;height:2rem;background-color:#003366'></div>--}}
-{{--                                        <a class='btn this-color' href='control/{{$control->id}}/edit'--}}
-{{--                                           style='margin-top:-.1rem;background-color:transparent !important;color:blue'>--}}
-{{--                                            შეცვლა--}}
-{{--                                        </a>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        @endforeach--}}
-{{--                        @if ($controls->count() == 0)--}}
-{{--                            <div class='d-none controls-panel pb-1'>--}}
-{{--                                <p class='text-secondary'> თქვენ არ გაქვთ კონტროლის ზომები </p>--}}
-{{--                            </div>--}}
-{{--                        @endif--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-
             </div>
         </div>
     </div>

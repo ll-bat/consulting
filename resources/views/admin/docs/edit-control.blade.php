@@ -90,6 +90,16 @@
                             >
                             <span class="chbox-checkmark"></span>
                         </label>
+
+                        <label class="ns-container text-secondary text-left ml-3 mt-2 mb-3"
+                               style='font-size:.95em; color:rgba(0,0,0,.8);'> არსებული კონტროლის ზომის პასუხის დამალვა
+                            <input type="checkbox"
+                                   name="is_first_option_off"
+                                   value="1"
+                                   @if ($control->is_first_option_off) checked @endif
+                            >
+                            <span class="chbox-checkmark"></span>
+                        </label>
                     </div>
 
                     <div class='card text-left border-0 partial-shadow'>
