@@ -69,6 +69,9 @@ class QuestionsJson
                              if (isset($control->added)) {
                                  $data['newControls'][$index][] = ['value' => $control->model->name];
                              } else {
+                                 if (!isset($control->id)) {
+                                     continue;
+                                 }
                                  $data['control'][] = [
                                      'id' => $control->id,
                                      'value' => $answer
@@ -128,7 +131,7 @@ class QuestionsJson
          } catch (\Exception $e) {
              dd($e->getMessage() . '; line - ' . $e->getLine());
              exit;
-             $this->data = [];
+//             $this->data = [];
          }
 
 //         dd($this->data);
