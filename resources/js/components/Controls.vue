@@ -24,7 +24,9 @@
                 </td>
 
                 <td v-for="(v,ind) in controlAnswers" style='width: 19%;' :title='v.label'>
-                    <label class="ns-container" @mousedown="update(o.id, ind);">
+                    <label class="ns-container"
+                           v-if="!(ind === 0 && o.is_first_option_off)"
+                           @mousedown="update(o.id, ind);">
                         <div class="ns-test" style="left: calc(50% - 25px);">
                             <div class="mod-chbox-checkmark mod-chbox-checkmark-diff ns-test-margin rounded-circle"
                                  :class="{'hovered-checkmark-diff controls-border-color' : controlsMapper[o.id] === ind}">
@@ -109,7 +111,10 @@ export default {
 
     mounted() {
         this.init();
-        this.initMapper()
+        this.initMapper();
+        tout(() => {
+            console.log(this.currentControls)
+        })
     }
 }
 </script>

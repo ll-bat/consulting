@@ -98,7 +98,7 @@ export default {
 
         validateCurrentDanger() {
             /**
-             * At least one controls should be checked or added.
+             * At least one control should be checked or added.
              * At least one ploss/udanger should be checked or added
              * At least one rperson/etime should be added.
              */
@@ -106,7 +106,7 @@ export default {
             const data = this.getDangerData();
 
             function validateString(p) {
-                return p.value.length > 1;
+                return p.value.length > 0;
             }
 
             /**
@@ -201,6 +201,11 @@ export default {
                 } else {
                     if (!this.isUpdate) {
                         lastPage = {pid: this.processId, did: this.dangerId, data: this.getDangerData()};
+                    } else {
+                        this.updateStore((state) => {
+                            const elm = state.sendData.find(el => el.pid === this.processId && el.did === this.dangerId);
+                            elm.data = state.data;
+                        })
                     }
                 }
             }

@@ -612,13 +612,13 @@ class Filter
             }
         }
         $allControls = Control::whereIn('id', $allControls)
-            ->select('id', 'name', 'k', 'rploss')
+            ->select('id', 'name', 'k', 'rploss', 'is_first_option_off')
             ->get()
             ->toArray();
 
         $controlsMap = [];
         foreach ($allControls as $c) {
-            $controlsMap[$c['id']] = ['name' => $c['name'], 'k' => $c['k'], 'rploss' => $c['rploss']];
+            $controlsMap[$c['id']] = ['name' => $c['name'], 'k' => $c['k'], 'rploss' => $c['rploss'], 'is_first_option_off' => $c['is_first_option_off']];
         }
         /**
          * Use custom filter to pass elements by reference...
@@ -652,12 +652,20 @@ class Filter
             $d['processModel'] = ['name' => $processIds[$pid]];
             $d['dangerModel'] = $dangersMap[$did];
             /**
-             * Controls are divided into 3 parts, so we iterate each of them separately and filter each properly
+             * Controls are divided into 4 parts, so we iterate each of them separately and filter each properly
              */
             $d['data']['control'] = array_map(function ($type) use ($controlDangerIds, $did, $controlsMap) {
-                return filter($type, function (&$c) use ($controlDangerIds, $did, $controlsMap) {
+                return filter($type, function (&$c) use ($controlDangerIds, $did, $controlsMap, $type) {
                     if (!isset($controlDangerIds[$did]) || !isset($controlDangerIds[$did][$c['id']])) {
                         return false;
+                    }
+                    if ($c['value'] == 0) {
+                        /**
+                         * Exclude those controls that are not allowed to have first option checked
+                         */
+                        if ($controlsMap[$c['id']]['is_first_option_off'] === true) {
+                            return false;
+                        }
                     }
                     $c['model'] = $controlsMap[$c['id']];
                     return true;
