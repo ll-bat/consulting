@@ -1,3 +1,11 @@
+<?php
+/**
+ * @var Obj $object
+ */
+
+use App\Helperclass\Obj;
+
+?>
 <table class='table-striped border w-100'>
     <thead>
     <tr>
@@ -6,26 +14,29 @@
         <td rowspan='2'> საფრთ.ამს.ფოტო</td>
         <td rowspan='2'> პოტენციური ზიანი</td>
         <td rowspan='2'> ვინ იმყოფება რისკის ქვეშ</td>
-        <td rowspan='2'> არსებული კონტროლის ზომები <br /> <i class="text-muted">(საწყის ეტაპზე)</i></td>
+        <td rowspan='2'> არსებული კონტროლის ზომები <br/> <i class="text-muted">(საწყის ეტაპზე)</i></td>
         <td colspan='3' class='text-danger py-2'> საწყისი რისკი</td>
-        <td rowspan='2' class='smaller'> კონტროლის დამატებითი ზომები <br /> <i class="text-muted">(გატარებული ან/და მიმდინარე)</i></td>
+        <td rowspan='2' class='smaller'> კონტროლის დამატებითი ზომები <br/>
+            <i class="text-muted">(გატარებული ან/და მიმდინარე)</i>
+        </td>
         <td colspan='3' class='text-success py-2'> ნარჩენი რისკი</td>
-        <td rowspan='2' class='smaller'> გასატარებელი ღონისძიებები </td>
+        <td rowspan='2' class='smaller'> გასატარებელი ღონისძიებები</td>
         <td rowspan='2'> პასუხისმგებელი პირი</td>
         <td rowspan='2'> შესრ.ვადა</td>
     </tr>
     <tr>
-        <td class="px-3"> ა </td>
-        <td class="px-3"> შ </td>
+        <td class="px-3"> ა</td>
+        <td class="px-3"> შ</td>
         <td class="smaller"> რისკის დონე</td>
-        <td class="px-3"> ა </td>
-        <td class="px-3"> შ </td>
+        <td class="px-3"> ა</td>
+        <td class="px-3"> შ</td>
         <td class="smaller"> რისკის დონე</td>
     </tr>
     <thead>
 
     <tbody>
     @for ($i = 0; $i < $countAll; $i++)
+        <?php $dangerMax = $object->getDangerMax($i); ?>
         <tr>
             @if ($object->hasNewProcess($i))
                 <td rowspan="{{ $object->getProcessMax($i) }}" class='smaller'>
@@ -33,10 +44,10 @@
                 </td>
             @endif
             @if ($object->hasNewDanger($i))
-                <td rowspan="{{ $object->getDangerMax($i) }}" class='smaller'>
+                <td rowspan="{{ $dangerMax }}" class='smaller'>
                     {{ $object->getDangerName($i) }}
                 </td>
-                <td rowspan="{{ $object->getDangerMax($i) }}"
+                <td rowspan="{{ $dangerMax }}"
                     class='position-relative @if (!$object->hasImage($i)) bg-purple @endif'
                     style='@if ($object->hasImage($i)) height:6rem; width:5rem; @endif'>
                     @if ($object->hasImage($i))
@@ -45,50 +56,66 @@
                              style=''/>
                     @endif
                 </td>
+                @foreach(['ploss', 'udanger'] as $type)
+                    <td rowspan="{{ $dangerMax }}" class='smaller'>
+                        <div class="my-2">
+                            @foreach($object->getWholeElements($type, $i) as $value)
+                                <p class=""> {{ $value }} </p>
+                            @endforeach
+                        </div>
+                    </td>
+                @endforeach
             @endif
-            <td class='smaller'>
-                {{ $object->getArrayElement('ploss', $i)}}
-            </td>
-            <td class='smaller'>
-                {{ $object->getArrayElement('udanger', $i)}}
-            </td>
             <td class='smaller py-2'>
                 {{ $object->getControl(0, $i)}}
             </td>
             @if ($object->hasNewDanger($i))
-                <td rowspan="{{ $object->getDangerMax($i) }}" class='bg-primary'>
+                <td rowspan="{{ $dangerMax }}" class='bg-lightgrey'>
                     {{$object->getResult('first_probability', $i)}}
                 </td>
-                <td rowspan="{{ $object->getDangerMax($i) }}" class='bg-dlight'>
+                <td rowspan="{{ $dangerMax }}" class='bg-lightgrey'>
                     {{$object->getResult('first_result', $i)}}
                 </td>
-                <td rowspan="{{ $object->getDangerMax($i) }}" class='bg-warning border-warning'>
-                    {{$object->getResult('first_level', $i)}}
+                <?php
+                $score = $object->getResult('first_level', $i);
+                $color = $object->getRiskColor($score);
+                ?>
+                <td rowspan="{{ $dangerMax }}" style="background: {{ $color }};">
+                    {{ $score }}
                 </td>
             @endif
             <td class='smaller py-2'>
                 {{ $object->getControl(1, $i)}}
             </td>
             @if ($object->hasNewDanger($i))
-                <td rowspan="{{ $object->getDangerMax($i) }}" class='bg-primary'>
+                <td rowspan="{{ $dangerMax }}" class='bg-lightgrey'>
                     {{$object->getResult('second_probability', $i)}}
                 </td>
-                <td rowspan="{{ $object->getDangerMax($i) }}" class='bg-dlight'>
+                <td rowspan="{{ $dangerMax }}" class='bg-lightgrey'>
                     {{$object->getResult('second_result', $i)}}
                 </td>
-                <td rowspan="{{ $object->getDangerMax($i) }}" class='bg-warning border-warning'>
-                    {{$object->getResult('second_level', $i)}}
+                <?php
+                $score = $object->getResult('second_level', $i);
+                $color = $object->getRiskColor($score);
+                ?>
+                <td rowspan="{{ $dangerMax }}" style="background: {{ $color }};">
+                    {{ $score }}
                 </td>
             @endif
-                <td class="smaller py-2">
-                    {{ $object->getControl(2, $i) }}
-                </td>
-            <td class='small1'>
-                {{ $object->getOptionalArrayElement('rpersons', $i)}}
+            <td class="smaller py-2">
+                {{ $object->getControl(2, $i) }}
             </td>
-            <td class='small1 px-2'>
-                {{ $object->getOptionalArrayElement('etimes', $i)}}
-            </td>
+            @if ($object->hasNewDanger($i))
+                @foreach(['rpersons', 'etimes'] as $type)
+                    <td rowspan="{{ $dangerMax }}" class='small1 px-2'>
+                        <div class="my-2">
+                            @foreach($object->getWholeElements($type, $i, false) as $value)
+                                <p class=""> {{ $value }} </p>
+                            @endforeach
+                        </div>
+                    </td>
+                @endforeach
+            @endif
         </tr>
     @endfor
 

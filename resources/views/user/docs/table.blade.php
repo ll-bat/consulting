@@ -1,4 +1,12 @@
-<!doctype html>
+<?php
+/**
+ * @var Obj $object
+ */
+
+use App\Helperclass\Obj;
+?>
+
+    <!doctype html>
 <html>
 <body>
 
@@ -54,7 +62,7 @@
         </td>
         <td rowspan='2' align='center' valign='middle' width='25' height='22'
             style='font-size: 10px;border:7px solid #b8b894;background-color:#DEEAF6'>
-            გასატარებელი <br />ღონისძიებები
+            გასატარებელი <br/>ღონისძიებები
         </td>
         <td rowspan='2' align='center' valign='middle' width='20' height='22'
             style='vertical-align:middle;border:7px solid #b8b894;background-color:#DEEAF6'> პასუხისმგებელი <br/> პირი
@@ -88,6 +96,7 @@
 
     <tbody>
     @for ($i = 0; $i < $countAll; $i++)
+        <?php $dangerMax = $object->getDangerMax($i); ?>
         <tr style='height:20px'>
             <td width='5' height='22'></td>
 
@@ -96,9 +105,9 @@
                     style='height:35px;font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'>{{ $object->getProcessName($i) }}</td>
             @endif
             @if ($object->hasNewDanger($i))
-                <td rowspan="{{ $object->getDangerMax($i) }}" align='center' valign='middle'
-                    style='height:35px;font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'>{{ $object->getDangerName($i) }}</td>
-                <td rowspan="{{ $object->getDangerMax($i) }}" width='15' height='40'
+                <td rowspan="{{ $dangerMax }}" align='center' valign='middle'
+                    style='height:35px;font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'>{{ $dangerMax }}</td>
+                <td rowspan="{{ $dangerMax }}" width='15' height='40'
                     style='background-color:#aa00ff;border:7px solid #b8b894;background-color:#EAECEB'>
                 <!-- @if ($object->hasImage($i))
                     <img src="data:image/jpeg;base64,{{base64_encode($object->getImageName($i))}}"
@@ -106,40 +115,90 @@
                                 style='max-width:7rem;max-height:5rem;' />
                          @endif -->
                 </td>
+
+                @foreach(['ploss', 'udanger'] as $type)
+                    <td rowspan="{{ $dangerMax }}" class='small1' align='center' valign='middle'
+                        style="border:7px solid #b8b894;background-color:#EAECEB;">
+                        <div>
+                            @foreach($object->getWholeElements($type, $i) as $value)
+                                <p style='font-size: 10px;margin-bottom: 5px !important;'> {{ $value }} </p>
+                            @endforeach
+                        </div>
+                    </td>
+                @endforeach
+
             @endif
-            <td class='small1' align='center' valign='middle'
-                style='font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'>{{ $object->getArrayElement('ploss', $i)}}</td>
-            <td class='' align='center' valign='middle' height='35'
-                style='font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'>{{ $object->getArrayElement('udanger', $i)}}</td>
+
             <td class='' align='center' valign='middle'
                 style='font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'>{{ $object->getControl(0, $i)}}</td>
             @if ($object->hasNewDanger($i))
-                <td rowspan="{{ $object->getDangerMax($i) }}" align='center' valign='middle'
-                    style='font-size: 10px;background-color:#0070C0;border:7px solid #b8b894'>{{$object->getResult('first_probability', $i)}}</td>
-                <td rowspan="{{ $object->getDangerMax($i) }}" align='center' valign='middle'
-                    style='font-size: 10px;background-color:#D9D9D9;border:7px solid #b8b894'>{{$object->getResult('first_result', $i)}}</td>
-                <td rowspan="{{ $object->getDangerMax($i) }}" align='center' valign='middle'
-                    style='font-size: 10px;background-color:#FFFF00;border:7px solid #b8b894'>{{$object->getResult('first_level', $i)}}</td>
+                <td rowspan="{{ $dangerMax }}" align='center' valign='middle'
+
+                    style="background-color:#EAECEB;border:7px solid #b8b894;"
+                >
+
+                    {{$object->getResult('first_probability', $i)}}
+
+                </td>
+
+                <td rowspan="{{ $dangerMax }}" align='center' valign='middle'
+
+                    style="background-color:#EAECEB;border:7px solid #b8b894;"
+                >
+                    {{$object->getResult('first_result', $i)}}
+
+                </td>
+
+                <?php
+                $score = $object->getResult('first_level', $i);
+                $color = $object->getRiskColor($score);
+                ?>
+                <td rowspan="{{ $dangerMax }}"
+                    valign='middle' align='center'
+                    style="background: {{ $color }}; border-color: {{ $color }}">
+                    {{ $score }}
+                </td>
+
             @endif
             <td class='' valign='middle' align='center'
                 style='font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'>{{ $object->getControl(1, $i)}}</td>
             @if ($object->hasNewDanger($i))
-                <td rowspan="{{ $object->getDangerMax($i) }}" align='center' valign='middle'
-                    style='background-color:#0070C0;border:7px solid #b8b894'>{{$object->getResult('second_probability', $i)}}</td>
-                <td rowspan="{{ $object->getDangerMax($i) }}" align='center' valign='middle'
-                    style='background-color:#D9D9D9;border:7px solid #b8b894'>{{$object->getResult('second_result', $i)}}
+                <td rowspan="{{ $dangerMax }}" align='center' valign='middle'
+                    style="background-color:#EAECEB;border:7px solid #b8b894;">
+                    {{$object->getResult('second_probability', $i)}}
                 </td>
-                <td rowspan="{{ $object->getDangerMax($i) }}" valign='middle' align='center'
-                    style='background-color:#FFFF00;border:7px solid #b8b894'>{{$object->getResult('second_level', $i)}}</td>
+                <td rowspan="{{ $dangerMax }}" align='center' valign='middle'
+                    style="background-color:#EAECEB;border:7px solid #b8b894;">
+                    {{$object->getResult('second_result', $i)}}
+                </td>
+
+                <?php
+                $score = $object->getResult('second_level', $i);
+                $color = $object->getRiskColor($score);
+                ?>
+                <td rowspan="{{ $dangerMax }}"
+                    valign='middle' align='center'
+                    style="background: {{ $color }}; border-color: {{ $color }}">
+                    {{ $score }}
+                </td>
             @endif
             <td class="small" align="center"
                 style="font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB">
                 {{ $object->getControl(2, $i)}}
             </td>
-            <td class='small' align='center'
-                style='font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'>{{ $object->getOptionalArrayElement('rpersons', $i)}}</td>
-            <td class='small' align='center'
-                style='font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'>{{ $object->getOptionalArrayElement('etimes', $i)}}</td>
+
+            @if ($object->hasNewDanger($i))
+                @foreach(['rpersons', 'etimes'] as $type)
+                    <td rowspan="{{ $dangerMax }}" class='small' align='center'
+                        style="border:7px solid #b8b894;background-color:#EAECEB">
+                        <div class="my-2">
+                            @foreach($object->getWholeElements($type, $i, false) as $value)
+                                <p style="font-size: 10px;"> {{ $value }} </p>
+                            @endforeach
+                        </div>
+                    </td>
+                @endforeach
+            @endif
         </tr>
     @endfor
     </tbody>

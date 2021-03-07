@@ -95,6 +95,10 @@
             border-color: lightseagreen !important;
         }
 
+        .bg-lightgrey {
+            background: #EAECEB !important;
+        }
+
     </style>
 @endsection
 

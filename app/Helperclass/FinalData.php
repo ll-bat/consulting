@@ -219,16 +219,17 @@ class FinalData
 
             foreach ($obj as $m => $o) {
                 $mx = 0;
-                $o = $o['data'];
-                foreach ($o['control'] as $b) $mx = max($mx, count($b));
 
-                foreach ($o as $c => $val) {
-                    if (gettype($val) == 'array' && !in_array($c, ['control', 'newControls', 'newUdangers', 'newPloss', 'result']))
-                        $mx = max($mx, count($val));
+                $o = $o['data'];
+
+                foreach ($o['control'] as $b) {
+                    $mx = max($mx, count($b));
                 }
+
                 $object[$n][$m]['max'] = $mx;
                 $max += $mx;
             }
+
             $object[$n]['max'] = $max;
             $countAll += $max;
         }

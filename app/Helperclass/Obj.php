@@ -2,6 +2,8 @@
 
 namespace App\Helperclass;
 
+use Exception;
+
 class Obj
 {
     protected $object = null;
@@ -58,6 +60,48 @@ class Obj
         $el = $this->shrink($el);
 
         return $el;
+    }
+
+    /**
+     * @param string $name
+     * @param integer $i
+     * @param boolean $hasModel
+     * @return array
+     * @throws Exception
+     */
+    public function getWholeElements(string $name, int $i, bool $hasModel = true): array
+    {
+        $obj = $this->getObject($i);
+        $array = [];
+
+        if (!isset($obj[$name])) {
+            throw new Exception('Bad object key');
+        }
+
+        foreach ($obj[$name] as $item) {
+            $array[] = $hasModel ? $item['model']['name'] : $item['value'];
+        }
+
+        return $array;
+    }
+
+    /**
+     * @param int $score
+     * @return string
+     */
+    public function getRiskColor(int $score): string
+    {
+        if ($score < 3) {
+            return '#92D050';
+        } else if ($score < 5) {
+            return '#00B050';
+        } else if ($score < 10) {
+            return '#FFFF00';
+        } else if ($score < 20) {
+            return '#FFC000';
+        } else {
+            return '#FF0000';
+        }
     }
 
     public function getExactElement(&$data, $name, $elm): string
