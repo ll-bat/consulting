@@ -2,28 +2,42 @@
 
 use App\Helperclass\SiteJson;
 
-function getUrl(){
-    return  \Illuminate\Support\Facades\URL::full();
+function getUrl()
+{
+    return \Illuminate\Support\Facades\URL::full();
 }
 
 /**
  * @return \Illuminate\Contracts\Auth\Authenticatable|null
  */
 
-function current_user(){
+function current_user()
+{
     return auth()->user();
 }
 
-function testBack(){
+function index($array, $key): array
+{
+    $res = [];
+    foreach ($array as $item) {
+        $res[$item[$key]] = $item;
+    }
+    return $res;
+}
+
+function testBack()
+{
     return asset('storage/backgrounds/background.png');
 }
 
-function getAvatar(){
+function getAvatar()
+{
     if (auth()->user()) return current_user()->pathAvatar();
     return asset('storage/avatars/avatar.png');
 }
 
-function getTestFolder(){
+function getTestFolder()
+{
     return asset('/storage/icons/folder1.png');
 }
 
@@ -36,7 +50,7 @@ function userRoutes()
         ['route' => 'user.home', 'icon' => 'nc-icon nc-bank', 'name' => 'მთავარი'],
         ['route' => 'user.profile', 'icon' => 'nc-icon nc-single-02', 'name' => 'პროფილი'],
         ['route' => 'user.objects', 'icon' => 'nc-icon nc-single-copy-04', 'name' => 'ობიექტები'],
-        ['route' => 'user.preQuestions', 'icon' => 'nc-icon nc-tap-01 mr-3 mt-3 ml-1', 'name' =>  'რისკების შეფასების დოკუმენტის შექმნა']
+        ['route' => 'user.preQuestions', 'icon' => 'nc-icon nc-tap-01 mr-3 mt-3 ml-1', 'name' => 'რისკების შეფასების დოკუმენტის შექმნა']
 
     ];
 }
@@ -52,19 +66,22 @@ function adminRoutes()
 }
 
 
-function collapsedRoutes(){
+function collapsedRoutes()
+{
     return [
         'user.home', 'user.profile', 'user.objects', 'admin.blog'
     ];
 }
 
 
-function dval($a){
+function dval($a)
+{
     return doubleval($a);
 }
 
-function siteLogo(){
-    if (session()->has('site-logo')){
+function siteLogo()
+{
+    if (session()->has('site-logo')) {
         return session()->get('site-logo');
     }
 
@@ -75,17 +92,20 @@ function siteLogo(){
     return $logo;
 }
 
-function toolbarRoutes(){
+function toolbarRoutes()
+{
     return ['danger.show'];
 }
 
-function nbackRoutes(){
+function nbackRoutes()
+{
     return [
-        'blog.edit','home', 'user.profile', 'user.objects'
+        'blog.edit', 'home', 'user.profile', 'user.objects'
     ];
 }
 
-function searchInvisible() {
+function searchInvisible()
+{
     return [
     ];
 }
