@@ -111,12 +111,12 @@ use App\Helperclass\Obj;
                 </td>
 
                 <td rowspan="{{ $dangerMax }}" style='border:7px solid #b8b894;background-color:#EAECEB'>
-                    @if ($object->hasImage($i))
-                        <img src="{{ $object->getImageContent($i) }}"
-                             width="70"
-                             alt=""
-                        />
-                    @endif
+{{--                    @if ($object->hasImage($i))--}}
+{{--                        <img src="{{ $object->getImageContent($i) }}"--}}
+{{--                             width="70"--}}
+{{--                             alt=""--}}
+{{--                        />--}}
+{{--                    @endif--}}
                 </td>
 
                 @foreach(['ploss', 'udanger'] as $type)

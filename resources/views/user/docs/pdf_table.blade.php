@@ -87,7 +87,7 @@ use App\Helperclass\Obj;
                 </td>
                 <td rowspan="{{ $dangerMax }}">
                     @if ($object->hasImage($i))
-                        <img src="data:image/jpeg;base64,{{base64_encode($object->getImageContent($i))}}"
+                        <img src="{{$object->getImageContent($i)}}"
                              class='hoverable-image' style='max-width:7rem;max-height:5rem;'/>
                     @endif
                 </td>

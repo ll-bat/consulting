@@ -211,16 +211,16 @@ class Obj
 
 //        return base64_encode($file);
 
-        $filename = 'storage/' . basename($path);
+//        $filename = 'storage/' . basename($path);
+////
+//        if (File::exists($filename)) {
+//            return $filename;
+//        }
 //
-        if (File::exists($filename)) {
-            return $filename;
-        }
+//        Image::make($path)->save($filename);
 
-        Image::make($path)->save($filename);
-
-        return $filename;
-//        return (string) Image::make($path)->encode('data-url');
+//        return $filename;
+        return (string) Image::make($path)->encode('data-url');
     }
 
     public function getImages(): array
