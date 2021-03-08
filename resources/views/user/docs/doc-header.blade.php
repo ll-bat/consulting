@@ -4,7 +4,7 @@
 <table class="table" width="100%" style="margin-bottom: 40px">
     <tbody>
         <tr>
-            <td colspan="2" width="80%" style="padding: 20px 0;">
+            <td colspan="2" width="80%" style="padding: 20px 0;background: #f2fafd">
                 <b style="font-size: 1rem"> რისკების შეფასების დოკუმენტი </b>
             </td>
             <td class="text-right font-weight-bold text-sm" style="background: #DEEBF7;">

@@ -8,7 +8,14 @@
     </tr>
     <tr>
         <td width='5' height='30'></td>
-        <td class="font-weight-bold" align='center' colspan="12" height="30" style="padding: 20px 0;background-color:#EAECEB; border:7px solid #b8b894">
+        <td class="font-weight-bold"
+            align='center'
+            colspan="12"
+            height="30"
+            style="padding: 20px 0;
+            background-color:#EAECEB;
+            border:7px solid #b8b894">
+            
            <b> რისკების შეფასების დოკუმენტი </b>
         </td>
         <td class="text-right font-weight-bold text-sm" align="right" colspan="3" height="30"  style="background: #DEEBF7; border:7px solid #b8b894">

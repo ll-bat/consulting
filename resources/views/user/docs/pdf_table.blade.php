@@ -7,12 +7,12 @@ use App\Helperclass\Obj;
 
 ?>
 
-    <!doctype html>
+<!doctype html>
 <html>
 <head>
     <style>
         body {
-            font-family: DejaVu Sans;
+            font-family: DejaVu Sans, sans-serif;
         }
 
         thead tr td {
@@ -30,19 +30,6 @@ use App\Helperclass\Obj;
             text-align: center;
         }
 
-        .bg-dlight {
-            background-color: #D9D9D9;
-        }
-
-        .bg-primary {
-            background-color: #0070C0 !important;
-            color: white !important;
-        }
-
-        .bg-warning {
-            background-color: #FFFF00 !important;
-        }
-
         .text-sm {
             font-size: .62rem;
         }
@@ -52,6 +39,7 @@ use App\Helperclass\Obj;
         }
 
     </style>
+    <title></title>
 <body>
 
 @include('user.docs.doc-header', compact('docAbout'))
@@ -105,7 +93,7 @@ use App\Helperclass\Obj;
                 </td>
 
                 @foreach(['ploss', 'udanger'] as $type)
-                    <td rowspan="{{ $dangerMax }}" class='text-sm'>
+                    <td rowspan="{{ $dangerMax }}" class='text-sm' style="height: 100px">
                         <div class="my-2">
                             @foreach($object->getWholeElements($type, $i) as $value)
                                 <p class=""> {{ $value }} </p>
@@ -114,7 +102,7 @@ use App\Helperclass\Obj;
                     </td>
                 @endforeach
             @endif
-            <td class="text-sm">
+            <td class="text-sm" style="height: 40px">
                 {{ $object->getControl(0, $i)}}
             </td>
             @if ($object->hasNewDanger($i))
@@ -128,7 +116,7 @@ use App\Helperclass\Obj;
                 $score = $object->getResult('first_level', $i);
                 $color = $object->getRiskColor($score);
                 ?>
-                <td rowspan="{{ $dangerMax }}" style="background: {{ $color }}; border-color: {{ $color }}">
+                <td rowspan="{{ $dangerMax }}" style="background: {{ $color }};">
                     {{ $score }}
                 </td>
             @endif
@@ -146,13 +134,12 @@ use App\Helperclass\Obj;
                 $score = $object->getResult('second_level', $i);
                 $color = $object->getRiskColor($score);
                 ?>
-                <td rowspan="{{ $dangerMax }}" style="background: {{ $color }}; border-color: {{ $color }}">
+                <td rowspan="{{ $dangerMax }}" style="background: {{ $color }};">
                     {{ $score }}
                 </td>
             @endif
             <td class="text-sm py-2">
                 {{ $object->getControl(2, $i) }}
-            </td>
             </td>
             @if ($object->hasNewDanger($i))
                 @foreach(['rpersons', 'etimes'] as $type)
@@ -166,7 +153,6 @@ use App\Helperclass\Obj;
                 @endforeach
             @endif
         </tr>
-
     @endfor
     </tbody>
 </table>
