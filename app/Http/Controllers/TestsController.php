@@ -22,12 +22,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 
 
 class TestsController extends Controller
 {
     public function index()
     {
+
+        $this->testImage();
 //          $a = ['1', '2', '1'];
 //
 //          $b = ['1'];
@@ -45,6 +48,29 @@ class TestsController extends Controller
 ////          $data = DangerProcess::whereIn('danger_id', [52])->whereIn('process_id', [1])->get();
 //          dd($data);
 
+    }
+
+    public function testImage() {
+//        $path = 'https://res.cloudinary.com/de8t95zmf/image/upload/v1615222401/dhwebsyndtvcpagosx2m.png';
+
+//        $image = Image::make($test)->save('storage/hello.png');
+//        $image = Image::make($path)->text();
+
+//        $data = @file_get_contents($path);
+//        dd(base64_encode($data));
+
+//        $filename = basename($path);
+
+//        if (File::exists('storage/' . $filename)) {
+//            dd($filename);
+//        }
+//
+//        Image::make($path)->save('storage/' . $filename);
+
+//        $image = (string) Image::make($path)->encode('data-url');
+//        dd($image);
+
+        dd(sys_get_temp_dir());
     }
 
     public function calc2()

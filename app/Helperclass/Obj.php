@@ -3,6 +3,8 @@
 namespace App\Helperclass;
 
 use Exception;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 
 class Obj
 {
@@ -190,25 +192,52 @@ class Obj
 
         $path = $obj['imageName'];
 
-        // $file = Storage::get("{$obj['imageName']}");
+//         $file = Storage::get("{$obj['imageName']}");
 
-        $file = file_get_contents($path);
+//        $file = file_get_contents($path);
 
-        return $file;
+//        $test = 'https://res.cloudinary.com/de8t95zmf/image/upload/v1615222401/dhwebsyndtvcpagosx2m.png';
+
+//        $filename = basename($path);
+
+//        Image::make($path)->save(public_path($filename));
+
+//        $image = Image::make($path);
+//        dd($image);
+//
+//        return $path;
+
+//        $file = @file_get_contents($path);
+
+//        return base64_encode($file);
+
+        $filename = 'storage/' . basename($path);
+//
+        if (File::exists($filename)) {
+            return $filename;
+        }
+
+        Image::make($path)->save($filename);
+
+        return $filename;
+//        return (string) Image::make($path)->encode('data-url');
     }
 
     public function getImages(): array
     {
         $images = [];
         for ($i = 0; $i < $this->all; $i++) {
-            if (!$this->hasNewDanger($i)) continue;
+            if (!$this->hasNewDanger($i)) {
+                continue;
+            }
+
             $has = $this->hasImage($i);
             $path = '';
 
             if ($has) {
                 $path = $this->getImageName($i, 'partial');
-                // $path = public_path("storage/$path");
-                // $path = public_path("$path");
+//                 $path = public_path("storage/$path");
+//                 $path = public_path("$path");
             }
 
             $pid = $this->getProcessInd($i);

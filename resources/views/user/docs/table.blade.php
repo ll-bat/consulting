@@ -106,14 +106,17 @@ use App\Helperclass\Obj;
             @endif
             @if ($object->hasNewDanger($i))
                 <td rowspan="{{ $dangerMax }}" align='center'
-                    style='height:35px;font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'>{{ $dangerMax }}</td>
-                <td rowspan="{{ $dangerMax }}" width='15' height='40'
-                    style='background-color:#aa00ff;border:7px solid #b8b894;background-color:#EAECEB'>
-                <!-- @if ($object->hasImage($i))
-                    <img src="data:image/jpeg;base64,{{base64_encode($object->getImageName($i))}}"
-                                class='hoverable-image'
-                                style='max-width:7rem;max-height:5rem;' />
-                         @endif -->
+                    style='height:35px;font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'>
+                    {{ $dangerMax }}
+                </td>
+
+                <td rowspan="{{ $dangerMax }}" style='border:7px solid #b8b894;background-color:#EAECEB'>
+                    @if ($object->hasImage($i))
+                        <img src="{{ $object->getImageContent($i) }}"
+                             width="70"
+                             alt=""
+                        />
+                    @endif
                 </td>
 
                 @foreach(['ploss', 'udanger'] as $type)

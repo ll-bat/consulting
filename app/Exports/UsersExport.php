@@ -3,6 +3,8 @@
 namespace App\Exports;
 
 use App\Helperclass\Content;
+use App\Helperclass\Obj;
+use Faker\Provider\File;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithDrawings;
@@ -15,7 +17,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 class UsersExport implements FromView, WithDrawings, WithStyles, ShouldAutoSize
 {
     protected $export = null;
-    protected $data = null;
+    protected ?Obj $data = null;
     protected $all = null;
     protected $docAbout = [];
 
@@ -47,33 +49,34 @@ class UsersExport implements FromView, WithDrawings, WithStyles, ShouldAutoSize
     {
 //        new \PhpOffice\PhpSpreadsheet\Worksheet\Drawing();
 
-        // $all = $this->data->getImages();
-        $all = [];
-        $images = [];
-        $c = 7;
+//         $all = $this->data->getImages();
+//        $all = [];
+//        $images = [];
+//        $c = 7;
 
-        foreach ($all as $image) {
-            if (!$image['has']) {
-                $c += $image['max'];
-                continue;
-            }
+//        foreach ($all as $image) {
+//            if (!$image['has']) {
+//                $c += $image['max'];
+//                continue;
+//            }
 
-            $drawing = new Drawing();
-            $drawing->setName('Image');
-            $drawing->setDescription('This is my Image');
-            $path = $image['path'];
-            $drawing->setPath($path);
-            $drawing->setHeight(35);
-            $drawing->setWidth(70);
-            $drawing->setOffsetX(15);
-            $drawing->setOffsetY(18 * ($image['max'] - 1) + 3);
-            $drawing->setCoordinates("D$c");
-            $images[] = $drawing;
+//            $drawing = new Drawing();
+//            $drawing->setName('Image');
+//            $drawing->setDescription('This is my Image');
+//            $path = $image['path'];
+//            $drawing->setPath($path, false);
+//            $drawing->setHeight();
+//            $drawing->setWidth(7);
+////            $drawing->setOffsetX(15);
+////            $drawing->setOffsetY(18 * ($image['max'] - 1) + 3);
+//            $drawing->setCoordinates("D$c");
+//            $images[] = $drawing;
+//
+//            $c += $image['max'];
+//        }
 
-            $c += $image['max'];
-        }
-
-        return $images;
+//        return $images;
+        return [];
     }
 
 
