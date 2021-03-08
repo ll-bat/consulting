@@ -5,6 +5,8 @@
 /**
  * @var User[] $users
  */
+
+use App\User;
 ?>
 
 @section('header')
@@ -30,7 +32,11 @@
             <tr class="text-center">
                 <td>
                     <img src="{{ $user->pathAvatar() }}" height="40"/></td>
-                <td> {{ $user->username }}</td>
+                <td>
+                    <a href="{{ $user->id }}/objects">
+                        {{ $user->username }}
+                    </a>
+                </td>
                 <td> {{ $user->email }}</td>
                 <td> {{ $user->profile->firstname }}</td>
                 <td> {{ $user->profile->lastname }}</td>

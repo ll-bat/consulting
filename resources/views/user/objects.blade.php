@@ -1,9 +1,17 @@
+<?php
+/**
+ * @var boolean $readonly
+ */
+
+use App\Objects;
+
+if (!isset($readonly)) {
+    $readonly = false;
+}
+
+?>
+
 @extends('layouts/zim')
-
-
-
-
-
 
 @section('header')
     <style>
@@ -14,13 +22,16 @@
 @endsection
 
 @section('toolbar')
-    <?php use App\Objects;
-    $json = json_encode([
-        'fields' => ['name' => ''],
-        '_nextUrl' => 'objects/create',
-        'title' => 'ობიექტის დამატება',
-        'onEnter' => ['name']
-    ]); ?>
+    <?php
+        if (!$readonly):
+            $json = json_encode([
+                'fields' => ['name' => ''],
+                '_nextUrl' => 'objects/create',
+                'title' => 'ობიექტის დამატება',
+                'onEnter' => ['name']
+            ]);
+     ?>
+
     <button class="btn btn-outline-primary font-weight-bold border-0 m-0 px-3 py-1"
             id="model-create-button"
             data-params="{{ $json }}"
@@ -28,6 +39,8 @@
         <i class="fa fa-plus pl-0 pr-2"></i>
         ობიექტის დამატება
     </button>
+
+    <?php endif; ?>
 @endsection
 
 <?php
@@ -62,14 +75,13 @@ if (session()->has('message')) {
             <div class="d-flex modal-div " style="justify-content: space-between;">
                 <div class="d-flex">
                     <img src="/icons/3d.png" width="40" height="40"/>
-                    <a href="objects/{{ $object['id'] }}" class="text-lg mx-4 mt-2"> {{ $object['name'] }} </a>
+                    <a href="objects/{{ $object['id'] }}/docs" class="text-lg mx-4 mt-2"> {{ $object['name'] }} </a>
                 </div>
                 <div class="d-flex">
-                    <span class="mr-4 mt-3"> <b>{{ count($object['docs']) }} </b> doc(s) </span>
-                    <button class="btn btn-primary border-0 px-2 py-1 modal-element" data-params="{{ $json }}">
+                    <button class="btn btn-primary border-0 px-2 py-1 modal-element @if ($readonly) disabled @endif" data-params="{{ $json }}">
                         <i class="fa fa-pencil-alt" style="font-size: .85rem"></i>
                     </button>
-                    <button class="btn btn-danger border-0 py-1 modal-element-remove" style="padding: 0 10px;" data-params='{"_nextUrl": "objects/{{ $object['id'] }}/delete"}'>
+                    <button class="btn btn-danger border-0 py-1 modal-element-remove @if ($readonly) disabled @endif" style="padding: 0 10px;" data-params='{"_nextUrl": "objects/{{ $object['id'] }}/delete"}'>
                         <i class="fa fa-trash-alt" style="font-size: .85rem"></i>
                     </button>
                 </div>
@@ -77,13 +89,16 @@ if (session()->has('message')) {
         </div>
     @endforeach
     @if (count($objects) < 1)
-        <p class="alert text-white" style="background-color:rgba(0,0,200, .5)"> თქვენ არ გაქვთ ობიექტები </p>
+        <p class="alert text-white" style="background-color:rgba(0,0,200, .5)"> ობიექტები არ არის </p>
     @endif
 
-    @include('user._partialModal', [
+    <?php if (!$readonly): ?>
+        @include('user._partialModal', [
            'title' => '',
            'form' => 'user._createObject'
-    ])
+        ])
+    <?php endif; ?>
+
 
     <script type="application/javascript" src="/js/_modal.js"></script>
 

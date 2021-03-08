@@ -116,13 +116,25 @@ class MyDocsController extends Controller
 
     /**
      * @param Export $export
+     * @return bool|\Illuminate\Auth\Access\Response
+     * @throws AuthorizationException
+     */
+    private function _authorize(Export $export) {
+        if (current_user()->isAdmin()) {
+            return true;
+        }
+        return $this->authorize('show-doc', $export);
+    }
+
+    /**
+     * @param Export $export
      * @return bool|RedirectResponse|BinaryFileResponse
      * @throws AuthorizationException
      * @throws \Throwable
      */
     public function export(Export $export)
     {
-        $this->authorize('show-doc', $export);
+        $this->_authorize($export);
 
         $validator = Validator::make(request()->all(), [
             'pdf' => 'nullable|boolean',
@@ -147,9 +159,9 @@ class MyDocsController extends Controller
      * @return BinaryFileResponse
      * @throws AuthorizationException
      */
-    public function downloadExcel(Export $export): BinaryFileResponse
+    private function downloadExcel(Export $export): BinaryFileResponse
     {
-        $this->authorize('show-doc', $export);
+        $this->_authorize($export);
 
         $name = $export->filename;
         $parts = explode('.', $name);
@@ -170,9 +182,9 @@ class MyDocsController extends Controller
      * @throws AuthorizationException
      * @throws \Throwable
      */
-    public function downloadPdf(Export $export): bool
+    private function downloadPdf(Export $export): bool
     {
-        $this->authorize('show-doc', $export);
+        $this->_authorize($export);
 
         $con = new Content($export, 'pdf');
         $docAbout = $con->docAbout;

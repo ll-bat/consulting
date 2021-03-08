@@ -68,7 +68,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
     Route::group(['prefix' => 'doc'], function () {
         Route::get('{export}', 'MyDocsController@show')->name('user.export');
         Route::get('{export}/edit', 'MyDocsController@edit')->name('user.export.edit');
-        Route::get('{export}/export', 'MyDocsController@export');
+        Route::get('{export}/export', 'MyDocsController@export')->name('user.export.download');
         Route::post('{export}/update', 'MyDocsController@update');
         Route::delete('{export}/delete', 'MyDocsController@delete');
         //  Route::get('{export}/download', 'MyDocsController@download');
@@ -85,7 +85,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
         Route::post('create', 'ObjectsController@create');
         Route::post('{objects}/update', 'ObjectsController@update');
         Route::get('{objects}/delete', 'ObjectsController@delete');
-        Route::get('{objects}', 'ObjectsController@show');
+        Route::get('{objects}/docs', 'ObjectsController@show');
     });
 
     Route::group(["middleware" => 'App\Http\Middleware\AdminMiddleware'], function () {
@@ -189,6 +189,11 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
            Route::get('', 'UserTypeController@index')->name('admin.users');
            Route::post('{user}/save', 'UserTypeController@save');
         });
+
+        Route::get('{user}/objects', 'UserController@edit')->name('admin.user');
+        Route::get('{user}/objects/{objects}/docs', 'UserController@objectDocs')->name('admin.user.objectDocs');
+        Route::get('{user}/objects/{objects}/docs/{export}', 'UserController@showDoc')->name('admin.user.showDoc');
+
     });
 });
 
