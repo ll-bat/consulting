@@ -2,20 +2,17 @@
 
 namespace App\Exports;
 
-use App\User;
-use App\Export;
 use App\Helperclass\Content;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\WithDrawings;
-use Maatwebsite\Excel\Events\AfterSheet;
-use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class UsersExport implements FromView, WithDrawings, ShouldAutoSize
+class UsersExport implements FromView, WithDrawings, WithStyles, ShouldAutoSize
 {
     protected $export = null;
     protected $data = null;
@@ -82,11 +79,17 @@ class UsersExport implements FromView, WithDrawings, ShouldAutoSize
 
     public function styles(Worksheet $sheet)
     {
-//        getFont()->setBold(true)
-        $sheet->getStyle('B2:O2')->getAlignment()->setVertical(Alignment::VERTICAL_TOP);
-        $sheet->cell('E13', function($cell) {
-            $cell->setValignment('center');
-        });
+        /**
+         * Get the grid coordinates
+         * This part is required as we want to vertically center values in each cell
+         */
+        $startCell = 'B2';
+        /** '13' here is the starting coordinate of the form itself, beside header */
+        $endCell = 'Q' . (13 + $this->all);
+
+        $sheet->getStyle("$startCell:$endCell")
+            ->getAlignment()
+            ->setVertical(Alignment::HORIZONTAL_CENTER);
     }
 
 }
