@@ -56,5 +56,12 @@ class User extends Authenticatable
         return $this->profile->pathAvatar();
     }
 
+    public function objects() {
+        return $this->hasMany(Objects::class)->select(['id', 'name']);
+    }
+
+    public function getObjects() {
+        return $this->objects->toArray();
+    }
 
 }
