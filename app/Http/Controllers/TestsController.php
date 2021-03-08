@@ -26,8 +26,8 @@ use Illuminate\Support\Facades\File;
 
 class TestsController extends Controller
 {
-      public function index()
-      {
+    public function index()
+    {
 //          $a = ['1', '2', '1'];
 //
 //          $b = ['1'];
@@ -45,30 +45,32 @@ class TestsController extends Controller
 ////          $data = DangerProcess::whereIn('danger_id', [52])->whereIn('process_id', [1])->get();
 //          dd($data);
 
-      }
+    }
 
-      public function calc2() {
+    public function calc2()
+    {
 
-          $dangerIds = [56, 57];
+        $dangerIds = [56, 57];
 
-          $controls = DB::table('controls')
-              ->join('control_dangers', 'controls.id', '=', 'control_dangers.control_id')
-              ->whereIn('control_dangers.danger_id', $dangerIds)
-              ->selectRaw('SUM( CAST(controls.k as DECIMAL(9,2)) ) as controls_sum, control_dangers.danger_id')
-              ->groupBy('control_dangers.danger_id')
-              ->get()
-              ->toArray();
-      }
+        $controls = DB::table('controls')
+            ->join('control_dangers', 'controls.id', '=', 'control_dangers.control_id')
+            ->whereIn('control_dangers.danger_id', $dangerIds)
+            ->selectRaw('SUM( CAST(controls.k as DECIMAL(9,2)) ) as controls_sum, control_dangers.danger_id')
+            ->groupBy('control_dangers.danger_id')
+            ->get()
+            ->toArray();
+    }
 
-      public function calc() {
-          $export = Export::find(74);
-          $data = json_decode($export->data, true);
-          $data = $data[0];
+    public function calc()
+    {
+        $export = Export::find(74);
+        $data = json_decode($export->data, true);
+        $data = $data[0];
 
 //          $data = $this->makeAssoc($data);
 
 
-          dd($data);
+        dd($data);
 //          UserInputs::createRecords(1, 1, $data, []);
 //          $data = $this->makeAssoc($data);
 
@@ -76,66 +78,69 @@ class TestsController extends Controller
 //          return $data;
 //          dd($data);
 
-          $questions = new QuestionsJson($data, false);
-          dd($questions->getData());
+        $questions = new QuestionsJson($data, false);
+        dd($questions->getData());
 //          $data = $this->convert($data);
 //          $data = $this->correctControls($data);
 
-          $data = $questions->getData();
+        $data = $questions->getData();
 
-          $filter = new Filter($data, 1);
-          $data = $filter->getData();
+        $filter = new Filter($data, 1);
+        $data = $filter->getData();
 
 //          dd($filter->getAddedValues());
-          UserInputs::createRecords(74, 1, $filter->getAddedValues());
+        UserInputs::createRecords(74, 1, $filter->getAddedValues());
 
-          dd($data);
+        dd($data);
 
 //          $finalData = new FinalData(false, 1);
 //          $data = $finalData->init($data, 1);
 
-          dd($data);
-      }
+        dd($data);
+    }
 
-      public function correctControls($data) {
-          foreach ($data as &$d) {
-              $old = $d['data']['control'];
-              $controls = array_merge($old[0], array_merge($old[1], $old[2]));
-              $d['data']['control'] = $controls;
-          }
-          return $data;
-      }
+    public function correctControls($data)
+    {
+        foreach ($data as &$d) {
+            $old = $d['data']['control'];
+            $controls = array_merge($old[0], array_merge($old[1], $old[2]));
+            $d['data']['control'] = $controls;
+        }
+        return $data;
+    }
 
-      public function convert($data) {
-          $obj = [];
+    public function convert($data)
+    {
+        $obj = [];
 
-          foreach ($data as $index => $p) {
-              foreach ($p as $ind => $d) {
-                  if ((gettype($d) !== 'array') && gettype($d) !== 'object') continue;
-                  $obj[] = [
-                      'pid' => $d['pid'],
-                      'did' => $d['did'],
-                      'data' => $d['data']
-                  ];
-              }
-          }
+        foreach ($data as $index => $p) {
+            foreach ($p as $ind => $d) {
+                if ((gettype($d) !== 'array') && gettype($d) !== 'object') continue;
+                $obj[] = [
+                    'pid' => $d['pid'],
+                    'did' => $d['did'],
+                    'data' => $d['data']
+                ];
+            }
+        }
 
-          return $obj;
-      }
+        return $obj;
+    }
 
-      public function makeAssoc($data) {
+    public function makeAssoc($data)
+    {
 
-          $obj = [];
+        $obj = [];
 
-          if (!in_array(gettype($data), ['array', 'object'])) {
-              return $data;
-          }
+        if (!in_array(gettype($data), ['array', 'object'])) {
+            return $data;
+        }
 
-          foreach ($data as $ind => $d) {
-              $obj[$ind] = $this->makeAssoc($d);
-          }
+        foreach ($data as $ind => $d) {
+            $obj[$ind] = $this->makeAssoc($d);
+        }
 
-          return $obj;
+        return $obj;
 
 //          $filename = $export->filename;
 //
@@ -160,12 +165,11 @@ class TestsController extends Controller
 //          $dompdf->stream();
 
 
+        //      $obj = new Customizable();
 
-      //      $obj = new Customizable();
+        //      dd($obj->getData());
 
-      //      dd($obj->getData());
-
-            //  dd($this->getData());
+        //  dd($this->getData());
 
 //            $c = new SiteJson();
 //
@@ -207,9 +211,10 @@ class TestsController extends Controller
 //              $c->saveData();
 //
 //              dd($c->getElementImage('home', 'title'));
-      }
+    }
 
-      public function getData(){
+    public function getData()
+    {
 
 //            $data = [];
 //
@@ -218,13 +223,14 @@ class TestsController extends Controller
 //            }
 //
 //            return $data;
-      }
+    }
 
-      public function anotherFn($el){
+    public function anotherFn($el)
+    {
 //            return
 //                   [
 //                        'is-bold' => 'yes'
 //                   ];
 
-      }
+    }
 }
