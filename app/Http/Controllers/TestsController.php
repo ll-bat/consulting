@@ -30,7 +30,8 @@ class TestsController extends Controller
     public function index()
     {
 
-        $this->testImage();
+//        $this->setElementImage();
+//        $this->testImage();
 //          $a = ['1', '2', '1'];
 //
 //          $b = ['1'];
@@ -48,6 +49,17 @@ class TestsController extends Controller
 ////          $data = DangerProcess::whereIn('danger_id', [52])->whereIn('process_id', [1])->get();
 //          dd($data);
 
+    }
+
+    public function setElementImage() {
+
+        $c = new Texts();
+
+        $c->setElementImage('services', 'between-image-and-title', '/element-images/between-image-and-title.png');
+
+        $c->saveData($c->getData());
+
+        dd($c->getElementImage('home', 'title'));
     }
 
     public function testImage() {

@@ -37,6 +37,7 @@ class Texts extends SiteJson{
             ],
             'services' => [
                 'title',
+                'between-image-and-title'
             ]
        ];
     }

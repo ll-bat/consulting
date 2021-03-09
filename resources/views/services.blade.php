@@ -1,6 +1,6 @@
 @extends('layouts/app')
 
-<?php 
+<?php
   $route = Request::route()->getName();
 ?>
 
@@ -30,9 +30,21 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <!-- Section Tittle -->
+                            <div style="
+                                {{$modifies->getStyleFor('services', 'between-image-and-title')}};
+                                line-height:2rem;
+                                margin-top: -100px;
+                                margin-bottom: 100px;
+                                "
+                            >
+                                {{$modifies->getTextFor('services', 'between-image-and-title') }}
+
+                            </div>
+
+                            <!-- Section Tittle -->
                             <div class="section-tittle mb-70">
-                                <span>ტოპ სერვისები</span>
-                                <h2>ჩვენი საუკეთესო სერვისები</h2>
+                                <span>Services</span>
+                                <h2>ჩვენი სერვისები</h2>
                             </div>
                         </div>
                     </div>

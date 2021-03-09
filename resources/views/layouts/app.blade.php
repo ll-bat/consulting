@@ -108,7 +108,9 @@
                                             <li>
                                                <a href="/" class='nav-link'>მთავარი</a>
                                             </li>
-                                            <li><a href="{{route('site.blogs')}}" class='nav-link'>სიახლეები</a></li>
+
+                                            <li><a href="{{route('site.about')}}" class='nav-link'>ჩვენს შესახებ</a></li>
+
                                             <li><a href="{{route('site.services')}}" class='nav-link'>სერვისები</a>
                                                 @if ($modifies)
                                                 <ul class="submenu">
@@ -118,8 +120,8 @@
                                                 </ul>
                                                 @endif
                                             </li>
-                                            <li><a href="{{route('site.about')}}" class='nav-link'>შესახებ</a></li>
 
+                                            <li><a href="{{route('site.blogs')}}" class='nav-link'>სიახლეები</a></li>
                                             <li><a href="{{route('site.contact')}}" class='nav-link'>კონტაქტი</a></li>
                                             @auth
                                                <li><a href="{{route('user.home')}}" class='d-flex d-lg-block'>
@@ -174,7 +176,7 @@
     <div class="footer" style="background-color: rgb(8, 11, 18);">
         <div style="margin-left:50px;margin-top:20px;margin-right:50px;">
             <hr style="border:none; border-top:1px solid rgba(35, 49, 72,1);">
-            <p class="text-white" style="font-family: 'Yu Gothic'"> Copyright ©2020 All rights reserved |
+            <p class="text-white" style="font-family: 'Yu Gothic',sans-serif"> Copyright ©2020 All rights reserved |
                 This template is made by <span style="color:red">Colorlib</span></p>
             <div class="float-right pb-2">
                 <a href="#" class="pl-3"><i class="fab fa-twitter" ></i></a>

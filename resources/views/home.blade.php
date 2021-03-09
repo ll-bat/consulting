@@ -162,7 +162,7 @@ $route = Request::route()->getName();
                                                                                      </small> -->
 
                                         <?php $smt = $modifies->getTextFor('home', 'small-title');
-                                              $smst = $modifies->getStyleFor('home', 'small-title');
+                                        $smst = $modifies->getStyleFor('home', 'small-title');
                                         ?>
 
                                         @if ($smt != '')
@@ -244,9 +244,8 @@ $route = Request::route()->getName();
                     <div class="col-lg-10">
                         <!-- Section Tittle -->
                         <div class="section-tittle mb-70">
-                            <span class='ns-anim-0'> ტოპ სერვისები </span>
-                            <p class='font-weight-bolder ns-animation-d2' style='font-size:3em;line-height:1em;'>ჩვენი
-                                საუკეთესო სერვისები</p>
+                            <span class='ns-anim-0'> Services </span>
+                            <p class='font-weight-bolder ns-animation-d2' style='font-size:3em;line-height:1em;'>ჩვენი სერვისები</p>
                         </div>
                     </div>
                 </div>
@@ -255,17 +254,20 @@ $route = Request::route()->getName();
                     <?php $ind = 1; ?>
                     @foreach ($modifies->services->whereShown() as $id => $obj)
                         <div class="col-lg-4 col-md-6 col-sm-6 anim-d{{$ind}}">
-                            <div class="single-cat text-center services-hoverable  mb-50" style=''>
-                                <div class="cat-icon">
-                                    <!-- <span class="flaticon-team"></span> -->
-                                    <img src="{{$obj['image']}}" height='70' class='mb-5'/>
-                                    <!-- <i class='fa fa-plus mb-5' style='font-size: 5rem;color:#eb566c;'></i> -->
+                            <a href="{{ route('site.services') }}">
+                                <div class="single-cat text-center services-hoverable  mb-50" style=''>
+                                    <div class="cat-icon">
+                                        <!-- <span class="flaticon-team"></span> -->
+                                        <img src="{{$obj['image']}}" height='70' class='mb-5'/>
+                                        <!-- <i class='fa fa-plus mb-5' style='font-size: 5rem;color:#eb566c;'></i> -->
+                                    </div>
+                                    <div class="cat-cap"
+                                         style='max-height:200px !important;overflow:hidden !important;'>
+                                        <h5><a href=""> {{$obj['title']}} </a></h5>
+                                        <p class='mb-5'> {{$obj['description']}} ... </p>
+                                    </div>
                                 </div>
-                                <div class="cat-cap" style='max-height:200px !important;overflow:hidden !important;'>
-                                    <h5><a href=""> {{$obj['title']}} </a></h5>
-                                    <p class='mb-5'> {{$obj['description']}} ... </p>
-                                </div>
-                            </div>
+                            </a>
                         </div>
                         <?php $ind++; if ($ind > 3) $ind = 1 ?>
                     @endforeach
@@ -305,13 +307,13 @@ $route = Request::route()->getName();
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class='position-absolute d-sm-block d-md-none'
-                                     style='top:-5rem;bottom:-1rem;left:-1rem;'>
+                                     style='top:-15rem;bottom:-1rem;left:-1rem;'>
                                     <img src='/img/testit/testit.png' style='width:100%; height:100%;'/>
                                 </div>
 
-                                <div class="section-tittle mb-100 ml-5 position-relative">
-                                    <span class='ns-animation-d2'> consulting </span>
-                                    <p class='font-weight-bolder ns-animation-d3 ns-attached attached-d2 attached-d3 mt-3'
+                                <div class="section-tittle mb-100 ns-animation-d3 ns-attached attached-d2 attached-d3 position-relative">
+{{--                                    <img src="/icons/newspaper.png" width="70" />--}}
+                                    <p class='font-weight-bolder'
                                        style="font-size:3rem; line-height:3rem;"> სიახლეები </p>
                                 </div>
                             </div>
