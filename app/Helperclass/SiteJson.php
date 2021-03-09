@@ -4,40 +4,44 @@ namespace App\Helperclass;
 
 use App\Modification;
 
-class SiteJson {
+class SiteJson
+{
 
     protected $data = [];
 
-    public function __construct(){
-        if (Modification::count() == 0){
+    public function __construct()
+    {
+        if (Modification::count() == 0) {
             Modification::create(['data' => "[]"]);
-        }
-        else {
+        } else {
             $data = Modification::first();
-            $this->data = json_decode($data['data'],true);
+            $this->data = json_decode($data['data'], true);
         }
     }
 
-    public function saveData($data=[]){
+    public function saveData($data = [])
+    {
         if (!$data) $data = $this->data;
         else $this->data = $data;
 
         $data = json_encode($data);
 
         Modification::first()->update(['data' => $data]);
-   }
+    }
 
-   public function getData(){
-       return $this->data;
-   }
+    public function getData()
+    {
+        return $this->data;
+    }
 
-   public function siteLogo(){
-       if (isset($this->data['images'])){
-           if (isset($this->data['images']['logo']))
-              return $this->data['images']['logo'];
-       }
-       return '/icons/no-image.png';
-   }
+    public function siteLogo()
+    {
+        if (isset($this->data['images'])) {
+            if (isset($this->data['images']['logo']))
+                return $this->data['images']['logo'];
+        }
+        return '/icons/no-image.png';
+    }
 }
 
 
