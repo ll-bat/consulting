@@ -30,7 +30,7 @@ class TestsController extends Controller
     public function index()
     {
 
-        $this->setElementImage();
+//        $this->setElementImage();
 //        $this->testImage();
 //          $a = ['1', '2', '1'];
 //
