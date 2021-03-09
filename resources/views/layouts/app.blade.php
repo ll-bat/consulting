@@ -77,7 +77,7 @@
             color:red !important;
         }
 
-        .text-red-white: hover {
+        .text-red-white:hover {
             color: white;
         }
 
@@ -108,7 +108,7 @@
                                             <li>
                                                <a href="/" class='nav-link'>მთავარი</a>
                                             </li>
-                                            <li><a href="{{route('site.blogs')}}" class='nav-link'>ბლოგები</a></li>
+                                            <li><a href="{{route('site.blogs')}}" class='nav-link'>სიახლეები</a></li>
                                             <li><a href="{{route('site.services')}}" class='nav-link'>სერვისები</a>
                                                 @if ($modifies)
                                                 <ul class="submenu">
