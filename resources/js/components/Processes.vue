@@ -37,7 +37,7 @@ export default {
     },
     methods: {
         ...mapActions(['getProcesses', 'getDangers', 'showDangersM', 'showControlsM', 'showDangerLoaderM', 'setDanger', 'setProcess']),
-        chooseProcess(id) {
+        async chooseProcess(id) {
             this.setProcess(id);
 
             this.showDangerLoaderM(true);
@@ -53,12 +53,13 @@ export default {
                 return;
             }
 
-            this.getDangers(id);
+            await this.getDangers(id);
 
             this.showDangerLoaderM(false);
             this.showDangersM(true);
-        },
 
+            Event.$emit('scrollTo', 'dangers-part');
+        },
     },
     data() {
         return {

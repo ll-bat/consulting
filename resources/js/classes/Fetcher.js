@@ -13,6 +13,14 @@ class Fetcher {
         }
     }
 
+    sleep(time) {
+        return new Promise((res) => {
+            tout(() => {
+                res()
+            }, time);
+        })
+    }
+
     async getDangers(processId) {
         if (this.store.process[processId]) {
             return this.store.process[processId];

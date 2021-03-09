@@ -12,16 +12,20 @@
                     <add-controls></add-controls>
                     <user-input :params="rpersons"></user-input>
                     <user-input :params="etimes"></user-input>
+                </div>
 
+                <template v-if="showDangers && sendData.length > 0">
                     <button class='btn btn-primary rounded bg-primary hovered-ns-button border-0 text-sm' id='data-submit'
                             style="padding: 6px 16px"
                             @click='submit()'>
-                        <span class="spinner-border spinner-border-sm text-sm pr-1 d-none" id='data-processing'
-                            style="margin-left: -.5rem !important;">
-                        </span>
+                    <span class="spinner-border spinner-border-sm text-sm pr-1 d-none" id='data-processing'
+                          style="margin-left: -.5rem !important;">
+                    </span>
                         დასრულება
                     </button>
+                </template>
 
+                <template v-if="showControls">
                     <button v-if="!isUpdate" class='btn btn-primary rounded border-0 text-sm'
                             @click='next()'>
                         შემდეგი
@@ -30,9 +34,8 @@
                             @click="updateDanger()">
                         განახლება
                     </button>
-                </div>
+                </template>
             </div>
-
         </div>
     </div>
 </template>
@@ -62,7 +65,7 @@ export default {
         Processes, Dangers, DangerImage, Controls, PlossUdanger, AddControls, UserInput
     },
     computed: {
-        ...mapState(['showControls', 'info', 'fm', 'processes', 'loading', 'completedDangers', 'processId', 'dangerId', 'isUpdate', 'sendData']),
+        ...mapState(['showControls', 'showDangers', 'info', 'fm', 'processes', 'loading', 'completedDangers', 'processId', 'dangerId', 'isUpdate', 'sendData']),
     },
     data() {
         return {
@@ -174,6 +177,10 @@ export default {
         },
 
         wantsToCompletePage() {
+            if (!this.showControls) {
+                return false;
+            }
+
             const data = this.getDangerData();
 
             let ok = !!data.control.find(c => c.value < 2)
@@ -220,9 +227,7 @@ export default {
                 $('#data-processing').addClass('d-none');
             }
 
-
             start();
-
 
             const formData = new FormData();
             let data = JSON.parse(JSON.stringify(this.sendData));
@@ -295,6 +300,22 @@ export default {
             if (this.data) {
                 this.prepareOldDoc();
             }
+        },
+
+        registerEvents() {
+            Event.$on('scrollTo', (id, callback) => {
+                let {top} = $(`#${id}`).position();
+
+                if (callback) {
+                    top = callback(top);
+                }
+
+                $('html, body').animate({
+                    scrollTop: top
+                }, 400);
+            })
+
+
         }
     },
 
@@ -304,7 +325,7 @@ export default {
 
     mounted() {
         $('#questions-content').removeClass('d-none');
-        console.log(this.$store.state.questions.data);
+        this.registerEvents();
     }
 }
 </script>

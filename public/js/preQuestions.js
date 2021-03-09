@@ -55103,6 +55103,15 @@ var Fetcher = /*#__PURE__*/function () {
       };
     }
   }, {
+    key: "sleep",
+    value: function sleep(time) {
+      return new Promise(function (res) {
+        tout(function () {
+          res();
+        }, time);
+      });
+    }
+  }, {
     key: "getDangers",
     value: function () {
       var _getDangers = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(processId) {
@@ -55894,8 +55903,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   state.dangerId = -1;
   state.toBeWatched = !state.toBeWatched;
   state.showControls = false;
-  var x = $("#dangers-part").position().top;
-  window.scrollTo(x, 0);
+
+  var _$$position = $("#dangers-part").position(),
+      top = _$$position.top;
+
+  window.scrollTo(0, top);
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["EDIT_DANGER"], function (state, dangerId) {
   dangerId = parseInt(dangerId);
   var processId = state.processId;
@@ -55918,8 +55930,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   state.dangerId = -1;
   state.isUpdate = false;
   state.showControls = false;
-  var x = $("#dangers-part").position().top;
-  window.scrollTo(x, 0);
+
+  var _$$position2 = $("#dangers-part").position(),
+      top = _$$position2.top;
+
+  window.scrollTo(0, top);
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["REMOVE_COMPLETED_DANGER"], function (state, dangerId) {
   dangerId = parseInt(dangerId);
   var processId = state.processId;

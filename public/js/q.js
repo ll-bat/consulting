@@ -2113,6 +2113,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 
@@ -2180,8 +2182,13 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_0
     }
   },
   mounted: function mounted() {
+    var _this2 = this;
+
     this.init();
     this.initMapper();
+    tout(function () {
+      console.log(_this2.currentControls);
+    });
   }
 });
 
@@ -2211,11 +2218,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
-//
 //
 //
 //
@@ -2317,7 +2319,15 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex/dist/vuex.mjs */ "./node_modules/vuex/dist/vuex.mjs");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex/dist/vuex.mjs */ "./node_modules/vuex/dist/vuex.mjs");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2363,45 +2373,100 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
-var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_0__["createNamespacedHelpers"])('questions'),
+var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1__["createNamespacedHelpers"])('questions'),
     mapState = _createNamespacedHelp.mapState,
     mapActions = _createNamespacedHelp.mapActions;
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Dangers",
-  computed: _objectSpread({}, mapState(['showDangers', 'showDangerLoader', 'currentDangers', 'dangerId', 'processId', 'info', 'completedDangers', 'toBeWatched', 'isUpdate'])),
+  computed: _objectSpread({}, mapState(['showDangers', 'showDangerLoader', 'showControlsLoader', 'currentDangers', 'dangerId', 'processId', 'info', 'completedDangers', 'toBeWatched', 'isUpdate'])),
   methods: _objectSpread(_objectSpread({}, mapActions(['showDangersM', 'showDangerLoaderM', 'setDanger', 'showControlsLoaderM', 'showControlsM', 'setControls', 'getControls', 'setElement', 'editDanger', 'removeCompletedDanger'])), {}, {
     chooseDanger: function chooseDanger(id) {
       var _this = this;
 
-      this.setDanger(id);
-      this.showControlsLoaderM(true);
-      this.showControlsM(false);
-      this.setControls([]);
-      var danger = this.currentDangers.find(function (d) {
-        return d.id === id;
-      });
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var danger, elm;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this.setDanger(id);
 
-      if (!danger) {
-        this.showControlsM(false);
-        alert('სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი საფრთხე წაშლილია...');
-        this.showControlsLoaderM(false);
-        this.showControlsM(false);
-        return;
-      }
+                _this.showControlsLoaderM(true);
 
-      this.getControls(danger.id);
-      var elm = this.info.find(function (e) {
-        return e.pid === _this.processId && e.did === _this.dangerId;
-      });
-      this.setElement(elm);
-      this.showControlsLoaderM(false);
-      this.showControlsM(true);
+                _this.showControlsM(false);
+
+                _this.setControls([]);
+
+                danger = _this.currentDangers.find(function (d) {
+                  return d.id === id;
+                });
+
+                if (danger) {
+                  _context.next = 11;
+                  break;
+                }
+
+                _this.showControlsM(false);
+
+                alert('სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი საფრთხე წაშლილია...');
+
+                _this.showControlsLoaderM(false);
+
+                _this.showControlsM(false);
+
+                return _context.abrupt("return");
+
+              case 11:
+                _context.next = 13;
+                return _this.getControls(danger.id);
+
+              case 13:
+                elm = _this.info.find(function (e) {
+                  return e.pid === _this.processId && e.did === _this.dangerId;
+                });
+
+                _this.setElement(elm);
+
+                _this.showControlsLoaderM(false);
+
+                _this.showControlsM(true);
+
+                _this.scrollToBottom(100);
+
+              case 18:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    scrollToBottom: function scrollToBottom(time) {
+      tout(function () {
+        Event.$emit("scrollTo", 'ploss-udangers-part', function (t) {
+          return t - 300;
+        });
+      }, time);
     },
     chooseCompletedDanger: function chooseCompletedDanger(id) {
       this.editDanger(id);
+      this.scrollToBottom(500);
     },
     removeDanger: function removeDanger(id) {
       this.removeCompletedDanger(id);
@@ -2588,7 +2653,15 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_0
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex/dist/vuex.mjs */ "./node_modules/vuex/dist/vuex.mjs");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex/dist/vuex.mjs */ "./node_modules/vuex/dist/vuex.mjs");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2625,7 +2698,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 
-var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_0__["createNamespacedHelpers"])('questions'),
+var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1__["createNamespacedHelpers"])('questions'),
     mapState = _createNamespacedHelp.mapState,
     mapActions = _createNamespacedHelp.mapActions;
 
@@ -2634,25 +2707,59 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_0
   computed: _objectSpread({}, mapState(['processes', 'showDangerLoader', 'showDangers', 'showControls', 'currentDangers', 'dangerId', 'processId'])),
   methods: _objectSpread(_objectSpread({}, mapActions(['getProcesses', 'getDangers', 'showDangersM', 'showControlsM', 'showDangerLoaderM', 'setDanger', 'setProcess'])), {}, {
     chooseProcess: function chooseProcess(id) {
-      this.setProcess(id);
-      this.showDangerLoaderM(true);
-      this.showDangersM(false);
-      this.showControlsM(false);
-      this.setDanger(-1);
-      var process = this.processes.find(function (p) {
-        return p.id === id;
-      });
+      var _this = this;
 
-      if (!process) {
-        alert('სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი პროცესი წაშლილია...');
-        this.showDangerLoaderM(false);
-        this.showDangersM(false);
-        return;
-      }
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var process;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _this.setProcess(id);
 
-      this.getDangers(id);
-      this.showDangerLoaderM(false);
-      this.showDangersM(true);
+                _this.showDangerLoaderM(true);
+
+                _this.showDangersM(false);
+
+                _this.showControlsM(false);
+
+                _this.setDanger(-1);
+
+                process = _this.processes.find(function (p) {
+                  return p.id === id;
+                });
+
+                if (process) {
+                  _context.next = 11;
+                  break;
+                }
+
+                alert('სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი პროცესი წაშლილია...');
+
+                _this.showDangerLoaderM(false);
+
+                _this.showDangersM(false);
+
+                return _context.abrupt("return");
+
+              case 11:
+                _context.next = 13;
+                return _this.getDangers(id);
+
+              case 13:
+                _this.showDangerLoaderM(false);
+
+                _this.showDangersM(true);
+
+                Event.$emit('scrollTo', 'dangers-part');
+
+              case 16:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   }),
   data: function data() {
@@ -2736,6 +2843,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1__["createNamespacedHelpers"])('questions'),
@@ -2766,7 +2876,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
     AddControls: _AddControls__WEBPACK_IMPORTED_MODULE_7__["default"],
     UserInput: _UserInput__WEBPACK_IMPORTED_MODULE_8__["default"]
   },
-  computed: _objectSpread({}, mapState(['showControls', 'info', 'fm', 'processes', 'loading', 'completedDangers', 'processId', 'dangerId', 'isUpdate', 'sendData'])),
+  computed: _objectSpread({}, mapState(['showControls', 'showDangers', 'info', 'fm', 'processes', 'loading', 'completedDangers', 'processId', 'dangerId', 'isUpdate', 'sendData'])),
   data: function data() {
     return {
       rpersons: {},
@@ -2798,14 +2908,14 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
     },
     validateCurrentDanger: function validateCurrentDanger() {
       /**
-       * At least one controls should be checked or added.
+       * At least one control should be checked or added.
        * At least one ploss/udanger should be checked or added
        * At least one rperson/etime should be added.
        */
       var data = this.getDangerData();
 
       function validateString(p) {
-        return p.value.length > 1;
+        return p.value.length > 0;
       }
       /**
        * Validate controls
@@ -2892,6 +3002,10 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
       return true;
     },
     wantsToCompletePage: function wantsToCompletePage() {
+      if (!this.showControls) {
+        return false;
+      }
+
       var data = this.getDangerData();
       var ok = !!data.control.find(function (c) {
         return c.value < 2;
@@ -2945,6 +3059,13 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
                     did: _this.dangerId,
                     data: _this.getDangerData()
                   };
+                } else {
+                  _this.updateStore(function (state) {
+                    var elm = state.sendData.find(function (el) {
+                      return el.pid === _this.processId && el.did === _this.dangerId;
+                    });
+                    elm.data = state.data;
+                  });
                 }
 
               case 7:
@@ -3039,6 +3160,20 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
       if (this.data) {
         this.prepareOldDoc();
       }
+    },
+    registerEvents: function registerEvents() {
+      Event.$on('scrollTo', function (id, callback) {
+        var _$$position = $("#".concat(id)).position(),
+            top = _$$position.top;
+
+        if (callback) {
+          top = callback(top);
+        }
+
+        $('html, body').animate({
+          scrollTop: top
+        }, 400);
+      });
     }
   }),
   created: function created() {
@@ -3046,7 +3181,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
   },
   mounted: function mounted() {
     $('#questions-content').removeClass('d-none');
-    console.log(this.$store.state.questions.data);
+    this.registerEvents();
   }
 });
 
@@ -40733,48 +40868,50 @@ var render = function() {
                   "td",
                   { staticStyle: { width: "19%" }, attrs: { title: v.label } },
                   [
-                    _c(
-                      "label",
-                      {
-                        staticClass: "ns-container",
-                        on: {
-                          mousedown: function($event) {
-                            return _vm.update(o.id, ind)
-                          }
-                        }
-                      },
-                      [
-                        _c(
-                          "div",
+                    !(ind === 0 && o.is_first_option_off)
+                      ? _c(
+                          "label",
                           {
-                            staticClass: "ns-test",
-                            staticStyle: { left: "calc(50% - 25px)" }
+                            staticClass: "ns-container",
+                            on: {
+                              mousedown: function($event) {
+                                return _vm.update(o.id, ind)
+                              }
+                            }
                           },
                           [
                             _c(
                               "div",
                               {
-                                staticClass:
-                                  "mod-chbox-checkmark mod-chbox-checkmark-diff ns-test-margin rounded-circle",
-                                class: {
-                                  "hovered-checkmark-diff controls-border-color":
-                                    _vm.controlsMapper[o.id] === ind
-                                }
+                                staticClass: "ns-test",
+                                staticStyle: { left: "calc(50% - 25px)" }
                               },
                               [
-                                _c("span", {
-                                  staticClass: "text-center",
-                                  class: {
-                                    "checked-circle-diff controls-bg-color":
-                                      _vm.controlsMapper[o.id] === ind
-                                  }
-                                })
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "mod-chbox-checkmark mod-chbox-checkmark-diff ns-test-margin rounded-circle",
+                                    class: {
+                                      "hovered-checkmark-diff controls-border-color":
+                                        _vm.controlsMapper[o.id] === ind
+                                    }
+                                  },
+                                  [
+                                    _c("span", {
+                                      staticClass: "text-center",
+                                      class: {
+                                        "checked-circle-diff controls-bg-color":
+                                          _vm.controlsMapper[o.id] === ind
+                                      }
+                                    })
+                                  ]
+                                )
                               ]
                             )
                           ]
                         )
-                      ]
-                    )
+                      : _vm._e()
                   ]
                 )
               })
@@ -40896,17 +41033,7 @@ var render = function() {
           ]
         )
       ]
-    ),
-    _vm._v(" "),
-    _vm.showControlsLoader
-      ? _c("div", [
-          _c("div", { staticClass: "controls-skeleton" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "danger-skeleton my-4" }),
-          _vm._v(" "),
-          _c("div", { staticClass: "danger-skeleton" })
-        ])
-      : _vm._e()
+    )
   ])
 }
 var staticRenderFns = [
@@ -40944,6 +41071,16 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "dangers-part" } }, [
+    _vm.showDangerLoader
+      ? _c("div", [
+          _c("div", { staticClass: "danger-skeleton" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "danger-skeleton my-3" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "danger-skeleton" })
+        ])
+      : _vm._e(),
+    _vm._v(" "),
     _vm.showDangers
       ? _c(
           "div",
@@ -41065,8 +41202,14 @@ var render = function() {
         )
       : _vm._e(),
     _vm._v(" "),
-    _vm.showDangerLoader
-      ? _c("div", { staticClass: "danger-skeleton" })
+    _vm.showControlsLoader
+      ? _c("div", [
+          _c("div", { staticClass: "controls-skeleton" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "danger-skeleton my-4" }),
+          _vm._v(" "),
+          _c("div", { staticClass: "danger-skeleton" })
+        ])
       : _vm._e()
   ])
 }
@@ -41094,7 +41237,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "pb-0 mt-3" },
+    { staticClass: "pb-0 mt-3", attrs: { id: "ploss-udangers-part" } },
     _vm._l(_vm.combined, function(c) {
       return _c(
         "div",
@@ -41315,75 +41458,83 @@ var render = function() {
                       _vm._v(" "),
                       _c("user-input", { attrs: { params: _vm.rpersons } }),
                       _vm._v(" "),
-                      _c("user-input", { attrs: { params: _vm.etimes } }),
-                      _vm._v(" "),
-                      _c(
-                        "button",
-                        {
-                          staticClass:
-                            "btn btn-primary rounded bg-primary hovered-ns-button border-0 text-sm",
-                          staticStyle: { padding: "6px 16px" },
-                          attrs: { id: "data-submit" },
-                          on: {
-                            click: function($event) {
-                              return _vm.submit()
-                            }
-                          }
-                        },
-                        [
-                          _c("span", {
-                            staticClass:
-                              "spinner-border spinner-border-sm text-sm pr-1 d-none",
-                            staticStyle: { "margin-left": "-.5rem !important" },
-                            attrs: { id: "data-processing" }
-                          }),
-                          _vm._v(
-                            "\n                    დასრულება\n                "
-                          )
-                        ]
-                      ),
-                      _vm._v(" "),
-                      !_vm.isUpdate
-                        ? _c(
-                            "button",
-                            {
-                              staticClass:
-                                "btn btn-primary rounded border-0 text-sm",
-                              on: {
-                                click: function($event) {
-                                  return _vm.next()
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                    შემდეგი\n                "
-                              )
-                            ]
-                          )
-                        : _c(
-                            "button",
-                            {
-                              staticClass:
-                                "btn btn-danger rounded border-0 text-sm",
-                              on: {
-                                click: function($event) {
-                                  return _vm.updateDanger()
-                                }
-                              }
-                            },
-                            [
-                              _vm._v(
-                                "\n                    განახლება\n                "
-                              )
-                            ]
-                          )
+                      _c("user-input", { attrs: { params: _vm.etimes } })
                     ],
                     1
                   )
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.showDangers && _vm.sendData.length > 0
+                ? [
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "btn btn-primary rounded bg-primary hovered-ns-button border-0 text-sm",
+                        staticStyle: { padding: "6px 16px" },
+                        attrs: { id: "data-submit" },
+                        on: {
+                          click: function($event) {
+                            return _vm.submit()
+                          }
+                        }
+                      },
+                      [
+                        _c("span", {
+                          staticClass:
+                            "spinner-border spinner-border-sm text-sm pr-1 d-none",
+                          staticStyle: { "margin-left": "-.5rem !important" },
+                          attrs: { id: "data-processing" }
+                        }),
+                        _vm._v(
+                          "\n                    დასრულება\n                "
+                        )
+                      ]
+                    )
+                  ]
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.showControls
+                ? [
+                    !_vm.isUpdate
+                      ? _c(
+                          "button",
+                          {
+                            staticClass:
+                              "btn btn-primary rounded border-0 text-sm",
+                            on: {
+                              click: function($event) {
+                                return _vm.next()
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                    შემდეგი\n                "
+                            )
+                          ]
+                        )
+                      : _c(
+                          "button",
+                          {
+                            staticClass:
+                              "btn btn-danger rounded border-0 text-sm",
+                            on: {
+                              click: function($event) {
+                                return _vm.updateDanger()
+                              }
+                            }
+                          },
+                          [
+                            _vm._v(
+                              "\n                    განახლება\n                "
+                            )
+                          ]
+                        )
+                  ]
                 : _vm._e()
             ],
-            1
+            2
           )
         ],
         1
@@ -56578,6 +56729,15 @@ var Fetcher = /*#__PURE__*/function () {
       };
     }
   }, {
+    key: "sleep",
+    value: function sleep(time) {
+      return new Promise(function (res) {
+        tout(function () {
+          res();
+        }, time);
+      });
+    }
+  }, {
     key: "getDangers",
     value: function () {
       var _getDangers = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(processId) {
@@ -58417,8 +58577,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   state.dangerId = -1;
   state.toBeWatched = !state.toBeWatched;
   state.showControls = false;
-  var x = $("#dangers-part").position().top;
-  window.scrollTo(x, 0);
+
+  var _$$position = $("#dangers-part").position(),
+      top = _$$position.top;
+
+  window.scrollTo(0, top);
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["EDIT_DANGER"], function (state, dangerId) {
   dangerId = parseInt(dangerId);
   var processId = state.processId;
@@ -58441,8 +58604,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   state.dangerId = -1;
   state.isUpdate = false;
   state.showControls = false;
-  var x = $("#dangers-part").position().top;
-  window.scrollTo(x, 0);
+
+  var _$$position2 = $("#dangers-part").position(),
+      top = _$$position2.top;
+
+  window.scrollTo(0, top);
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["REMOVE_COMPLETED_DANGER"], function (state, dangerId) {
   dangerId = parseInt(dangerId);
   var processId = state.processId;

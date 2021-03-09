@@ -1,5 +1,5 @@
 <template>
-    <div class="pb-0 mt-3">
+    <div class="pb-0 mt-3" id="ploss-udangers-part">
         <div v-for='c in combined'>
             <div class="card rounded mb-0" :class="c.class" :style="c.style">
                 <div class="card-body ml-3 mt-2 mb-2">

@@ -164,8 +164,8 @@ export default {
         state.toBeWatched = !state.toBeWatched;
         state.showControls = false;
 
-        const x = $("#dangers-part").position().top;
-        window.scrollTo(x,0);
+        const {top} = $("#dangers-part").position();
+        window.scrollTo(0,top);
     },
 
     [EDIT_DANGER]: (state, dangerId) => {
@@ -191,8 +191,8 @@ export default {
         state.isUpdate = false;
         state.showControls = false;
 
-        const x = $("#dangers-part").position().top;
-        window.scrollTo(x,0);
+        const {top} = $("#dangers-part").position();
+        window.scrollTo(0,top);
     },
 
     [REMOVE_COMPLETED_DANGER]: (state, dangerId) => {

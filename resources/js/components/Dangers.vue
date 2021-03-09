@@ -1,5 +1,12 @@
 <template>
     <div id="dangers-part">
+
+        <div v-if="showDangerLoader">
+            <div class="danger-skeleton"></div>
+            <div class="danger-skeleton my-3"></div>
+            <div class="danger-skeleton"></div>
+        </div>
+
         <div class='card test-shadow rounded-8' v-if='showDangers' style="border-left: 8px solid #6957b8;">
             <div class='card-body ml-2 pl-2'>
                 <p class='px-2 py-3 pb-0 size-13'> აირჩიეთ საფრთხე </p>
@@ -33,7 +40,13 @@
                 </div>
             </div>
         </div>
-        <div class="danger-skeleton" v-if="showDangerLoader"></div>
+
+        <div v-if="showControlsLoader">
+            <div class="controls-skeleton"></div>
+            <div class="danger-skeleton my-4"></div>
+            <div class="danger-skeleton"></div>
+        </div>
+
     </div>
 </template>
 
@@ -45,11 +58,11 @@ const {mapState, mapActions} = createNamespacedHelpers('questions');
 export default {
     name: "Dangers",
     computed: {
-        ...mapState(['showDangers', 'showDangerLoader', 'currentDangers', 'dangerId', 'processId', 'info', 'completedDangers', 'toBeWatched', 'isUpdate'])
+        ...mapState(['showDangers', 'showDangerLoader', 'showControlsLoader', 'currentDangers', 'dangerId', 'processId', 'info', 'completedDangers', 'toBeWatched', 'isUpdate'])
     },
     methods: {
         ...mapActions(['showDangersM', 'showDangerLoaderM', 'setDanger', 'showControlsLoaderM', 'showControlsM', 'setControls', 'getControls', 'setElement', 'editDanger', 'removeCompletedDanger']),
-        chooseDanger(id) {
+        async chooseDanger(id) {
             this.setDanger(id);
 
             this.showControlsLoaderM(true);
@@ -65,17 +78,26 @@ export default {
                 return;
             }
 
-            this.getControls(danger.id);
+            await this.getControls(danger.id);
 
             const elm = this.info.find(e => e.pid === this.processId && e.did === this.dangerId);
             this.setElement(elm);
 
             this.showControlsLoaderM(false);
             this.showControlsM(true);
+
+            this.scrollToBottom(100);
+        },
+
+        scrollToBottom(time) {
+            tout(() => {
+                Event.$emit("scrollTo", 'ploss-udangers-part', (t) => t - 300);
+            }, time);
         },
 
         chooseCompletedDanger(id) {
             this.editDanger(id);
+            this.scrollToBottom(500);
         },
 
         removeDanger(id) {
