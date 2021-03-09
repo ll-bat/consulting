@@ -18,6 +18,9 @@ if (!isset($readonly)) {
         .bg-darkblue {
             background: rgba(0,0,200, .5);
         }
+        .underline-on-hover:hover {
+            text-decoration: underline !important;
+        }
     </style>
 @endsection
 
@@ -32,13 +35,13 @@ if (!isset($readonly)) {
             ]);
      ?>
 
-    <button class="btn btn-outline-primary font-weight-bold border-0 m-0 px-3 py-1"
+    <a class="font-weight-bold pointer underline-on-hover border-0 m-0 px-3 py-1"
             id="model-create-button"
             data-params="{{ $json }}"
-            style="margin-bottom: 4px !important;color:rgba(0,0,200, .5)">
+            style="margin-bottom: 4px !important;color:rgb(27,141,227); font-size: 1rem">
         <i class="fa fa-plus pl-0 pr-2"></i>
         ობიექტის დამატება
-    </button>
+    </a>
 
     <?php endif; ?>
 @endsection
