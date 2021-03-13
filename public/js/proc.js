@@ -1920,6 +1920,7 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _services_httpService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/httpService */ "./resources/js/services/httpService.js");
 //
 //
 //
@@ -1952,45 +1953,36 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['data', 'placeholder', 'type', 'url'],
   data: function data() {
     return {
       k: 0,
-      debounceInput: '',
+      input: '',
       timeout: 0
     };
   },
-  computed: {
-    input: {
-      get: function get() {
-        return this.debounceInput;
-      },
-      set: function set(val) {
-        var _this = this;
-
-        if (this.timeout) clearTimeout(this.timeout);
-        this.timeout = setTimeout(function () {
-          _this.debounceInput = val;
-        }, 500);
-      }
-    }
-  },
   methods: {
     initFirst: function initFirst(obj) {
-      this.debounceInput = obj.name == 'null' ? '' : obj.name;
+      this.input = obj.name;
       this.k = obj.k;
     },
+    updateInput: function updateInput() {
+      var _this = this;
+
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+      }
+
+      this.timeout = tout(function () {
+        _this.update(_this.input);
+      }, 500);
+    },
     updateScore: function updateScore() {
-      if (this.k) this.update(this.debounceInput == '' ? 'null' : this.debounceInput);
+      if (this.k) {
+        this.update(this.input);
+      }
     },
     update: function update(newVal) {
       var _this2 = this;
@@ -1998,34 +1990,24 @@ __webpack_require__.r(__webpack_exports__);
       this.data.name = newVal;
       this.data.k = this.k;
       this.$emit('saving');
-      Form.send('post', this.url, this.data, this).then(function (res) {
-        return _this2.$emit("saved");
+      _services_httpService__WEBPACK_IMPORTED_MODULE_0__["default"].post(this.url, this.data).then(function (res) {
+        _this2.$emit('saved');
       });
     },
     deleteComp: function deleteComp() {
-      var type = this.type == '1' ? 'ploss' : 'udanger';
-      Form.send('delete', "docs/".concat(type, "/").concat(this.data.id, "/delete"), null, null);
+      var type = this.type === '1' ? 'ploss' : 'udanger';
+      _services_httpService__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("docs/".concat(type, "/").concat(this.data.id, "/delete"));
       this.$emit('deleted', this.data.id, this.type);
     }
   },
   watch: {
     data: function data(newObj, oldObj) {
       this.initFirst(newObj);
-    },
-    debounceInput: function debounceInput(newVal, oldVal) {
-      if (newVal == oldVal) return;
-      this.update(newVal);
     }
   },
   created: function created() {
-    var _this3 = this;
-
-    tout(function () {
-      $(window).trigger('autoresize');
-    }, 200);
-    tout(function () {
-      _this3.initFirst(_this3.data);
-    }, 100);
+    $(window).trigger('autoresize');
+    this.initFirst(this.data);
   }
 });
 
@@ -6473,7 +6455,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\ninput::-webkit-outer-spin-button,\n input::-webkit-inner-spin-button {\n   -webkit-appearance: none;\n   margin: 0;\n}\n\n /* Firefox */\ninput[type=number] {\n   -moz-appearance: textfield;\n}\n.option-remove{\n     font-size:1.2em;font-weight:bold;color:grey;\n}\n.h-ntest{\n     padding:12px;\n     border-radius:45%;\n     cursor: pointer;\n     transition: all .3s;\n     opacity:.6;\n}\n.h-ntest:hover{\n     background-color:whitesmoke;\n     border-radius:50%;\n     color:#602b92;\n     opacity:1;\n}\n@keyframes  testanim {\nfrom {opacity: .8; transform: rotate(-90deg); padding:1px; background-color:lightblue; border-radius:50%;}\nto {}\n}\n.testit{\n    animation-name:testanim;\n    animation-duration: .5s;\n}\n", ""]);
+exports.push([module.i, "\ninput::-webkit-outer-spin-button,\ninput::-webkit-inner-spin-button {\n    -webkit-appearance: none;\n    margin: 0;\n}\n\n/* Firefox */\ninput[type=number] {\n    -moz-appearance: textfield;\n}\n.option-remove {\n    font-size: 1.2em;\n    font-weight: bold;\n    color: grey;\n}\n.h-ntest {\n    padding: 12px;\n    border-radius: 45%;\n    cursor: pointer;\n    transition: all .3s;\n    opacity: .6;\n}\n.h-ntest:hover {\n    background-color: whitesmoke;\n    border-radius: 50%;\n    color: #602b92;\n    opacity: 1;\n}\n@keyframes testanim {\nfrom {\n        opacity: .8;\n        transform: rotate(-90deg);\n        padding: 1px;\n        background-color: lightblue;\n        border-radius: 50%;\n}\nto {\n}\n}\n.testit {\n    animation-name: testanim;\n    animation-duration: .5s;\n}\n", ""]);
 
 // exports
 
@@ -39030,16 +39012,21 @@ var render = function() {
       attrs: { type: "text", rows: "1", placeholder: _vm.placeholder },
       domProps: { value: _vm.input },
       on: {
-        input: function($event) {
-          if ($event.target.composing) {
-            return
+        input: [
+          function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.input = $event.target.value
+          },
+          function($event) {
+            return _vm.updateInput()
           }
-          _vm.input = $event.target.value
-        }
+        ]
       }
     }),
     _vm._v(" "),
-    _vm.type == 1
+    _vm.type === "1"
       ? _c("div", { staticStyle: { width: "20%" } }, [
           _c("div", { staticClass: "mx-2 mt-2 text-left" }, [
             _c("input", {
@@ -51343,37 +51330,85 @@ var Form = /*#__PURE__*/function () {
 
   _createClass(Form, [{
     key: "setupRedirect",
-    value: function setupRedirect() {
-      _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].setup({
-        redirect: true,
-        path: '/user/fields'
-      });
+    value: function setupRedirect() {// httpService.setup({
+      //     redirect: true,
+      //     path: '/user/fields'
+      // })
     }
   }, {
-    key: "getPloss",
+    key: "getApiData",
     value: function () {
-      var _getPloss = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      var _getApiData = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
         var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].get('docs/all-ploss');
+                return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].get('docs/api/data');
 
               case 2:
                 data = _context.sent;
-                data.forEach(function (p) {
-                  if (p.name == ' ') p.name = '';
+
+                if (!(data.ploss && data.udanger)) {
+                  _context.next = 8;
+                  break;
+                }
+
+                ['ploss', 'udanger'].forEach(function (type) {
+                  data[type].forEach(function (item) {
+                    if (item.name === ' ' || item.name === 'null') {
+                      item.name = '';
+                    }
+                  });
                 });
                 return _context.abrupt("return", data);
 
-              case 5:
+              case 8:
+                alert('დაფიქსირდა შეცდომა. სცადეთ გვერდის დარეფრეშება');
+                throw new Error('Error occurred');
+
+              case 10:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
+      }));
+
+      function getApiData() {
+        return _getApiData.apply(this, arguments);
+      }
+
+      return getApiData;
+    }()
+  }, {
+    key: "getPloss",
+    value: function () {
+      var _getPloss = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].get('docs/all-ploss');
+
+              case 2:
+                data = _context2.sent;
+                data.forEach(function (p) {
+                  if (p.name === ' ') {
+                    p.name = '';
+                  }
+                });
+                return _context2.abrupt("return", data);
+
+              case 5:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
       }));
 
       function getPloss() {
@@ -51385,25 +51420,25 @@ var Form = /*#__PURE__*/function () {
   }, {
     key: "createPloss",
     value: function () {
-      var _createPloss = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(fn) {
+      var _createPloss = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(fn) {
         var res;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context2.next = 2;
+                _context3.next = 2;
                 return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].post('docs/new-ploss');
 
               case 2:
-                res = _context2.sent;
+                res = _context3.sent;
                 fn(res);
 
               case 4:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2);
+        }, _callee3);
       }));
 
       function createPloss(_x) {
@@ -51415,28 +51450,28 @@ var Form = /*#__PURE__*/function () {
   }, {
     key: "getUdanger",
     value: function () {
-      var _getUdanger = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3() {
+      var _getUdanger = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4() {
         var data;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context3.next = 2;
+                _context4.next = 2;
                 return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].get('docs/all-udanger');
 
               case 2:
-                data = _context3.sent;
+                data = _context4.sent;
                 data.forEach(function (u) {
-                  if (u.name == ' ') u.name = '';
+                  if (u.name === ' ') u.name = '';
                 });
-                return _context3.abrupt("return", data);
+                return _context4.abrupt("return", data);
 
               case 5:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3);
+        }, _callee4);
       }));
 
       function getUdanger() {
@@ -51448,25 +51483,25 @@ var Form = /*#__PURE__*/function () {
   }, {
     key: "createUdanger",
     value: function () {
-      var _createUdanger = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(fn) {
+      var _createUdanger = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5(fn) {
         var res;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context4.next = 2;
+                _context5.next = 2;
                 return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].post('docs/new-udanger');
 
               case 2:
-                res = _context4.sent;
+                res = _context5.sent;
                 fn(res);
 
               case 4:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4);
+        }, _callee5);
       }));
 
       function createUdanger(_x2) {
@@ -51478,24 +51513,24 @@ var Form = /*#__PURE__*/function () {
   }, {
     key: "submit",
     value: function () {
-      var _submit = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6(url, data, fm) {
+      var _submit = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee7(url, data, fm) {
         var fn, res;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 fn = /*#__PURE__*/function () {
-                  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee5() {
+                  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee6() {
                     var ys;
-                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee5$(_context5) {
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee6$(_context6) {
                       while (1) {
-                        switch (_context5.prev = _context5.next) {
+                        switch (_context6.prev = _context6.next) {
                           case 0:
-                            _context5.next = 2;
+                            _context6.next = 2;
                             return prompt('Would you like to refresh the page ?');
 
                           case 2:
-                            ys = _context5.sent;
+                            ys = _context6.sent;
 
                             if (ys) {
                               window.location = '';
@@ -51503,10 +51538,10 @@ var Form = /*#__PURE__*/function () {
 
                           case 4:
                           case "end":
-                            return _context5.stop();
+                            return _context6.stop();
                         }
                       }
-                    }, _callee5);
+                    }, _callee6);
                   }));
 
                   return function fn() {
@@ -51514,26 +51549,26 @@ var Form = /*#__PURE__*/function () {
                   };
                 }();
 
-                _context6.next = 3;
+                _context7.next = 3;
                 return this.send('post', url, {
                   data: data
                 }, fn);
 
               case 3:
-                res = _context6.sent;
+                res = _context7.sent;
 
                 if (!res) {
-                  _context6.next = 11;
+                  _context7.next = 11;
                   break;
                 }
 
-                _context6.next = 7;
+                _context7.next = 7;
                 return this.send('post', 'docs/save-docs', fm, fn);
 
               case 7:
-                res = _context6.sent;
+                res = _context7.sent;
                 $1('red_to_fin').submit();
-                _context6.next = 12;
+                _context7.next = 12;
                 break;
 
               case 11:
@@ -51541,10 +51576,10 @@ var Form = /*#__PURE__*/function () {
 
               case 12:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee7, this);
       }));
 
       function submit(_x3, _x4, _x5) {
@@ -51696,9 +51731,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 window.Event = new Vue();
-window.Form = new _classes_Form__WEBPACK_IMPORTED_MODULE_1__["Form"](); // const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
+window.Form = new _classes_Form__WEBPACK_IMPORTED_MODULE_1__["Form"]();
 Vue.component('fbody-component', __webpack_require__(/*! ./components/FbodyComponent.vue */ "./resources/js/components/FbodyComponent.vue")["default"]);
 
 
@@ -51746,87 +51779,50 @@ var app = new Vue({
       }, 200);
     },
     deletePloss: function deletePloss(id, type) {
-      if (type == 1) this.ploss = this.ploss.filter(function (p) {
-        return p.id != id;
-      });else this.udanger = this.udanger.filter(function (p) {
-        return p.id != id;
-      });
+      if (type == 1) {
+        this.ploss = this.ploss.filter(function (p) {
+          return p.id !== id;
+        });
+      } else {
+        this.udanger = this.udanger.filter(function (p) {
+          return p.id !== id;
+        });
+      }
+    },
+    initData: function initData() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var data;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _this3.form.getApiData();
+
+              case 2:
+                data = _context.sent;
+                _this3.ploss = data.ploss;
+                _this3.udanger = data.udanger;
+                _this3.plossLoading = false;
+                _this3.udangerLoading = false;
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     }
   },
   mounted: function mounted() {
-    var _this3 = this;
-
-    return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-      var _loop, _i, _arr;
-
-      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              _loop = /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _loop() {
-                var a, res;
-                return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _loop$(_context) {
-                  while (1) {
-                    switch (_context.prev = _context.next) {
-                      case 0:
-                        a = _arr[_i];
-                        _context.next = 3;
-                        return _this3.form[a.url]();
-
-                      case 3:
-                        res = _context.sent;
-
-                        if (res) {
-                          _this3[a.data] = res;
-                        }
-
-                        tout(function () {
-                          _this3[a.loader] = false;
-                        }, 400);
-
-                      case 6:
-                      case "end":
-                        return _context.stop();
-                    }
-                  }
-                }, _loop);
-              });
-              _i = 0, _arr = [{
-                url: 'getPloss',
-                loader: 'plossLoading',
-                data: 'ploss'
-              }, {
-                url: 'getUdanger',
-                loader: 'udangerLoading',
-                data: 'udanger'
-              }];
-
-            case 2:
-              if (!(_i < _arr.length)) {
-                _context2.next = 7;
-                break;
-              }
-
-              return _context2.delegateYield(_loop(), "t0", 4);
-
-            case 4:
-              _i++;
-              _context2.next = 2;
-              break;
-
-            case 7:
-              tout(function () {
-                $('#psaving-panel').removeClass('d-none');
-                $('#usaving-panel').removeClass('d-none');
-              }, 420);
-
-            case 8:
-            case "end":
-              return _context2.stop();
-          }
-        }
-      }, _callee);
-    }))();
+    this.initData();
+    tout(function () {
+      $('#psaving-panel').removeClass('d-none');
+      $('#usaving-panel').removeClass('d-none');
+    }, 420);
   },
   created: function created() {
     this.form = new _classes_Form__WEBPACK_IMPORTED_MODULE_1__["Form"]();
@@ -51967,6 +51963,59 @@ var httpService = {
     }
 
     return post;
+  }(),
+  "delete": function () {
+    var _delete2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(url, options) {
+      var _yield$run$catch3, status, data;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return run('delete', url, null, options)["catch"](function (err) {
+                if (httpService.redirect) {
+                  window.location = httpService.path;
+                } else {
+                  errorHandler({
+                    status: status,
+                    data: data
+                  });
+                  console.log(err);
+                }
+              });
+
+            case 2:
+              _yield$run$catch3 = _context3.sent;
+              status = _yield$run$catch3.status;
+              data = _yield$run$catch3.data;
+
+              if (!(status < STATUS_OK)) {
+                _context3.next = 9;
+                break;
+              }
+
+              return _context3.abrupt("return", data);
+
+            case 9:
+              errorHandler({
+                status: status,
+                data: data
+              });
+
+            case 10:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    function _delete(_x6, _x7) {
+      return _delete2.apply(this, arguments);
+    }
+
+    return _delete;
   }()
 };
 /* harmony default export */ __webpack_exports__["default"] = (httpService);

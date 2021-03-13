@@ -3,20 +3,38 @@ import httpService from "../services/httpService";
 
 export class Form {
 
-    constructor() {
+    setupRedirect() {
+        // httpService.setup({
+        //     redirect: true,
+        //     path: '/user/fields'
+        // })
     }
 
-    setupRedirect() {
-        httpService.setup({
-            redirect: true,
-            path: '/user/fields'
-        })
+    async getApiData() {
+        const data = await httpService.get('docs/api/data');
+        if (data.ploss && data.udanger) {
+
+            ['ploss', 'udanger'].forEach(type => {
+                data[type].forEach(item => {
+                    if (item.name === ' ' || item.name === 'null') {
+                        item.name = '';
+                    }
+                })
+            });
+            return data;
+
+        } else {
+            alert('დაფიქსირდა შეცდომა. სცადეთ გვერდის დარეფრეშება');
+            throw new Error('Error occurred');
+        }
     }
 
     async getPloss(){
         const data = await httpService.get('docs/all-ploss');
         data.forEach(p => {
-            if (p.name == ' ') p.name = ''
+            if (p.name === ' ') {
+                p.name = ''
+            }
         })
         return data;
     }
@@ -28,9 +46,9 @@ export class Form {
 
 
     async getUdanger(){
-        let data = await httpService.get('docs/all-udanger');
+        const data = await httpService.get('docs/all-udanger');
         data.forEach(u => {
-            if (u.name == ' ') u.name = ''
+            if (u.name === ' ') u.name = ''
         })
         return data;
     }
@@ -54,8 +72,6 @@ export class Form {
         } else {
             console.log("error outer")
         }
-
-
     }
 
 

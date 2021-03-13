@@ -91,7 +91,7 @@ let st = (o, d)=>{
 }
 
 let tout = (fn,t=200) => {
-    setTimeout(fn,t)
+    return setTimeout(fn,t)
 }
 
 let cnst = ''

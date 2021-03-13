@@ -47,7 +47,23 @@ const httpService = {
         });
 
         return data;
-    }
+    },
+
+    delete : async (url, options) => {
+        const {status, data} = await run('delete', url, null, options).catch(err => {
+            if (httpService.redirect) {
+                window.location = httpService.path;
+            } else {
+                errorHandler({status, data})
+                console.log(err);
+            }
+        });
+        if (status < STATUS_OK) {
+            return data;
+        } else {
+            errorHandler({status, data})
+        }
+    },
 }
 
 export default httpService;

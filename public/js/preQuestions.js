@@ -55454,6 +55454,59 @@ var httpService = {
     }
 
     return post;
+  }(),
+  "delete": function () {
+    var _delete2 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(url, options) {
+      var _yield$run$catch3, status, data;
+
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.next = 2;
+              return run('delete', url, null, options)["catch"](function (err) {
+                if (httpService.redirect) {
+                  window.location = httpService.path;
+                } else {
+                  errorHandler({
+                    status: status,
+                    data: data
+                  });
+                  console.log(err);
+                }
+              });
+
+            case 2:
+              _yield$run$catch3 = _context3.sent;
+              status = _yield$run$catch3.status;
+              data = _yield$run$catch3.data;
+
+              if (!(status < STATUS_OK)) {
+                _context3.next = 9;
+                break;
+              }
+
+              return _context3.abrupt("return", data);
+
+            case 9:
+              errorHandler({
+                status: status,
+                data: data
+              });
+
+            case 10:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    function _delete(_x6, _x7) {
+      return _delete2.apply(this, arguments);
+    }
+
+    return _delete;
   }()
 };
 /* harmony default export */ __webpack_exports__["default"] = (httpService);
