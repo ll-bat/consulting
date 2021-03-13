@@ -131,16 +131,19 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
         });
 
         Route::group(['prefix' => 'docs', "middleware" => 'App\Http\Middleware\FieldMiddleware'], function () {
+
+            Route::group(['prefix' => 'api'], function () {
+                Route::get('data', 'ApiController@getPlossUdanger');
+            });
+
             Route::get('', 'DocController@index')->name('admin.docs');
             Route::get('new-danger', 'DangerController@show');
             Route::post('new-danger', 'DangerController@create')->name('danger.create');
             Route::get('new-control', 'ControlController@newControl');
             Route::post('new-control', 'ControlController@createControl');
-            Route::get('all-ploss', 'PlossController@index');
             Route::post('new-ploss', 'PlossController@create');
             Route::post('save-ploss', 'PlossController@save');
             Route::delete('ploss/{ploss}/delete', 'PlossController@delete');
-            Route::get('all-udanger', 'UdangerController@index');
             Route::post('new-udanger', 'UdangerController@create');
             Route::post('save-udanger', 'UdangerController@save');
             Route::delete('udanger/{udanger}/delete', 'UdangerController@delete');
