@@ -73,6 +73,9 @@ class ApiController extends Controller
         if (session()->has('_questionsData')) {
             return session()->get('_questionsData')['fieldId'];
         }
+        if (session()->has('_fieldId')) {
+            return session()->get('_fieldId');
+        }
         throw new Exception('Field not specified');
     }
 
@@ -89,5 +92,19 @@ class ApiController extends Controller
         $udanger = Udanger::where('field_id', $fieldId)->select('id', 'name')->get();
 
         return compact('processes','ploss', 'udanger');
+    }
+
+    /**
+     * @return array
+     */
+    public function getPlossUdanger(): array
+    {
+        $ploss = Ploss::where('field_id', $this->fieldId)->get();
+        $udanger = Udanger::where('field_id', $this->fieldId)->get();
+
+        return [
+            'ploss' => $ploss,
+            'udanger' => $udanger,
+        ];
     }
 }
