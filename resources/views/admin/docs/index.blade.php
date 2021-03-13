@@ -289,9 +289,11 @@
                                 <div class="col-md-4 col-lg-4 col-xl-4 col-8">
 
                                     <a href='docs/process/{{$proc->id}}/edit'
-                                       class='btn btn-outline-primary rounded-pill text-sm py-1' style="border-width: 1px !important;"> edit </a>
+                                       class='btn btn-outline-primary rounded-pill text-sm py-1'
+                                       style="border-width: 1px !important;"> edit </a>
                                     <a href='docs/process/{{$proc->id}}/copy'
-                                       class='btn btn-outline-secondary rounded-pill text-sm py-1' style="border-width: 1px !important;"> copy </a>
+                                       class='btn btn-outline-secondary rounded-pill text-sm py-1'
+                                       style="border-width: 1px !important;"> copy </a>
                                 </div>
                             </div>
                         @endforeach
