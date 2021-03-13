@@ -317,9 +317,12 @@
                     </div>
                     <div class='pl-4 pt-2 pb-3' id='potential-loss' v-if="!plossLoading">
                         <div v-for='o in ploss'>
-                            <fbody-component :data='o' type='1' url='docs/save-ploss'
-                                             placeholder='დაამატეთ პოტენციური ზიანი' @saving='psaving=true'
-                                             @saved='psaving=false' @deleted='deletePloss'></fbody-component>
+                            <fbody-component :data='o' type='1'
+                                             url='docs/save-ploss'
+                                             placeholder='დაამატეთ პოტენციური ზიანი'
+                                             @saving='psaving=true'
+                                             @saved='psaving=false' @deleted='deletePloss'>
+                            </fbody-component>
                         </div>
                         <div class='d-flex'>
                             <div class='ns-circle'></div>
@@ -357,9 +360,13 @@
 
                     <div class='pl-4 pt-2 pb-3' id='udanger' v-if="!udangerLoading">
                         <div v-for='o in udanger'>
-                            <fbody-component :data='o' type='2' url='docs/save-udanger' placeholder='დაამატეთ მონაცემი'
-                                             @saving='usaving=true' @saved='usaving=false'
-                                             @deleted='deletePloss'></fbody-component>
+                            <fbody-component :data='o' type='2'
+                                             url='docs/save-udanger'
+                                             placeholder='დაამატეთ მონაცემი'
+                                             @saving='usaving=true'
+                                             @saved='usaving=false'
+                                             @deleted='deletePloss'>
+                            </fbody-component>
                         </div>
                         <div class='d-flex'>
                             <div class='ns-circle'></div>
