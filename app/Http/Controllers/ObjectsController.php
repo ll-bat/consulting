@@ -98,9 +98,24 @@ class ObjectsController extends Controller
      * @return Application|Factory|View
      */
     public function show(int $object) {
+        $like = \request('key');
+        if (!is_string($like) || strlen($like) > 200) {
+            $like = null;
+        }
+
         $docs = Export::where(['object_id' => $object, 'user_id' => current_user()->id])
-            ->latest()
-            ->get();
+            ->latest();
+
+        $path = 'docs';
+
+        if ($like) {
+            $docs = $docs->where('filename', 'like',  '%' . $like . '%');
+            $path .= '?key=' . $like;
+        }
+
+        $docs = $docs->simplePaginate(10);
+
+        $docs->setPath($path);
 
         return view('user.mydocs', compact('docs'));
     }

@@ -41,6 +41,29 @@ if (!isset($readonly)) {
             border: 2px solid grey;
             background-color: grey;
         }
+
+        .page-item {
+            font-size: 1.34rem !important;
+            margin-left: 10px;
+        }
+
+        .page-link {
+            color: #166691 !important;
+            background: #fcf1f1;
+            border: 1px solid transparent;
+            border-bottom: 2px solid lightgrey;
+        }
+
+        .page-link:hover {
+            border-color: transparent;
+            border-bottom: 2px solid lightgrey;
+            background: #efe4e4;
+        }
+
+        .disabled .page-link {
+            color: grey !important;
+        }
+
     </style>
 @endsection
 
@@ -118,6 +141,15 @@ if (!isset($readonly)) {
             @include('user._downloadModal')
         @endif
     </div>
+
+    <div class="position-absolute" style="left: 50%">
+        <div class="mb-5" style="margin-left: -50%">
+            <div>
+                {{ $docs->links() }}
+            </div>
+        </div>
+    </div>
+
     <script>
 
         {
