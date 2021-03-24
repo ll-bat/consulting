@@ -31,8 +31,7 @@ class UserController extends Controller
     public function objectDocs($user, $objects) {
         $docs = Export::where(['object_id' => $objects])
             ->latest()
-            ->get();
-
+            ->simplePaginate(10);
 
         return view('user.mydocs', [
             'docs' => $docs,
