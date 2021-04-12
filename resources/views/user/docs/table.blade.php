@@ -107,7 +107,7 @@ use App\Helperclass\Obj;
             @if ($object->hasNewDanger($i))
                 <td rowspan="{{ $dangerMax }}" align='center'
                     style='height:35px;font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'>
-                    {{ $dangerMax }}
+                    {{ $object->getDangerName($i) }}
                 </td>
 
                 <td rowspan="{{ $dangerMax }}" style='border:7px solid #b8b894;background-color:#EAECEB'>
