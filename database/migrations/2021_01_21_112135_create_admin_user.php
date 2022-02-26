@@ -1,5 +1,6 @@
 <?php
 
+use App\Profile;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Hash;
@@ -21,6 +22,8 @@ class CreateAdminUser extends Migration
         ]);
         $user->is_admin = True;
         $user->save();
+
+        Profile::create(['user_id' => $user->id]);
     }
 
     /**
@@ -30,6 +33,7 @@ class CreateAdminUser extends Migration
      */
     public function down()
     {
-        \App\User::where(['username' => 'admin'])->delete();
+        \App\User::where([])->delete();
+        Profile::where([])->delete();
     }
 }
