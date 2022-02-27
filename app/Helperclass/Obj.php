@@ -139,6 +139,20 @@ class Obj
         return '';
     }
 
+    public function getAllControls($type, $i): array
+    {
+        $obj = $this->getObject($i);
+        $controls = $obj['control'];
+
+        $values = [];
+        foreach ($controls[$type] as $control) {
+            $el = $control['model']['name'];
+            $el = $this->shrink($el);
+            $values[] = $el;
+        }
+        return $values;
+    }
+
     public function getControl($type, $i): string
     {
         $obj = $this->getObject($i);

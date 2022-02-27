@@ -66,10 +66,12 @@ use App\Helperclass\Obj;
                     </td>
                 @endforeach
             @endif
-            <td class='smaller py-2'>
-                {{ $object->getControl(0, $i)}}
-            </td>
             @if ($object->hasNewDanger($i))
+                <td rowspan="{{ $dangerMax }}" class='smaller py-2'>
+                    @foreach($object->getAllControls(0, $i) as $value)
+                        <p class=""> {{ $value }} </p>
+                    @endforeach
+                </td>
                 <td rowspan="{{ $dangerMax }}" class='bg-lightgrey'>
                     {{$object->getResult('first_probability', $i)}}
                 </td>
