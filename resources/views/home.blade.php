@@ -263,7 +263,7 @@ $route = Request::route()->getName();
                                     </div>
                                     <div class="cat-cap"
                                          style='max-height:200px !important;overflow:hidden !important;'>
-                                        <h5><a href=""> {{$obj['title']}} </a></h5>
+                                        <h5><p> {{$obj['title']}} </p></h5>
                                         <p class='mb-5'> {{$obj['description']}} ... </p>
                                     </div>
                                 </div>

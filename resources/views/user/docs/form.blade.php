@@ -155,6 +155,9 @@ if (!isset($readonly)) {
                     <div class='bg-white border rounded-10 p-2 ml-4 pointer hover-grey download-file' data-url="{{ route('user.export.download', ['export' => $docId]) }}?excel=1">
                         <img src='/icons/excel.png' width='60' alt="excel"/>
                     </div>
+                    <div class='bg-white border rounded-10 p-2 ml-4 pointer hover-grey download-file' data-url="{{ route('user.export.download', ['export' => $docId]) }}?word=1">
+                        <img src='/icons/word.png' width='60' alt="excel"/>
+                    </div>
                 </div>
             </div>
         </div>

@@ -23,6 +23,8 @@ use Dompdf\Dompdf;
 use App\Exports\UsersExport;
 use Illuminate\View\View;
 use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Shared\Html;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 
@@ -138,7 +140,8 @@ class MyDocsController extends Controller
 
         $validator = Validator::make(request()->all(), [
             'pdf' => 'nullable|boolean',
-            'excel' => 'nullable|boolean'
+            'excel' => 'nullable|boolean',
+            'word' => 'nullable|boolean',
         ]);
 
         if ($validator->fails()) {
@@ -149,9 +152,31 @@ class MyDocsController extends Controller
             return $this->downloadPdf($export);
         } else if (request('excel')) {
             return $this->downloadExcel($export);
+        } else if (\request('word')) {
+            return $this->downloadWord($export);
         } else {
             return redirect()->route('user.export', $export->id)->with('errors', ['Choose at least one']);
         }
+    }
+
+    private function downloadWord(Export $export)
+    {
+        $pw = new PhpWord();
+        $section = $pw->addSection();
+
+        $con = new Content($export, 'pdf');
+        $docAbout = $con->docAbout;
+        $con = $con->getData();
+        $html = view('user.docs.table_body', [
+            'countAll' => $con[0],
+            'object' => $con[1],
+            'docAbout' => $docAbout
+        ])->render();
+
+        Html::addHtml($section, $html, true, false);
+        $uniqueName = 'HTML-' . time() . '.docx';
+        $pw->save($uniqueName);
+        return response()->download(public_path($uniqueName))->deleteFileAfterSend();
     }
 
     /**
