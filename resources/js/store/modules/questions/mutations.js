@@ -144,6 +144,7 @@ export default {
     [COMPLETE_DANGER]: (state) => {
         const {processId, dangerId} = state;
 
+        state.completedDangers = {...state.completedDangers}
         if (!state.completedDangers[processId]) {
             state.completedDangers[processId] = {};
         }
@@ -200,6 +201,7 @@ export default {
         const processId = state.processId;
 
         delete state.completedDangers[processId][dangerId];
+        state.completedDangers = {...state.completedDangers}
 
         let elm = null;
         state.sendData = state.sendData.filter(el => {
