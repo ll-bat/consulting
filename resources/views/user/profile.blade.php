@@ -21,7 +21,6 @@ if ($user->type == User::TYPE_PREMIUM) {
         <div class="col-md-4">
             <div class="card card-user" style="border-radius: 15px;">
                 <div class="image">
-
                     <img src="{{$profile->pathBack()}}"/>
                 </div>
                 <div class="card-body">
@@ -102,7 +101,7 @@ if ($user->type == User::TYPE_PREMIUM) {
 
                         <button class="btn btn-danger float-right mt-auto mb-auto"
                                 style="margin-top:0;
-                            font-size:.8em;border-radius:25px;padding:6px;">Submit
+                            font-size:.8em;border-radius:25px;padding:6px;">ატვირთვა
                         </button>
 
                     </div>
@@ -118,7 +117,7 @@ if ($user->type == User::TYPE_PREMIUM) {
                         @csrf
                         @method('patch')
                         <div class="form-group mt-3" style="">
-                            <label class="" style="font-size:.8em;">Username</label>
+                            <label class="" style="font-size:.8em;">იუზერნეიმი</label>
                             <input type="text"
                                    class="form-control"
                                    placeholder="Username"
@@ -129,7 +128,7 @@ if ($user->type == User::TYPE_PREMIUM) {
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label class="" style="font-size:.8em;">Email address</label>
+                            <label class="" style="font-size:.8em;">მეილი</label>
                             <input type="email"
                                    class="form-control"
                                    name="email"
@@ -142,7 +141,7 @@ if ($user->type == User::TYPE_PREMIUM) {
                         </div>
 
                         <div class="form-group">
-                            <label class="" style="font-size:.8em;">password</label>
+                            <label class="" style="font-size:.8em;">პაროლი</label>
                             <div style="display:flex">
                                 <input type="password" class="form-control" id="pass01"
                                        placeholder="Password"
@@ -168,7 +167,7 @@ if ($user->type == User::TYPE_PREMIUM) {
                                     background-color: rgba(87, 192, 194, .9);
                                     font-size: .9em;
                                     border:none;"
-                                >Update
+                                >განახლება
                                 </button>
                             </div>
                         </div>
@@ -181,17 +180,17 @@ if ($user->type == User::TYPE_PREMIUM) {
         <div class="col-md-8">
             <div class="card card-user" style="border:none; border-radius:10px;">
                 <div class="card-header">
-                    <h5 class="card-title">Edit Profile</h5>
+                    <h5 class="card-title">პროფილის რედაქტირება</h5>
                 </div>
 
                 <div class="card-body">
-                    <form method="post" action="profile">
+                    <form method="post" action="profile" onsubmit="validateInfo(event)">
                         @csrf
                         @method('patch')
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="" style="font-size:.8em;">First name</label>
+                                    <label class="" style="font-size:.8em;">სახელი</label>
                                     <input type="text" class="form-control"
                                            placeholder="Firstname"
                                            value="{{$profile->firstname}}"
@@ -206,7 +205,7 @@ if ($user->type == User::TYPE_PREMIUM) {
                             </div>
                             <div class="col-md-6 pl-md-1">
                                 <div class="form-group">
-                                    <label class="" style="font-size:.8em;">Last name</label>
+                                    <label class="" style="font-size:.8em;">გვარი</label>
                                     <input type="text" class="form-control"
                                            placeholder="Lastname"
                                            value="{{$profile->lastname}}"
@@ -223,13 +222,14 @@ if ($user->type == User::TYPE_PREMIUM) {
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label style="font-size:.8em;">Address</label>
+                                    <label style="font-size:.8em;">მობილური</label>
                                     <input type="text" class="form-control"
-                                           placeholder="Home Address"
-                                           value="{{$profile->address}}"
-                                           name="address"
+                                           placeholder="598******"
+                                           value="{{$profile->phone}}"
+                                           name="phone"
+                                           id="phone"
                                     />
-                                    @error('address')
+                                    @error('phone')
                                     <p class="text-danger text-sm pl-2">
                                         {{$message}}
                                     </p>
@@ -240,13 +240,15 @@ if ($user->type == User::TYPE_PREMIUM) {
                         <div class="row">
                             <div class="col-md-4 pr-md-1">
                                 <div class="form-group">
-                                    <label style="font-size:.8em;">City</label>
-                                    <input type="text" class="form-control"
-                                           placeholder="City"
-                                           value="{{$profile->city}}"
-                                           name="city"
+                                    <label class="mx-2" style="font-size:.8em;">ორგანიზაცია</label>
+                                    <input type="radio"
+                                           class="position-absolute mt-1 ml-2"
+                                           style="width: 20px; height: 20px; "
+                                           value="1"
+                                           name="organization"
+                                           id="organization"
                                     />
-                                    @error('city')
+                                    @error('organization')
                                     <p class="text-danger text-sm pl-2">
                                         {{$message}}
                                     </p>
@@ -255,13 +257,15 @@ if ($user->type == User::TYPE_PREMIUM) {
                             </div>
                             <div class="col-md-4 px-md-1">
                                 <div class="form-group">
-                                    <label style="font-size:.8em;">Country</label>
-                                    <input type="text" class="form-control"
-                                           placeholder="Country"
-                                           value="{{$profile->country}}"
-                                           name="country"
+                                    <label class="mx-2" style="font-size:.8em;">ფიზიკური პირი</label>
+                                    <input type="radio"
+                                           class="position-absolute mt-1 ml-2"
+                                           style="width: 20px; height: 20px"
+                                           value="0"
+                                           name="organization"
+                                           id="physical_person"
                                     />
-                                    @error('country')
+                                    @error('physical_person')
                                     <p class="text-danger text-sm pl-2">
                                         {{$message}}
                                     </p>
@@ -269,41 +273,54 @@ if ($user->type == User::TYPE_PREMIUM) {
                                 </div>
                             </div>
                             <div class="col-md-4 pl-md-1">
-                                <div class="form-group">
-                                    <label style="font-size:.8em;">Postal Code</label>
-                                    <input type="number" class="form-control"
-                                           placeholder="Zip"
-                                           value="{{$profile->postalCode}}"
-                                           name="postalCode"
-                                    />
-                                    @error('postalCode')
-                                    <p class="text-danger text-sm pl-2">
-                                        {{$message}}
-                                    </p>
-                                    @enderror
-                                </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="" style="font-size:.9em;">About me</label>
-                                    <textarea class="form-control"
-                                              placeholder="Something about myself"
-                                              name="aboutMe"
-                                    >{{$profile->aboutMe}}</textarea>
-                                    @error('aboutMe')
-                                    <p class="text-danger text-sm pl-2">
-                                        {{$message}}
-                                    </p>
-                                    @enderror
-                                </div>
+                        <div class="row" id="work_organization" style="display: none">
+                            <div class="col-12">
+                                <label for="" style="font-size:.9em;">ორგანიზაცია</label>
+                                <input class="form-control"
+                                       name="work_organization"
+                                       id="work_organization_value"
+                                />
+                                @error('work_organization')
+                                <p class="text-danger text-sm pl-2">
+                                    {{$message}}
+                                </p>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row" id="work" style="display: none">
+                            <div class="col-12">
+                                <label for="" style="font-size:.9em;">სამუშაო ადგილი</label>
+                                <input class="form-control"
+                                       name="work"
+                                       id="work_value"
+                                />
+                                @error('work')
+                                <p class="text-danger text-sm pl-2">
+                                    {{$message}}
+                                </p>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="row mt-4" id="position_in_organization" style="display: none">
+                            <div class="col-12">
+                                <label for="" style="font-size:.9em;">სამუშაო ადგილი ორგანიზაციაში</label>
+                                <input class="form-control"
+                                       name="position_in_organization"
+                                       id="position_in_organization_value"
+                                />
+                                @error('position_in_organization')
+                                <p class="text-danger text-sm pl-2">
+                                    {{$message}}
+                                </p>
+                                @enderror
                             </div>
                         </div>
                         <div class="row">
                             <div class="update ml-auto mr-auto">
                                 <button type="submit" class="btn btn-primary btn-round bg-info"
-                                        style="border-radius:20px;font-size:.8em;">Update Profile
+                                        style="border-radius:20px;font-size:.8em;"> პროფილის განახლება
                                 </button>
                             </div>
                         </div>
@@ -345,6 +362,71 @@ if ($user->type == User::TYPE_PREMIUM) {
                             }
                         }
 
+                        function validateInfo(event) {
+                            let phone = String(document.querySelector('#phone').value).trim()
+                            if (phone.length > 0) {
+                                if (phone.length > 17) {
+                                    alert('მობილურის ფორმატი არასწორია')
+                                    event.preventDefault();
+                                }
+                                if (isNaN(Number(phone.replaceAll(' ', '')))) {
+                                    alert('მობილურის ფორმატი არასწორია')
+                                    event.preventDefault();
+                                }
+                            }
+                            const organization = document.getElementsByName('organization');
+                            let isOrganization = 1;
+                            for (let radio of organization) {
+                                if (radio.checked) {
+                                    isOrganization = parseInt(radio.value)
+                                    break;
+                                }
+                            }
+                            isOrganization = !!isOrganization;
+                            if (isOrganization) {
+                                let organization = document.querySelector('#work_organization_value').value
+                                organization = String(organization).trim();
+                                if (organization.length < 1) {
+                                    alert('გთხოვთ, შეიყვანოთ ორგანიზაცია')
+                                    event.preventDefault();
+                                }
+                            }
+                        }
+                        {
+                            let isOrganization = parseInt("{{ $user->profile->organization }}")
+                            isOrganization = !!isOrganization;
+                            document.querySelector('#organization').checked = isOrganization;
+                            document.querySelector('#physical_person').checked = !isOrganization;
+                            function switchWork(isOrganization) {
+                                if (isOrganization) {
+                                    document.querySelector('#work_organization').style.display = "";
+                                    document.querySelector('#work').style.display = "none";
+                                    document.querySelector('#position_in_organization').style.display = ''
+                                } else {
+                                    document.querySelector('#work').style.display = "";
+                                    document.querySelector('#work_organization').style.display = "none";
+                                    document.querySelector('#position_in_organization').style.display = 'none'
+                                }
+                            }
+                            switchWork(isOrganization);
+                            document.querySelector('#organization').addEventListener('click', () => switchWork(true))
+                            document.querySelector('#physical_person').addEventListener('click', () => switchWork(false))
+                            function decode(str) {
+                                return str.replaceAll('&#039;', "'").replaceAll('&quot;', '"').replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&amp;', '&')
+                            }
+                            const workOrganizationValue = decode("{{ $profile->work_organization }}")
+                            const workValue = decode("{{ $profile->work }}")
+                            const positionInOrganizationValue = decode("{{ $profile->position_in_organization }}")
+                            if (isOrganization) {
+                                document.querySelector('#work_organization_value').value = workOrganizationValue
+                                document.querySelector('#work_value').value = '';
+                                document.querySelector('#position_in_organization_value').value = positionInOrganizationValue
+                            } else {
+                                document.querySelector('#work_organization_value').value = '';
+                                document.querySelector('#work_value').value = workValue;
+                                document.querySelector('#position_in_organization_value').value = '';
+                            }
+                        }
                     </script>
                 </div>
             </div>
