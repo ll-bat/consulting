@@ -55837,6 +55837,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _classes_Data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../classes/Data */ "./resources/js/classes/Data.js");
 var _ACTION_TEST$SET_API_;
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
@@ -55931,6 +55935,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["COMPLETE_DANGER"], function (state) {
   var processId = state.processId,
       dangerId = state.dangerId;
+  state.completedDangers = _objectSpread({}, state.completedDangers);
 
   if (!state.completedDangers[processId]) {
     state.completedDangers[processId] = {};
@@ -55992,6 +55997,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   dangerId = parseInt(dangerId);
   var processId = state.processId;
   delete state.completedDangers[processId][dangerId];
+  state.completedDangers = _objectSpread({}, state.completedDangers);
   var elm = null;
   state.sendData = state.sendData.filter(function (el) {
     if (el.pid === processId && el.did === dangerId) {
@@ -56077,7 +56083,7 @@ var STATE = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /var/www/html/consulting/resources/js/preQuestions.js */"./resources/js/preQuestions.js");
+module.exports = __webpack_require__(/*! /home/lua/projects/consulting/resources/js/preQuestions.js */"./resources/js/preQuestions.js");
 
 
 /***/ })

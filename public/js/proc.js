@@ -52029,7 +52029,7 @@ var httpService = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /var/www/html/consulting/resources/js/proc.js */"./resources/js/proc.js");
+module.exports = __webpack_require__(/*! /home/lua/projects/consulting/resources/js/proc.js */"./resources/js/proc.js");
 
 
 /***/ })

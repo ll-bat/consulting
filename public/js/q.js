@@ -2037,11 +2037,11 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_0
   mounted: function mounted() {
     this.controlTypes = [{
       "class": "px-3 pt-3 ml-2 text-sm",
-      text: "1. საჭიროების შემთხვევაში დაამატეთ არსებული (ფაქტობრივი) კონტროლის ზომა",
+      text: "1. საჭიროების შემთხვევაში დაამატეთ ფაქტობრივი, გატარებული კონტროლის ზომა",
       type: 'first'
     }, {
       "class": "px-3 pt-0 mb-3 ml-2 text-sm",
-      text: "2. საჭიროების შემთხვევაში მიუთითეთ დამატებითი (შემდგომში გასატარებელი) კონტროლის ზომა",
+      text: "2. საჭიროების შემთხვევაში მიუთითეთ გასატარებელი ღონისძიება კონტროლის ზომა",
       type: 'second'
     }];
 
@@ -2662,12 +2662,27 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2704,7 +2719,69 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Processes",
-  computed: _objectSpread({}, mapState(['processes', 'showDangerLoader', 'showDangers', 'showControls', 'currentDangers', 'dangerId', 'processId'])),
+  computed: _objectSpread(_objectSpread(_objectSpread({}, mapState(['processes', 'showDangerLoader', 'showDangers', 'showControls', 'currentDangers', 'dangerId', 'processId'])), mapState({
+    completedProcessIdMapper: function completedProcessIdMapper(state) {
+      return state.completedDangers;
+    }
+  })), {}, {
+    getCompletedProcesses: function getCompletedProcesses() {
+      var completedProcesses = [];
+
+      var _iterator = _createForOfIteratorHelper(this.processes),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var process = _step.value;
+
+          if (this.completedProcessIdMapper[process.id] !== undefined && Object.keys(this.completedProcessIdMapper[process.id]).length > 0) {
+            completedProcesses.push({
+              id: process.id,
+              name: process.name
+            });
+          }
+        }
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      return completedProcesses;
+    },
+    getNotCompletedProcesses: function getNotCompletedProcesses() {
+      var completedProcesses = this.getCompletedProcesses;
+      var notCompletedProcesses = [];
+
+      var _iterator2 = _createForOfIteratorHelper(this.processes),
+          _step2;
+
+      try {
+        var _loop = function _loop() {
+          var process = _step2.value;
+
+          if (completedProcesses.find(function (item) {
+            return item.id === process.id;
+          }) === undefined) {
+            notCompletedProcesses.push({
+              id: process.id,
+              name: process.name
+            });
+          }
+        };
+
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          _loop();
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
+      return notCompletedProcesses;
+    }
+  }),
   methods: _objectSpread(_objectSpread({}, mapActions(['getProcesses', 'getDangers', 'showDangersM', 'showControlsM', 'showDangerLoaderM', 'setDanger', 'setProcess'])), {}, {
     chooseProcess: function chooseProcess(id) {
       var _this = this;
@@ -2715,6 +2792,8 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                _this.highlight = id;
+
                 _this.setProcess(id);
 
                 _this.showDangerLoaderM(true);
@@ -2730,7 +2809,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
                 });
 
                 if (process) {
-                  _context.next = 11;
+                  _context.next = 12;
                   break;
                 }
 
@@ -2742,18 +2821,18 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
 
                 return _context.abrupt("return");
 
-              case 11:
-                _context.next = 13;
+              case 12:
+                _context.next = 14;
                 return _this.getDangers(id);
 
-              case 13:
+              case 14:
                 _this.showDangerLoaderM(false);
 
                 _this.showDangersM(true);
 
                 Event.$emit('scrollTo', 'dangers-part');
 
-              case 16:
+              case 17:
               case "end":
                 return _context.stop();
             }
@@ -2763,7 +2842,9 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
     }
   }),
   data: function data() {
-    return {};
+    return {
+      highlight: -1
+    };
   },
   mounted: function mounted() {
     this.getProcesses();
@@ -7926,7 +8007,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.size-13[data-v-c9ba01fc] {\n    font-size: 1.3rem;\n}\n", ""]);
+exports.push([module.i, "\n.size-13[data-v-c9ba01fc] {\n    font-size: 1.3rem;\n}\n.p-hovered[data-v-c9ba01fc] {\n    text-decoration: underline;\n}\n.p-hover[data-v-c9ba01fc]:hover {\n    cursor: pointer;\n    text-decoration: underline;\n}\n", ""]);
 
 // exports
 
@@ -41343,61 +41424,100 @@ var render = function() {
         attrs: { id: "edit-process" }
       },
       [
-        _c("div", { staticClass: "card-body ml-2 pl-2" }, [
-          _c("p", { staticClass: "size-13 py-2 px-2" }, [
-            _vm._v(" აირჩიეთ პროცესი ")
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c(
-              "div",
-              { staticClass: "mt-4" },
-              _vm._l(_vm.processes, function(p, i) {
-                return _c("div", [
-                  _c(
-                    "label",
-                    {
-                      staticClass: "ns-container black-75 m-4 pl-5 pt-1",
-                      on: {
-                        mousedown: function($event) {
-                          return _vm.chooseProcess(p.id)
-                        }
+        _c(
+          "div",
+          { staticClass: "card-body ml-2 pl-2" },
+          [
+            _c("p", { staticClass: "size-13 py-2 px-2" }, [
+              _vm._v(" აირჩიეთ პროცესი ")
+            ]),
+            _vm._v(" "),
+            _vm._l(_vm.getCompletedProcesses, function(process) {
+              return _c("div", { staticClass: "px-4 my-0 py-0" }, [
+                _c(
+                  "p",
+                  {
+                    staticClass: "text-success",
+                    on: {
+                      mousedown: function($event) {
+                        return _vm.chooseProcess(process.id)
                       }
-                    },
-                    [
-                      _vm._v(
-                        "\n                            " +
-                          _vm._s(p.name) +
-                          "\n                            "
-                      ),
-                      _c("div", { staticClass: "ns-test" }, [
-                        _c(
-                          "div",
-                          {
-                            staticClass:
-                              "mod-chbox-checkmark mod-chbox-checkmark-diff ns-test-margin rounded-circle",
-                            class: {
-                              "hovered-checkmark-diff": p.id === _vm.processId
-                            }
-                          },
-                          [
-                            _c("span", {
-                              staticClass: "text-center",
-                              class: {
-                                "checked-circle-diff": p.id === _vm.processId
-                              }
-                            })
-                          ]
+                    }
+                  },
+                  [
+                    _c("i", { staticClass: "nc-icon nc-check-2 px-2 mt-1" }),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        staticClass: "p-hover",
+                        class: { "p-hovered": _vm.highlight === process.id }
+                      },
+                      [
+                        _vm._v(
+                          "\n                        " +
+                            _vm._s(process.name) +
+                            "\n                    "
                         )
-                      ])
-                    ]
-                  )
-                ])
-              }),
-              0
-            )
-          ])
-        ])
+                      ]
+                    )
+                  ]
+                )
+              ])
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c(
+                "div",
+                { staticClass: "mt-4" },
+                _vm._l(_vm.getNotCompletedProcesses, function(p, i) {
+                  return _c("div", [
+                    _c(
+                      "label",
+                      {
+                        staticClass: "ns-container black-75 m-4 pl-5 pt-1",
+                        on: {
+                          mousedown: function($event) {
+                            return _vm.chooseProcess(p.id)
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n                            " +
+                            _vm._s(p.name) +
+                            "\n                            "
+                        ),
+                        _c("div", { staticClass: "ns-test" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "mod-chbox-checkmark mod-chbox-checkmark-diff ns-test-margin rounded-circle",
+                              class: {
+                                "hovered-checkmark-diff": p.id === _vm.processId
+                              }
+                            },
+                            [
+                              _c("span", {
+                                staticClass: "text-center",
+                                class: {
+                                  "checked-circle-diff": p.id === _vm.processId
+                                }
+                              })
+                            ]
+                          )
+                        ])
+                      ]
+                    )
+                  ])
+                }),
+                0
+              )
+            ])
+          ],
+          2
+        )
       ]
     )
   ])
@@ -58559,6 +58679,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _classes_Data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../classes/Data */ "./resources/js/classes/Data.js");
 var _ACTION_TEST$SET_API_;
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
@@ -58653,6 +58777,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 }), _defineProperty(_ACTION_TEST$SET_API_, _mutation_types__WEBPACK_IMPORTED_MODULE_0__["COMPLETE_DANGER"], function (state) {
   var processId = state.processId,
       dangerId = state.dangerId;
+  state.completedDangers = _objectSpread({}, state.completedDangers);
 
   if (!state.completedDangers[processId]) {
     state.completedDangers[processId] = {};
@@ -58714,6 +58839,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   dangerId = parseInt(dangerId);
   var processId = state.processId;
   delete state.completedDangers[processId][dangerId];
+  state.completedDangers = _objectSpread({}, state.completedDangers);
   var elm = null;
   state.sendData = state.sendData.filter(function (el) {
     if (el.pid === processId && el.did === dangerId) {
@@ -58799,7 +58925,7 @@ var STATE = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /var/www/html/consulting/resources/js/q.js */"./resources/js/q.js");
+module.exports = __webpack_require__(/*! /home/lua/projects/consulting/resources/js/q.js */"./resources/js/q.js");
 
 
 /***/ })
