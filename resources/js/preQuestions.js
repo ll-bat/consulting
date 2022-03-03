@@ -1,7 +1,9 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+window.Vue = require('vue')
+window.Event = new Vue();
+
 import store from './store'
 
 import PreQuestions from './components/PreQuestions';

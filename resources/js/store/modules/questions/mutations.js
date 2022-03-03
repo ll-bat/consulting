@@ -11,8 +11,8 @@ import {
     SET_CONTROLS_DATA,
     SET_DANGER,
     SET_DANGER_IMAGE,
-    SET_DANGERS,
-    SET_ELEMENT,
+    SET_DANGERS, SET_DOCUMENT_ID,
+    SET_ELEMENT, SET_FIELD_ID,
     SET_PROCESS,
     TOGGLE_CONTROLS,
     TOGGLE_CONTROLS_LOADER,
@@ -235,5 +235,13 @@ export default {
             state.completedDangers[el.pid][el.did] = true;
             state.unprocessedProcess[el.pid] = true;
         });
+    },
+
+    [SET_FIELD_ID]: (state, id) => {
+        state.fieldId = id;
+    },
+
+    [SET_DOCUMENT_ID]: (state, id) => {
+        state.documentId = id;
     }
 }

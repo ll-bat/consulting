@@ -1,5 +1,5 @@
 <template>
-    <div class="position-relative w-100 h-100" style="" id="pre-questions">
+    <div class="position-relative w-100 h-100" v-if="isPreQuestionsPage" style="" id="pre-questions">
         <div class="row justify-content-center" style="margin-top: -35px">
             <div class="col-xl-6 col-lg-9 col-md-11 col-12">
                 <div class="m-auto bg-white p-3 pl-4 partial-shadow"
@@ -224,16 +224,26 @@
 
 
     </div>
+    <div v-else>
+        <questions :data="questions.data"
+                   :copied-document-id="questions.copiedDocumentId"
+                   :field-id="questions.fieldId"
+                   :document-headers="questions.documentHeaders"
+        ></questions>
+    </div>
 </template>
 
 <script>
 import httpService from "../services/httpService";
 import {createNamespacedHelpers} from "vuex/dist/vuex.mjs";
+import Questions from "./Questions";
+import fetcher from "../classes/Fetcher";
 
 const {mapState, mapActions} = createNamespacedHelpers('preQuestions');
 
 export default {
     name: "preQuestions",
+    components: {Questions},
     props: {
         _objects: String,
         _docs: String,
@@ -284,7 +294,15 @@ export default {
             routes: {},
             current: null,
             shouldGoUpper: false,
-            loading: true
+            loading: true,
+            isPreQuestionsPage: true,
+            questions: {
+                data: '',
+                documentId: false,
+                fieldId: false,
+                copiedDocumentId: false,
+                documentHeaders: {}
+            }
         }
     },
 
@@ -394,16 +412,11 @@ export default {
             }
         },
         async createDoc() {
+            /*
             let data = {
                 objectId: parseInt(this.objectId),
                 filename: this.filename.toString(),
                 fieldId: parseInt(this.fieldId),
-                _documentAuthorNames: this.docAbout.authorNames,
-                _documentAddress: this.docAbout.address,
-                _documentDescription: this.docAbout.description,
-                _documentFirstDate: this.docAbout.first_date,
-                _documentSecondDate: this.docAbout.second_date,
-                _documentNumber: this.docAbout.number,
             };
 
             function start() {
@@ -443,6 +456,27 @@ export default {
             }
 
             stop();
+            */
+            if (this.isNew) {
+                this.data = '';
+            } else {
+                this.questions.copiedDocumentId = this.docId
+                const data = await fetcher.getDocumentData(this.docId, {params: {field_id: this.fieldId}});
+                this.questions.data = JSON.stringify(data)
+            }
+            this.questions.fieldId = this.fieldId
+            this.questions.documentHeaders = {
+                _documentAuthorNames: this.docAbout.authorNames,
+                _documentAddress: this.docAbout.address,
+                _documentDescription: this.docAbout.description,
+                _documentFirstDate: this.docAbout.first_date,
+                _documentSecondDate: this.docAbout.second_date,
+                _documentNumber: this.docAbout.number,
+                _filename: this.filename,
+                _objectId: this.objectId,
+            }
+
+            this.isPreQuestionsPage = false;
         },
 
         initBreadcrumb() {

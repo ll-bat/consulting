@@ -34,10 +34,11 @@ class FinalData
     /**
      * @param $obj
      * @param int $fieldId
+     * @param null $document_headers
      * @return array|bool
      * @throws Exception
      */
-    public function init($obj, int $fieldId = -1)
+    public function init($obj, int $fieldId = -1, $document_headers = null)
     {
         if (count($obj) < 1) {
             throw new Exception('No data provided', 400);
@@ -71,7 +72,7 @@ class FinalData
             /**
              * Update data and get updated/created export id and its data before updating
              */
-            $this->exportId = $json->save([$object, $links, $countAll]);
+            $this->exportId = $json->save([$object, $links, $countAll], $document_headers);
 
             return true;
 

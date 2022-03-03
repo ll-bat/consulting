@@ -78,6 +78,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
         Route::get('{process}/dangers', 'ApiController@getDangers');
         Route::get('{danger}/controls', 'ApiController@getControls');
         Route::get('all-data', 'ApiController@getAllData');
+        Route::get('get-document-data/{export}', 'ApiController@getDocumentData');
     });
 
     Route::group(['prefix' => 'objects'], function(){

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Docs;
 use App\Export;
 use App\Field;
+use App\Helperclass\QuestionsJson;
 use App\Objects;
 use App\Rels;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -40,30 +41,48 @@ class UserDocsController extends Controller
      */
     public function show()
     {
-        if (!session()->has('_docData')) {
-            if (!session()->has('_questionsData')) {
-                return redirect()->route('user.preQuestions');
+        $copied_document_id = \request()->query->get('copied_document_id', false);
+        $document_id = \request()->query->get('document_id', false);
+        if ($document_id) {
+            $export = Export::findOrFail($document_id);
+            if ($export->user_id != current_user()->id) {
+                throw new \Exception("You can't access this document");
             }
+            $data = json_decode($export->data);
+            $data = json_encode((new QuestionsJson($data))->getData());
+            $field_id = $export->field_id;
+
+            return view('user.questions.index', compact('data', 'field_id', 'document_id'));
+        } else if ($copied_document_id) {
+            throw new \Exception('not implemented error');
         } else {
-            session()->forget('_questionsData');
+            return redirect()->route('user.preQuestions');
         }
 
-        $exportId = null;
-        $data = null;
+//        if (!session()->has('_docData')) {
+//            if (!session()->has('_questionsData')) {
+//                return redirect()->route('user.preQuestions');
+//            }
+//        } else {
+//            session()->forget('_questionsData');
+//        }
 
-        $obj = session()->get('_questionsData') ?? false;
-        if (!$obj) {
-            session()->forget('_oldImages');
-            $docData = session()->get('_docData');
-            if (!$docData['isNew']) {
-               $data = $docData['data'];
-            }
-        } else {
-            $data = $obj['data'];
-        }
-
-
-        return view('user.questions.index', compact('data'));
+//        $exportId = null;
+//        $data = null;
+//
+//        $obj = session()->get('_questionsData') ?? false;
+//        if (!$obj) {
+//            session()->forget('_oldImages');
+//            $docData = session()->get('_docData');
+//            if (!$docData['isNew']) {
+//               $data = $docData['data'];
+//            }
+//        } else {
+//            $data = $obj['data'];
+//        }
+//
+//
+//        return view('user.questions.index', compact('data'));
     }
 
 

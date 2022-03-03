@@ -1,5 +1,6 @@
 
 import httpService from "../services/httpService";
+import * as http from "http";
 
 class Fetcher {
     constructor() {
@@ -21,11 +22,15 @@ class Fetcher {
         })
     }
 
-    async getDangers(processId) {
+    async getDocumentData(documentId, queryParams) {
+        return httpService.get(`api/get-document-data/${documentId}`, null, queryParams)
+    }
+
+    async getDangers(processId, queryParams) {
         if (this.store.process[processId]) {
             return this.store.process[processId];
         } else {
-            const data = await httpService.get(`api/${processId}/dangers`);
+            const data = await httpService.get(`api/${processId}/dangers`, null, queryParams);
             if (data) {
                 this.store.process[processId] = data;
             }
@@ -33,11 +38,11 @@ class Fetcher {
         }
     }
 
-    async getControls(dangerId) {
+    async getControls(dangerId, queryParams) {
         if (this.store.danger[dangerId]) {
             return this.store.danger[dangerId];
         } else {
-            const data = await httpService.get(`api/${dangerId}/controls`);
+            const data = await httpService.get(`api/${dangerId}/controls`, null, queryParams);
             if (data) {
                 this.store.danger[dangerId] = data;
             }

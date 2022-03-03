@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Control;
 use App\Danger;
+use App\Export;
+use App\Helperclass\QuestionsJson;
 use App\Ploss;
 use App\Process;
 use App\Udanger;
@@ -67,15 +69,18 @@ class ApiController extends Controller
      */
     public function getFieldId(): int
     {
-        if (session()->has('_docData')) {
-            return session()->get('_docData')['fieldId'];
+        if (\request()->query->get('field_id', false)) {
+            return \request()->query->get('field_id');
         }
-        if (session()->has('_questionsData')) {
-            return session()->get('_questionsData')['fieldId'];
-        }
-        if (session()->has('_fieldId')) {
-            return session()->get('_fieldId');
-        }
+//        if (session()->has('_docData')) {
+//            return session()->get('_docData')['fieldId'];
+//        }
+//        if (session()->has('_questionsData')) {
+//            return session()->get('_questionsData')['fieldId'];
+//        }
+//        if (session()->has('_fieldId')) {
+//            return session()->get('_fieldId');
+//        }
         throw new Exception('Field not specified');
     }
 
@@ -106,5 +111,13 @@ class ApiController extends Controller
             'ploss' => $ploss,
             'udanger' => $udanger,
         ];
+    }
+
+    public function getDocumentData(Export $export) {
+        if ($export->user_id != current_user()->id) {
+            throw new Exception("You can't access this document");
+        }
+        $data = json_decode($export->data);
+        return json_encode((new QuestionsJson($data))->getData());
     }
 }

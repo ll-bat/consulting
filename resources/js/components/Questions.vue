@@ -58,6 +58,19 @@ export default {
     props: {
         data: {
             type: String,
+        },
+        documentId: {
+            type: [String, Number, Boolean],
+        },
+        fieldId: {
+            type: [String, Number, Boolean],
+        },
+        copiedDocumentId: {
+            type: [String, Number, Boolean],
+        },
+        documentHeaders: {
+            type: [Object],
+            default: () => {},
         }
     },
 
@@ -80,7 +93,7 @@ export default {
     },
 
     methods: {
-        ...mapActions(['updateStore', 'completeDanger', 'updateCompletedDanger', 'initOldDoc']),
+        ...mapActions(['updateStore', 'completeDanger', 'updateCompletedDanger', 'initOldDoc', 'setFieldId', 'setDocumentId']),
         next() {
             const flag = this.validateCurrentDanger();
             if (flag) {
@@ -253,6 +266,18 @@ export default {
             }
 
             formData.append('data', JSON.stringify(data));
+            formData.append('field_id', String(this.fieldId || -1));
+            if (this.documentId) {
+                formData.append('document_id', String(this.documentId));
+            }
+            if (this.copiedDocumentId) {
+                formData.append('copied_document_id', String(this.copiedDocumentId));
+            }
+            if (this.documentHeaders) {
+                for (const key in this.documentHeaders) {
+                    formData.append(key, this.documentHeaders[key]);
+                }
+            }
 
             const res = await httpService.post('docs/submit', formData).catch(err => {
                 alert("დაფიქსირდა შეცდომა. გთხოვთ, სცადოთ თავიდან.");
@@ -299,6 +324,14 @@ export default {
 
             if (this.data) {
                 this.prepareOldDoc();
+            }
+
+            if (this.fieldId) {
+                this.setFieldId(this.fieldId);
+            }
+
+            if (this.documentId) {
+                this.setDocumentId(this.documentId)
             }
         },
 

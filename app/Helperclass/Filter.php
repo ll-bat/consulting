@@ -6,6 +6,7 @@ use App\Control;
 use App\ControlDanger;
 use App\Danger;
 use App\DangerProcess;
+use App\Export;
 use App\Ploss;
 use App\Process;
 use App\Udanger;
@@ -21,17 +22,29 @@ class Filter
     private array $imageNameValidator = [];
 
     private array $addedValues = [];
+    private bool $is_document_copied = false;
 
     /**
      * Filter constructor.
      * @param $obj
      * @param $fieldId
+     * @param int $copied_document_id
+     * @param int $updated_document_id
      * @throws Exception
      */
-    public function __construct($obj, $fieldId)
+    public function __construct($obj, $fieldId, $copied_document_id = false, $updated_document_id = false)
     {
         $this->fieldId = $fieldId;
-        $this->oldImages = session()->get('_oldImages') ?? [];
+
+        if ($copied_document_id) {
+            $this->is_document_copied = true;
+            $this->oldImages = $this->getCopiedDocumentImages($copied_document_id);
+        } else if ($updated_document_id) {
+            $this->oldImages = $this->getCopiedDocumentImages($updated_document_id);
+        } else {
+            $this->is_document_copied = false;
+            $this->oldImages = [];
+        }
 
         /**
          * Check if chosen [processes, dangers, controls, potential losses, udangers] are existent in database
@@ -61,6 +74,35 @@ class Filter
         if (!$this->data) {
             throw new Exception('Please provide the data');
         }
+    }
+
+    private function getCopiedDocumentImages($document_id): array
+    {
+        $export = Export::findOrFail($document_id);
+        if ($export->user_id != current_user()->id) {
+            throw new Exception('denied !');
+        }
+        $data = (new QuestionsJson(json_decode($export->data)))->getData();
+        $images = [];
+        try {
+            $_data = $data;
+            foreach ($_data as $process) {
+                foreach ($process as $danger) {
+                    if (gettype($danger) !== 'object') continue;
+                    list($pid, $did) = [$danger->pid, $danger->did];
+                    $danger = $danger->data;
+                    $data = ['oldImage' => $danger->hasImage ? $danger->imageName : ''];
+                    if ($danger->hasImage) {
+                        if (!isset($images[$pid])) $images[$pid] = [];
+                        $images[$pid][$did] = $data['oldImage'];
+                    }
+                }
+            }
+        } catch (Exception $e) {
+            // pass
+            $images = [];
+        }
+        return $images;
     }
 
     /**
@@ -251,22 +293,27 @@ class Filter
             $hasOldImage = true;
         }
 
-
+        // has uploaded image
         if ($data['hasImage']) {
+            // if it's valid image name
             if ($this->filterImageName($o['imageName'], 'imageName', $pid, $did, $data)) {
+                // if copied document had its image, e.i we are replacing it
                 if ($hasOldImage) {
-                    if (!session()->has('_docData')) {
+                    // if document is copied, we shouldn't delete old document's image
+                    if (!$this->is_document_copied) {
                         // @TODO: Implement image deletion .
                     }
                 }
                 $this->imageNameValidator[$data['imageName']] = 'required|image|mimes:jpeg,png,jpg|max:2048';
             } else {
+                // if validation fails
                 return false;
             }
         } else {
             if ($hasOldImage) {
                 if (!isset($o['oldImage']) || !$o['oldImage']) {
-                    if (!session()->has('_docData')) {
+                    // if document is copied, we shouldn't delete old document's image
+                    if (!$this->is_document_copied) {
                         // @TODO: Implement old image deletion .
                     }
                     $data['hasImage'] = false;
@@ -374,7 +421,7 @@ class Filter
                         break;
                     }
                     if (isset($cur['value']) && $this->isString($cur['value'])) {
-                        $newControls[$type][] = ['value' =>  $cur['value']];
+                        $newControls[$type][] = ['value' => $cur['value']];
                     }
                 }
             }

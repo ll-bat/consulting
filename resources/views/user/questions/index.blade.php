@@ -62,6 +62,6 @@
                 </div>
             </div>
         </div>
-        <questions :data="`{{ $data }}`"></questions>
+        <questions :data="`{{ $data }}`" :field-id="{{ $field_id ?? false }}" :document-id="{{ $document_id ?? false }}"></questions>
     </div>
 @endsection

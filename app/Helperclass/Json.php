@@ -39,7 +39,7 @@ class Json {
      * @return int
      * @throws Exception
      */
-    public function save($data): int
+    public function save($data, $document_headers = null): int
     {
         $data = json_encode($data);
 
@@ -47,17 +47,18 @@ class Json {
             return $this->update($data);
         }
 
-        return $this->create($data);
+        return $this->create($data, $document_headers);
     }
 
     /**
      * @param $data
+     * @param null $document_headers
      * @return int
      * @throws Exception
      */
-    public function create($data): int
+    public function create($data, $document_headers = null): int
     {
-        $docData = session()->get('_docData') ?? false;
+        $docData = $document_headers ?? false;
         if (!$docData) {
             throw new Exception('Bad request', 400);
         }

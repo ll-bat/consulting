@@ -50757,15 +50757,16 @@ var httpService = {
     }
   },
   get: function () {
-    var _get = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(url, options) {
+    var _get = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(url, options, queryParams) {
       var _yield$run$catch, status, data;
 
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
-              return run('get', url, null, options)["catch"](function (err) {
+              console.log(queryParams);
+              _context.next = 3;
+              return run('get', url, queryParams, options)["catch"](function (err) {
                 if (httpService.redirect) {
                   window.location = httpService.path;
                 } else {
@@ -50777,25 +50778,25 @@ var httpService = {
                 }
               });
 
-            case 2:
+            case 3:
               _yield$run$catch = _context.sent;
               status = _yield$run$catch.status;
               data = _yield$run$catch.data;
 
               if (!(status < STATUS_OK)) {
-                _context.next = 9;
+                _context.next = 10;
                 break;
               }
 
               return _context.abrupt("return", data);
 
-            case 9:
+            case 10:
               errorHandler({
                 status: status,
                 data: data
               });
 
-            case 10:
+            case 11:
             case "end":
               return _context.stop();
           }
@@ -50803,7 +50804,7 @@ var httpService = {
       }, _callee);
     }));
 
-    function get(_x, _x2) {
+    function get(_x, _x2, _x3) {
       return _get.apply(this, arguments);
     }
 
@@ -50844,7 +50845,7 @@ var httpService = {
       }, _callee2);
     }));
 
-    function post(_x3, _x4, _x5) {
+    function post(_x4, _x5, _x6) {
       return _post.apply(this, arguments);
     }
 
@@ -50897,7 +50898,7 @@ var httpService = {
       }, _callee3);
     }));
 
-    function _delete(_x6, _x7) {
+    function _delete(_x7, _x8) {
       return _delete2.apply(this, arguments);
     }
 

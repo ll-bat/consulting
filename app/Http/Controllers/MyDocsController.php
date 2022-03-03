@@ -71,13 +71,11 @@ class MyDocsController extends Controller
     {
         $this->authorize('show-doc', $export);
 
-        $data = json_decode($export->data);
-        $data = (new QuestionsJson($data))->getData();
-
         session()->forget('_docData');
-        session()->put('_questionsData', ['data' => json_encode($data), 'exportId' => $export->id, 'fieldId' => $export->field_id]);
 
-        return redirect()->route('user.questions');
+        return redirect()->route('user.questions', [
+            'document_id' => $export->id,
+        ]);
     }
 
     /**

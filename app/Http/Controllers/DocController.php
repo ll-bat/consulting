@@ -17,6 +17,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Validator;
 
 
 class DocController extends Controller
@@ -41,8 +42,34 @@ class DocController extends Controller
         return view('admin.docs.check');
     }
 
+    private function validateDocumentHeaders() {
+        $rules = [
+            '_documentAuthorNames' => 'required|string|max:400',
+            '_documentAddress' => 'required|string|max:600',
+            '_documentDescription' => 'required|string|max:900',
+            '_documentFirstDate' => 'required|string|max:50',
+            '_documentSecondDate' => 'required|string|max:50',
+            '_documentNumber' => 'required|string|max:50',
+            '_filename' => 'required|string|max:512',
+            '_objectId' => 'integer|required',
+        ];
+
+        $messages = [
+            '_documentAuthorNames' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 400 - ს',
+            '_documentAddress' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 600 - ს',
+            '_documentDescription' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 900 - ს',
+            '_documentFirstDate' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 50 - ს',
+            '_documentSecondDate' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 50 - ს',
+            '_documentNumber' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 50 - ს',
+            '_filename' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 512 - ს',
+        ];
+
+        Validator::make(request()->all(), $rules, $messages)->validate();
+    }
+
     public function prepareDoc()
     {
+        /*
         $rules = [
             'isNew' => 'boolean|required',
             'objectId' => 'integer|required',
@@ -95,8 +122,8 @@ class DocController extends Controller
         ];
 
         if (request('isNew')) {
-            $data['isNew'] = true;
-            session()->put('_docData', $data);
+//            $data['isNew'] = true;
+//            session()->put('_docData', $data);
 
         } else {
             \request()->validate([
@@ -114,17 +141,19 @@ class DocController extends Controller
                 return \response('Such document does not exist', 404);
             }
 
-            $content = json_decode($export[0]['data']);
-            $content = (new QuestionsJson($content))->getData();
-
-            $data['isNew'] = false;
-            $data['docId'] = $docId;
-            $data['data'] = \Psy\Util\Json::encode($content);
-
-            session()->put('_docData', $data);
+//            $content = json_decode($export[0]['data']);
+//            $content = (new QuestionsJson($content))->getData();
+//
+//            $data['isNew'] = false;
+//            $data['docId'] = $docId;
+//            $data['data'] = \Psy\Util\Json::encode($content);
+//
+//            session()->put('_docData', $data);
         }
 
         return 'all-done';
+        */
+        throw new Exception('not implemented error');
     }
 
     /**
@@ -132,7 +161,7 @@ class DocController extends Controller
      */
     public function validateDoc(): bool
     {
-        return session()->has("_docData") || session()->has('_questionsData');
+        return true;
     }
 
     /**
@@ -141,24 +170,27 @@ class DocController extends Controller
      */
     public function validateRequest(): array
     {
-        if (!$this->validateDoc()) {
-            throw new Exception('You have to first choose an object', 400);
-        }
+//        if (!$this->validateDoc()) {
+//            throw new Exception('You have to first choose an object', 400);
+//        }
 
         return request()->validate([
             'data' => 'required|string',
+            'field_id' => 'required|boolean',
+            'document_id' => 'integer|nullable',
+            'copied_document_id' => 'integer|nullable',
         ]);
     }
 
-    /**
-     *@return int
-     */
-    public function getFieldId(): int
-    {
-        return session()->has('_docData') ?
-            session()->get('_docData')['fieldId'] :
-            session()->get('_questionsData')['fieldId'];
-    }
+//    /**
+//     *@return int
+//     */
+//    public function getFieldId(): int
+//    {
+//        return session()->has('_docData') ?
+//            session()->get('_docData')['fieldId'] :
+//            session()->get('_questionsData')['fieldId'];
+//    }
 
     /**
      * @return string
@@ -166,8 +198,26 @@ class DocController extends Controller
      */
     public function submit(): string
     {
-        $data = $this->validateRequest()['data'];
-        $fieldId = $this->getFieldId();
+        $validatedData = $this->validateRequest();
+        $data = $validatedData['data'];
+        $fieldId = $validatedData['field_id'];
+        $document_id = $validatedData['document_id'] ?? false;
+        $copied_document_id = $validatedData['copied_document_id'] ?? false;
+
+        $should_get_headers = $copied_document_id || !$document_id;
+        $document_headers = [];
+        if ($should_get_headers) {
+            // this means document is new or copied
+            $this->validateDocumentHeaders();
+            $document_headers['author-names'] = request('_documentAuthorNames');
+            $document_headers['address'] = request('_documentAddress');
+            $document_headers['description'] = request('_documentDescription');
+            $document_headers['first_date'] = request('_documentFirstDate');
+            $document_headers['second_date'] = request('_documentSecondDate');
+            $document_headers['number'] = request('_documentNumber');
+            $document_headers['filename'] = request('_filename');
+            $document_headers['objectId'] = request('_objectId');
+        }
 
         try {
             $data = json_decode($data);
@@ -179,7 +229,7 @@ class DocController extends Controller
             throw new Exception("Invalid data format", 400);
         }
 
-        $filter = new Filter($data, $fieldId);
+        $filter = new Filter($data, $fieldId, $copied_document_id);
         $data = $filter->getData();
 
         request()->validate(
@@ -204,20 +254,13 @@ class DocController extends Controller
         /**
          * Set false to $exportId by default.
          */
-        $exportId = false;
-
-        /**
-         * If this is an update, then _questionsData must be set in session
-         */
-        if (session()->has('_questionsData')) {
-            $exportId = session()->get("_questionsData")['exportId'];
-        }
+        $exportId = $document_id;
 
         /**
          * Create finalData instance to save new data.
          */
         $reader = new FinalData($exportId);
-        $reader->init($data, $fieldId);
+        $reader->init($data, $fieldId, $document_headers);
 
         /**
          * After FinalData init method, we have exportId.

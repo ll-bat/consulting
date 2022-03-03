@@ -28,6 +28,8 @@ const STATE = {
     exportId: null,
     focuses: false,
     isUpdate: false,
+    fieldId: false,
+    documentId: false,
 }
 
 export default STATE;

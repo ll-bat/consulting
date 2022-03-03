@@ -20,8 +20,9 @@ const httpService = {
         }
     },
 
-    get : async (url, options) => {
-        const {status, data} = await run('get', url, null, options).catch(err => {
+    get : async (url, options, queryParams) => {
+        console.log(queryParams);
+        const {status, data} = await run('get', url, queryParams, options).catch(err => {
             if (httpService.redirect) {
                 window.location = httpService.path;
             } else {

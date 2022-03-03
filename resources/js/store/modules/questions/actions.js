@@ -10,8 +10,8 @@ import {
     SET_CONTROLS_DATA,
     SET_DANGER,
     SET_DANGER_IMAGE,
-    SET_DANGERS,
-    SET_ELEMENT,
+    SET_DANGERS, SET_DOCUMENT_ID,
+    SET_ELEMENT, SET_FIELD_ID,
     SET_PROCESS,
     TOGGLE_CONTROLS,
     TOGGLE_CONTROLS_LOADER,
@@ -28,8 +28,14 @@ export function letsTest({commit}) {
     commit(ACTION_TEST, false)
 }
 
-export async function getProcesses({commit}) {
-    let data = await httpService.get('api/all-data');
+export async function getProcesses({commit, state}) {
+    const fieldId = state.fieldId;
+    let data = await httpService.get('api/all-data', null,
+        {
+            params: {
+                field_id: fieldId
+            }
+        });
     commit(SET_API_DATA, data);
     commit(TOGGLE_MAIN_LOADER, false);
 }
@@ -38,8 +44,12 @@ export function setProcess({commit}, id) {
     commit(SET_PROCESS, id);
 }
 
-export async function getDangers({commit}, processId) {
-    const data = await fetcher.getDangers(processId);
+export async function getDangers({commit, state}, processId) {
+    const data = await fetcher.getDangers(processId, {
+        params: {
+            field_id: state.fieldId
+        }
+    });
     commit(SET_DANGERS, data);
 }
 
@@ -67,8 +77,12 @@ export function setControls({commit}, data) {
     commit(SET_CONTROLS_DATA, data);
 }
 
-export async function getControls({commit}, dangerId) {
-    const data = await fetcher.getControls(dangerId);
+export async function getControls({commit, state}, dangerId) {
+    const data = await fetcher.getControls(dangerId, {
+        params: {
+            field_id: state.fieldId,
+        }
+    });
     commit(SET_CONTROLS_DATA, data);
 }
 
@@ -108,4 +122,12 @@ export function removeCompletedDanger({commit}, dangerId) {
 
 export function initOldDoc({commit}, data) {
     commit(INIT_OLD_DOC, data);
+}
+
+export function setFieldId({commit}, id) {
+    commit(SET_FIELD_ID, id)
+}
+
+export function setDocumentId({commit}, id) {
+    commit(SET_DOCUMENT_ID, id)
 }
