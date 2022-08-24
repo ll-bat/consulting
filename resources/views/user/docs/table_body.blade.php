@@ -90,7 +90,7 @@ use App\Helperclass\Obj;
             style='font-size:8px;background-color:#DEEAF6;border:5px solid #b8b888'> რისკის <br/> დონე
         </td>
     </tr>
-    <thead>
+    </thead>
 
     <tbody>
     @for ($i = 0; $i < $countAll; $i++)
@@ -102,6 +102,7 @@ use App\Helperclass\Obj;
                 <td rowspan="{{ $object->getProcessMax($i) }}" align='center'
                     style='height:35px;font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'>{{ $object->getProcessName($i) }}</td>
             @endif
+
             @if ($object->hasNewDanger($i))
                 <td rowspan="{{ $dangerMax }}" align='center'
                     style='height:35px;font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'>
@@ -122,7 +123,7 @@ use App\Helperclass\Obj;
                         style="border:7px solid #b8b894;background-color:#EAECEB;">
                         <div>
                             @foreach($object->getWholeElements($type, $i) as $value)
-                                <p style='font-size: 10px;margin-bottom: 5px !important;'> {{ $value }} </p>
+                                <span style='font-size: 10px;margin-bottom: 5px !important;'> {{ $value }} </span>
                             @endforeach
                         </div>
                     </td>
@@ -132,22 +133,16 @@ use App\Helperclass\Obj;
 
             <td class='' align='center'
                 style='font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'>{{ $object->getControl(0, $i)}}</td>
+
             @if ($object->hasNewDanger($i))
                 <td rowspan="{{ $dangerMax }}" align='center'
-
-                    style="background-color:#EAECEB;border:7px solid #b8b894;"
-                >
-
+                    style="background-color:#EAECEB;border:7px solid #b8b894;">
                     {{$object->getResult('first_probability', $i)}}
-
                 </td>
 
                 <td rowspan="{{ $dangerMax }}" align='center'
-
-                    style="background-color:#EAECEB;border:7px solid #b8b894;"
-                >
+                    style="background-color:#EAECEB;border:7px solid #b8b894;">
                     {{$object->getResult('first_result', $i)}}
-
                 </td>
 
                 <?php
@@ -163,6 +158,7 @@ use App\Helperclass\Obj;
             @endif
             <td class='' align='center'
                 style='font-size: 10px;border:7px solid #b8b894;background-color:#EAECEB'>{{ $object->getControl(1, $i)}}</td>
+
             @if ($object->hasNewDanger($i))
                 <td rowspan="{{ $dangerMax }}" align='center'
                     style="background-color:#EAECEB;border:7px solid #b8b894;">
@@ -194,7 +190,7 @@ use App\Helperclass\Obj;
                         style="border:7px solid #b8b894;background-color:#EAECEB">
                         <div class="my-2">
                             @foreach($object->getWholeElements($type, $i, false) as $value)
-                                <p style="font-size: 10px;"> {{ $value }} </p>
+                                <span style="font-size: 10px;"> {{ $value }} </span>
                             @endforeach
                         </div>
                     </td>

@@ -161,6 +161,7 @@ class MyDocsController extends Controller
     {
         $pw = new PhpWord();
         $section = $pw->addSection();
+//        $section->getStyle()->setPageSizeW(30000);
 
         $con = new Content($export, 'pdf');
         $docAbout = $con->docAbout;
