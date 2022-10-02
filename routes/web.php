@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +15,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'HomeController@show')->name('site.home');
+
+Route::get('/locale/{locale}', function ($locale) {
+   if (! in_array($locale, ['en', 'geo'])) {
+       abort(400);
+   }
+   App::setLocale($locale);
+   return redirect()->back();
+});
 
 Auth::routes();
 
