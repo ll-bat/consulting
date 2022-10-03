@@ -6802,6 +6802,11 @@
   "resolved" "https://registry.npmjs.org/vue-hot-reload-api/-/vue-hot-reload-api-2.3.4.tgz"
   "version" "2.3.4"
 
+"vue-i18n@^8.27.2":
+  "integrity" "sha512-QVzn7u2WVH8F7eSKIM00lujC7x1mnuGPaTnDTmB01Hd709jDtB9kYtBqM+MWmp5AJRx3gnqAdZbee9MelqwFBg=="
+  "resolved" "https://registry.npmjs.org/vue-i18n/-/vue-i18n-8.27.2.tgz"
+  "version" "8.27.2"
+
 "vue-loader@^15.4.2":
   "integrity" "sha512-Y67VnGGgVLH5Voostx8JBZgPQTlDQeOVBLOEsjc2cXbCYBKexSKEpOA56x0YZofoDOTszrLnIShyOX1p9uCEHA=="
   "resolved" "https://registry.npmjs.org/vue-loader/-/vue-loader-15.9.3.tgz"

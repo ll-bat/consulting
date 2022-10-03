@@ -62,8 +62,7 @@
                     </div>
                     <div v-if="getLength(type.ref) < 2" class="d-flex mx-1 mt-4">
                         <div class="rounded-circle border pt-1" style="width: 15px; height: 15px"></div>
-                        <p class="px-2 text-sm text-muted text-hoverable pointer" @click="addNew(type.ref)"> დაამატეთ
-                            ახალი </p>
+                        <p class="px-2 text-sm text-muted text-hoverable pointer" @click="addNew(type.ref)"> დაამატეთ ახალი </p>
                     </div>
                 </div>
 

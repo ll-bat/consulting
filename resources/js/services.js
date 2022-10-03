@@ -1,8 +1,9 @@
-
 require('./bootstrap');
 
 
 window.Vue = require('vue');
+import i18n from "./i18n";
+
 window.Event = new Vue();
 
 
@@ -13,24 +14,15 @@ import ServicesComponent from "./components/ServicesComponent";
 import ServiceComponent from "./components/ServiceComponent";
 import Axios from "axios";
 
-
 const app = new Vue({
     el: '#app',
-
-    components : {
-       ServicesComponent,
-       ServiceComponent
+    i18n,
+    components: {
+        ServicesComponent,
+        ServiceComponent
     },
-
-    data:{
-       
-    },
-    methods:{
-       
-    },
+    data: {},
+    methods: {},
     created() {
-        
     },
-
-
 });
