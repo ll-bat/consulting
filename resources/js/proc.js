@@ -24,6 +24,7 @@ const app = new Vue({
         udangerLoading: true,
         plossLoading: true,
         form: null,
+        fieldId: null,
     },
     methods: {
         addNewPloss() {
@@ -66,9 +67,14 @@ const app = new Vue({
 
             this.plossLoading = false;
             this.udangerLoading = false;
+        },
+        findFieldId() {
+            const fieldId = $1('field_id').value
+            this.fieldId = fieldId;
         }
     },
     mounted() {
+        // noinspection JSIgnoredPromiseFromCall
         this.initData();
 
         tout(() => {
@@ -78,7 +84,8 @@ const app = new Vue({
     },
 
     created() {
-        this.form = new Form();
+        this.findFieldId()
+        this.form = new Form(this.fieldId);
         this.form.setupRedirect();
     }
 

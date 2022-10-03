@@ -2,6 +2,9 @@ import httpService from "../services/httpService";
 
 
 export class Form {
+    constructor(field_id) {
+        this.fieldId = field_id;
+    }
 
     setupRedirect() {
         // httpService.setup({
@@ -11,7 +14,11 @@ export class Form {
     }
 
     async getApiData() {
-        const data = await httpService.get('docs/api/data');
+        const data = await httpService.get('docs/api/data', null, {
+            params: {
+                field_id: this.fieldId
+            }
+        });
         if (data.ploss && data.udanger) {
 
             ['ploss', 'udanger'].forEach(type => {
