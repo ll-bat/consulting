@@ -20,12 +20,12 @@
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger border-0" data-dismiss="modal">გაუქმება</button>
+                <button type="button" class="btn btn-danger border-0" data-dismiss="modal">{{ __("გაუქმება") }}</button>
                 <button type="button"
                         id="partial-modal-button"
                         class="btn btn-primary border-0">
                     <span class="spinner-border spinner-border-sm d-none" id="modal-button-spinner"></span>
-                    შენახვა
+                    {{ __("შენახვა") }}
                 </button>
             </div>
 

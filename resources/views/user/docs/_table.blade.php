@@ -9,28 +9,28 @@ use App\Helperclass\Obj;
 <table class='table-striped border w-100'>
     <thead>
     <tr>
-        <td rowspan='2'> პროცესი</td>
-        <td rowspan='2'> საფრთხე</td>
-        <td rowspan='2'> საფრთ.ამს.ფოტო</td>
-        <td rowspan='2'> პოტენციური ზიანი</td>
-        <td rowspan='2'> ვინ იმყოფება რისკის ქვეშ</td>
-        <td rowspan='2'> არსებული კონტროლის ზომები <br/> <i class="text-muted">(საწყის ეტაპზე)</i></td>
-        <td colspan='3' class='text-danger py-2'> საწყისი რისკი</td>
-        <td rowspan='2' class='smaller'> კონტროლის დამატებითი ზომები <br/>
-            <i class="text-muted">(გატარებული ან/და მიმდინარე)</i>
+        <td rowspan='2'> {{ __("პროცესი") }}</td>
+        <td rowspan='2'> {{ __("საფრთხე") }}</td>
+        <td rowspan='2'> {{ __("საფრთ.ამს.ფოტო") }}</td>
+        <td rowspan='2'> {{ __("პოტენციური ზიანი") }}</td>
+        <td rowspan='2'> {{ __("ვინ იმყოფება რისკის ქვეშ") }}</td>
+        <td rowspan='2'> {{ __("არსებული კონტროლის ზომები") }} <br/> <i class="text-muted">({{ __("საწყის ეტაპზე") }})</i></td>
+        <td colspan='3' class='text-danger py-2'> {{ __("საწყისი რისკი") }}</td>
+        <td rowspan='2' class='smaller'> {{ __("კონტროლის დამატებითი ზომები") }} <br/>
+            <i class="text-muted">({{ __("გატარებული ან") }}/{{ __("და მიმდინარე") }})</i>
         </td>
-        <td colspan='3' class='text-success py-2'> ნარჩენი რისკი</td>
-        <td rowspan='2' class='smaller'> გასატარებელი ღონისძიებები</td>
-        <td rowspan='2'> პასუხისმგებელი პირი</td>
-        <td rowspan='2'> შესრ.ვადა</td>
+        <td colspan='3' class='text-success py-2'> {{ __("ნარჩენი რისკი") }}</td>
+        <td rowspan='2' class='smaller'> {{ __("გასატარებელი ღონისძიებები") }}</td>
+        <td rowspan='2'> {{ __("პასუხისმგებელი პირი") }}</td>
+        <td rowspan='2'> {{ __("შესრ.ვადა") }}</td>
     </tr>
     <tr>
-        <td class="px-3"> ა</td>
-        <td class="px-3"> შ</td>
-        <td class="smaller"> რისკის დონე</td>
-        <td class="px-3"> ა</td>
-        <td class="px-3"> შ</td>
-        <td class="smaller"> რისკის დონე</td>
+        <td class="px-3"> {{ __('ა') }}</td>
+        <td class="px-3"> {{ __('შ') }}</td>
+        <td class="smaller"> {{ __("რისკის დონე") }}</td>
+        <td class="px-3"> {{ __('ა') }} </td>
+        <td class="px-3"> {{ __('შ') }}</td>
+        <td class="smaller"> {{ __("რისკის დონე") }}</td>
     </tr>
     <thead>
 

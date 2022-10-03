@@ -63,7 +63,7 @@
                             <div class='mx-3 mt-3 w-75'>
                                 <div class='form-group'>
                                           <textarea type='text' class='form-control autoresize'
-                                                    placeholder='დაამატეთ კონტროლის ზომა'
+                                                    placeholder='{{ __("დაამატეთ კონტროლის ზომა") }}'
                                                     oninput="$(window).trigger('autoresize')"
                                                     name='name'>{{$control->name}}</textarea>
                                 </div>
@@ -82,7 +82,7 @@
                         </div>
 
                         <label class="ns-container text-secondary text-left ml-3 mt-2 mb-3"
-                               style='font-size:.95em; color:rgba(0,0,0,.8);'> ამცირებს პოტენციურ ზიანს
+                               style='font-size:.95em; color:rgba(0,0,0,.8);'> {{ __("ამცირებს პოტენციურ ზიანს") }}
                             <input type="checkbox"
                                    name="rploss"
                                    value="1"
@@ -92,7 +92,7 @@
                         </label>
 
                         <label class="ns-container text-secondary text-left ml-3 mt-2 mb-3"
-                               style='font-size:.95em; color:rgba(0,0,0,.8);'> არსებული კონტროლის ზომის პასუხის დამალვა
+                               style='font-size:.95em; color:rgba(0,0,0,.8);'> {{ __("არსებული კონტროლის ზომის პასუხის დამალვა") }}
                             <input type="checkbox"
                                    name="is_first_option_off"
                                    value="1"
@@ -104,7 +104,7 @@
 
                     <div class='card text-left border-0 partial-shadow'>
                         <div class='card-body ml-1 pb-4' required>
-                            <p class='ml-1 mt-2 mb-4 font-weight-bolder my-color'> აირჩიეთ საფრთხე </p>
+                            <p class='ml-1 mt-2 mb-4 font-weight-bolder my-color'> {{ __("აირჩიეთ საფრთხე") }} </p>
 
                             @foreach($dangers as $danger)
                                 <label class="ns-container mt-3 ml-3 text-secondary"
@@ -119,7 +119,7 @@
                             @endforeach
 
                             @if ($dangers->count() == 0)
-                                <p class='text-secondary font-weight-bolder ml-3'> საფრთხეები არ არის </p>
+                                <p class='text-secondary font-weight-bolder ml-3'> {{ __("საფრთხეები არ არის") }} </p>
                             @endif
 
                             @error('danger')
@@ -130,12 +130,12 @@
 
                             <div class='d-md-flex d-block'>
                                 <div class='text-left'>
-                                    <button class='btn my-btn'> განახლება</button>
+                                    <button class='btn my-btn'> {{ __("განახლება") }}</button>
                                 </div>
 
                                 <div class='text-left ml-md-2 ml-0'>
                                     <button class='btn my-del-btn'
-                                            onclick="event.preventDefault();$1('control-delete').submit(); "> წაშლა
+                                            onclick="event.preventDefault();$1('control-delete').submit(); "> {{ __("წაშლა") }}
                                     </button>
                                 </div>
                             </div>

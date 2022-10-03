@@ -43,7 +43,7 @@ function postComment(k,i, j) {
 
 
     function set(res) {
-        $$('error-message')[k].innerHTML = 'გთხოვთ შეიყვანოთ ტექსტი'
+        $$('error-message')[k].innerHTML = '{{ __("გთხოვთ შეიყვანოთ ტექსტი") }}'
     }
 
     function fset(res) {

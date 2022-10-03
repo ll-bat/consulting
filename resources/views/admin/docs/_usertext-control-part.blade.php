@@ -4,7 +4,7 @@
 
 <div class='card-body text-left px-4' style='font-size:1.2em;'>
       <h6 class='text-warning font-weight-bolder py-3 px-2 is-moving'>
-          კონტროლის ზომები
+          {{ __("კონტროლის ზომები") }}
       </h6>
 
        @foreach ($dangers as $key => $d)

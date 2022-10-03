@@ -49,7 +49,7 @@ class FieldController extends Controller
 
         $exists = Field::where('name', $name)->limit(1)->count() > 0;
         if ($exists) {
-            return $this->fail('ასეთი სფერო უკვე არსებობს');
+            return $this->fail(__("ასეთი სფერო უკვე არსებობს"));
         }
 
         $ok = Field::create(['name' => $name]);
@@ -57,7 +57,7 @@ class FieldController extends Controller
             return route('admin.fields');
         }
 
-        return $this->fail('სამწუხაროდ, ვერ მოხერხდა სფეროს შექმნა');
+        return $this->fail(__("სამწუხაროდ, ვერ მოხერხდა სფეროს შექმნა"));
     }
 
     /**
@@ -78,7 +78,7 @@ class FieldController extends Controller
 
         $exists = Field::where('name', $name)->limit(1)->count() > 0;
         if ($exists) {
-            return $this->fail('ასეთი სფერო უკვე არსებობს');
+            return $this->fail(__("ასეთი სფერო უკვე არსებობს"));
         }
 
         $ok = $field->update(['name' => $name]);
@@ -86,7 +86,7 @@ class FieldController extends Controller
             return route('admin.fields');
         }
 
-        return $this->fail('სამწუხაროდ, ვერ მოხერხდა სფეროს განახლება');
+        return $this->fail(__("სამწუხაროდ, ვერ მოხერხდა სფეროს განახლება"));
     }
 
     /**
@@ -96,40 +96,40 @@ class FieldController extends Controller
     public function delete(Field $field) {
         $ok = Process::where('field_id', $field->id)->limit(1)->count() < 1;
         if (!$ok) {
-            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => 'გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(პროცესები)']);
+            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => __("გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(პროცესები)")]);
         }
         $ok = Ploss::where('field_id', $field->id)->limit(1)->count() < 1;
         if (!$ok) {
-            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => 'გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(პოტენციური ზიანი)']);
+            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => __("გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(პოტენციური ზიანი)")]);
         }
         $ok = Udanger::where('field_id', $field->id)->limit(1)->count() < 1;
         if (!$ok) {
-            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => 'გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(ვინ იმყოფება საფრთხის ქვეშ)']);
+            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => __("გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(ვინ იმყოფება საფრთხის ქვეშ)")]);
         }
         $ok = Danger::where('field_id', $field->id)->limit(1)->count() < 1;
         if (!$ok) {
-            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => 'გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(საფრთხეები)']);
+            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => __("გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(საფრთხეები)")]);
         }
         $ok = Control::where('field_id', $field->id)->limit(1)->count() < 1;
         if (!$ok) {
-            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => 'გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(კონტროლის ზომები)']);
+            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => __("გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(კონტროლის ზომები)")]);
         }
         $ok = UserText::where('field_id', $field->id)->limit(1)->count() < 1;
         if (!$ok) {
-            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => 'გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(მომხმარებლების მიერ დამატებული კონტროლის ზომები/ვინ იმყოფება საფრთხის ქვეშ)']);
+            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => __("გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(მომხმარებლების მიერ დამატებული კონტროლის ზომები/ვინ იმყოფება საფრთხის ქვეშ)")]);
         }
         $ok = Export::where('field_id', $field->id)->limit(1)->count() < 1;
         if (!$ok) {
-            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => 'ვერ მოხერხდა სფეროს წაშლა, რადგანაც მომხმარებლებს შექმნილი აქვთ ამ სფეროში  დოკუმენტები']);
+            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => __("ვერ მოხერხდა სფეროს წაშლა, რადგანაც მომხმარებლებს შექმნილი აქვთ ამ სფეროში  დოკუმენტები")]);
         }
 
         try {
             $field->delete();
         } catch (\Throwable $e) {
-            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => 'ვერ მოხერხდა სფეროს წაშლა. სცადეთ თავიდან']);
+            return redirect()->route('admin.fields')->with('message', ['success' => false, 'message' => __("ვერ მოხერხდა სფეროს წაშლა. სცადეთ თავიდან")]);
         }
 
-        return redirect()->route('admin.fields')->with('message', ['success' => true, 'message' => 'სფერო წარმატებით წაიშალა']);
+        return redirect()->route('admin.fields')->with('message', ['success' => true, 'message' => __("სფერო წარმატებით წაიშალა")]);
     }
 
     /**

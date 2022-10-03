@@ -68,7 +68,7 @@
                                  <div class='p-3 w-100'>
                                     <div class='form-group mb-4'>
                                           <textarea type='text' class='form-control autoresize'
-                                                placeholder='დაამატეთ პროცესი'
+                                                placeholder='{{ __("დაამატეთ პროცესი") }}'
                                                 oninput="$(window).trigger('autoresize')"
                                                 name='name'>{{$process->name}}</textarea>
                                     </div>
@@ -80,11 +80,11 @@
 
                                      <div class='d-md-flex d-block'>
                                          <div class='text-left'>
-                                             <button class='btn my-btn border-info'> განახლება </button>
+                                             <button class='btn my-btn border-info'> {{ __("განახლება") }} </button>
                                          </div>
 
                                          <div class='text-left ml-md-2 ml-0'>
-                                             <button class='btn my-del-btn' onclick="event.preventDefault();$1('process-delete').submit(); "> წაშლა </button>
+                                             <button class='btn my-del-btn' onclick="event.preventDefault();$1('process-delete').submit(); "> {{ __("წაშლა") }} </button>
                                          </div>
                                      </div>
 
@@ -108,11 +108,11 @@
                                    'color' => $color,
                                    'delcolor' => $delcolor,
                                    'type' => 'danger',
-                                   'typeName' => 'საფრთხე'
+                                   'typeName' => __("საფრთხე")
                     ])
 
 {{--                <div class='card mt-4 text-left shadow-none rounded-10 ns-border-bottom' style='border-top:7px solid rgb(0,0,200)'>--}}
-{{--                    <h4 class='p-3 text-lg ns-font-family ns-font-dark'> ყველა შემავალი საფრთხე </h4>--}}
+{{--                    <h4 class='p-3 text-lg ns-font-family ns-font-dark'> {{ __("ყველა შემავალი საფრთხე") }} </h4>--}}
 {{--                    <div class='card-body pl-2 pt-2'>--}}
 {{--                         @foreach ($ydanger as $ind => $d)--}}
 {{--                             <div class='d-flex'>--}}
@@ -131,7 +131,7 @@
 
 {{--                <div class='card text-left mt-2 pb-3 shadow-none rounded-10 ns-border-bottom' style='border-top:5px solid rgb(200,0,0);'>--}}
 {{--                <div class='d-flex'>--}}
-{{--                      <h4 class='p-3 text-danger' style='text-shadow:1px 1px 3px lightgrey;'> სხვა </h4>--}}
+{{--                      <h4 class='p-3 text-danger' style='text-shadow:1px 1px 3px lightgrey;'> {{ __("სხვა") }} </h4>--}}
 {{--                      <div class='ml-auto pr-4 pt-2'>--}}
 {{--                          <button class='btn btn-outline-primary px-3 py-1 rounded-pill capitalize'--}}
 {{--                                  onclick="toggleCollapseClick(this, 'other-dangers')"--}}

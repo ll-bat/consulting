@@ -57,7 +57,8 @@ class DangerController extends Controller
         if (isset($data['process']))
           $danger->getAllProcess()->attach($data['process']);
 
-        return back()->with('message', 'საფრთხე წარმატებით შეიქმნა')->with('created', '1');
+        $message = __("საფრთხე წარმატებით შეიქმნა");
+        return back()->with('message', $message)->with('created', '1');
     }
 
     public function edit(Danger $danger){
@@ -136,7 +137,8 @@ class DangerController extends Controller
 
         $danger->update($data);
 
-        return back()->with('message', 'საფრთხე წარმატებით განახლდა');
+        $message = __("საფრთხე წარმატებით განახლდა");
+        return back()->with('message', $message);
     }
 
     /**
@@ -150,12 +152,13 @@ class DangerController extends Controller
         ControlDanger::where('danger_id', $danger->id)->delete();
 
         if ($danger->getAllControl()->count() > 0){
-            // return back()->with('error', 'გთხოვთ, ამოშალოთ ყველა შემავალი კონტროლის ზომა');
+            // return back()->with('error', '__("გთხოვთ, ამოშალოთ ყველა შემავალი კონტროლის ზომა")');
         }
 
         $danger->delete();
 
-        return redirect()->to('user/docs/new-danger')->with('message', 'საფრთხე წარმატებით წაიშალა');
+        $message = __("საფრთხე წარმატებით წაიშალა");
+        return redirect()->to('user/docs/new-danger')->with('message', $message);
     }
 
     /**
@@ -172,7 +175,8 @@ class DangerController extends Controller
         }
         ControlDanger::insert($data);
 
-        return back()->with('message','საფრთხე წარმატებით დაკოპირდა')->with('created', 1);
+        $message = __("საფრთხე წარმატებით დაკოპირდა");
+        return back()->with('message', $message)->with('created', 1);
     }
 
     /**
@@ -184,7 +188,8 @@ class DangerController extends Controller
     {
         ControlDanger::where('danger_id', $danger->id)->where('control_id',$control->id)->delete();
 
-        return back()->with('message', 'კონტროლის ზომა წარმატებით ამოიშალა');
+        $message = __("კონტროლის ზომა წარმატებით ამოიშალა");
+        return back()->with('message', $message);
    }
 
     /**
@@ -196,7 +201,8 @@ class DangerController extends Controller
    {
         ControlDanger::create(['danger_id' => $danger->id, 'control_id' => $control->id]);
 
-        return back()->with('message', 'კონტროლის ზომა წარმატებით დაემატა');
+        $message = __("კონტროლის ზომა წარმატებით დაემატა");
+        return back()->with('message', $message);
    }
 
    public function addedByUsers(Danger $danger, $type) {
@@ -214,11 +220,11 @@ class DangerController extends Controller
             ->get()
             ->toArray();
 
-        $title = 'კონტროლის ზომები';
+        $title = __("კონტროლის ზომები");
         if ($type === 'ploss') {
-            $title = 'პოტენციური ზიანი';
+            $title = __("პოტენციური ზიანი");
         } else if ($type === 'udanger') {
-            $title = 'ვინ იმყოფება საფრთხის ქვეშ';
+            $title = __("ვინ იმყოფება საფრთხის ქვეშ");
         }
 
         return view('admin.docs.danger-controls', [
@@ -241,7 +247,8 @@ class DangerController extends Controller
 
        function success(): RedirectResponse
        {
-           return back()->with('message', 'ოპერაცია წარმატებით დასრულდა');
+           $message = __("ოპერაცია წარმატებით დასრულდა");
+           return back()->with('message', $message);
        }
 
        if (!$userText) {
@@ -249,7 +256,7 @@ class DangerController extends Controller
        }
 
        if (!in_array($operationType, ['approve', 'ignore', 'remove'])) {
-           return back()->with('error', 'დაფიქსირდა შეცდომა, სცადეთ თავიდან');
+           return back()->with('error', __("დაფიქსირდა შეცდომა, სცადეთ თავიდან"));
        }
 
        if ($operationType === 'ignore') {
@@ -300,7 +307,7 @@ class DangerController extends Controller
 
            } catch (Exception $e) {
 
-               return back()->with('error', 'დაფიქსირდა შეცდომა. გთხოვთ, სცადოთ თავიდან');
+               return back()->with('error', __("დაფიქსირდა შეცდომა. გთხოვთ, სცადოთ თავიდან"));
 
            }
 

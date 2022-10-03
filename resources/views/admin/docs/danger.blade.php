@@ -65,7 +65,7 @@
                     <div class='card-title mb-1 mt-3 pointer' id='add-new-danger'
                          onclick="toggleCollapse(this, 'new-danger')">
                         <i class='fa fa-plus float-left my-color ml-3 mt-1'></i>
-                        <p class='pl-5 font-weight-bold my-color'> დაამატეთ ახალი საფრთხე </p>
+                        <p class='pl-5 font-weight-bold my-color'> {{ __("დაამატეთ ახალი საფრთხე") }} </p>
                     </div>
                 </div>
 
@@ -81,7 +81,7 @@
                                 <div class='form-group'>
                                     <textarea type='text'
                                               class='form-control autoresize'
-                                              placeholder='დაამატეთ საფრთხე'
+                                              placeholder='{{ __("დაამატეთ საფრთხე") }}'
                                               oninput="$(window).trigger('autoresize')"
                                               name='name'>{{ old('name')}}</textarea>
                                 </div>
@@ -103,7 +103,7 @@
                     <div class='card pb-2 border-0 partial-shadow'
                          style=''>
                         <div class="card-body px-4 pt-4 mb-0 pb-0 text-left">
-                            <p class='mt-2 mb-4 font-weight-bolder my-color' style=''> აირჩიეთ პროცესი  </p>
+                            <p class='mt-2 mb-4 font-weight-bolder my-color' style=''> {{ __("აირჩიეთ პროცესი") }}  </p>
                             @foreach($procs as $proc)
                                 <label class="ns-container mt-3 ml-2 text-secondary"
                                        style='font-size:.95em; color:rgba(0,0,0,.8);'>{{$proc->name}}
@@ -117,7 +117,7 @@
                             @endforeach
 
                             @if ($procs->count() == 0)
-                                <p class='text-secondary font-weight-bolder ml-3'> პროცესები არ არის </p>
+                                <p class='text-secondary font-weight-bolder ml-3'> {{ __("პროცესები არ არის") }} </p>
                             @endif
 
                             @error('process')
@@ -127,7 +127,7 @@
                             <hr style="width: 100%"/>
 
                             <div class='text-left mt-3 mb-1'>
-                                <button class='btn my-btn border-0'> შექმნა</button>
+                                <button class='btn my-btn border-0'> {{ __("შექმნა") }}</button>
                             </div>
                         </div>
 
@@ -139,7 +139,7 @@
                     <li class="list-group-item font-weight-bold py-3 pointer" onclick="toggleCollapse(this, null, '{{$color}}')"
                         style="border: 1px solid {{$color}};color: {{$color}};">
                         <i class='fa fa-plus float-left'></i>
-                        <span class="pl-4"> ყველა  საფრთხე </span>
+                        <span class="pl-4"> {{ __("ყველა  საფრთხე") }} </span>
                     </li>
                     @foreach($dangers as $ind => $danger)
                         <li class="list-group-item pl-4 dangers-panel d-none"
@@ -155,7 +155,7 @@
                                 <div class="col-md-2 col-2 text-md-center text-left this-div">
                                     <a class='btn this-color my-color' href='danger/{{$danger->id}}/edit'
                                        style='background-color:transparent !important;'>
-                                        შეცვლა
+                                        {{ __("შეცვლა") }}
                                     </a>
                                 </div>
                             </div>
@@ -163,7 +163,7 @@
                     @endforeach
                     @if ($dangers->count() == 0)
                         <li class="list-group-item pl-4">
-                            მონაცემები არ არის
+                            {{ __("მონაცემები არ არის") }}
                         </li>
                     @endif
                 </ul>
@@ -173,7 +173,7 @@
 {{--                     style=''>--}}
 {{--                    <div class='card-title mb-1 mt-3 pointer' onclick='toggleCollapse()'>--}}
 {{--                        <i class='fa fa-plus float-left ml-3 mt-1 my-color'></i>--}}
-{{--                        <p class='pl-5 font-weight-bold' style='color:#7733ff'> ყველა საფრთხე </p>--}}
+{{--                        <p class='pl-5 font-weight-bold' style='color:#7733ff'> {{ __("ყველა საფრთხე") }} </p>--}}
 {{--                    </div>--}}
 
 {{--                    <div class='pl-4' style=''>--}}
@@ -202,7 +202,7 @@
 
 {{--                        @if ($dangers->count() == 0)--}}
 {{--                            <div class='d-none dangers-panel pb-1'>--}}
-{{--                                <p class='text-secondary'> თქვენ ჯერ არ გაქვთ საფრთხეები </p>--}}
+{{--                                <p class='text-secondary'> {{ __("თქვენ ჯერ არ გაქვთ საფრთხეები") }} </p>--}}
 {{--                            </div>--}}
 {{--                        @endif--}}
 {{--                    </div>--}}
@@ -216,11 +216,11 @@
                                onchange='this.parentNode.submit()'/>
                         <button class='btn text-white border-0 py-1 px-3 my-bg'
                                 onclick="$1('import_excel').click(); event.preventDefault()"><i class='fa fa-plus'></i>
-                            საფრთხეები(ექსელი)
+                            {{ __("საფრთხეები") }}({{ __("ექსელი") }})
                         </button>
                     </form>
                     @if ($errors->has('danger'))
-                        <p class='text-danger text-sm'> გთხოვთ, ატვირთოთ ექსელის დოკუმენტი </p>
+                        <p class='text-danger text-sm'> {{ __("გთხოვთ, ატვირთოთ ექსელის დოკუმენტი") }} </p>
                     @endif
                 </div>
 

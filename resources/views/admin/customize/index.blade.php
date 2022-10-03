@@ -197,15 +197,15 @@
         <div class='d-none' id='this-content'>
 
               <div class='type-images'>
-                    <button class='my-btn text-primary' onclick='handler(this)'> სურათების შეცვლა </button>
+                    <button class='my-btn text-primary' onclick='handler(this)'> {{ __("სურათების შეცვლა") }} </button>
 
                     <div class='images c-images px-4 pt-4'>
-                        @foreach (['მთავარი გვერდი' => 'home',
-                                   'ბლოგები' => 'blogs',
-                                   'სერვისები' => 'services',
-                                   'შესახებ' => 'about',
-                                   'კონტაქტი' => 'contact',
-                                   'საიტის ლოგო' => 'logo'
+                        @foreach ([__("მთავარი გვერდი") => 'home',
+                                   __("ბლოგები") => 'blogs',
+                                   __("სერვისები") => 'services',
+                                   __("შესახებ") => 'about',
+                                   __("კონტაქტი") => 'contact',
+                                   __("საიტის ლოგო") => 'logo'
                                    ]
                                    as $name => $val)
 
@@ -220,11 +220,11 @@
                                                 <img src="{{ $data->getImage($val) }}" width = '80%' />
 
                                                  <div class='d-flex my-5'>
-                                                      <button class='btn btn-primary text-white border-0 px-3 py-1 my-2 mr-2 ml-0' onclick="$(this).next().next().click()"> ატვირთვა </button>
+                                                      <button class='btn btn-primary text-white border-0 px-3 py-1 my-2 mr-2 ml-0' onclick="$(this).next().next().click()"> {{ __("ატვირთვა") }} </button>
                                                       <button class='btn btn-warning text-white border-0 px-3 py-1 m-2' onclick="saveHandler(this,'{{$val}}')">
                                                          <div class='d-flex'>
                                                              <span class="spinner-border spinner-border-sm mt-1 mr-1 d-none"></span>
-                                                             <span> შენახვა </span>
+                                                             <span> {{ __("შენახვა") }} </span>
                                                         </div>
                                                      </button>
 
@@ -241,14 +241,14 @@
                </div>
 
                <div class='type-texts'>
-                    <button class='my-btn text-primary' onclick='handler(this)'> ტექსტების შეცვლა </button>
+                    <button class='my-btn text-primary' onclick='handler(this)'> {{ __("ტექსტების შეცვლა") }} </button>
 
                     <div class='texts c-texts px-md-4 px-0 pb-2'>
-                         @foreach (['მთავარი გვერდი' => 'home',
-                                   'ბლოგები' => 'blogs',
-                                   'სერვისები' => 'services',
-                                   'შესახებ' => 'about',
-                                   'კონტაქტი' => 'contact'
+                         @foreach ([__("მთავარი გვერდი") => 'home',
+                                   __("ბლოგები") => 'blogs',
+                                   __("სერვისები") => 'services',
+                                   __("შესახებ") => 'about',
+                                   __("კონტაქტი") => 'contact'
                                    ]
                                    as $name => $val)
 
@@ -292,7 +292,7 @@
                     if (this[name].has('image')){
                          this.send(btn,name)
                     }
-                    else alert('გთხოვთ, ატვირთოთ სურათი')
+                    else alert('{{ __("გთხოვთ, ატვირთოთ სურათი") }}')
                 }
                 send(btn, name){
                     let fm = this[name]
@@ -310,7 +310,7 @@
                         add(btn.children[0].children[0], 'd-none')
                     })
                     .catch(err => {
-                        alert('სამწუხაროდ შეცდომა დაფიქსირდა, გთხოვთ სცადოთ თავიდან')
+                        alert('{{ __("სამწუხაროდ შეცდომა დაფიქსირდა, გთხოვთ სცადოთ თავიდან") }}')
                         console.log(err)
                         btn.disabled = false
                         self[name].delete('image')

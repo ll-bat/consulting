@@ -32,7 +32,7 @@
                             <div class='mx-3 mt-3 w-75'>
                                 <div class='form-group'>
                                           <textarea type='text' class='form-control autoresize'
-                                                    placeholder='კონტროლის ზომა'
+                                                    placeholder='{{ __("კონტროლის ზომა") }}'
                                                     oninput="$(window).trigger('autoresize')"
                                                     name='name'>{{$model->name}}</textarea>
                                 </div>
@@ -51,7 +51,7 @@
                         </div>
 
                         <label class="ns-container text-secondary text-left m-3"
-                               style='font-size:.95em; color:rgba(0,0,0,.8);'> ამცირებს პოტენციურ ზიანს
+                               style='font-size:.95em; color:rgba(0,0,0,.8);'> {{ __("ამცირებს პოტენციურ ზიანს") }}
                             <input type="checkbox"
                                    name="rploss"
                                    value="0"
@@ -62,7 +62,7 @@
 
                     <div class='card border-0 rounded-0 partial-shadow text-left'>
                         <div class='card-body ml-2 pb-4'>
-                            <p class='mt-2 mb-4 text-primary font-weight-bolder'> აირჩიეთ საფრთხე </p>
+                            <p class='mt-2 mb-4 text-primary font-weight-bolder'> {{ __("აირჩიეთ საფრთხე") }} </p>
 
                             @foreach($dangers as $danger)
                                 <label class="ns-container mt-3 text-secondary ml-2"
@@ -77,7 +77,7 @@
                             @endforeach
 
                             @if ($dangers->count() == 0)
-                                <p class='text-secondary font-weight-bolder ml-3'> საფრთხეები არ არის </p>
+                                <p class='text-secondary font-weight-bolder ml-3'> {{ __("საფრთხეები არ არის") }} </p>
                             @endif
 
                             @error('danger')
@@ -88,13 +88,13 @@
 
                             <div class='d-md-flex d-block'>
                                 <div class='text-left'>
-                                    <button class='btn btn-outline-primary' style="border-width: 1px !important;"> დამატება</button>
+                                    <button class='btn btn-outline-primary' style="border-width: 1px !important;"> {{ __("დამატება") }}</button>
                                 </div>
                                 <div class='text-left ml-md-2 ml-0'>
                                     <button class='btn btn-outline-danger'
                                             style="border-width: 1px !important;"
                                             onclick="event.preventDefault();$1('control-delete').submit(); ">
-                                        წაშლა
+                                        {{ __("წაშლა") }}
                                     </button>
                                 </div>
                             </div>

@@ -133,7 +133,7 @@
                 <div class='card rounded-10 border-0 pb-3 animate-scale'>
                     <div class='card-body text-left px-4' style='font-size:1.2em;'>
                         <h5 class='text-center py-3 px-2'>
-                            დაემატა საფრთხეებს
+                            {{ __("დაემატა საფრთხეებს") }}
                         </h5>
 
                         @foreach ($dangers as $ind => $d)
@@ -146,7 +146,7 @@
 
                         @if (count($dangers) == 0)
                             <div class='mt-2 mb-4 mr-2 ml-4'>
-                                <h5 class='text-lightblack text-dark text-lowercase py-2 px-0'> მონაცემები არ არის </h5>
+                                <h5 class='text-lightblack text-dark text-lowercase py-2 px-0'> {{ __("მონაცემები არ არის") }} </h5>
                             </div>
                         @endif
 

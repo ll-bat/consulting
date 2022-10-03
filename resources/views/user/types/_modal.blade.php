@@ -12,7 +12,7 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title"> პარამეტრები </h4>
+                <h4 class="modal-title"> {{ __("პარამეტრები") }} </h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
@@ -23,8 +23,8 @@
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger border-0" data-dismiss="modal">დახურვა</button>
-                <button type="button" class="btn btn-primary border-0" id="modal-submit-button">შენახვა</button>
+                <button type="button" class="btn btn-danger border-0" data-dismiss="modal">{{ __("დახურვა") }}</button>
+                <button type="button" class="btn btn-primary border-0" id="modal-submit-button">{{ __("შენახვა") }}</button>
             </div>
 
         </div>

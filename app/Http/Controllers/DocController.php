@@ -34,7 +34,7 @@ class DocController extends Controller
         }
         $procs = Process::where('field_id', $fieldId)->orderBy('created_at', 'asc')->get();
 
-        return view('admin.docs.index', compact('procs', 'cnt'));
+        return view('admin.docs.index', compact('procs', 'cnt', 'fieldId'));
     }
 
     public function show()
@@ -55,13 +55,13 @@ class DocController extends Controller
         ];
 
         $messages = [
-            '_documentAuthorNames' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 400 - ს',
-            '_documentAddress' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 600 - ს',
-            '_documentDescription' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 900 - ს',
-            '_documentFirstDate' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 50 - ს',
-            '_documentSecondDate' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 50 - ს',
-            '_documentNumber' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 50 - ს',
-            '_filename' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 512 - ს',
+            '_documentAuthorNames' => __("შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 400 - ს"),
+            '_documentAddress' => __("შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 600 - ს"),
+            '_documentDescription' => __("შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 900 - ს"),
+            '_documentFirstDate' => __("შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 50 - ს"),
+            '_documentSecondDate' => __("შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 50 - ს"),
+            '_documentNumber' => __("შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 50 - ს"),
+            '_filename' => __("შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 512 - ს"),
         ];
 
         Validator::make(request()->all(), $rules, $messages)->validate();
@@ -84,12 +84,12 @@ class DocController extends Controller
         ];
 
         $messages = [
-            '_documentAuthorNames' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 400 - ს',
-            '_documentAddress' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 600 - ს',
-            '_documentDescription' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 900 - ს',
-            '_documentFirstDate' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 50 - ს',
-            '_documentSecondDate' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 50 - ს',
-            '_documentNumber' => 'შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 50 - ს'
+            '_documentAuthorNames' => '__("შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 400 - ს")',
+            '_documentAddress' => '__("შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 600 - ს")',
+            '_documentDescription' => '__("შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 900 - ს")',
+            '_documentFirstDate' => '__("შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 50 - ს")',
+            '_documentSecondDate' => '__("შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 50 - ს")',
+            '_documentNumber' => '__("შეყვანილი სიმბოლოების რაოდენობა არ უნდა აღემატებოდეს 50 - ს")'
         ];
 
         \Illuminate\Support\Facades\Validator::make(request()->all(), $rules, $messages)

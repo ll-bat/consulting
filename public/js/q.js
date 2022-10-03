@@ -65024,8 +65024,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 var Form = /*#__PURE__*/function () {
-  function Form() {
+  function Form(field_id) {
     _classCallCheck(this, Form);
+
+    this.fieldId = field_id;
   }
 
   _createClass(Form, [{
@@ -65045,7 +65047,11 @@ var Form = /*#__PURE__*/function () {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].get('docs/api/data');
+                return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].get('docs/api/data', null, {
+                  params: {
+                    field_id: this.fieldId
+                  }
+                });
 
               case 2:
                 data = _context.sent;
@@ -65073,7 +65079,7 @@ var Form = /*#__PURE__*/function () {
                 return _context.stop();
             }
           }
-        }, _callee);
+        }, _callee, this);
       }));
 
       function getApiData() {

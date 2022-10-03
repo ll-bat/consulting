@@ -61,7 +61,7 @@ class UserTextsController extends Controller
         $model = UserText::find($id);
         $model->delete();
 
-        return redirect()->to('user/docs/added-by-users')->with('message', 'კონტროლის ზომა წარმატებით წაიშალა');
+        return redirect()->to('user/docs/added-by-users')->with('message', __("კონტროლის ზომა წარმატებით წაიშალა"));
     }
 
     /**
@@ -92,7 +92,7 @@ class UserTextsController extends Controller
         $model = UserText::find($id);
         $model->delete();
 
-        return redirect()->to('user/docs/added-by-users')->with('message', 'კონტროლის ზომა წარმატებით დაემატა');
+        return redirect()->to('user/docs/added-by-users')->with('message', __("კონტროლის ზომა წარმატებით დაემატა"));
     }
 
     /**
@@ -110,7 +110,7 @@ class UserTextsController extends Controller
         $model = UserText::findOrFail($id);
         $model->delete();
 
-        return redirect()->to('user/docs/added-by-users')->with('message', 'ოპერაცია წარმატებით შესრულდა');
+        return redirect()->to('user/docs/added-by-users')->with('message', __("ოპერაცია წარმატებით შესრულდა"));
     }
 
     public function store($model)
@@ -156,6 +156,6 @@ class UserTextsController extends Controller
 
         $cnt = UserText::where('type', 'udanger')->where(['field_id' => $this->fieldId])->count();
 
-        return redirect()->to('user/docs/added-by-users')->with('message', 'ოპერაცია წარმატებით შესრულდა');
+        return redirect()->to('user/docs/added-by-users')->with('message', __("ოპერაცია წარმატებით შესრულდა"));
     }
 }

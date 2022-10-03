@@ -20,7 +20,7 @@
                <div class="row">
                    <div class="col-md-8">
                        <div class="form-group" style="clear:both;">
-                           <h5 form="title">სათაური</h5>
+                           <h5 form="title">{{ __("სათაური") }}</h5>
                            <input type="text" class="form-control"
                                   style="font-size: 1em;"
                                   placeholder="Add title"
@@ -36,7 +36,7 @@
                    </div>
                    <div class="col-md-4">
                        <div class="form-group">
-                           <h5 for="Category" class="pr-3">კატეგორია</h5>
+                           <h5 for="Category" class="pr-3">{{ __("კატეგორია") }}</h5>
                            <select class="form-control" name="category_id">
                                @foreach($categories as $category)
                                    <option
@@ -51,7 +51,7 @@
                </div>
 
             <div class="form-group">
-                <h5 form="excerpt">ნაწყვეტი</h5>
+                <h5 form="excerpt">{{ __("ნაწყვეტი") }}</h5>
                 <input type="text"
                        class="form-control" style="font-size:1em;"
                        placeholder="Enter excerpt"
@@ -66,7 +66,7 @@
             </div>
 
             <div class="form-group">
-                <h5 for="excerpt">ტექსტი</h5>
+                <h5 for="excerpt">{{ __("ტექსტი") }}</h5>
                 <textarea
                     class="form-control"
                     id="article-editor"
@@ -99,7 +99,7 @@
 
                 <div class="float-right">
                     <div class="container text-right">
-                        <span class="text-muted m-2" style="font-family: 'Comic Sans MS'">საჯარო: </span>
+                        <span class="text-muted m-2" style="font-family: 'Comic Sans MS'">{{ __("საჯარო") }}: </span>
                         <label class="switch">
                             <input type="checkbox" class="primary"
                                    @if ($blog->isPublic()) checked @endif
@@ -110,7 +110,7 @@
                 </div>
             </div>
 
-            <button class="btn btn-info mt-5" style="border-radius: 20px;">განახლება</button>
+            <button class="btn btn-info mt-5" style="border-radius: 20px;">{{ __("განახლება") }}</button>
 
           </div>
        </div>
@@ -145,6 +145,6 @@
            @csrf
            @method('delete')
 
-           <button class="btn btn-danger position-absolute" onclick="return confirm('ნამდვილად გსურთ ამ ბლოგის წაშლა ?')" style="border-radius: 20px; top:10px;"> წაშლა </button>
+           <button class="btn btn-danger position-absolute" onclick="return confirm('{{ __("ნამდვილად გსურთ ამ ბლოგის წაშლ") }}' ?')" style="border-radius: 20px; top:10px;"> {{ __("წაშლა") }} </button>
      </form>
 @endsection

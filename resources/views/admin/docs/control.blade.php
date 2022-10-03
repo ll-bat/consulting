@@ -39,7 +39,7 @@
                     style='border: 1px solid grey'>
                     <div class='card-title mb-1 mt-3 pointer' onclick="toggleCollapse(this,'add-new-control')">
                         <i class='fa fa-plus float-left ml-3 mt-1'></i>
-                        <p class='pl-5 font-weight-bold'> ახალი კონტროლის ზომა </p>
+                        <p class='pl-5 font-weight-bold'> {{ __("ახალი კონტროლის ზომა") }} </p>
                     </div>
                 </div>
 
@@ -51,7 +51,7 @@
                             <div class='m-3 w-75'>
                                 <div class='form-group'>
                                           <textarea type='text' class='form-control autoresize'
-                                                    placeholder='დაამატეთ კონტროლის ზომა'
+                                                    placeholder='{{ __("დაამატეთ კონტროლის ზომა") }}'
                                                     oninput="$(window).trigger('autoresize')"
                                                     name='name'>{{old('name')}}</textarea>
                                 </div>
@@ -70,7 +70,7 @@
                         </div>
 
                         <label class="ns-container text-secondary text-left ml-3 mb-3"
-                               style='font-size:.95em; color:rgba(0,0,0,.8);'> ამცირებს პოტენციურ ზიანს
+                               style='font-size:.95em; color:rgba(0,0,0,.8);'> {{ __("ამცირებს პოტენციურ ზიანს") }}
                             <input type="checkbox"
                                    name="rploss"
                                    value="1"
@@ -80,7 +80,7 @@
                         </label>
 
                         <label class="ns-container text-secondary text-left ml-3 mt-2 mb-3"
-                               style='font-size:.95em; color:rgba(0,0,0,.8);'> არსებული კონტროლის ზომის პასუხის დამალვა
+                               style='font-size:.95em; color:rgba(0,0,0,.8);'> {{ __("არსებული კონტროლის ზომის პასუხის დამალვა") }}
                             <input type="checkbox"
                                    name="is_first_option_off"
                                    value="1">
@@ -91,7 +91,7 @@
                     <div class='card text-left border-0 partial-shadow'
                          style=''>
                         <div class='card-body ml-2 pl-1 pb-4' required>
-                            <p class='ml-1 mt-2 mb-4 font-weight-bolder' style="color: #009999"> აირჩიეთ საფრთხე </p>
+                            <p class='ml-1 mt-2 mb-4 font-weight-bolder' style="color: #009999"> {{ __("აირჩიეთ საფრთხე") }} </p>
 
                             @foreach($dangers as $danger)
                                 <label class="ns-container mt-3 ml-3 text-secondary"
@@ -106,7 +106,7 @@
                             @endforeach
 
                             @if ($dangers->count() == 0)
-                                <p class='text-secondary font-weight-bolder ml-3'> საფრთხეები არ არის </p>
+                                <p class='text-secondary font-weight-bolder ml-3'> {{ __("საფრთხეები არ არის") }} </p>
                             @endif
 
                             @error('danger')
@@ -116,7 +116,7 @@
                     </div>
 
                     <div class='text-left my-4'>
-                        <button class='btn border-0 px-4' style="background-color:#009999; color: white;"> შექმნა</button>
+                        <button class='btn border-0 px-4' style="background-color:#009999; color: white;"> {{ __("შექმნა") }}</button>
                     </div>
 
                 </form>
@@ -124,7 +124,7 @@
                 <ul class="list-group text-left" style="border-radius:5px;">
                     <li class="list-group-item font-weight-bold py-3 pointer" onclick='toggleCollapse(this)' style="border: 1px solid #009999;color: #009999;;">
                         <i class='fa fa-plus float-left'></i>
-                        <span class="pl-4"> ყველა კონტროლის ზომა </span>
+                        <span class="pl-4"> {{ __("ყველა კონტროლის ზომა") }} </span>
                     </li>
                     @foreach($controls as $ind => $control)
                         <li class="list-group-item pl-4 controls-panel d-none"
@@ -140,7 +140,7 @@
                                 <div class="col-md-2 col-2 text-md-center text-left this-div">
                                     <a class='btn this-color' href='control/{{$control->id}}/edit'
                                        style='background-color:transparent !important;color:#009999'>
-                                        შეცვლა
+                                        {{ __("შეცვლა") }}
                                     </a>
                                 </div>
                             </div>
@@ -148,7 +148,7 @@
                     @endforeach
                     @if ($controls->count() == 0)
                         <li class="list-group-item d-none controls-panel pl-4">
-                            <p class='text-secondary'> თქვენ არ გაქვთ კონტროლის ზომები </p>
+                            <p class='text-secondary'> {{ __("თქვენ არ გაქვთ კონტროლის ზომები") }} </p>
                         </li>
                     @endif
                 </ul>

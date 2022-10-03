@@ -33,7 +33,7 @@
                             <div class='mx-2 mt-2 w-100'>
                                 <div class='form-group'>
                                           <textarea type='text' class='form-control autoresize'
-                                                    placeholder='დაამატეთ'
+                                                    placeholder='{{ __("დაამატეთ") }}'
                                                     oninput="$(window).trigger('autoresize')"
                                                     name='name'>{{$udanger->name}}</textarea>
                                 </div>
@@ -43,15 +43,15 @@
 
                                 <div class='d-md-flex d-block'>
                                     <div class='text-left'>
-                                        <button class='btn btn-outline-primary' style="border-width: 1px !important;"> დამატება</button>
+                                        <button class='btn btn-outline-primary' style="border-width: 1px !important;"> {{ __("დამატება") }}</button>
                                     </div>
 
                                     <div class='text-left ml-md-2 ml-0'>
                                         <button class='btn btn-outline-danger'
                                                 style="border-width: 1px !important;"
-                                                data-confirm="ნამდვილად გსურთ წაშლა ?"
+                                                data-confirm="{{ __('ნამდვილად გსურთ წაშლა ?') }}"
                                                 onclick="event.preventDefault();$1('control-delete').submit(); ">
-                                            წაშლა
+                                            {{ __("წაშლა") }}
                                         </button>
                                     </div>
                                 </div>

@@ -17,45 +17,45 @@ use App\Objects;
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title"> დოკუმენტის შეცვლა </h4>
+                <h4 class="modal-title"> {{ __("დოკუმენტის შეცვლა") }} </h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
             <!-- Modal body -->
             <div class="modal-body mx-2 my-1">
                 <div class="form-group">
-                    <label class="text-muted">სახელი:</label>
+                    <label class="text-muted">{{ __("სახელი") }}:</label>
                     <input class="form-control p-3"
                            id="modal-input"
-                           placeholder="შეიყვანეთ სახელი"/>
+                           placeholder="{{ __('შეიყვანეთ სახელი') }}"/>
 
                     <div class="valid-feedback">
-                        <p> ოპერაცია წარმატებით დასრულდა </p>
+                        <p> {{ __("ოპერაცია წარმატებით დასრულდა") }} </p>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="text-muted">ობიექტი:</label>
+                    <label class="text-muted">{{ __("ობიექტი") }}:</label>
                     <select class="form-control" id="modal-doc-object-id">
-                        <option value disabled> აირჩიეთ ობიექტი</option>
+                        <option value disabled> {{ __("აირჩიეთ ობიექტი") }}</option>
                         @foreach($objects as $o)
                             <option value="{{ $o['id'] }}"> {{ $o['name'] }} </option>
                         @endforeach
                     </select>
                     <div class="invalid-feedback">
-                        <p> სამწუხაროდ შეცდომა დაფიქსირდა, სცადეთ თავიდან </p>
+                        <p> {{ __("სამწუხაროდ შეცდომა დაფიქსირდა, სცადეთ თავიდან") }} </p>
                     </div>
                     <div class="valid-feedback">
-                        <p> ოპერაცია წარმატებით დასრულდა </p>
+                        <p> {{ __("ოპერაცია წარმატებით დასრულდა") }} </p>
                     </div>
                 </div>
             </div>
 
             <!-- Modal footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger border-0" data-dismiss="modal">დახურვა</button>
+                <button type="button" class="btn btn-danger border-0" data-dismiss="modal">{{ __("დახურვა") }}</button>
                 <button type="button" class="btn btn-primary border-0" id="modal-submit-button">
                     <span class="spinner-border spinner-border-sm d-none" id="modal-submit-spinner"></span>
-                    <span class="py-2 px-1"> შენახვა </span>
+                    <span class="py-2 px-1"> {{ __("შენახვა") }} </span>
                 </button>
             </div>
 
@@ -81,7 +81,7 @@ use App\Objects;
         const el = $('#modal-input');
         const select = $('#modal-doc-object-id');
         if (el.val().length < 1 || !select.val()) {
-            alert('გთხოვთ, შეიყვანოთ ტექსტი');
+            alert('{{ __("გთხოვთ, შეიყვანოთ ტექსტი") }}');
             return;
         }
         const url = `/user/doc/{{ $docId }}/update`;

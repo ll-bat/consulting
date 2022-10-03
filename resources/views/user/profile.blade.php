@@ -6,9 +6,9 @@ use App\User;use Illuminate\Support\Facades\Auth;$users = User::all();
 
 $user = Auth::user();
 
-[$class, $type] = ['text-primary', 'სტანდარტული'];
+[$class, $type] = ['text-primary', __("სტანდარტული")];
 if ($user->type == User::TYPE_PREMIUM) {
-    [$class, $type] = ['text-orange', 'პრემიუმი'];
+    [$class, $type] = ['text-orange', __("პრემიუმი")];
 } else if ($user->type == User::TYPE_VIP) {
     [$class, $type] = ['text-success', 'VIP'];
 }
@@ -34,7 +34,7 @@ if ($user->type == User::TYPE_PREMIUM) {
                         </p>
                     </div>
                     <p class="text-center" style="font-size: .9rem;">
-                        <span class="description"> მომხმარებლის ტიპი : </span>
+                        <span class="description"> {{ __("მომხმარებლის ტიპი") }} : </span>
                         <span class="{{ $class }} font-weight-bold"> {{ $type }} </span>
                     </p>
                 </div>
@@ -101,7 +101,7 @@ if ($user->type == User::TYPE_PREMIUM) {
 
                         <button class="btn btn-danger float-right mt-auto mb-auto"
                                 style="margin-top:0;
-                            font-size:.8em;border-radius:25px;padding:6px;">ატვირთვა
+                            font-size:.8em;border-radius:25px;padding:6px;">{{ __("ატვირთვა") }}
                         </button>
 
                     </div>
@@ -117,7 +117,7 @@ if ($user->type == User::TYPE_PREMIUM) {
                         @csrf
                         @method('patch')
                         <div class="form-group mt-3" style="">
-                            <label class="" style="font-size:.8em;">იუზერნეიმი</label>
+                            <label class="" style="font-size:.8em;">{{ __("იუზერნეიმი") }}</label>
                             <input type="text"
                                    class="form-control"
                                    placeholder="Username"
@@ -128,7 +128,7 @@ if ($user->type == User::TYPE_PREMIUM) {
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label class="" style="font-size:.8em;">მეილი</label>
+                            <label class="" style="font-size:.8em;">{{ __("მეილი") }}</label>
                             <input type="email"
                                    class="form-control"
                                    name="email"
@@ -141,7 +141,7 @@ if ($user->type == User::TYPE_PREMIUM) {
                         </div>
 
                         <div class="form-group">
-                            <label class="" style="font-size:.8em;">პაროლი</label>
+                            <label class="" style="font-size:.8em;">{{ __("პაროლი") }}</label>
                             <div style="display:flex">
                                 <input type="password" class="form-control" id="pass01"
                                        placeholder="Password"
@@ -167,7 +167,7 @@ if ($user->type == User::TYPE_PREMIUM) {
                                     background-color: rgba(87, 192, 194, .9);
                                     font-size: .9em;
                                     border:none;"
-                                >განახლება
+                                >{{ __("განახლება") }}
                                 </button>
                             </div>
                         </div>
@@ -180,7 +180,7 @@ if ($user->type == User::TYPE_PREMIUM) {
         <div class="col-md-8">
             <div class="card card-user" style="border:none; border-radius:10px;">
                 <div class="card-header">
-                    <h5 class="card-title">პროფილის რედაქტირება</h5>
+                    <h5 class="card-title">{{ __("პროფილის რედაქტირება") }}</h5>
                 </div>
 
                 <div class="card-body">
@@ -190,7 +190,7 @@ if ($user->type == User::TYPE_PREMIUM) {
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="" style="font-size:.8em;">სახელი</label>
+                                    <label class="" style="font-size:.8em;">{{ __("სახელი") }}</label>
                                     <input type="text" class="form-control"
                                            placeholder="Firstname"
                                            value="{{$profile->firstname}}"
@@ -205,7 +205,7 @@ if ($user->type == User::TYPE_PREMIUM) {
                             </div>
                             <div class="col-md-6 pl-md-1">
                                 <div class="form-group">
-                                    <label class="" style="font-size:.8em;">გვარი</label>
+                                    <label class="" style="font-size:.8em;">{{ __("გვარი") }}</label>
                                     <input type="text" class="form-control"
                                            placeholder="Lastname"
                                            value="{{$profile->lastname}}"
@@ -222,7 +222,7 @@ if ($user->type == User::TYPE_PREMIUM) {
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label style="font-size:.8em;">მობილური</label>
+                                    <label style="font-size:.8em;">{{ __("მობილური") }}</label>
                                     <input type="text" class="form-control"
                                            placeholder="598******"
                                            value="{{$profile->phone}}"
@@ -240,7 +240,7 @@ if ($user->type == User::TYPE_PREMIUM) {
                         <div class="row">
                             <div class="col-md-4 pr-md-1">
                                 <div class="form-group">
-                                    <label class="mx-2" style="font-size:.8em;">ორგანიზაცია</label>
+                                    <label class="mx-2" style="font-size:.8em;">{{ __("ორგანიზაცია") }}</label>
                                     <input type="radio"
                                            class="position-absolute mt-1 ml-2"
                                            style="width: 20px; height: 20px; "
@@ -257,7 +257,7 @@ if ($user->type == User::TYPE_PREMIUM) {
                             </div>
                             <div class="col-md-4 px-md-1">
                                 <div class="form-group">
-                                    <label class="mx-2" style="font-size:.8em;">ფიზიკური პირი</label>
+                                    <label class="mx-2" style="font-size:.8em;">{{ __("ფიზიკური პირი") }}</label>
                                     <input type="radio"
                                            class="position-absolute mt-1 ml-2"
                                            style="width: 20px; height: 20px"
@@ -277,7 +277,7 @@ if ($user->type == User::TYPE_PREMIUM) {
                         </div>
                         <div class="row" id="work_organization" style="display: none">
                             <div class="col-12">
-                                <label for="" style="font-size:.9em;">ორგანიზაცია</label>
+                                <label for="" style="font-size:.9em;">{{ __("ორგანიზაცია") }}</label>
                                 <input class="form-control"
                                        name="work_organization"
                                        id="work_organization_value"
@@ -291,7 +291,7 @@ if ($user->type == User::TYPE_PREMIUM) {
                         </div>
                         <div class="row" id="work" style="display: none">
                             <div class="col-12">
-                                <label for="" style="font-size:.9em;">სამუშაო ადგილი</label>
+                                <label for="" style="font-size:.9em;">{{ __("სამუშაო ადგილი") }}</label>
                                 <input class="form-control"
                                        name="work"
                                        id="work_value"
@@ -305,7 +305,7 @@ if ($user->type == User::TYPE_PREMIUM) {
                         </div>
                         <div class="row mt-4" id="position_in_organization" style="display: none">
                             <div class="col-12">
-                                <label for="" style="font-size:.9em;">სამუშაო ადგილი ორგანიზაციაში</label>
+                                <label for="" style="font-size:.9em;">{{ __("სამუშაო ადგილი ორგანიზაციაში") }}</label>
                                 <input class="form-control"
                                        name="position_in_organization"
                                        id="position_in_organization_value"
@@ -320,7 +320,7 @@ if ($user->type == User::TYPE_PREMIUM) {
                         <div class="row">
                             <div class="update ml-auto mr-auto">
                                 <button type="submit" class="btn btn-primary btn-round bg-info"
-                                        style="border-radius:20px;font-size:.8em;"> პროფილის განახლება
+                                        style="border-radius:20px;font-size:.8em;"> {{ __("პროფილის განახლება") }}
                                 </button>
                             </div>
                         </div>
@@ -366,11 +366,11 @@ if ($user->type == User::TYPE_PREMIUM) {
                             let phone = String(document.querySelector('#phone').value).trim()
                             if (phone.length > 0) {
                                 if (phone.length > 17) {
-                                    alert('მობილურის ფორმატი არასწორია')
+                                    alert('{{ __("მობილურის ფორმატი არასწორია") }}')
                                     event.preventDefault();
                                 }
                                 if (isNaN(Number(phone.replaceAll(' ', '')))) {
-                                    alert('მობილურის ფორმატი არასწორია')
+                                    alert('{{ __("მობილურის ფორმატი არასწორია") }}')
                                     event.preventDefault();
                                 }
                             }
@@ -387,7 +387,7 @@ if ($user->type == User::TYPE_PREMIUM) {
                                 let organization = document.querySelector('#work_organization_value').value
                                 organization = String(organization).trim();
                                 if (organization.length < 1) {
-                                    alert('გთხოვთ, შეიყვანოთ ორგანიზაცია')
+                                    alert('{{ __("გთხოვთ, შეიყვანოთ ორგანიზაცია") }}')
                                     event.preventDefault();
                                 }
                             }

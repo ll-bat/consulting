@@ -64,7 +64,7 @@
 
         <div class="card-footer" style="margin-top:0px;">
             <p class="text-{{$blog->isPublic() ? 'success' : 'danger'}} text-sm font-weight-bolder text-left position-absolute" style="margin-top:-20px;">
-                <span class="blog-status"> სტატუსი: {{$blog->isPublic() ? 'საჯარო' : 'დამალული'}} </span>
+                <span class="blog-status"> {{ __("სტატუსი") }}: {{$blog->isPublic() ? __("საჯარო") : __("დამალული") }} </span>
             </p>
         </div>
 

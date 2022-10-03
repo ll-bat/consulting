@@ -4,18 +4,18 @@
         <div class='d-flex'>
             <div style='width:85%'>
                 <p class='p-4 pb-0 mb-0 text-secondary'
-                   style='font-size:1.2rem;'>დაამატეთ კონტროლის ზომა
-                   <span class='text-muted text-sm'> (არასავალდებულო) </span> </p>
+                   style='font-size:1.2rem;'>{{ __("დაამატეთ კონტროლის ზომა") }}
+                   <span class='text-muted text-sm'> ({{ __("არასავალდებულო") }}) </span> </p>
             </div>
             <div class='m-2 mt-4 mr-1 hoverable' style='width:15%;min-width:100px;'>
                 <button v-if='idx == data.newControls.length-1' class='text-orange bg-white px-2 py-1 m-btn'
                         @click="addInArray('newControls')"
                         style='border:0 !important;'
-                ><i class='fa fa-plus pr-2'></i>ახალი
+                ><i class='fa fa-plus pr-2'></i>{{ __("ახალი") }}
                 </button>
                 <button v-else class='bg-white px-2 py-1 m-btn text-danger' @click="removeFromArray('newControls', idx)"
                         style='border:0 !important;'
-                ><i class='fa fa-remove pr-2'></i>წაშლა
+                ><i class='fa fa-remove pr-2'></i>{{ __("წაშლა") }}
                 </button>
                 <div class='hoverable-underline'
                      :class="{'bg-danger' : idx != data.newControls.length -1, 'bg-warning': idx == data.newControls.length -1}"></div>

@@ -36,19 +36,19 @@
                <textarea type='text' class='form-control p-2 autoresize' rows='1' 
                          style='border-color: rgba(0,0,0,.18) !important'
                          oninput = "serviceTitleHandler(event,'{{$id}}')"
-                         placeholder='სათაური'>{{$service['title']}}</textarea>
+                         placeholder='{{ __("სათაური") }}'>{{$service['title']}}</textarea>
 
                <textarea type='text' class='form-control p-2 mt-4 autoresize' 
                          style='border-color: rgba(0,0,0,.18) !important'
                          oninput = "serviceDescriptionHandler(event,'{{$id}}')"
-                         placeholder='აღწერა'> {{$service['description']}} </textarea>
+                         placeholder='{{ __("აღწერა") }}'> {{$service['description']}} </textarea>
            </div>
        </div>
        <div class='spinner text-primary spinner-border position-absolute d-none' 
             style='bottom:10px;  right:10px; width:20px; height:20px;'></div>
         
         <label class="ns-container mt-3 p-0 text-secondary" 
-               style='font-size:.95em; color:rgba(0,0,0,.8);'> გამოჩნდეს მთავარ გვერდზე
+               style='font-size:.95em; color:rgba(0,0,0,.8);'> {{ __("გამოჩნდეს მთავარ გვერდზე") }}
              <input type="checkbox" onchange="serviceCheckboxHandler(this.checked, '{{$id}}')" 
                     @if ($service['shown'] == 'true') checked @endif />
              <span class="chbox-checkmark mt-1"></span>
@@ -59,7 +59,7 @@
 
                <div class='d-flex'> 
                      <span class="spinner-border spinner-border-sm mt-1 mr-1 d-none" id='service-spinner-{{$id}}'></span>
-                     <span> განახლება </span>
+                     <span> {{ __("განახლება") }} </span>
               </div>
 
         </button>
@@ -128,7 +128,7 @@ class Service {
             }
         })
         .catch(err => {
-            alert('სამწუხაროდ შეცდომა დაფიქსირდა, გთხოვთ სცადოთ თავიდან')
+            alert('{{ __("სამწუხაროდ შეცდომა დაფიქსირდა, გთხოვთ სცადოთ თავიდან") }}')
             console.log(err)
             $1('service-spinner-'+id).classList.add('d-none')
             if (this['image-'+id].has('image')){

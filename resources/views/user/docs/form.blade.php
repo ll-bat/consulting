@@ -115,7 +115,7 @@ if (!isset($readonly)) {
 @section('content')
     <div class='container-fluid mt-2' id='table-data'>
         <h5 class="mb-4 bg-white p-3 " style="border: 1px solid lightgrey">
-            დოკუმენტის სახელი:
+            {{ __("დოკუმენტის სახელი") }}:
             @if (!$readonly)
             <a href="" class="text-info" id="doc-rename-a">
                 &nbsp; {{ $filename }}
@@ -127,9 +127,9 @@ if (!isset($readonly)) {
         </h5>
 
         @if (!$readonly)
-        <h5 class="mb-5 bg-white p-3" style="border: 1px solid lightgrey"> დოკუმენტის
+        <h5 class="mb-5 bg-white p-3" style="border: 1px solid lightgrey"> {{ __("დოკუმენტის") }}
             <a href="{{ $docId }}/edit"
-               class="text-info"> რედაქტირება
+               class="text-info"> {{ __("რედაქტირება") }}
                 <span class="fas fa-pencil-alt mx-1"></span>
             </a>
         </h5>
@@ -143,7 +143,7 @@ if (!isset($readonly)) {
                 <div class="d-flex justify-content-center">
                     <i class="nc-icon nc-cloud-download-93 font-weight-bold text-primary mx-3 mt-2"></i>
                     <p class="mt-1 text-primary">
-                        გადმოწერეთ როგორც
+                        {{ __("გადმოწერეთ როგორც") }}
                     </p>
                 </div>
             </div>

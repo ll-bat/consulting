@@ -44,13 +44,13 @@
                     $json = json_encode([
                         'fields' => ['name' => ''],
                         '_nextUrl' => 'fields/create',
-                        'title' => 'სფეროს დამატება',
+                        'title' => __("სფეროს დამატება"),
                         'onEnter' => ['name']
                     ])
                     ?>
                     <button class="create-button" id="model-create-button" data-params="{{ $json }}">
                         <i class="nc-icon nc-atom text-primary p-1"></i>
-                        <span class="px-2 mb-1 text-primary"> ახალი სფერო </span>
+                        <span class="px-2 mb-1 text-primary"> {{ __("ახალი სფერო") }} </span>
                     </button>
                 </div>
 
@@ -59,7 +59,7 @@
                     $json = json_encode([
                         'fields' => ['name' => $field->name],
                         '_nextUrl' => 'fields/' . $field->id . '/update',
-                        'title' => 'სფეროს განახლება',
+                        'title' => __("სფეროს განახლება"),
                     ])
                     ?>
                     <div class="bg-white px-4 py-3 border rounded-10 partial-shadow border-0 mt-3">
@@ -85,7 +85,7 @@
 
 
     @include('user._partialModal', [
-       'title' => 'სფეროს დამატება',
+       'title' => __("სფეროს დამატება"),
        'form' => 'admin._createField'
     ])
 

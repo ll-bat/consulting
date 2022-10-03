@@ -1,8 +1,8 @@
 <div class=''>
     <div class='card test-shadow rounded-8 pl-4' style="padding-top: 30px !important;border-left: 8px solid #6957b8;" v-if='showControls'>
         <p class='text-lg mb-0'>
-            ატვირთეთ საფრთხის ამსახველი ფოტო
-            <span class='text-muted text-sm'>(არასავალდებულო)</span>
+            {{ __("ატვირთეთ საფრთხის ამსახველი ფოტო") }}
+            <span class='text-muted text-sm'>({{ __("არასავალდებულო") }})</span>
         </p>
 
         <div class='card-body pb-5 px-2' style="padding-top: 30px">

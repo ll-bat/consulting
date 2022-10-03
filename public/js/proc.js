@@ -51324,8 +51324,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 var Form = /*#__PURE__*/function () {
-  function Form() {
+  function Form(field_id) {
     _classCallCheck(this, Form);
+
+    this.fieldId = field_id;
   }
 
   _createClass(Form, [{
@@ -51345,7 +51347,11 @@ var Form = /*#__PURE__*/function () {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].get('docs/api/data');
+                return _services_httpService__WEBPACK_IMPORTED_MODULE_1__["default"].get('docs/api/data', null, {
+                  params: {
+                    field_id: this.fieldId
+                  }
+                });
 
               case 2:
                 data = _context.sent;
@@ -51373,7 +51379,7 @@ var Form = /*#__PURE__*/function () {
                 return _context.stop();
             }
           }
-        }, _callee);
+        }, _callee, this);
       }));
 
       function getApiData() {
@@ -51748,7 +51754,8 @@ var app = new Vue({
     created: true,
     udangerLoading: true,
     plossLoading: true,
-    form: null
+    form: null,
+    fieldId: null
   },
   methods: {
     addNewPloss: function addNewPloss() {
@@ -51815,9 +51822,14 @@ var app = new Vue({
           }
         }, _callee);
       }))();
+    },
+    findFieldId: function findFieldId() {
+      var fieldId = $1('field_id').value;
+      this.fieldId = fieldId;
     }
   },
   mounted: function mounted() {
+    // noinspection JSIgnoredPromiseFromCall
     this.initData();
     tout(function () {
       $('#psaving-panel').removeClass('d-none');
@@ -51825,7 +51837,8 @@ var app = new Vue({
     }, 420);
   },
   created: function created() {
-    this.form = new _classes_Form__WEBPACK_IMPORTED_MODULE_1__["Form"]();
+    this.findFieldId();
+    this.form = new _classes_Form__WEBPACK_IMPORTED_MODULE_1__["Form"](this.fieldId);
     this.form.setupRedirect();
   }
 });

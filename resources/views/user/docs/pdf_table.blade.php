@@ -47,28 +47,28 @@ use App\Helperclass\Obj;
 <table>
     <thead>
     <tr>
-        <td rowspan='2'> პროცესი</td>
-        <td rowspan='2' style=''> საფრთხე</td>
-        <td rowspan='2' style='color: #ff00ff;'> საფრთ.ამს.<br/>ფოტო</td>
-        <td rowspan='2' style=''> პოტენციური ზიანი</td>
-        <td rowspan='2' style=''> ვინ იმყოფება <br/> რისკის ქვეშ</td>
-        <td rowspan='2' style=''> არსებული კონტროლის ზომები <br/> <i class="text-sm text-muted">(საწყის ეტაპზე)</i></td>
-        <td colspan='3' style='color:#ff0000;'> საწყისი რისკი</td>
-        <td rowspan='2' style=''> კონტროლის დამატებითი ზომები <br/>
-            <i class="text-sm text-muted">(გატარებული ან/და მიმდინარე)</i>
+        <td rowspan='2'> {{ __("პროცესი") }}</td>
+        <td rowspan='2' style=''> {{ __("საფრთხე") }}</td>
+        <td rowspan='2' style='color: #ff00ff;'> {{ __("საფრთ.ამს") }}.<br/>{{ __("ფოტო") }}</td>
+        <td rowspan='2' style=''> {{ __("პოტენციური ზიანი") }}</td>
+        <td rowspan='2' style=''> {{ __("ვინ იმყოფება") }} <br/> {{ __("რისკის ქვეშ") }}</td>
+        <td rowspan='2' style=''> {{ __("არსებული კონტროლის ზომები") }} <br/> <i class="text-sm text-muted">({{ __("საწყის ეტაპზე") }})</i></td>
+        <td colspan='3' style='color:#ff0000;'> {{ __("საწყისი რისკი") }}</td>
+        <td rowspan='2' style=''> {{ __("კონტროლის დამატებითი ზომები") }} <br/>
+            <i class="text-sm text-muted">({{ __("გატარებული ან") }}/{{ __("და მიმდინარე") }})</i>
         </td>
-        <td colspan='3' style='color:#28A78C;'> ნარჩენი რისკი</td>
-        <td rowspan='2' class=''> გასატარებელი ღონისძიებები</td>
-        <td rowspan='2' style=''> პასუხისმგებელი <br/> პირი</td>
-        <td rowspan='2' style=''> შესრ.ვადა</td>
+        <td colspan='3' style='color:#28A78C;'> {{ __("ნარჩენი რისკი") }}</td>
+        <td rowspan='2' class=''> {{ __("გასატარებელი ღონისძიებები") }}</td>
+        <td rowspan='2' style=''> {{ __("პასუხისმგებელი") }} <br/> {{ __("პირი") }}</td>
+        <td rowspan='2' style=''> {{ __("შესრ.ვადა") }}</td>
     </tr>
     <tr>
-        <td style="padding: 3px 10px"> ა</td>
-        <td style='padding: 3px 10px'> შ</td>
-        <td style='font-size: .65rem'> რისკის <br/> დონე</td>
-        <td style='padding: 3px 10px'> ა</td>
-        <td style='padding: 3px 10px'> შ</td>
-        <td style='font-size: .65rem'> რისკის <br/> დონე</td>
+        <td style="padding: 3px 10px"> {{ __('ა') }}</td>
+        <td style='padding: 3px 10px'> {{ __('შ') }}</td>
+        <td style='font-size: .65rem'> {{ __("რისკის") }} <br/> {{ __("დონე") }}</td>
+        <td style='padding: 3px 10px'> {{ __('ა') }}</td>
+        <td style='padding: 3px 10px'> {{ __('შ') }}</td>
+        <td style='font-size: .65rem'> {{ __("რისკის") }} <br/> {{ __("დონე") }}</td>
     </tr>
     <thead>
 

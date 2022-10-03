@@ -34,18 +34,18 @@
                         style="width:25px; height:20px;margin-top:-17px; background:{{$obj['color']}};"></div>
                </div>
                <div class="my-3 mx-3 d-none d-md-block">
-                   <a class="box-src-image-title" href="{{$data->texts->getElementImage($page, $element)}}" target="blank"> ნიმუში </a>
+                   <a class="box-src-image-title" href="{{$data->texts->getElementImage($page, $element)}}" target="blank"> {{ __("ნიმუში") }} </a>
                </div>
            </div>
        </div>
       <div class='m-0'>
-        <!-- <input type='text' class='form-control my-input' id='input-{{$id}}' placeholder='შეიყვანეთ ტექსტი' /> -->
+        <!-- <input type='text' class='form-control my-input' id='input-{{$id}}' placeholder='{{ __("შეიყვანეთ ტექსტი") }}' /> -->
         <textarea class="form-control my-input @if ($obj['is-bold']) font-weight-bolder @endif p-3"
                   id='input-{{$id}}'
                   rows='5'
                   oninput="boxInputHandler(event,'{{$element}}', '{{$id}}', '{{$page}}')"
                   style="color: {{$obj['color']}}; font-size: {{$obj['font-size']}}rem;"
-                  placeholder='შეიყვანეთ ტექსტი'
+                  placeholder='{{ __("შეიყვანეთ ტექსტი") }}'
         >{{$obj['value']}}</textarea>
       </div>
   </div>
@@ -56,7 +56,7 @@
 
          <div class='d-flex'>
              <span class="spinner-border spinner-border-sm mt-1 mr-1 d-none" id='box-spinner-{{$id}}'></span>
-             <span> შენახვა </span>
+             <span> {{ __("შენახვა") }} </span>
          </div>
   </button>
 

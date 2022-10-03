@@ -41,9 +41,9 @@ use App\User;
                 <td> {{ $user->profile->firstname }}</td>
                 <td> {{ $user->profile->lastname }}</td>
                 <?php
-                     [$class, $type] = ['text-primary', 'სტანდარტული'];
+                     [$class, $type] = ['text-primary', __("სტანდარტული")];
                      if ($user->type == \App\User::TYPE_PREMIUM) {
-                         [$class, $type] = ['text-orange', 'პრემიუმი'];
+                         [$class, $type] = ['text-orange', __("პრემიუმი")];
                      } else if ($user->type == \App\User::TYPE_VIP) {
                          [$class, $type] = ['text-success', 'VIP'];
                      }
@@ -77,13 +77,13 @@ use App\User;
             const TYPE_VIP = "{{ \App\User::TYPE_VIP }}"
 
             const statusClasses = {
-                [STATUS_ACTIVE]: {message: 'აქტიური', className: "text-success"},
-                [STATUS_INACTIVE]: {message: "არააქტიური", className: "text-danger"}
+                [STATUS_ACTIVE]: {message: '{{ __("აქტიური") }}', className: "text-success"},
+                [STATUS_INACTIVE]: {message: "{{ __('არააქტიური') }}", className: "text-danger"}
             };
 
             const typeClasses = {
-                [TYPE_PREMIUM]: {message: 'პრემიუმი', className: "text-orange"},
-                [TYPE_STANDARD]: {message: 'სტანდარტული', className: "text-primary"},
+                [TYPE_PREMIUM]: {message: '{{ __("პრემიუმი") }}', className: "text-orange"},
+                [TYPE_STANDARD]: {message: '{{ __("სტანდარტული") }}', className: "text-primary"},
                 [TYPE_VIP]: {message: 'VIP', className: "text-success"},
             }
 

@@ -38,7 +38,7 @@ class ObjectsController extends Controller
         $name = $res['name'];
 
         if (!$this->isUnique($name)) {
-            return $this->fail('ასეთი ობიექტი უკვე არსებობს', 400);
+            return $this->fail(__("ასეთი ობიექტი უკვე არსებობს"), 400);
         }
 
         Objects::create(['user_id' => current_user()->id, 'name' => $name]);
@@ -63,12 +63,12 @@ class ObjectsController extends Controller
         }
 
         if (!$this->isUnique($name)) {
-            return $this->fail('ასეთი ობიექტი უკვე არსებობს', 400);
+            return $this->fail(__("ასეთი ობიექტი უკვე არსებობს"), 400);
         }
 
         $ok = $objects->update(['name' => $name]);
         if (!$ok) {
-            return $this->fail("დაფიქსირდა შეცდომა, სცადეთ თავიდან", 400);
+            return $this->fail(__('დაფიქსირდა შეცდომა, სცადეთ თავიდან'), 400);
         }
 
         return route('user.objects');
@@ -134,10 +134,10 @@ class ObjectsController extends Controller
         try {
             $objects->delete();
         } catch (\Throwable $e) {
-            return redirect()->route('user.objects')->with('message', ['success' => false, 'message' => 'ვერ მოხერხდა ობიექტის წაშლა. მოცემული ობიექტი შეიცავს დოკუმენტებს']);
+            return redirect()->route('user.objects')->with('message', ['success' => false, 'message' => __("ვერ მოხერხდა ობიექტის წაშლა. მოცემული ობიექტი შეიცავს დოკუმენტებს")]);
         }
 
-        return redirect()->route('user.objects')->with('message', ['success' => true, 'message' => 'ობიექტი წარმატებით წაიშალა']);
+        return redirect()->route('user.objects')->with('message', ['success' => true, 'message' => __("ობიექტი წარმატებით წაიშალა")]);
     }
 
     /**

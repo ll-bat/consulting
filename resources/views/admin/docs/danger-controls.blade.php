@@ -36,7 +36,7 @@
 
             <div class='card text-left border-0 partial-shadow p-3'>
                 <p>
-                    <span class="font-weight-bold" style="color: #2159a2"> დაემატა საფრთხეს <img src="/icons/right-arrow1.png" class="ml-2" width="15" />  </span>
+                    <span class="font-weight-bold" style="color: #2159a2"> {{ __("დაემატა საფრთხეს") }} <img src="/icons/right-arrow1.png" class="ml-2" width="15" />  </span>
                     <span class="ml-2"> {{ $danger }} </span>
                 </p>
             </div>
@@ -53,7 +53,7 @@
                         by {{ $d['username'] }}
                         @if ($d['is_ignored'])
                             <b class="text-orange ml-3">
-                                იგნორირებულია !
+                                {{ __("იგნორირებულია") }} !
                             </b>
                         @endif
                     </p>
@@ -85,7 +85,7 @@
                 @endforeach
                 @if (count($data) == 0)
                     <li class="list-group-item pl-4">
-                        <p> მონაცემები არ არის </p>
+                        <p> {{ __("მონაცემები არ არის") }} </p>
                     </li>
                 @endif
             </ul>

@@ -37,7 +37,7 @@ class ProcessController extends Controller
 
         Process::create(['name' => $data['name'], 'field_id' => $this->fieldId]);
 
-        return back()->with('message', 'პროცესი წარმატებით შეიქმნა')->with('created', 1);
+        return back()->with('message', __("პროცესი წარმატებით შეიქმნა"))->with('created', 1);
     }
 
     public function edit(Process $process)
@@ -61,7 +61,7 @@ class ProcessController extends Controller
         ]);
 
         $process->update(['name' => $data['name']]);
-        return redirect()->to('user/docs')->with('message', 'პროცესი წარმატებით განახლდა');
+        return redirect()->to('user/docs')->with('message', __("პროცესი წარმატებით განახლდა"));
     }
 
     /**
@@ -72,12 +72,12 @@ class ProcessController extends Controller
     public function delete(Process $process): RedirectResponse
     {
         if (DangerProcess::where('process_id', $process->id)->count() > 0) {
-            //    return back()->with('error', 'გთხოვთ, ამოშალოთ ყველა შემავალი საფრთხე');
+            //    return back()->with('error', '__("გთხოვთ, ამოშალოთ ყველა შემავალი საფრთხე")');
             DangerProcess::where('process_id', $process->id)->delete();
         }
 
         $process->delete();
-        return redirect()->to('user/docs')->with('message', 'პროცესი წარმატებით წაიშალა');
+        return redirect()->to('user/docs')->with('message', __("პროცესი წარმატებით წაიშალა"));
     }
 
     /**
@@ -95,7 +95,7 @@ class ProcessController extends Controller
 
         DangerProcess::insert($data);
 
-        return back()->with('message', 'პროცესი წარმატებით დაკოპირდა')->with('created', 1);
+        return back()->with('message', __("პროცესი წარმატებით დაკოპირდა"))->with('created', 1);
     }
 
     /**
@@ -107,7 +107,7 @@ class ProcessController extends Controller
     {
         DangerProcess::where('process_id', $process->id)->where('danger_id', $danger->id)->delete();
 
-        return back()->with('message', 'საფრთხე წარმატებით ამოიშალა');
+        return back()->with('message', __("საფრთხე წარმატებით ამოიშალა"));
     }
 
     /**
@@ -119,7 +119,7 @@ class ProcessController extends Controller
     {
         DangerProcess::create(['process_id' => $process->id, 'danger_id' => $danger->id]);
 
-        return back()->with('message', 'საფრთხე წარმატებით დაემატა');
+        return back()->with('message', __("საფრთხე წარმატებით დაემატა"));
     }
 
 }

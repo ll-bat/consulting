@@ -215,6 +215,7 @@
 
 
 @section('content')
+    <input type="hidden" id="field_id" value="{{$fieldId}}" />
 
     <div class="mb-5 mx-4" style="width: 96% !important;;">
         <div class="row justify-content-center">
@@ -236,22 +237,22 @@
                     <button class='btn btn-outline-primary rounded-pill border-0' id='proccreate'
                             onclick="show($1('procarea'))">
                         <i class='fa fa-plus'></i>
-                        პროცესი
+                        {{ __("პროცესი") }}
                     </button>
 
                     <a href='docs/new-danger' class='btn btn-outline-danger rounded-pill border-0'>
                         <i class='fa fa-plus'></i>
-                        საფრთხე
+                        {{ __("საფრთხე") }}
                     </a>
 
                     <a href='docs/new-control' class='btn my-btn rounded-pill' style='border:0 !important'>
                         <i class='fa fa-plus'></i>
-                        კონტროლის ზომა
+                        {{ __("კონტროლის ზომა") }}
                     </a>
 
                     <a href='docs/added-by-users' class='btn rounded-pill' style='border:0 !important'>
                         <i class='fa fa-plus'></i>
-                        დამატებული(<b>{{$cnt > 0 ? '*' : 0}}</b>)
+                        {{ __("დამატებული") }}(<b>{{$cnt > 0 ? '*' : 0}}</b>)
                     </a>
                 </div>
 
@@ -261,7 +262,7 @@
                     <div class="border rounded bg-white mt-3 p-2" style='border-color:rgba(0,100,255, .3) !important'>
                            <textarea
                                class='form-control autoresize p-1 pl-2 hover-lt-border'
-                               placeholder='პროცესის სახელი'
+                               placeholder='{{ __("პროცესის სახელი") }}'
                                name='name'
                            >{{old('name')}} </textarea>
 
@@ -276,7 +277,7 @@
                 <div class='card card-user mt-3 text-left rounded-10 shadow-none left-colored-border ns-border-bottom'
                      style='border-left-color:orange'>
                     <div class='card-title mb-2 mt-3'>
-                        <p class='pl-4 font-weight-bold text-warning'> პროცესები </p>
+                        <p class='pl-4 font-weight-bold text-warning'> {{ __("პროცესები") }} </p>
                     </div>
 
                     <div class='pl-4 py-2'>
@@ -299,7 +300,7 @@
                         @endforeach
 
                         @if ($procs->count() == 0)
-                            <p class='text-secondary ml-3'> თქვენ არ გაქვთ პროცესები </p>
+                            <p class='text-secondary ml-3'> {{ __("თქვენ არ გაქვთ პროცესები") }} </p>
                         @endif
                     </div>
                 </div>
@@ -307,7 +308,7 @@
 
                 <div class='card mt-3 text-left rounded-10 shadow-none left-colored-border ns-border-bottom'>
                     <div class='card-title mb-2 mt-3 pointer'>
-                        <p class='pl-4 font-weight-bold text-primary'> პოტენციური ზიანი </p>
+                        <p class='pl-4 font-weight-bold text-primary'> {{ __("პოტენციური ზიანი") }} </p>
                     </div>
 
                     <div class="" v-if="plossLoading">
@@ -319,14 +320,14 @@
                         <div v-for='o in ploss'>
                             <fbody-component :data='o' type='1'
                                              url='docs/save-ploss'
-                                             placeholder='დაამატეთ პოტენციური ზიანი'
+                                             placeholder='{{ __("დაამატეთ პოტენციური ზიანი") }}'
                                              @saving='psaving=true'
                                              @saved='psaving=false' @deleted='deletePloss'>
                             </fbody-component>
                         </div>
                         <div class='d-flex'>
                             <div class='ns-circle'></div>
-                            <span class='ml-3 text-muted text-sm h-border' @click='addNewPloss()'> დამატება </span>
+                            <span class='ml-3 text-muted text-sm h-border' @click='addNewPloss()'> {{ __("დამატება") }} </span>
 
                             <div class='position-absolute d-none' id="psaving-panel" style='right:.4rem;'>
 
@@ -349,7 +350,7 @@
                      style='border-left-color:purple'>
 
                     <div class='card-title mb-2 mt-3 pointer'>
-                        <p class='pl-4 font-weight-bold' style='color:purple'> ვინ იმყოფება საფრთხის ქვეშ </p>
+                        <p class='pl-4 font-weight-bold' style='color:purple'> {{ __("ვინ იმყოფება საფრთხის ქვეშ") }} </p>
                     </div>
 
                     <div class="" v-if="udangerLoading">
@@ -362,7 +363,7 @@
                         <div v-for='o in udanger'>
                             <fbody-component :data='o' type='2'
                                              url='docs/save-udanger'
-                                             placeholder='დაამატეთ მონაცემი'
+                                             placeholder='{{ __("დაამატეთ მონაცემი") }}'
                                              @saving='usaving=true'
                                              @saved='usaving=false'
                                              @deleted='deletePloss'>
@@ -370,7 +371,7 @@
                         </div>
                         <div class='d-flex'>
                             <div class='ns-circle'></div>
-                            <span class='ml-3 text-muted text-sm h-border' @click='addNewUdanger()'> დამატება </span>
+                            <span class='ml-3 text-muted text-sm h-border' @click='addNewUdanger()'> {{ __("დამატება") }} </span>
 
                             <div class='position-absolute d-none' id="usaving-panel" style='right:.4rem;'>
                                 <div class="spinner-border text-info mx-1 my-1 mr-3" v-if="usaving"

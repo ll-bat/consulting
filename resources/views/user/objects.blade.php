@@ -30,7 +30,7 @@ if (!isset($readonly)) {
             $json = json_encode([
                 'fields' => ['name' => ''],
                 '_nextUrl' => 'objects/create',
-                'title' => 'ობიექტის დამატება',
+                'title' => __("ობიექტის დამატება"),
                 'onEnter' => ['name']
             ]);
      ?>
@@ -40,7 +40,7 @@ if (!isset($readonly)) {
             data-params="{{ $json }}"
             style="margin-bottom: 4px !important;color:rgb(27,141,227); font-size: 1rem">
         <i class="fa fa-plus pl-0 pr-2"></i>
-        ობიექტის დამატება
+        {{ __("ობიექტის დამატება") }}
     </a>
 
     <?php endif; ?>
@@ -71,7 +71,7 @@ if (session()->has('message')) {
         $json = json_encode([
             'fields' => ['name' => $object['name']],
             '_nextUrl' => 'objects/' . $object['id'] . '/update',
-            'title' => 'ობიექტის განახლება',
+            'title' => __("ობიექტის განახლება"),
         ]) ?>
 
         <div class="bg-white px-4 py-3 border rounded-10 partial-shadow border-0 mt-3">
@@ -92,7 +92,7 @@ if (session()->has('message')) {
         </div>
     @endforeach
     @if (count($objects) < 1)
-        <p class="alert text-white" style="background-color:rgba(0,0,200, .5)"> ობიექტები არ არის </p>
+        <p class="alert text-white" style="background-color:rgba(0,0,200, .5)"> {{ __("ობიექტები არ არის") }} </p>
     @endif
 
     <?php if (!$readonly): ?>

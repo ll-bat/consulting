@@ -92,10 +92,10 @@ if (!isset($readonly)) {
 
                             <div class='text-muted text-sm mt-4 ml-2'>
                                 <span>
-                                    <b> შეიქმნა: </b> {{ $doc->dateCreated() }}
+                                    <b> {{ __("შეიქმნა") }}: </b> {{ $doc->dateCreated() }}
                                 </span>
                                 <span class="ml-3">
-                                    <b> ბოლოს განახლდა: </b> {{ $doc->dateModified() }}
+                                    <b> {{ __("ბოლოს განახლდა") }}: </b> {{ $doc->dateModified() }}
                                 </span>
                             </div>
                         </div>
@@ -104,14 +104,14 @@ if (!isset($readonly)) {
                                 <div class="mr-1">
                                     <button class="btn btn-outline-success rounded-pill text-sm border-0 clickable"
                                             data-url="{{ route('user.export.download', ['export' => $doc->id]) }}">
-                                        გადმოწერა
+                                        {{ __("გადმოწერა") }}
                                     </button>
                                 </div>
                                 <div class="">
                                     @if (!$readonly)
                                         <button class="btn btn-outline-danger rounded-pill text-sm border-0"
-                                                onclick="if(confirm('ნამდვილად გსურთ ამ დოკუმენტის წაშლა ?')) $1('doc-delete{{$index}}').submit()">
-                                            წაშლა
+                                                onclick="if(confirm('{{ __("ნამდვილად გსურთ ამ დოკუმენტის წაშლ") }}' ?')) $1('doc-delete{{$index}}').submit()">
+                                            {{ __("წაშლა") }}
                                         </button>
 
                                         <form method="post" action="/user/doc/{{$doc->id}}/delete" class="d-none"
@@ -131,9 +131,9 @@ if (!isset($readonly)) {
         @if ($docs->count() == 0)
 
             <div class='alert alert-info text-white' style='background-color:rgba(0,0,200, .5)'>
-                <p> დოკუმენტები არ არის.
+                <p> {{ __("დოკუმენტები არ არის") }}.
                     @if (!$readonly)
-                    შეავსეთ <a href='/user/pre-questions' class='text-white font-weight-bolder'> კითქვარი </a>
+                    {{ __("შეავსეთ") }} <a href='/user/pre-questions' class='text-white font-weight-bolder'> {{ __("კითქვარი") }} </a>
                     @endif
                 </p>
             </div>

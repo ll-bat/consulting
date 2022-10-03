@@ -44,7 +44,7 @@
                             <!-- Section Tittle -->
                             <div class="section-tittle mb-70">
                                 <span>Services</span>
-                                <h2>ჩვენი სერვისები</h2>
+                                <h2>{{ __("ჩვენი სერვისები") }}</h2>
                             </div>
                         </div>
                     </div>

@@ -4,7 +4,7 @@
 
 
 <div class='card-body text-left px-4' style='font-size:1.2em;'>
-      <h6 class='text-primary font-weight-bolder py-3 px-2 is-moving'> ვინ იმყოფება საფრთხის ქვეშ </h6>
+      <h6 class='text-primary font-weight-bolder py-3 px-2 is-moving'> {{ __("ვინ იმყოფება საფრთხის ქვეშ") }} </h6>
 
        @foreach ($udangers as $ind => $u)
           <div class='d-flex py-1 px-3 is-moving' id='full-udanger{{$u->id}}'>

@@ -2,6 +2,7 @@
   $current_route = Request::path();
   $route = Request::route()->getName();
   $modifies = $modifies ?? false;
+  $currentLang = \Illuminate\Support\Facades\App::getLocale();
 ?>
 
 <!doctype html>
@@ -106,12 +107,12 @@
                                     <nav>
                                         <ul id="navigation">
                                             <li>
-                                               <a href="/" class='nav-link'>მთავარი</a>
+                                               <a href="/" class='nav-link'>{{ __("მთავარი") }}</a>
                                             </li>
 
-                                            <li><a href="{{route('site.about')}}" class='nav-link'>ჩვენს შესახებ</a></li>
+                                            <li><a href="{{route('site.about')}}" class='nav-link'>{{ __("ჩვენს შესახებ") }}</a></li>
 
-                                            <li><a href="{{route('site.services')}}" class='nav-link'>სერვისები</a>
+                                            <li><a href="{{route('site.services')}}" class='nav-link'>{{ __("სერვისები") }}</a>
                                                 @if ($modifies)
                                                 <ul class="submenu">
                                                     @foreach ($modifies->services->getServices() as $service)
@@ -121,12 +122,25 @@
                                                 @endif
                                             </li>
 
-                                            <li><a href="{{route('site.blogs')}}" class='nav-link'>სიახლეები</a></li>
-                                            <li><a href="{{route('site.contact')}}" class='nav-link'>კონტაქტი</a></li>
+                                            <li><a href="{{route('site.blogs')}}" class='nav-link'>{{ __("სიახლეები") }}</a></li>
+                                            <li><a href="{{route('site.contact')}}" class='nav-link'>{{ __("კონტაქტი") }}</a></li>
+                                            <li>
+                                                @if ($currentLang === 'geo')
+                                                    <a href="{{route('lang', ['locale' => 'en'])}}" class="nav-link">
+                                                       <img width="30px" src="/img/lang/en.png" />
+                                                        ENG
+                                                    </a>
+                                                @else
+                                                    <a href="{{route('lang', ['locale' => 'geo'])}}" class="nav-link">
+                                                        <img width="30px" src="/img/lang/geo.png" />
+                                                        GEO
+                                                    </a>
+                                                @endif
+                                            </li>
                                             @auth
                                                <li><a href="{{route('user.home')}}" class='d-flex d-lg-block'>
                                                    <img src='/icons/user_1.png' class='rounded-pill' width='40' />
-                                                   <span class='d-lg-none d-block p-2'> ჩემი პროფილი </span>
+                                                   <span class='d-lg-none d-block p-2'> {{ __("ჩემი პროფილი") }} </span>
                                                   </a>
                                                 </li>
                                            @endauth

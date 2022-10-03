@@ -5,7 +5,7 @@
                       width:50%;
                       border-top-left-radius: 8px;
                       color: #9999ff;
-                      border-right:1px solid #d3d3d3;'>კონტროლის ზომები
+                      border-right:1px solid #d3d3d3;'>{{ __("კონტროლის ზომები") }}
         </th>
         <th class="text-center" v-for="answer in controlAnswers" style='font-size: .7rem !important;'>@{{answer.text}}
         </th>

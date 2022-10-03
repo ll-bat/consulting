@@ -40,7 +40,7 @@ class ImportsController extends Controller
 
         $extension = $request->file('danger')->getClientOriginalExtension();
         if (!in_array($extension, explode(',', "csv,xlsx,xls,xlt"))) {
-            return back()->with('error', 'გთხოვთ ატვირთოთ ექსელის დოკუმენტი');
+            return back()->with('error', __("გთხოვთ ატვირთოთ ექსელის დოკუმენტი"));
         }
 
         try {
@@ -48,13 +48,13 @@ class ImportsController extends Controller
             $reader = new ExcelReader($data);
             $data = $reader->getData();
         } catch (\Exception $e){
-            return back()->with('error', 'სამწუხაროდ, შეცდომა დაფიქსირდა. გთხოვთ, სცადოთ თავიდან.');
+            return back()->with('error', __("სამწუხაროდ, შეცდომა დაფიქსირდა. გთხოვთ, სცადოთ თავიდან"));
         }
 
 
         foreach ($data as $ind => $d) {
             if (!$reader->filterDangerField($d)) {
-                return back()->with('error', "ინფორმაციის განლაგება ექსელის დოკუმენტში არასწორია. შეამოწმეთ მონაცემი - ". ($ind+1));
+                return back()->with('error',  __('ინფორმაციის განლაგება ექსელის დოკუმენტში არასწორია. შეამოწმეთ მონაცემი') . " - " . ($ind+1));
             }
         }
 
@@ -126,7 +126,7 @@ class ImportsController extends Controller
         }
 
         DB::commit();
-        return back()->with('message', 'ოპერაცია წარმატებით დასრულდა');
+        return back()->with('message', __("ოპერაცია წარმატებით დასრულდა"));
     }
 
     /**
@@ -142,7 +142,7 @@ class ImportsController extends Controller
 
         $extension = $request->file('control')->getClientOriginalExtension();
         if (!in_array($extension, explode(',', "csv,xlsx,xls,xlt"))) {
-            return back()->with('error', 'გთხოვთ ატვირთოთ ექსელის დოკუმენტი');
+            return back()->with('error', __("გთხოვთ ატვირთოთ ექსელის დოკუმენტი"));
         }
 
         $route = 'danger.show';
@@ -152,13 +152,13 @@ class ImportsController extends Controller
             $reader = new ExcelReader($data);
             $data = $reader->getData();
         } catch (\Exception $e){
-            return back()->with('error', 'სამწუხაროდ, შეცდომა დაფიქსირდა. გთხოვთ, სცადოთ თავიდან.');
+            return back()->with('error', __("სამწუხაროდ, შეცდომა დაფიქსირდა. გთხოვთ, სცადოთ თავიდან"));
         }
 
 
         foreach ($data as $ind => $d) {
             if (!$reader->filterControlField($d)){
-                return redirect()->route($route, [$danger->id])->with('error', 'ინფორმაციის განლაგება ექსელის დოკუმენტში არასწორია. მონაცემი - '. ($ind+1));
+                return redirect()->route($route, [$danger->id])->with('error', __("ინფორმაციის განლაგება ექსელის დოკუმენტში არასწორია. მონაცემი") . ' - ' . ($ind+1));
             }
         }
 
@@ -207,6 +207,6 @@ class ImportsController extends Controller
         }
 
         DB::commit();
-        return redirect()->route($route, [$danger->id])->with('message', 'ოპერაცია წარმატებით დასრულდა');
+        return redirect()->route($route, [$danger->id])->with('message', __("ოპერაცია წარმატებით დასრულდა"));
     }
 }

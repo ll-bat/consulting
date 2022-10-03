@@ -29,67 +29,66 @@ use App\Helperclass\Obj;
     <tr style='border: 5px dashed #ccc'>
         <td width='5' height='22'></td>
         <td rowspan='2' align='center' width='20' height='22'
-            style='vertical-align:middle;border:7px solid #b8b894;background-color:#DEEAF6'> პროცესი
+            style='vertical-align:middle;border:7px solid #b8b894;background-color:#DEEAF6'> {{ __("პროცესი") }}
         </td>
         <td rowspan='2' align='center' width='20' height='22'
-            style='vertical-align:middle;border:7px solid #b8b894;background-color:#DEEAF6'> საფრთხე
+            style='vertical-align:middle;border:7px solid #b8b894;background-color:#DEEAF6'> {{ __("საფრთხე") }}
         </td>
         <td rowspan='2' align='center' width='20' height='22'
             style='vertical-align:middle;color: #ff00ff;border:7px solid #b8b894;background-color:#DEEAF6'>
-            საფრთ.ამს.<br/>ფოტო
+            {{ __("საფრთ.ამს") }}.<br/>{{ __("ფოტო") }}
         </td>
         <td rowspan='2' align='center' width='20' height='22'
-            style='vertical-align:middle;border:7px solid #b8b894;background-color:#DEEAF6'> პოტენციური ზიანი
+            style='vertical-align:middle;border:7px solid #b8b894;background-color:#DEEAF6'> {{ __("პოტენციური ზიანი") }}
         </td>
         <td rowspan='2' align='center' width='20' height='22'
-            style='vertical-align:middle;border:7px solid #b8b894;background-color:#DEEAF6'> ვინ იმყოფება <br/> რისკის
-            ქვეშ
+            style='vertical-align:middle;border:7px solid #b8b894;background-color:#DEEAF6'> {{ __("ვინ იმყოფება") }} <br/> {{ __("რისკის ქვეშ") }}
         </td>
         <td rowspan='2' align='center' width='25' height='22'
             style='font-size: 10px;border:7px solid #b8b894;background-color:#DEEAF6'>
-            არსებული კონტროლის <br/>ზომები <br/>
-            <span>(საწყის ეტაპზე)</span>
+            {{ __("არსებული კონტროლის") }} <br/>{{ __("ზომები") }} <br/>
+            <span>({{ __("საწყის ეტაპზე") }})</span>
         </td>
         <td colspan='3' align='center' width='20' height='22'
-            style='vertical-align:middle;color:#ff0000;border:7px solid #b8b894;background-color:#DEEAF6'> საწყისი რისკი
+            style='vertical-align:middle;color:#ff0000;border:7px solid #b8b894;background-color:#DEEAF6'> {{ __("საწყისი რისკი") }}
         </td>
         <td rowspan='2' align='center' width='25' height='22'
             style='vertical-align:middle;font-size:8px;border:7px solid #b8b894;background-color:#DEEAF6'>
-            კონტროლის დამატებითი ზომები <br/> <span>(გატარებული ან/და მიმდინარე)</span>
+            {{ __("კონტროლის დამატებითი ზომები") }} <br/> <span>({{ __("გატარებული ან/და მიმდინარე") }})</span>
         </td>
         <td colspan='3' align='center' width='20' height='22'
-            style='vertical-align:middle;color:#28A78C;border:7px solid #b8b894;background-color:#DEEAF6'> ნარჩენი რისკი
+            style='vertical-align:middle;color:#28A78C;border:7px solid #b8b894;background-color:#DEEAF6'> {{ __("ნარჩენი რისკი") }}
         </td>
         <td rowspan='2' align='center' width='25' height='22'
             style='font-size: 10px;border:7px solid #b8b894;background-color:#DEEAF6'>
-            გასატარებელი <br/>ღონისძიებები
+            {{ __("გასატარებელი") }} <br/>{{ __("ღონისძიებები") }}
         </td>
         <td rowspan='2' align='center' width='20' height='22'
-            style='vertical-align:middle;border:7px solid #b8b894;background-color:#DEEAF6'> პასუხისმგებელი <br/> პირი
+            style='vertical-align:middle;border:7px solid #b8b894;background-color:#DEEAF6'> {{ __("პასუხისმგებელი") }} <br/> {{ __("პირი") }}
         </td>
         <td rowspan='2' align='center' width='20' height='22'
-            style='vertical-align:middle;border:7px solid #b8b894;background-color:#DEEAF6'> შესრ.ვადა
+            style='vertical-align:middle;border:7px solid #b8b894;background-color:#DEEAF6'> {{ __("შესრ.ვადა") }}
         </td>
     </tr>
     <tr>
         <td width='5' height='22'></td>
         <td align='center' width='7' height='24'
-            style='font-size:8px;background-color:#DEEAF6;border:5px solid #b8b888'> ა
+            style='font-size:8px;background-color:#DEEAF6;border:5px solid #b8b888'> {{ __('ა') }}
         </td>
         <td align='center' width='7' height='24'
-            style='font-size:8px;background-color:#DEEAF6;border:5px solid #b8b888'> შ
+            style='font-size:8px;background-color:#DEEAF6;border:5px solid #b8b888'> {{ __('შ') }}
         </td>
         <td align='center' width='7' height='24'
-            style='font-size:8px;background-color:#DEEAF6;border:5px solid #b8b888'> რისკის <br/> დონე
+            style='font-size:8px;background-color:#DEEAF6;border:5px solid #b8b888'> {{ __("რისკის") }} <br/> {{ __("დონე") }}
         </td>
         <td align='center' width='7' height='24'
-            style='font-size:8px;background-color:#DEEAF6;border:5px solid #b8b888'> ა
+            style='font-size:8px;background-color:#DEEAF6;border:5px solid #b8b888'> {{ __('ა') }}
         </td>
         <td align='center' width='7' height='24'
-            style='font-size:8px;background-color:#DEEAF6;border:5px solid #b8b888'> შ
+            style='font-size:8px;background-color:#DEEAF6;border:5px solid #b8b888'> {{ __('შ') }}
         </td>
         <td align='center' width='7' height='24'
-            style='font-size:8px;background-color:#DEEAF6;border:5px solid #b8b888'> რისკის <br/> დონე
+            style='font-size:8px;background-color:#DEEAF6;border:5px solid #b8b888'> {{ __("რისკის") }} <br/> {{ __("დონე") }}
         </td>
     </tr>
     <thead>

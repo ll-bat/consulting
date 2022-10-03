@@ -8,12 +8,12 @@
       <div class="modal-content">
       
         <div class="modal-header">
-          <h4 class="modal-title"> აირჩიეთ დოკუმენტი</h4>
+          <h4 class="modal-title"> {{ __("აირჩიეთ დოკუმენტი") }}</h4>
           <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
         <div class="modal-body">
-          გთხოვთ აირჩიოთ მინ.1 გადმოსაწერი დოკუმენტი
+          {{ __("გთხოვთ აირჩიოთ მინ.1 გადმოსაწერი დოკუმენტი") }}
         </div>
         
         <div class="modal-footer">

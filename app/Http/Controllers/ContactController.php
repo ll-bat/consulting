@@ -13,8 +13,8 @@ use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
-     
-     
+
+
       public function store(){
           request()->validate([
               'message' => 'required|string',
@@ -23,10 +23,11 @@ class ContactController extends Controller
               'subject' => 'required|string'
           ]);
 
-         
+
         //   Mail::to('admin@example.com')
         //       ->send(new ContactMe(request('message'),request('name'), request('mail'), request('subject')));
 
-          return redirect('/contact')->with('message', 'მეილი წარმატებით გაიგზავნა');
+          $message = __("მეილი წარმატებით გაიგზავნა");
+          return redirect('/contact')->with('message', $message);
       }
 }

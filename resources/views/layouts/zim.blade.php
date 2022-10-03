@@ -197,11 +197,11 @@ if (in_array($route, $abroutes))
                                 <button class='btn text-white border-0 py-1 px-3' style="background-color: #007799"
                                         onclick="$1('import_excel').click(); event.preventDefault()"><i
                                         class='fa fa-plus'></i>
-                                    კონტრ.ზომები
+                                    {{ __("კონტრ.ზომები") }}
                                 </button>
                             </form>
                             @if ($errors->has('control'))
-                                <p class='text-danger text-sm'> გთხოვთ, ატვირთოთ ექსელის დოკუმენტი </p>
+                                <p class='text-danger text-sm'> {{ __("გთხოვთ, ატვირთოთ ექსელის დოკუმენტი") }} </p>
                             @endif
                         </div>
                     </div>
@@ -240,14 +240,14 @@ if (in_array($route, $abroutes))
                              id='c-dropdown-menu'
                              style="border-radius:10px;"
                         >
-                            <a class="dropdown-item c-dropdown-item c-top-radius py-2" href="/">მთავარი გვერდი</a>
+                            <a class="dropdown-item c-dropdown-item c-top-radius py-2" href="/">{{ __("მთავარი გვერდი") }}</a>
                             @if ($route == 'danger.show')
                                 <a class="dropdown-item c-dropdown-item py-2 d-block d-lg-none"
                                    onclick="$1('import_excel').click();">
-                                    კონტრ.ზომები(ექსელი) </a>
+                                    {{ __("კონტრ.ზომები") }}({{ __("ექსელი") }}) </a>
                             @endif
                             <a class="dropdown-item c-dropdown-item c-bottom-radius py-2"
-                               onclick="$1('signOut').submit()">გამოსვლა
+                               onclick="$1('signOut').submit()">{{ __("გამოსვლა") }}
                             </a>
 
                             <form method='post' action='/logout' class='d-none' id='signOut'>

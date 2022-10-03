@@ -1,6 +1,7 @@
 <?php
 
 use App\Helperclass\SiteJson;
+use Illuminate\Support\Facades\App;
 
 function getUrl()
 {
@@ -47,21 +48,20 @@ function userRoutes()
     //     ['route' => '', 'icon' => 'nc-icon nc-pin-3', 'name' => 'Location'],
 
     return [
-        ['route' => 'user.home', 'icon' => 'nc-icon nc-bank', 'name' => 'მთავარი'],
-        ['route' => 'user.profile', 'icon' => 'nc-icon nc-single-02', 'name' => 'პროფილი'],
-        ['route' => 'user.objects', 'icon' => 'nc-icon nc-single-copy-04', 'name' => 'ობიექტები'],
-        ['route' => 'user.preQuestions', 'icon' => 'nc-icon nc-tap-01 mr-3 mt-3 ml-1', 'name' => 'რისკების შეფასების დოკუმენტის შექმნა']
-
+        ['route' => 'user.home', 'icon' => 'nc-icon nc-bank', 'name' => __("მთავარი")],
+        ['route' => 'user.profile', 'icon' => 'nc-icon nc-single-02', 'name' => __("პროფილი")],
+        ['route' => 'user.objects', 'icon' => 'nc-icon nc-single-copy-04', 'name' => __("ობიექტები")],
+        ['route' => 'user.preQuestions', 'icon' => 'nc-icon nc-tap-01 mr-3 mt-3 ml-1', 'name' => __("რისკების შეფასების დოკუმენტის შექმნა")],
     ];
 }
 
 function adminRoutes()
 {
     return [
-        ['route' => 'admin.fields', 'icon' => 'nc-icon nc-paper', 'name' => 'დოკუმენტები'],
-        ['route' => 'admin.users', 'icon' => 'far fa-user-friends', 'name' => 'მომხმარებლები'],
-        ['route' => 'admin.blog', 'icon' => 'nc-icon nc-tag-content', 'name' => 'ბლოგები'],
-        ['route' => 'admin.customize', 'icon' => 'nc-icon nc-ruler-pencil', 'name' => 'საიტის შეცვლა'],
+        ['route' => 'admin.fields', 'icon' => 'nc-icon nc-paper', 'name' => __("დოკუმენტები")],
+        ['route' => 'admin.users', 'icon' => 'far fa-user-friends', 'name' => __("მომხმარებლები")],
+        ['route' => 'admin.blog', 'icon' => 'nc-icon nc-tag-content', 'name' => __("ბლოგები")],
+        ['route' => 'admin.customize', 'icon' => 'nc-icon nc-ruler-pencil', 'name' => __("საიტის შეცვლა")],
     ];
 }
 

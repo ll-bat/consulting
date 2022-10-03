@@ -1,7 +1,7 @@
 <div>
     <div class='card test-shadow rounded-8' v-if='showDangers' style="border-left: 8px solid #6957b8;">
         <div class='card-body ml-2 pl-2'>
-            <p class='px-2 py-3 pb-0' style='font-size:1.3rem;'> აირჩიეთ საფრთხე </p>
+            <p class='px-2 py-3 pb-0' style='font-size:1.3rem;'> {{ __("აირჩიეთ საფრთხე") }} </p>
             <div class="form-group py-1 px-3" style='width:55%;' v-if='currentDangers.length > 0'>
                 <div class="mt-2">
                     <div v-for='(d,i) in currentDangers'>

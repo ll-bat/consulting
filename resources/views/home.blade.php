@@ -172,7 +172,7 @@ $route = Request::route()->getName();
 
                                     <p style="{{$modifies->getStyleFor('home', 'title')}};line-height:4rem;"
                                        data-animation="fadeInLeft" data-delay="1.8s">
-                                        {{$modifies->getTextFor('home', 'title') ?? 'ჩვენ წარმატების მიღწევაში გეხმარებით'}}
+                                        {{$modifies->getTextFor('home', 'title') ?? __("ჩვენ წარმატების მიღწევაში გეხმარებით")}}
                                     </p>
 
                                     <p class='d-md-block d-sm-none'
@@ -190,7 +190,7 @@ $route = Request::route()->getName();
                                                 <div class='position-relative hoverable'>
                                                     <a href="{{route('login')}}"
                                                        class='btn btn-danger text-white font-weight-bolder authorization'>
-                                                        ავტორიზაცია
+                                                        {{ __("ავტორიზაცია") }}
                                                     </a>
                                                     <!-- <div class='ns-underline position-absolute' style='background-color:#EB566C !important'></div> -->
                                                     <!-- <div class='ns-border position-absolute'></div> -->
@@ -199,7 +199,7 @@ $route = Request::route()->getName();
                                                 <div class='position-relative hoverable ml-3'>
                                                     <a href="{{route('register')}}"
                                                        class='btn btn-primary text-white font-weight-bolder registration'
-                                                       style=''>რეგისტრაცია
+                                                       style=''>{{ __("რეგისტრაცია") }}
                                                     </a>
                                                     <!-- <div class='ns-underline position-absolute' style=''></div> -->
                                                     <!-- <div class='ns-border position-absolute' style=''></div> -->
@@ -211,7 +211,7 @@ $route = Request::route()->getName();
                                                     <div class='position-relative hoverable'>
                                                         <a href="{{route('login')}}"
                                                            class='font-weight-bolder authorization'>
-                                                            ავტორიზაცია
+                                                            {{ __("ავტორიზაცია") }}
                                                         </a>
                                                     </div>
                                                 </div>
@@ -219,7 +219,7 @@ $route = Request::route()->getName();
                                                     <div class='position-relative hoverable mt-2'>
                                                         <a href="{{route('register')}}"
                                                            class='font-weight-bolder registration'
-                                                           style=''>რეგისტრაცია
+                                                           style=''>{{ __("რეგისტრაცია") }}
                                                         </a>
                                                     </div>
                                                 </div>
@@ -227,7 +227,7 @@ $route = Request::route()->getName();
                                         </div>
                                 @endauth
                                 <!-- <div class="hero__btn" data-animation="fadeInLeft" data-delay="2.6s">
-                                        <a href="{{route('site.services')}}" class="btn hero-btn py-4 px-3" style='font-size:1rem;border-radius:0;font-weight:normal;'>ჩვენი სერვისები</a>
+                                        <a href="{{route('site.services')}}" class="btn hero-btn py-4 px-3" style='font-size:1rem;border-radius:0;font-weight:normal;'>{{ __("ჩვენი სერვისები") }}</a>
                                     </div> -->
                                 </div>
                             </div>
@@ -245,7 +245,7 @@ $route = Request::route()->getName();
                         <!-- Section Tittle -->
                         <div class="section-tittle mb-70">
                             <span class='ns-anim-0'> Services </span>
-                            <p class='font-weight-bolder ns-animation-d2' style='font-size:3em;line-height:1em;'>ჩვენი სერვისები</p>
+                            <p class='font-weight-bolder ns-animation-d2' style='font-size:3em;line-height:1em;'>{{ __("ჩვენი სერვისები") }}</p>
                         </div>
                     </div>
                 </div>
@@ -314,7 +314,7 @@ $route = Request::route()->getName();
                                 <div class="section-tittle mb-100 ns-animation-d3 ns-attached attached-d2 attached-d3 position-relative">
 {{--                                    <img src="/icons/newspaper.png" width="70" />--}}
                                     <p class='font-weight-bolder'
-                                       style="font-size:3rem; line-height:3rem;"> სიახლეები </p>
+                                       style="font-size:3rem; line-height:3rem;"> {{ __("სიახლეები") }} </p>
                                 </div>
                             </div>
                         </div>

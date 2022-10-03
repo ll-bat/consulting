@@ -1,6 +1,6 @@
 <form>
     @csrf
-    <h6 class="text-muted"> მომხმარებლის სტატუსი:
+    <h6 class="text-muted"> {{ __("მომხმარებლის სტატუსი") }}:
        <b class="" id="user-status-label" > </b>
     </h6>
 
@@ -16,14 +16,14 @@
     <br />
 
     <div class="mt-5" style="clear:both">
-        <h6 class="text-muted"> მომხმარებლის ტიპი:
+        <h6 class="text-muted"> {{ __("მომხმარებლის ტიპი") }}:
             <b class="" id="user-type-label" > </b>
         </h6>
 
         <label>
             <select class="form-control" id="user-type" >
-                <option value="{{ \App\User::TYPE_STANDARD }}"> სტანდარტული </option>
-                <option value="{{ \App\User::TYPE_PREMIUM }}"> პრემიუმი </option>
+                <option value="{{ \App\User::TYPE_STANDARD }}"> {{ __("სტანდარტული") }} </option>
+                <option value="{{ \App\User::TYPE_PREMIUM }}"> {{ __("პრემიუმი") }} </option>
                 <option value="{{ \App\User::TYPE_VIP }}"> VIP </option>
             </select>
         </label>

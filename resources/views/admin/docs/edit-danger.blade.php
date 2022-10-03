@@ -82,7 +82,7 @@ $delcolor = '#ee5c2d';
                                 <div class='form-group'>
                                     <textarea type='text'
                                               class='form-control autoresize'
-                                              placeholder='დაამატეთ საფრთხე'
+                                              placeholder='{{ __("დაამატეთ საფრთხე") }}'
                                               oninput="$(window).trigger('autoresize')"
                                               name='name'>{{ $danger->name }}
                                     </textarea>
@@ -105,7 +105,7 @@ $delcolor = '#ee5c2d';
                     <div class='card border-0 partial-shadow pb-2' id="choose-process"
                          style=''>
                         <div class="card-body text-left p-3">
-                            <p class='mt-2 mb-4 font-weight-bolder' style="color: #009999"> აირჩიეთ პროცესი </p>
+                            <p class='mt-2 mb-4 font-weight-bolder' style="color: #009999"> {{ __("აირჩიეთ პროცესი") }} </p>
                             <div class="mt-4">
                                 @foreach($procs as $proc)
                                     <label class="ns-container mt-3 ml-2 text-secondary"
@@ -121,7 +121,7 @@ $delcolor = '#ee5c2d';
                             </div>
 
                             @if ($procs->count() == 0)
-                                <p class='text-secondary pl-3'> პროცესები არ არის </p>
+                                <p class='text-secondary pl-3'> {{ __("პროცესები არ არის") }} </p>
                             @endif
 
                             @error('process')
@@ -133,12 +133,12 @@ $delcolor = '#ee5c2d';
 
                         <div class='d-flex m-2 mx-3'>
                             <div class=''>
-                                <button class='btn my-btn' onclick="updateHandler(this)"> განახლება</button>
+                                <button class='btn my-btn' onclick="updateHandler(this)"> {{ __("განახლება") }}</button>
                             </div>
 
                             <div class='ml-2'>
                                 <button class='btn my-del-btn' style='border-width: 1px !important'
-                                        onclick="event.preventDefault();$1('danger-delete').submit(); "> წაშლა
+                                        onclick="event.preventDefault();$1('danger-delete').submit(); "> {{ __("წაშლა") }}
                                 </button>
                             </div>
                         </div>
@@ -155,7 +155,7 @@ $delcolor = '#ee5c2d';
                           'type' => 'control',
                           'color' => $color,
                           'delcolor' => $delcolor,
-                          'typeName' => 'კონტროლის ზომა'
+                          'typeName' => __("კონტროლის ზომა")
                         ])
 
                     <ul class="list-group text-left mb-4" style="border-radius:5px;">
@@ -163,16 +163,16 @@ $delcolor = '#ee5c2d';
                             style="background: #2159a2; color: white"
                         >
                             <i class='nc-icon nc-single-02 float-left'></i>
-                            <span class="pl-4"> მომხმარებელთა მიერ დამატებულები  </span>
+                            <span class="pl-4"> {{ __("მომხმარებელთა მიერ დამატებულები") }}  </span>
                         </li>
                         <li class="list-group-item pl-4 py-4">
-                            <a href="control"> 1. კონტროლის ზომები ({{ $controlsCount }}) </a>
+                            <a href="control"> 1. {{ __("კონტროლის ზომები") }} ({{ $controlsCount }}) </a>
                         </li>
                         <li class="list-group-item pl-4 py-4">
-                            <a href="ploss"> 2. პოტენციური ზიანი ({{ $plossCount }}) </a>
+                            <a href="ploss"> 2. {{ __("პოტენციური ზიანი") }} ({{ $plossCount }}) </a>
                         </li>
                         <li class="list-group-item pl-4 py-4">
-                            <a href="udanger"> 3. ვინ იმყოფება საფრთხის ქვეშ ({{ $udangerCount }}) </a>
+                            <a href="udanger"> 3. {{ __("ვინ იმყოფება საფრთხის ქვეშ") }} ({{ $udangerCount }}) </a>
                         </li>
                     </ul>
             </div>

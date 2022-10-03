@@ -2,7 +2,7 @@
     <div class='card test-shadow rounded-8 modified-animation' id='edit-process'
          style='border-bottom-left-radius: 0; border-bottom-right-radius: 0;'>
         <div class='card-body ml-2 pl-2'>
-            <p class='py-2 px-2' style='font-size:1.3rem;'> აირჩიეთ პროცესი </p>
+            <p class='py-2 px-2' style='font-size:1.3rem;'> {{ __("აირჩიეთ პროცესი") }} </p>
             <div class="form-group">
                 <div class="mt-4">
                     <div v-for='(p,i) in processes'>

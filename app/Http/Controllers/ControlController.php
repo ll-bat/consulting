@@ -50,7 +50,8 @@ class ControlController extends Controller
         if (isset($data['danger']))
             $control->dangers()->attach($data['danger']);
 
-        return back()->with('message', 'კონტროლის ზომა შეიქმნა წარმატებით')->with('created', '1');
+        $message = __("კონტროლის ზომა შეიქმნა წარმატებით");
+        return back()->with('message', $message)->with('created', '1');
     }
 
     public function edit(Control $control)
@@ -95,7 +96,8 @@ class ControlController extends Controller
 
         $control->update($data);
 
-        return back()->with('message', 'კონტროლის ზომა წარმატებით განახლდა');
+        $message = __("კონტროლის ზომა წარმატებით განახლდა");
+        return back()->with('message', $message);
     }
 
     /**
@@ -145,6 +147,6 @@ class ControlController extends Controller
     public function rdelete(Control $control): RedirectResponse
     {
         $this->delete($control);
-        return redirect()->to('user/docs/new-control')->with('message', 'კონტროლის ზომა წარმატებით წაიშალა');
+        return redirect()->to('user/docs/new-control')->with('message', '__("კონტროლის ზომა წარმატებით წაიშალა")');
     }
 }
