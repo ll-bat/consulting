@@ -25,6 +25,10 @@ Route::get('/locale/{locale}', function ($locale) {
    return redirect()->back();
 })->name('lang');
 
+Route::get('/locale', function() {
+   return Cookie::get('lang', 'geo');
+});
+
 Route::group(['middleware' => 'App\Http\Middleware\LangMiddleware'], function() {
 
     Route::get('/', 'HomeController@show')->name('site.home');
