@@ -54231,10 +54231,12 @@ var app = new Vue({
     }, 420);
   },
   beforeCreate: function beforeCreate() {
+    this.$i18n.locale = _helpers__WEBPACK_IMPORTED_MODULE_1__["default"].getLocale();
+  },
+  created: function created() {
     this.findFieldId();
     this.form = new _classes_Form__WEBPACK_IMPORTED_MODULE_3__["Form"](this.fieldId);
     this.form.setupRedirect();
-    this.$i18n.locale = _helpers__WEBPACK_IMPORTED_MODULE_1__["default"].getLocale();
   }
 });
 

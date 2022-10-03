@@ -89,10 +89,13 @@ const app = new Vue({
     },
 
     beforeCreate() {
+        this.$i18n.locale = helpers.getLocale()
+    },
+
+    created() {
         this.findFieldId()
         this.form = new Form(this.fieldId);
         this.form.setupRedirect();
-        this.$i18n.locale = helpers.getLocale()
     }
 
 });
