@@ -6,6 +6,8 @@ $path = '';
 
 if (in_array($route, $abroutes))
     $path = route($route);
+
+$current_locale = \Illuminate\Support\Facades\App::getLocale();
 ?>
 
     <!doctype html>
@@ -74,6 +76,11 @@ if (in_array($route, $abroutes))
             box-shadow: 4px 0 5px lightgrey;
         }
     </style>
+
+    <script>
+        const locale = "{{ $current_locale }}";
+        localStorage.setItem('locale', locale)
+    </script>
 </head>
 
 <body class="@if (!in_array($route,collapsedRoutes())) bg-docs @else bg-normal @endif"

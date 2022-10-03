@@ -68281,6 +68281,32 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/helpers/index.js":
+/*!***************************************!*\
+  !*** ./resources/js/helpers/index.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _services_httpService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/httpService */ "./resources/js/services/httpService.js");
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  getLocale: function getLocale() {
+    var defaultLocale = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'geo';
+    var locale = localStorage.getItem('locale');
+
+    if (locale) {
+      return locale;
+    }
+
+    return defaultLocale;
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/i18n.js":
 /*!******************************!*\
   !*** ./resources/js/i18n.js ***!
@@ -68314,8 +68340,8 @@ function loadLocaleMessages() {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (new vue_i18n__WEBPACK_IMPORTED_MODULE_1__["default"]({
-  locale: "geo",
-  fallbackLocale: "en",
+  locale: 'en',
+  fallbackLocale: "geo",
   messages: loadLocaleMessages()
 }));
 
@@ -68379,6 +68405,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _classes_Form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./classes/Form */ "./resources/js/classes/Form.js");
 /* harmony import */ var _components_Questions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Questions */ "./resources/js/components/Questions.vue");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./helpers */ "./resources/js/helpers/index.js");
 
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
@@ -68390,6 +68417,7 @@ window.Form = new _classes_Form__WEBPACK_IMPORTED_MODULE_2__["Form"]();
 
 
 
+
 var app = new Vue({
   el: '#app',
   i18n: _i18n__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -68397,9 +68425,9 @@ var app = new Vue({
     Questions: _components_Questions__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   store: _store__WEBPACK_IMPORTED_MODULE_4__["default"],
-  data: {},
-  methods: {},
-  created: function created() {}
+  beforeCreate: function beforeCreate() {
+    this.$i18n.locale = _helpers__WEBPACK_IMPORTED_MODULE_5__["default"].getLocale();
+  }
 });
 
 /***/ }),

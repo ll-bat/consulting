@@ -1,3 +1,5 @@
+import helpers from "./helpers";
+
 require('./bootstrap');
 
 
@@ -21,8 +23,7 @@ const app = new Vue({
         ServicesComponent,
         ServiceComponent
     },
-    data: {},
-    methods: {},
-    created() {
-    },
+    beforeCreate() {
+        this.$i18n.locale = helpers.getLocale()
+    }
 });

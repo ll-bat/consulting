@@ -3198,6 +3198,10 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_2
       _this8.loading = false;
       $1('content-spinner').remove();
     });
+    console.log(this.$i18n.locale);
+    setTimeout(function () {
+      console.log(_this8.$i18n.locale);
+    }, 10);
     this.docAboutProperties = [{
       name: "1. ".concat(this.$i18n.t("შემფასებლის/ების სახელი და გვარი"), ":"),
       placeholder: this.$i18n.t('სახელი, გვარი'),
@@ -69557,6 +69561,32 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/helpers/index.js":
+/*!***************************************!*\
+  !*** ./resources/js/helpers/index.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _services_httpService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../services/httpService */ "./resources/js/services/httpService.js");
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  getLocale: function getLocale() {
+    var defaultLocale = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'geo';
+    var locale = localStorage.getItem('locale');
+
+    if (locale) {
+      return locale;
+    }
+
+    return defaultLocale;
+  }
+});
+
+/***/ }),
+
 /***/ "./resources/js/i18n.js":
 /*!******************************!*\
   !*** ./resources/js/i18n.js ***!
@@ -69590,8 +69620,8 @@ function loadLocaleMessages() {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (new vue_i18n__WEBPACK_IMPORTED_MODULE_1__["default"]({
-  locale: "geo",
-  fallbackLocale: "en",
+  locale: 'en',
+  fallbackLocale: "geo",
   messages: loadLocaleMessages()
 }));
 
@@ -69650,9 +69680,13 @@ module.exports = JSON.parse("{\"ახალი დოკუმენტის �
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./i18n */ "./resources/js/i18n.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
-/* harmony import */ var _components_PreQuestions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/PreQuestions */ "./resources/js/components/PreQuestions.vue");
+/* harmony import */ var _services_httpService__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./services/httpService */ "./resources/js/services/httpService.js");
+/* harmony import */ var _i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./i18n */ "./resources/js/i18n.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
+/* harmony import */ var _components_PreQuestions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/PreQuestions */ "./resources/js/components/PreQuestions.vue");
+/* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./helpers */ "./resources/js/helpers/index.js");
+
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
@@ -69660,13 +69694,17 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 window.Event = new Vue();
 
 
+
 var app = new Vue({
   el: '#app',
-  i18n: _i18n__WEBPACK_IMPORTED_MODULE_0__["default"],
+  i18n: _i18n__WEBPACK_IMPORTED_MODULE_1__["default"],
   components: {
-    PreQuestions: _components_PreQuestions__WEBPACK_IMPORTED_MODULE_2__["default"]
+    PreQuestions: _components_PreQuestions__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
-  store: _store__WEBPACK_IMPORTED_MODULE_1__["default"]
+  store: _store__WEBPACK_IMPORTED_MODULE_2__["default"],
+  beforeCreate: function beforeCreate() {
+    this.$i18n.locale = _helpers__WEBPACK_IMPORTED_MODULE_4__["default"].getLocale();
+  }
 });
 
 /***/ }),

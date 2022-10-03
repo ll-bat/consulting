@@ -13,6 +13,7 @@ import {Form} from "./classes/Form";
 
 import Questions from "./components/Questions";
 import store from './store'
+import helpers from "./helpers";
 
 const app = new Vue({
     el: '#app',
@@ -21,10 +22,7 @@ const app = new Vue({
         Questions
     },
     store,
-    data: {
-    },
-    methods: {
-    },
-    created() {
-    },
+    beforeCreate() {
+        this.$i18n.locale = helpers.getLocale()
+    }
 });

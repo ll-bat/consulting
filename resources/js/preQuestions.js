@@ -1,3 +1,4 @@
+import httpService from "./services/httpService";
 
 require('./bootstrap');
 
@@ -9,6 +10,7 @@ window.Event = new Vue();
 import store from './store'
 
 import PreQuestions from './components/PreQuestions';
+import helpers from "./helpers";
 
 const app = new Vue({
     el: '#app',
@@ -16,5 +18,8 @@ const app = new Vue({
     components: {
         PreQuestions
     },
-    store
+    store,
+    beforeCreate() {
+        this.$i18n.locale = helpers.getLocale()
+    }
 });

@@ -53038,8 +53038,8 @@ function loadLocaleMessages() {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (new vue_i18n__WEBPACK_IMPORTED_MODULE_1__["default"]({
-  locale: "geo",
-  fallbackLocale: "en",
+  locale: 'en',
+  fallbackLocale: "geo",
   messages: loadLocaleMessages()
 }));
 

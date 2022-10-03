@@ -535,6 +535,10 @@ export default {
             $1('content-spinner').remove()
         });
 
+        console.log(this.$i18n.locale)
+        setTimeout(() => {
+            console.log(this.$i18n.locale)
+        }, 10)
         this.docAboutProperties = [
             {
                 name: `1. ${this.$i18n.t("შემფასებლის/ების სახელი და გვარი")}:`,

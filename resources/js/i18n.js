@@ -20,7 +20,7 @@ function loadLocaleMessages() {
     return messages;
 }
 export default new VueI18n({
-    locale: "geo",
-    fallbackLocale: "en",
+    locale: 'en',
+    fallbackLocale: "geo",
     messages: loadLocaleMessages()
 });

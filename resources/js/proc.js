@@ -1,3 +1,5 @@
+import helpers from "./helpers";
+
 require('./bootstrap');
 
 window.Vue = require('vue');
@@ -86,10 +88,11 @@ const app = new Vue({
         }, 420)
     },
 
-    created() {
+    beforeCreate() {
         this.findFieldId()
         this.form = new Form(this.fieldId);
         this.form.setupRedirect();
+        this.$i18n.locale = helpers.getLocale()
     }
 
 });
