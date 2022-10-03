@@ -1,5 +1,5 @@
 # Risk Assessment Consulting Website
-### Here is the [demo url](https://www.test-consulting.herokuapp.com)
+### Here is the [demo url](https://test-consulting.herokuapp.com)
 
 ## important 
 data can be categorized into: `processes`, `dangers`, `controls`, `potential damages` and `who-is-under-danger` groups
