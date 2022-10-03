@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="card test-shadow mt-4">
-            <p class="text-center pt-4"> კონტროლის ზომის დამატება </p>
+            <p class="text-center pt-4"> {{ $i18n.t("კონტროლის ზომის დამატება") }} </p>
             <div class="card-body" :class="{'mb-3' : ct.type === 'second'}" v-for="ct in controlTypes">
                 <p :class="ct.class"> {{ ct.text }} </p>
                 <div class="card-body ml-4 mt-0 pt-0">
@@ -13,7 +13,7 @@
                                 <textarea type="text"
                                           :rows="1"
                                           class="form-control border-0 border-bottom-dotted px-0 py-2 font-size-09-rem"
-                                          placeholder='დაამატეთ'
+                                          :placeholder='$i18n.t("დაამატეთ")'
                                           v-model="control.value"
                                           @input="input(ct.type)"
                                           onclick="$(this).next().addClass('ns-test-underline-mx');$(this).addClass('border-bottom-transparent').removeClass('border-bottom-dotted')"
@@ -29,7 +29,7 @@
                     <div v-if="userControls[ct.type].length < 2" class="d-flex mx-2 mt-3">
                         <div class="rounded-circle border pt-1" style="width: 15px; height: 15px"></div>
                         <p class="px-2 text-sm text-muted text-hoverable pointer" @click="addNewControl(ct.type)">
-                            დაამატეთ ახალი </p>
+                            {{ $i18n.t("დაამატეთ ახალი") }} </p>
                     </div>
                 </div>
             </div>
@@ -111,12 +111,12 @@ export default {
         this.controlTypes = [
             {
                 class: "px-3 pt-3 ml-2 text-sm",
-                text: "1. საჭიროების შემთხვევაში დაამატეთ ფაქტობრივი, გატარებული კონტროლის ზომა",
+                text: `1. ${this.$i18n.t("საჭიროების შემთხვევაში დაამატეთ ფაქტობრივი, გატარებული კონტროლის ზომა")}`,
                 type: 'first'
             },
             {
                 class: "px-3 pt-0 mb-3 ml-2 text-sm",
-                text: "2. საჭიროების შემთხვევაში მიუთითეთ გასატარებელი ღონისძიება კონტროლის ზომა",
+                text: `2. ${this.$i18n.t("საჭიროების შემთხვევაში მიუთითეთ გასატარებელი ღონისძიება კონტროლის ზომა")}`,
                 type: 'second'
             }
         ];
@@ -158,6 +158,10 @@ export default {
 .exit-icon:hover {
     background: #f1eeee;
     color: #798db0;
+}
+
+</style>
+0;
 }
 
 </style>

@@ -9,7 +9,7 @@
 
         <div class='card test-shadow rounded-8' v-if='showDangers' style="border-left: 8px solid #6957b8;">
             <div class='card-body ml-2 pl-2'>
-                <p class='px-2 py-3 pb-0 size-13'> აირჩიეთ საფრთხე </p>
+                <p class='px-2 py-3 pb-0 size-13'> {{ $i18n.t("აირჩიეთ საფრთხე") }} </p>
                 <div class="px-3 my-0 py-0" v-for="id in Object.keys(completedData)">
                     <p class="text-success">
                         <i class="nc-icon nc-check-2 px-2 mt-1"></i>
@@ -18,7 +18,7 @@
                             {{ completedData[id] }}
                         </span>
                         <span class="trash-hover text-sm mx-2" @click="removeDanger(id)">
-                            (ამოშლა)
+                            ({{ $i18n.t("ამოშლა") }})
                         </span>
                     </p>
                 </div>
@@ -72,7 +72,7 @@ export default {
             let danger = this.currentDangers.find(d => d.id === id)
             if (!danger) {
                 this.showControlsM(false);
-                alert('სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი საფრთხე წაშლილია...');
+                alert(this.$i18n.t('სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი საფრთხე წაშლილია'));
                 this.showControlsLoaderM(false);
                 this.showControlsM(false);
                 return;
@@ -155,3 +155,4 @@ export default {
     text-decoration: underline;
 }
 </style>
+yle>

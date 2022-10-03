@@ -15,7 +15,7 @@
            <div class="cat-icon position-relative">
                <!-- <i class='fa fa-plus mb-5' style='font-size: 5rem;color:#eb566c;'></i> -->
                <img :src='data.image' onload="this.style.opacity='1'"
-                    class='mb-4' 
+                    class='mb-4'
                     style='opacity:.3; transition: all .3s ease-in;height:80px; max-height:80px;min-height:80px;max-width:170px' />
                <div class='position-absolute' style='top:0; right:0;'>
                   <button class='box-image-button' onclick='$(this).next().click()'>
@@ -30,38 +30,38 @@
                    </button>
                </div>
 
-            </div> 
+            </div>
 
             <div class="cat-cap">
-               <textarea type='text' class='form-control p-2 autoresize' rows='1' 
+               <textarea type='text' class='form-control p-2 autoresize' rows='1'
                          style='border-color: rgba(0,0,0,.18) !important'
                          v-model='data.title'
-                         placeholder='სათაური'></textarea>
+                         :placeholder='$i18n.t("სათაური")'></textarea>
 
-               <textarea type='text' class='form-control p-2 mt-4 autoresize' 
+               <textarea type='text' class='form-control p-2 mt-4 autoresize'
                          style='border-color: rgba(0,0,0,.18) !important'
                          v-model='data.description'
-                         placeholder='აღწერა'> </textarea>
+                         :placeholder='$i18n.t("აღწერა")'> </textarea>
            </div>
 
         </div>
 
-        <div class='spinner text-primary spinner-border position-absolute d-none' 
+        <div class='spinner text-primary spinner-border position-absolute d-none'
             style='bottom:10px;  right:10px; width:20px; height:20px;'></div>
-        
-        <label class="ns-container mt-3 p-0 text-secondary" 
-               style='font-size:.95em; color:rgba(0,0,0,.8);'> გამოჩნდეს მთავარ გვერდზე
+
+        <label class="ns-container mt-3 p-0 text-secondary"
+               style='font-size:.95em; color:rgba(0,0,0,.8);'> {{ $i18n.t("გამოჩნდეს მთავარ გვერდზე") }}
              <input type="checkbox" v-model = 'data.shown' />
              <span class="chbox-checkmark mt-1"></span>
         </label>
 
-        <button class='box-save-button my-4 px-3 py-1' 
+        <button class='box-save-button my-4 px-3 py-1'
                 @click='saveHandler()'
                 style=''>
 
-               <div class='d-flex'> 
+               <div class='d-flex'>
                      <span class="spinner-border spinner-border-sm mt-1 mr-1" :class="{'d-none': !saving}"></span>
-                     <span> განახლება </span>
+                     <span> {{ $i18n.t("განახლება") }} </span>
               </div>
 
         </button>
@@ -107,9 +107,9 @@
                 el.parentNode.parentNode.parentNode.children[1].classList.remove('d-none')
 
                 imageLoad(ev, null,  (data) => {
-                      el.src = data 
+                      el.src = data
                       el.parentNode.parentNode.parentNode.children[1].classList.add('d-none')
-                      
+
                       if (this.postData.has('image')) this.postData.delete('image')
                       this.postData.append('image', ev.target.files[0])
                 })
@@ -121,7 +121,7 @@
                     id: this.id
                 })
                 .then(res => {
-                    
+
                 })
                 .catch(err => {
                     alert("An error has occured")
@@ -146,7 +146,7 @@
                         if (this.postData.has('image')) this.postData.delete('image')
                     })
                     .catch(err => {
-                        alert('სამწუხაროდ შეცდომა დაფიქსირდა, გთხოვთ სცადოთ თავიდან')
+                        alert(this.$i18n.t('სამწუხაროდ შეცდომა დაფიქსირდა, გთხოვთ სცადოთ თავიდან'))
                         console.log(err)
                         this.saving = false
                         if (this.postData.has('image')) this.postData.delete('image')
@@ -161,5 +161,8 @@
                $(window).trigger('autoresize')
             }, 200)
         }
+    }
+</script>
+  }
     }
 </script>

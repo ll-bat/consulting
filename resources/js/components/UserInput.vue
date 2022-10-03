@@ -12,7 +12,7 @@
                                 <textarea type="text"
                                           :rows="1"
                                           class="form-control border-0 border-bottom-dotted px-0 py-2 font-size-09-rem"
-                                          placeholder='დაამატეთ'
+                                          :placeholder='$i18n.t("დაამატეთ")'
                                           v-model="d.value"
                                           @input="input()"
                                           onclick="$(this).next().addClass('ns-test-underline-mx');$(this).addClass('border-bottom-transparent').removeClass('border-bottom-dotted')"
@@ -27,7 +27,7 @@
                 </div>
                 <div v-if="obj.data.length < 2" class="d-flex mx-1 mt-4">
                     <div class="rounded-circle border pt-1" style="width: 15px; height: 15px"></div>
-                    <p class="px-2 text-sm text-muted text-hoverable pointer" @click="addNew()"> დაამატეთ ახალი </p>
+                    <p class="px-2 text-sm text-muted text-hoverable pointer" @click="addNew()"> {{ $i18n.t("დაამატეთ ახალი") }} </p>
                 </div>
             </div>
         </div>
@@ -44,7 +44,7 @@
                                 <textarea type="text"
                                           :rows="1"
                                           class="form-control border-0 border-bottom-dotted px-0 py-2 font-size-09-rem"
-                                          placeholder='დაამატეთ'
+                                          :placeholder='$i18n.t("დაამატეთ")'
                                           v-model="d.value"
                                           @input="input(type.ref)"
                                           onclick="$(this).next().addClass('ns-test-underline-mx');$(this).addClass('border-bottom-transparent').removeClass('border-bottom-dotted')"
@@ -62,7 +62,7 @@
                     </div>
                     <div v-if="getLength(type.ref) < 2" class="d-flex mx-1 mt-4">
                         <div class="rounded-circle border pt-1" style="width: 15px; height: 15px"></div>
-                        <p class="px-2 text-sm text-muted text-hoverable pointer" @click="addNew(type.ref)"> დაამატეთ ახალი </p>
+                        <p class="px-2 text-sm text-muted text-hoverable pointer" @click="addNew(type.ref)"> {{ $i18n.t("დაამატეთ ახალი") }} </p>
                     </div>
                 </div>
 
@@ -229,6 +229,10 @@ export default {
 .exit-icon:hover {
     background: #f1eeee;
     color: #798db0;
+}
+
+</style>
+798db0;
 }
 
 </style>

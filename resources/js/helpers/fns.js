@@ -113,14 +113,14 @@ export function removeLoader() {
 
 export function setControlAnswers() {
     this.controlAnswers.push({
-        text: 'არსებული',
-        label: 'მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა'
+        text: this.$i18n.t('არსებული'),
+        label: this.$i18n.t('მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა')
     });
     this.controlAnswers.push({
-        text: 'დამატებითი',
-        label: 'მონიშნეთ თუ სახეზე არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია)'
+        text: this.$i18n.t('დამატებითი'),
+        label: this.$i18n.t('მონიშნეთ თუ სახეზე არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია)')
     })
-    this.controlAnswers.push({text: 'არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება', label: ''});
+    this.controlAnswers.push({text: this.$i18n.t('არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება'), label: ''});
 }
 
 export function combine() {
@@ -128,7 +128,7 @@ export function combine() {
     this.combined.push({
         class: 'mb-4 rounded-8 test-shadow',
         style: 'border-radius:0;border-bottom:0;',
-        text: 'აირჩიეთ პოტენციური ზიანი',
+        text: this.$i18n.t('აირჩიეთ პოტენციური ზიანი'),
         data: this.ploss,
         update: this.helpers.togglePloss,
         check: this.helpers.checkPloss,
@@ -137,7 +137,7 @@ export function combine() {
     this.combined.push({
         class: 'pb-0 rounded-8 test-shadow',
         style: 'border-radius:0;padding-bottom:0 !important; ',
-        text: 'ვინ იმყოფება საფრთხის ქვეშ',
+        text: this.$i18n.t('ვინ იმყოფება საფრთხის ქვეშ'),
         data: this.udanger,
         update: this.helpers.toggleUdanger,
         check: this.helpers.checkUdanger,

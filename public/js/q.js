@@ -2037,11 +2037,11 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_0
   mounted: function mounted() {
     this.controlTypes = [{
       "class": "px-3 pt-3 ml-2 text-sm",
-      text: "1. საჭიროების შემთხვევაში დაამატეთ ფაქტობრივი, გატარებული კონტროლის ზომა",
+      text: "1. ".concat(this.$i18n.t("საჭიროების შემთხვევაში დაამატეთ ფაქტობრივი, გატარებული კონტროლის ზომა")),
       type: 'first'
     }, {
       "class": "px-3 pt-0 mb-3 ml-2 text-sm",
-      text: "2. საჭიროების შემთხვევაში მიუთითეთ გასატარებელი ღონისძიება კონტროლის ზომა",
+      text: "2. ".concat(this.$i18n.t("საჭიროების შემთხვევაში მიუთითეთ გასატარებელი ღონისძიება კონტროლის ზომა")),
       type: 'second'
     }];
 
@@ -2063,7 +2063,6 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_0
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex/dist/vuex.mjs */ "./node_modules/vuex/dist/vuex.mjs");
-/* harmony import */ var _helpers_fns__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../helpers/fns */ "./resources/js/helpers/fns.js");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -2117,7 +2116,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 
-
 var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_0__["createNamespacedHelpers"])('questions'),
     mapState = _createNamespacedHelp.mapState,
     mapActions = _createNamespacedHelp.mapActions;
@@ -2148,16 +2146,16 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_0
     },
     init: function init() {
       this.controlAnswers = [{
-        text: 'არსებული <br/><i class="text-muted">(საწყის ეტაპზე)</i>',
-        label: 'მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა'
+        text: "".concat(this.$i18n.t('არსებული'), " <br/><i class=\"text-muted\">(").concat(this.$i18n.t("საწყის ეტაპზე"), ")</i>"),
+        label: this.$i18n.t('მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა')
       }, {
-        text: 'დამატებითი <br/> <i class="text-muted">(გატარებული ან/და მიმდინარე)</i>',
-        label: 'მონიშნეთ თუ სახეზე არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია)'
+        text: "".concat(this.$i18n.t('დამატებითი'), " <br/> <i class=\"text-muted\">(").concat(this.$i18n.t("გატარებული ან/და მიმდინარე"), ")</i>"),
+        label: this.$i18n.t('მონიშნეთ თუ სახეზე არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია)')
       }, {
-        text: 'გასატარებელი პრევენციული ღონისძიება',
+        text: this.$i18n.t('გასატარებელი პრევენციული ღონისძიება'),
         label: ''
       }, {
-        text: 'არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება',
+        text: this.$i18n.t('არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება'),
         label: ''
       }];
     },
@@ -2424,7 +2422,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
 
                 _this.showControlsM(false);
 
-                alert('სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი საფრთხე წაშლილია...');
+                alert(_this.$i18n.t('სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი საფრთხე წაშლილია'));
 
                 _this.showControlsLoaderM(false);
 
@@ -2597,24 +2595,24 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_0
       this.combined = [{
         "class": 'mb-4 rounded-8 test-shadow',
         style: 'border-radius:0;border-bottom:0;',
-        text: 'აირჩიეთ პოტენციური ზიანი',
+        text: this.$i18n.t('აირჩიეთ პოტენციური ზიანი'),
         data: this.ploss,
         type: 'ploss',
         userInput: {
-          title: 'პოტენციური ზიანის დამატება',
-          smTitle: 'საჭიროების შემთხვევაში დაამატეთ პოტენციური ზიანი',
+          title: this.$i18n.t('პოტენციური ზიანის დამატება'),
+          smTitle: this.$i18n.t('საჭიროების შემთხვევაში დაამატეთ პოტენციური ზიანი'),
           data: [],
           ref: 'newPloss'
         }
       }, {
         "class": 'pb-0 mb-4 rounded-8 test-shadow',
         style: 'border-radius:0;padding-bottom:0 !important; ',
-        text: 'ვინ იმყოფება საფრთხის ქვეშ',
+        text: this.$i18n.t('ვინ იმყოფება საფრთხის ქვეშ'),
         data: this.udanger,
         type: 'udanger',
         userInput: {
-          title: 'საფრთხის-ქვეშ მყოფი პირის დამატება',
-          smTitle: 'საჭიროების შემთხვევაში დაამატეთ ვინ იმყოფება საფრთხის ქვეშ',
+          title: this.$i18n.t('საფრთხის-ქვეშ მყოფი პირის დამატება'),
+          smTitle: this.$i18n.t('საჭიროების შემთხვევაში დაამატეთ ვინ იმყოფება საფრთხის ქვეშ'),
           data: [],
           ref: 'newUdangers'
         }
@@ -2813,7 +2811,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
                   break;
                 }
 
-                alert('სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი პროცესი წაშლილია...');
+                alert(_this.$i18n.t('სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი პროცესი წაშლილია'));
 
                 _this.showDangerLoaderM(false);
 
@@ -3029,7 +3027,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
       }
 
       if (!ok) {
-        alert('აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 არსებითი ან დამატებითი კონტროლის ზომა.');
+        alert(this.$i18n.t('აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 არსებითი ან დამატებითი კონტროლის ზომა'));
         return false;
       }
       /**
@@ -3046,7 +3044,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
       }
 
       if (!ok) {
-        alert('აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 პოტენციური ზიანი.');
+        alert(this.$i18n.t('აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 პოტენციური ზიანი'));
         return false;
       }
       /**
@@ -3063,7 +3061,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
       }
 
       if (!ok) {
-        alert('აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 "ვინ იმყოფება საფრთხის ქვეშ".');
+        alert(this.$i18n.t("აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 'ვინ იმყოფება საფრთხის ქვეშ'"));
         return false;
       }
       /**
@@ -3074,7 +3072,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
       ok = !!data.rpersons.find(validateString);
 
       if (!ok) {
-        alert('გთხოვთ დაამატოთ პასუხისმგებელი პირი.');
+        alert(this.$i18n.t('გთხოვთ დაამატოთ პასუხისმგებელი პირი'));
         return false;
       }
       /**
@@ -3089,7 +3087,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
       }
 
       if (!ok) {
-        alert('გთხოვთ, მიუთითოთ შესრულების ვადა.');
+        alert(this.$i18n.t('გთხოვთ, მიუთითოთ შესრულების ვადა'));
         return false;
       }
 
@@ -3196,7 +3194,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
                   break;
                 }
 
-                alert('გთხოვთ, შეავსოთ მონაცემები');
+                alert(_this.$i18n.t('გთხოვთ, შეავსოთ მონაცემები'));
                 end();
                 return _context.abrupt("return");
 
@@ -3220,7 +3218,7 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
 
                 _context.next = 25;
                 return _services_httpService__WEBPACK_IMPORTED_MODULE_9__["default"].post('docs/submit', formData)["catch"](function (err) {
-                  alert("დაფიქსირდა შეცდომა. გთხოვთ, სცადოთ თავიდან.");
+                  alert(_this.$i18n.t("დაფიქსირდა შეცდომა. გთხოვთ, სცადოთ თავიდან"));
                   console.log(err);
                 });
 
@@ -3247,14 +3245,14 @@ var _createNamespacedHelp = Object(vuex_dist_vuex_mjs__WEBPACK_IMPORTED_MODULE_1
     },
     init: function init() {
       this.rpersons = {
-        title: 'პასუხისმგებელი პირი',
-        smTitle: '1. გთხოვთ დაამატოთ პასუხისმგებელი პირი',
+        title: this.$i18n.t('პასუხისმგებელი პირი'),
+        smTitle: "1. ".concat(this.$i18n.t("გთხოვთ დაამატოთ პასუხისმგებელი პირი")),
         data: [],
         ref: 'rpersons'
       };
       this.etimes = {
-        title: 'შესრულების ვადა',
-        smTitle: ['1. გთხოვთ, აირჩიოთ თარიღი', '2. ან შეიყვანოთ დღეების რაოდენობა სიტყვიერად, მაგალითად: რეგულარულად, ყოველკვირეულად ან სხვა'],
+        title: this.$i18n.t('შესრულების ვადა'),
+        smTitle: ["1. ".concat(this.$i18n.t("გთხოვთ, აირჩიოთ თარიღი")), "2. ".concat(this.$i18n.t("ან შეიყვანოთ დღეების რაოდენობა სიტყვიერად, მაგალითად: რეგულარულად, ყოველკვირეულად ან სხვა"))],
         data: {},
         ref: 'etimes',
         type: 'time',
@@ -51000,7 +50998,7 @@ var render = function() {
       { staticClass: "card test-shadow mt-4" },
       [
         _c("p", { staticClass: "text-center pt-4" }, [
-          _vm._v(" კონტროლის ზომის დამატება ")
+          _vm._v(" " + _vm._s(_vm.$i18n.t("კონტროლის ზომის დამატება")) + " ")
         ]),
         _vm._v(" "),
         _vm._l(_vm.controlTypes, function(ct) {
@@ -51043,7 +51041,7 @@ var render = function() {
                             attrs: {
                               type: "text",
                               rows: 1,
-                              placeholder: "დაამატეთ",
+                              placeholder: _vm.$i18n.t("დაამატეთ"),
                               onclick:
                                 "$(this).next().addClass('ns-test-underline-mx');$(this).addClass('border-bottom-transparent').removeClass('border-bottom-dotted')",
                               onblur:
@@ -51116,7 +51114,13 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v("\n                        დაამატეთ ახალი ")]
+                          [
+                            _vm._v(
+                              "\n                        " +
+                                _vm._s(_vm.$i18n.t("დაამატეთ ახალი")) +
+                                " "
+                            )
+                          ]
                         )
                       ])
                     : _vm._e()
@@ -51170,7 +51174,7 @@ var render = function() {
                 "border-right": "1px solid #d3d3d3"
               }
             },
-            [_vm._v("კონტროლის ზომები\n        ")]
+            [_vm._v(_vm._s(_vm.$i18n.t("კონტროლის ზომები")) + "\n        ")]
           ),
           _vm._v(" "),
           _vm._l(_vm.controlAnswers, function(answer) {
@@ -51302,7 +51306,16 @@ var render = function() {
         }
       },
       [
-        _vm._m(0),
+        _c("p", { staticClass: "text-lg mb-0" }, [
+          _vm._v(
+            "\n            " +
+              _vm._s(_vm.$i18n.t("ატვირთეთ საფრთხის ამსახველი ფოტო")) +
+              "\n            "
+          ),
+          _c("span", { staticClass: "text-muted text-sm" }, [
+            _vm._v("(" + _vm._s(_vm.$i18n.t("არასავალდებულო")) + ")")
+          ])
+        ]),
         _vm._v(" "),
         _c(
           "div",
@@ -51381,19 +51394,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", { staticClass: "text-lg mb-0" }, [
-      _vm._v("\n            ატვირთეთ საფრთხის ამსახველი ფოტო\n            "),
-      _c("span", { staticClass: "text-muted text-sm" }, [
-        _vm._v("(არასავალდებულო)")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -51439,7 +51440,7 @@ var render = function() {
               { staticClass: "card-body ml-2 pl-2" },
               [
                 _c("p", { staticClass: "px-2 py-3 pb-0 size-13" }, [
-                  _vm._v(" აირჩიეთ საფრთხე ")
+                  _vm._v(" " + _vm._s(_vm.$i18n.t("აირჩიეთ საფრთხე")) + " ")
                 ]),
                 _vm._v(" "),
                 _vm._l(Object.keys(_vm.completedData), function(id) {
@@ -51479,7 +51480,9 @@ var render = function() {
                         },
                         [
                           _vm._v(
-                            "\n                        (ამოშლა)\n                    "
+                            "\n                        (" +
+                              _vm._s(_vm.$i18n.t("ამოშლა")) +
+                              ")\n                    "
                           )
                         ]
                       )
@@ -51693,7 +51696,7 @@ var render = function() {
           { staticClass: "card-body ml-2 pl-2" },
           [
             _c("p", { staticClass: "size-13 py-2 px-2" }, [
-              _vm._v(" აირჩიეთ პროცესი ")
+              _vm._v(" " + _vm._s(_vm.$i18n.t("აირჩიეთ პროცესი")) + " ")
             ]),
             _vm._v(" "),
             _vm._l(_vm.getCompletedProcesses, function(process) {
@@ -51871,7 +51874,9 @@ var render = function() {
                           attrs: { id: "data-processing" }
                         }),
                         _vm._v(
-                          "\n                    დასრულება\n                "
+                          "\n                    " +
+                            _vm._s(_vm.$i18n.t("დასრულება")) +
+                            "\n                "
                         )
                       ]
                     )
@@ -51894,7 +51899,9 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                    შემდეგი\n                "
+                              "\n                    " +
+                                _vm._s(_vm.$i18n.t("შემდეგი")) +
+                                "\n                "
                             )
                           ]
                         )
@@ -51911,7 +51918,9 @@ var render = function() {
                           },
                           [
                             _vm._v(
-                              "\n                    განახლება\n                "
+                              "\n                    " +
+                                _vm._s(_vm.$i18n.t("განახლება")) +
+                                "\n                "
                             )
                           ]
                         )
@@ -51987,7 +51996,7 @@ var render = function() {
                         attrs: {
                           type: "text",
                           rows: 1,
-                          placeholder: "დაამატეთ",
+                          placeholder: _vm.$i18n.t("დაამატეთ"),
                           onclick:
                             "$(this).next().addClass('ns-test-underline-mx');$(this).addClass('border-bottom-transparent').removeClass('border-bottom-dotted')",
                           onblur:
@@ -52056,7 +52065,11 @@ var render = function() {
                           }
                         }
                       },
-                      [_vm._v(" დაამატეთ ახალი ")]
+                      [
+                        _vm._v(
+                          " " + _vm._s(_vm.$i18n.t("დაამატეთ ახალი")) + " "
+                        )
+                      ]
                     )
                   ])
                 : _vm._e()
@@ -52106,7 +52119,7 @@ var render = function() {
                                   attrs: {
                                     type: "text",
                                     rows: 1,
-                                    placeholder: "დაამატეთ",
+                                    placeholder: _vm.$i18n.t("დაამატეთ"),
                                     onclick:
                                       "$(this).next().addClass('ns-test-underline-mx');$(this).addClass('border-bottom-transparent').removeClass('border-bottom-dotted')",
                                     onblur:
@@ -52211,7 +52224,11 @@ var render = function() {
                               }
                             }
                           },
-                          [_vm._v(" დაამატეთ ახალი ")]
+                          [
+                            _vm._v(
+                              " " + _vm._s(_vm.$i18n.t("დაამატეთ ახალი")) + " "
+                            )
+                          ]
                         )
                       ])
                     : _vm._e()
@@ -67348,7 +67365,7 @@ var Form = /*#__PURE__*/function () {
                 return _context.abrupt("return", data);
 
               case 8:
-                alert('დაფიქსირდა შეცდომა. სცადეთ გვერდის დარეფრეშება');
+                alert('There was a problem. Try reloading the page');
                 throw new Error('Error occurred');
 
               case 10:
@@ -67579,7 +67596,7 @@ var Form = /*#__PURE__*/function () {
         axios[type](url, data).then(function (res) {
           resolve(res.data);
         })["catch"](function (errors) {
-          alert('სამწუხაროდ, დაფიქსირდა შეცდომა. სცადეთ თავიდან');
+          alert('There was a problem. Try reloading the page');
           console.log(errors.response.data);
           reject(errors.response.data);
           if (fn) fn(errors.response.data);
@@ -68264,198 +68281,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/helpers/fns.js":
-/*!*************************************!*\
-  !*** ./resources/js/helpers/fns.js ***!
-  \*************************************/
-/*! exports provided: chboxId, checkedId, checkControl, toggleControl, toggleInput, checkPloss, togglePloss, checkUdanger, toggleUdanger, chainedAnim, removeLoader, setControlAnswers, combine */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "chboxId", function() { return chboxId; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkedId", function() { return checkedId; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkControl", function() { return checkControl; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleControl", function() { return toggleControl; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleInput", function() { return toggleInput; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkPloss", function() { return checkPloss; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "togglePloss", function() { return togglePloss; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "checkUdanger", function() { return checkUdanger; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "toggleUdanger", function() { return toggleUdanger; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "chainedAnim", function() { return chainedAnim; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "removeLoader", function() { return removeLoader; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setControlAnswers", function() { return setControlAnswers; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "combine", function() { return combine; });
-function chboxId(d, i, n) {
-  return "chboxId".concat(d, "_").concat(n, "_").concat(i);
-}
-;
-function checkedId(d, i, n) {
-  return "checkedId".concat(d, "_").concat(n, "_").concat(i);
-}
-;
-function checkControl(id, i) {
-  var el = this.data.control.find(function (e) {
-    return e.id === id;
-  });
-
-  if (!el) {
-    return false;
-  } else {
-    return el.value === i;
-  }
-}
-function toggleControl(id, i, cls) {
-  // el.values[i] = (el.values[i] + 1) % 2
-  var fn = function fn(store) {
-    var el = store.data.control.find(function (e) {
-      return e.id === id;
-    });
-
-    if (!el) {
-      store.data.control.push({
-        id: id,
-        value: i
-      });
-    } else {
-      el.value = i;
-    }
-  };
-
-  this.update(fn);
-}
-function toggleInput(id, i, type, cls) {// let sym = `${id}_${type}_${i}`;
-  //
-  // if (!cls) cls = 'checked-diff';
-  //
-  // const selector = $(`#chboxId${sym}`);
-  //
-  // if (!selector.hasClass('hovered-checkmark-diff')) {
-  //     selector.addClass('hovered-checkmark-diff');
-  //     $(`#checkedId${sym}`).addClass(cls);
-  // } else {
-  //     if (cls === 'checked-circle') return
-  //     selector.removeClass('hovered-checkmark-diff');
-  //     $(`#checkedId${sym}`).removeClass(cls);
-  // }
-}
-function checkPloss(id) {
-  var el = this.data.ploss.find(function (p) {
-    return p.id === id;
-  });
-
-  if (!el) {
-    return false;
-  }
-
-  return el.value & 1;
-}
-function togglePloss(id) {
-  var fn = function fn(store) {
-    var el = store.data.ploss.find(function (p) {
-      return p.id === id;
-    });
-
-    if (!el) {
-      store.data.ploss.push({
-        value: 1,
-        id: id
-      });
-    } else {
-      el.value = (el.value + 1) % 2;
-    }
-  };
-
-  this.update(fn); // toggleInput(id, 0, 'ploss')
-}
-function checkUdanger(id) {
-  var el = this.data.udanger.find(function (e) {
-    return e.id === id;
-  });
-
-  if (!el) {
-    return false;
-  }
-
-  return el.value & 1;
-}
-function toggleUdanger(id) {
-  var fn = function fn(store) {
-    var el = store.data.udanger.find(function (e) {
-      return e.id === id;
-    });
-
-    if (!el) {
-      store.data.udanger.push({
-        value: 1,
-        id: id
-      });
-    } else {
-      el.value = (el.value + 1) % 2;
-    }
-  };
-
-  this.update(fn); // toggleInput(id, 0, 'udanger')
-}
-function chainedAnim(cname, len, c) {
-  if (c >= len) return;
-  var tme = 200;
-
-  for (var i = 0; i < len; i++) {
-    var newt = tme + 500;
-    tout(function () {
-      $(".".concat(cname)).addClass('animated-border-left anim-half-width anim-margin');
-    }, tme);
-    tme = newt;
-  }
-}
-function removeLoader() {
-  this.loading = false;
-  $('#show_data').removeClass('d-none');
-  tout(function () {
-    return $('#edit-process').css({
-      'border-top': '10px solid #673ab7'
-    });
-  }, 500);
-}
-function setControlAnswers() {
-  this.controlAnswers.push({
-    text: 'არსებული',
-    label: 'მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა'
-  });
-  this.controlAnswers.push({
-    text: 'დამატებითი',
-    label: 'მონიშნეთ თუ სახეზე არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია)'
-  });
-  this.controlAnswers.push({
-    text: 'არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება',
-    label: ''
-  });
-}
-function combine() {
-  this.combined = [];
-  this.combined.push({
-    "class": 'mb-4 rounded-8 test-shadow',
-    style: 'border-radius:0;border-bottom:0;',
-    text: 'აირჩიეთ პოტენციური ზიანი',
-    data: this.ploss,
-    update: this.helpers.togglePloss,
-    check: this.helpers.checkPloss,
-    type: 'ploss'
-  });
-  this.combined.push({
-    "class": 'pb-0 rounded-8 test-shadow',
-    style: 'border-radius:0;padding-bottom:0 !important; ',
-    text: 'ვინ იმყოფება საფრთხის ქვეშ',
-    data: this.udanger,
-    update: this.helpers.toggleUdanger,
-    check: this.helpers.checkUdanger,
-    type: 'udanger'
-  });
-}
-
-/***/ }),
-
 /***/ "./resources/js/i18n.js":
 /*!******************************!*\
   !*** ./resources/js/i18n.js ***!
@@ -68533,10 +68358,10 @@ webpackContext.id = "./resources/js/locales sync recursive [A-Za-z0-9-_,\\s]+\\.
 /*!**************************************!*\
   !*** ./resources/js/locales/en.json ***!
   \**************************************/
-/*! exports provided: ახალი დოკუმენტის შექმნა, არსებულის კოპირება, აირჩიეთ დოკუმენტი, ძებნა, ასეთი დოკუმენტი არ მოიძებნა, აირჩიეთ ობიექტი, დაარქვით დოკუმენტს სახელი, სახელი, შემდეგი, აირჩიეთ სფერო, შეავსეთ მონაცემები, ობიექტის არჩევა, დოკუმენტის სახელი, გთხოვთ, შეიყვანოთ სახელი, სფეროს არჩევა, დოკუმენტის შესახებ, სამწუხაროდ შეცდომა დაფიქსირდა. სცადეთ თავიდან, მთავარი, შემფასებლის/ების სახელი და გვარი, სახელი, გვარი, სამუშაო ობიექტის დასახელება და მისამართი, დასახელება და მისამართი, სამუშაოს მოკლე აღწერა, აღწერა, რისკების შეფასების თარიღი, თარიღი, დოკუმენტის გადახედვის სავარაუდო თარიღი, დოკუმენტის, ატვირთეთ საფრთხის ამსახველი ფოტო, არასავალდებულო, აირჩიეთ საფრთხე, ამოშლა, სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი საფრთხე წაშლილია, აირჩიეთ პოტენციური ზიანი, პოტენციური ზიანის დამატება, საჭიროების შემთხვევაში დაამატეთ პოტენციური ზიანი, ვინ იმყოფება საფრთხის ქვეშ, საფრთხის-ქვეშ მყოფი პირის დამატება, საჭიროების შემთხვევაში დაამატეთ ვინ იმყოფება საფრთხის ქვეშ, კონტროლის ზომები, არსებული, საწყის ეტაპზე, მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა, დამატებითი, გატარებული ან/და მიმდინარე, მონიშნეთ თუ სახეზე არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია, გასატარებელი პრევენციული ღონისძიება, არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება, აირჩიეთ პროცესი, სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი პროცესი წაშლილია, დასრულება, განახლება, აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 არსებითი ან დამატებითი კონტროლის ზომა, აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 პოტენციური ზიანი, აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ, გთხოვთ დაამატოთ პასუხისმგებელი პირი, გთხოვთ, მიუთითოთ შესრულების ვადა, გთხოვთ, შეავსოთ მონაცემები, დაფიქსირდა შეცდომა. გთხოვთ, სცადოთ თავიდან, პასუხისმგებელი პირი, შესრულების ვადა, გთხოვთ, აირჩიოთ თარიღი, ან შეიყვანოთ დღეების რაოდენობა სიტყვიერად, მაგალითად, რეგულარულად, ყოველკვირეულად ან სხვა, კონტროლის ზომის დამატება, დაამატეთ, დაამატეთ ახალი, საჭიროების შემთხვევაში დაამატეთ ფაქტობრივი, გატარებული კონტროლის ზომა, საჭიროების შემთხვევაში მიუთითეთ გასატარებელი ღონისძიება კონტროლის ზომა, ახალი, სათაური, გამოჩნდეს მთავარ გვერდზე, სამწუხაროდ შეცდომა დაფიქსირდა, გთხოვთ სცადოთ თავიდან, დაფიქსირდა შეცდომა. სცადეთ გვერდის დარეფრეშება, სამწუხაროდ, დაფიქსირდა შეცდომა. სცადეთ თავიდან, default */
+/*! exports provided: ახალი დოკუმენტის შექმნა, არსებულის კოპირება, აირჩიეთ დოკუმენტი, ძებნა, ასეთი დოკუმენტი არ მოიძებნა, აირჩიეთ ობიექტი, დაარქვით დოკუმენტს სახელი, სახელი, შემდეგი, აირჩიეთ სფერო, შეავსეთ მონაცემები, ობიექტის არჩევა, დოკუმენტის სახელი, გთხოვთ, შეიყვანოთ სახელი, სფეროს არჩევა, დოკუმენტის შესახებ, სამწუხაროდ შეცდომა დაფიქსირდა. სცადეთ თავიდან, მთავარი, შემფასებლის/ების სახელი და გვარი, სახელი, გვარი, სამუშაო ობიექტის დასახელება და მისამართი, დასახელება და მისამართი, სამუშაოს მოკლე აღწერა, აღწერა, რისკების შეფასების თარიღი, თარიღი, დოკუმენტის გადახედვის სავარაუდო თარიღი, დოკუმენტის, ატვირთეთ საფრთხის ამსახველი ფოტო, არასავალდებულო, აირჩიეთ საფრთხე, ამოშლა, სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი საფრთხე წაშლილია, აირჩიეთ პოტენციური ზიანი, პოტენციური ზიანის დამატება, საჭიროების შემთხვევაში დაამატეთ პოტენციური ზიანი, ვინ იმყოფება საფრთხის ქვეშ, საფრთხის-ქვეშ მყოფი პირის დამატება, საჭიროების შემთხვევაში დაამატეთ ვინ იმყოფება საფრთხის ქვეშ, კონტროლის ზომები, არსებული, საწყის ეტაპზე, მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა, დამატებითი, გატარებული ან/და მიმდინარე, გასატარებელი პრევენციული ღონისძიება, არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება, აირჩიეთ პროცესი, სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი პროცესი წაშლილია, დასრულება, განახლება, აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 არსებითი ან დამატებითი კონტროლის ზომა, აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 პოტენციური ზიანი, გთხოვთ დაამატოთ პასუხისმგებელი პირი, გთხოვთ, მიუთითოთ შესრულების ვადა, გთხოვთ, შეავსოთ მონაცემები, დაფიქსირდა შეცდომა. გთხოვთ, სცადოთ თავიდან, პასუხისმგებელი პირი, შესრულების ვადა, გთხოვთ, აირჩიოთ თარიღი, ან შეიყვანოთ დღეების რაოდენობა სიტყვიერად, მაგალითად, რეგულარულად, ყოველკვირეულად ან სხვა, კონტროლის ზომის დამატება, დაამატეთ, დაამატეთ ახალი, საჭიროების შემთხვევაში დაამატეთ ფაქტობრივი, გატარებული კონტროლის ზომა, საჭიროების შემთხვევაში მიუთითეთ გასატარებელი ღონისძიება კონტროლის ზომა, ახალი, სათაური, გამოჩნდეს მთავარ გვერდზე, სამწუხაროდ შეცდომა დაფიქსირდა, გთხოვთ სცადოთ თავიდან, დაფიქსირდა შეცდომა. სცადეთ გვერდის დარეფრეშება, სამწუხაროდ, დაფიქსირდა შეცდომა. სცადეთ თავიდან, აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 'ვინ იმყოფება საფრთხის ქვეშ', ან შეიყვანოთ დღეების რაოდენობა სიტყვიერად, მაგალითად: რეგულარულად, ყოველკვირეულად ან სხვა, მონიშნეთ თუ სახეზე არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია), default */
 /***/ (function(module) {
 
-module.exports = JSON.parse("{\"ახალი დოკუმენტის შექმნა\":\"test english translation\",\"არსებულის კოპირება\":\"test english translation\",\"აირჩიეთ დოკუმენტი\":\"test english translation\",\"ძებნა\":\"test english translation\",\"ასეთი დოკუმენტი არ მოიძებნა\":\"test english translation\",\"აირჩიეთ ობიექტი\":\"test english translation\",\"დაარქვით დოკუმენტს სახელი\":\"test english translation\",\"სახელი\":\"test english translation\",\"შემდეგი\":\"test english translation\",\"აირჩიეთ სფერო\":\"test english translation\",\"შეავსეთ მონაცემები\":\"test english translation\",\"ობიექტის არჩევა\":\"test english translation\",\"დოკუმენტის სახელი\":\"test english translation\",\"გთხოვთ, შეიყვანოთ სახელი\":\"test english translation\",\"სფეროს არჩევა\":\"test english translation\",\"დოკუმენტის შესახებ\":\"test english translation\",\"სამწუხაროდ შეცდომა დაფიქსირდა. სცადეთ თავიდან\":\"test english translation\",\"მთავარი\":\"test english translation\",\"შემფასებლის/ების სახელი და გვარი\":\"test english translation\",\"სახელი, გვარი\":\"test english translation\",\"სამუშაო ობიექტის დასახელება და მისამართი\":\"test english translation\",\"დასახელება და მისამართი\":\"test english translation\",\"სამუშაოს მოკლე აღწერა\":\"test english translation\",\"აღწერა\":\"test english translation\",\"რისკების შეფასების თარიღი\":\"test english translation\",\"თარიღი\":\"test english translation\",\"დოკუმენტის გადახედვის სავარაუდო თარიღი\":\"test english translation\",\"დოკუმენტის\":\"test english translation\",\"ატვირთეთ საფრთხის ამსახველი ფოტო\":\"test english translation\",\"არასავალდებულო\":\"test english translation\",\"აირჩიეთ საფრთხე\":\"test english translation\",\"ამოშლა\":\"test english translation\",\"სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი საფრთხე წაშლილია\":\"test english translation\",\"აირჩიეთ პოტენციური ზიანი\":\"test english translation\",\"პოტენციური ზიანის დამატება\":\"test english translation\",\"საჭიროების შემთხვევაში დაამატეთ პოტენციური ზიანი\":\"test english translation\",\"ვინ იმყოფება საფრთხის ქვეშ\":\"test english translation\",\"საფრთხის-ქვეშ მყოფი პირის დამატება\":\"test english translation\",\"საჭიროების შემთხვევაში დაამატეთ ვინ იმყოფება საფრთხის ქვეშ\":\"test english translation\",\"კონტროლის ზომები\":\"test english translation\",\"არსებული\":\"test english translation\",\"საწყის ეტაპზე\":\"test english translation\",\"მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა\":\"test english translation\",\"დამატებითი\":\"test english translation\",\"გატარებული ან/და მიმდინარე\":\"test english translation\",\"მონიშნეთ თუ სახეზე არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია\":\"test english translation\",\"გასატარებელი პრევენციული ღონისძიება\":\"test english translation\",\"არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება\":\"test english translation\",\"აირჩიეთ პროცესი\":\"test english translation\",\"სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი პროცესი წაშლილია\":\"test english translation\",\"დასრულება\":\"test english translation\",\"განახლება\":\"test english translation\",\"აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 არსებითი ან დამატებითი კონტროლის ზომა\":\"test english translation\",\"აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 პოტენციური ზიანი\":\"test english translation\",\"აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ\":\"test english translation\",\"გთხოვთ დაამატოთ პასუხისმგებელი პირი\":\"test english translation\",\"გთხოვთ, მიუთითოთ შესრულების ვადა\":\"test english translation\",\"გთხოვთ, შეავსოთ მონაცემები\":\"test english translation\",\"დაფიქსირდა შეცდომა. გთხოვთ, სცადოთ თავიდან\":\"test english translation\",\"პასუხისმგებელი პირი\":\"test english translation\",\"შესრულების ვადა\":\"test english translation\",\"გთხოვთ, აირჩიოთ თარიღი\":\"test english translation\",\"ან შეიყვანოთ დღეების რაოდენობა სიტყვიერად, მაგალითად\":\"test english translation\",\"რეგულარულად, ყოველკვირეულად ან სხვა\":\"test english translation\",\"კონტროლის ზომის დამატება\":\"test english translation\",\"დაამატეთ\":\"test english translation\",\"დაამატეთ ახალი\":\"test english translation\",\"საჭიროების შემთხვევაში დაამატეთ ფაქტობრივი, გატარებული კონტროლის ზომა\":\"test english translation\",\"საჭიროების შემთხვევაში მიუთითეთ გასატარებელი ღონისძიება კონტროლის ზომა\":\"test english translation\",\"ახალი\":\"test english translation\",\"სათაური\":\"test english translation\",\"გამოჩნდეს მთავარ გვერდზე\":\"test english translation\",\"სამწუხაროდ შეცდომა დაფიქსირდა, გთხოვთ სცადოთ თავიდან\":\"test english translation\",\"დაფიქსირდა შეცდომა. სცადეთ გვერდის დარეფრეშება\":\"test english translation\",\"სამწუხაროდ, დაფიქსირდა შეცდომა. სცადეთ თავიდან\":\"test english translation\"}");
+module.exports = JSON.parse("{\"ახალი დოკუმენტის შექმნა\":\"add new document\",\"არსებულის კოპირება\":\"copy existing one\",\"აირჩიეთ დოკუმენტი\":\"choose document\",\"ძებნა\":\"search\",\"ასეთი დოკუმენტი არ მოიძებნა\":\"new document was not found\",\"აირჩიეთ ობიექტი\":\"choose an object\",\"დაარქვით დოკუმენტს სახელი\":\"name a document\",\"სახელი\":\"name\",\"შემდეგი\":\"next\",\"აირჩიეთ სფერო\":\"choose a field\",\"შეავსეთ მონაცემები\":\"fill data\",\"ობიექტის არჩევა\":\"choose an object\",\"დოკუმენტის სახელი\":\"document name\",\"გთხოვთ, შეიყვანოთ სახელი\":\"please, enter name\",\"სფეროს არჩევა\":\"choose a field\",\"დოკუმენტის შესახებ\":\"about document\",\"სამწუხაროდ შეცდომა დაფიქსირდა. სცადეთ თავიდან\":\"Unfortunately, there was a problem. try again\",\"მთავარი\":\"main\",\"შემფასებლის/ების სახელი და გვარი\":\"reviewer(s) name and surname\",\"სახელი, გვარი\":\"name, surname\",\"სამუშაო ობიექტის დასახელება და მისამართი\":\"work object name and address\",\"დასახელება და მისამართი\":\"name and address\",\"სამუშაოს მოკლე აღწერა\":\"short description of the job\",\"აღწერა\":\"description\",\"რისკების შეფასების თარიღი\":\"risk assessment date\",\"თარიღი\":\"date\",\"დოკუმენტის გადახედვის სავარაუდო თარიღი\":\"likely date of the document reviewal\",\"დოკუმენტის\":\"document\",\"ატვირთეთ საფრთხის ამსახველი ფოტო\":\"upload image of the danger\",\"არასავალდებულო\":\"non-required\",\"აირჩიეთ საფრთხე\":\"choose a danger\",\"ამოშლა\":\"remove\",\"სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი საფრთხე წაშლილია\":\"unfortunately, some dangers of this document have been deleted\",\"აირჩიეთ პოტენციური ზიანი\":\"choose a potential damage\",\"პოტენციური ზიანის დამატება\":\"add a potential damage\",\"საჭიროების შემთხვევაში დაამატეთ პოტენციური ზიანი\":\"add potential damage if needed\",\"ვინ იმყოფება საფრთხის ქვეშ\":\"who is under danger\",\"საფრთხის-ქვეშ მყოფი პირის დამატება\":\"add who-is-under-danger\",\"საჭიროების შემთხვევაში დაამატეთ ვინ იმყოფება საფრთხის ქვეშ\":\"add who-is-under-danger if needed\",\"კონტროლის ზომები\":\"controls\",\"არსებული\":\"existing\",\"საწყის ეტაპზე\":\"at the starting stage\",\"მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა\":\"mark if exists, protect, use, is accepted this control\",\"დამატებითი\":\"additional\",\"გატარებული ან/და მიმდინარე\":\"processed or/and in progress\",\"გასატარებელი პრევენციული ღონისძიება\":\"preventive, to process event\",\"არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება\":\"is not necessary or can't be used\",\"აირჩიეთ პროცესი\":\"choose a process\",\"სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი პროცესი წაშლილია\":\"unfortunately, some processes of this document have been deleted\",\"დასრულება\":\"finish\",\"განახლება\":\"update\",\"აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 არსებითი ან დამატებითი კონტროლის ზომა\":\"It's required to mark or add, min 1 existing or additional control\",\"აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 პოტენციური ზიანი\":\"It's required to mark or add, min 1 potential damage\",\"გთხოვთ დაამატოთ პასუხისმგებელი პირი\":\"please, add responsible person\",\"გთხოვთ, მიუთითოთ შესრულების ვადა\":\"please, point evaluation date\",\"გთხოვთ, შეავსოთ მონაცემები\":\"please, fill the data\",\"დაფიქსირდა შეცდომა. გთხოვთ, სცადოთ თავიდან\":\"There was a problem. please, try again\",\"პასუხისმგებელი პირი\":\"responsible person\",\"შესრულების ვადა\":\"evaluation date\",\"გთხოვთ, აირჩიოთ თარიღი\":\"please, choose a date\",\"ან შეიყვანოთ დღეების რაოდენობა სიტყვიერად, მაგალითად\":\"or enter number of days verbally, for example\",\"რეგულარულად, ყოველკვირეულად ან სხვა\":\"regularly, weekly or other\",\"კონტროლის ზომის დამატება\":\"add control\",\"დაამატეთ\":\"add\",\"დაამატეთ ახალი\":\"add new\",\"საჭიროების შემთხვევაში დაამატეთ ფაქტობრივი, გატარებული კონტროლის ზომა\":\"add actual, processed control if needed\",\"საჭიროების შემთხვევაში მიუთითეთ გასატარებელი ღონისძიება კონტროლის ზომა\":\"point a to process event - control if needed\",\"ახალი\":\"new\",\"სათაური\":\"title\",\"გამოჩნდეს მთავარ გვერდზე\":\"show on main page\",\"სამწუხაროდ შეცდომა დაფიქსირდა, გთხოვთ სცადოთ თავიდან\":\"Unfortunately, there was a problem. please, try again\",\"დაფიქსირდა შეცდომა. სცადეთ გვერდის დარეფრეშება\":\"There was a problem. try reloading the page\",\"სამწუხაროდ, დაფიქსირდა შეცდომა. სცადეთ თავიდან\":\"Unfortunately, there was a problem. try again\",\"აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 'ვინ იმყოფება საფრთხის ქვეშ'\":\"It's required to mark or add, min 1 'who-is-under-danger'\",\"ან შეიყვანოთ დღეების რაოდენობა სიტყვიერად, მაგალითად: რეგულარულად, ყოველკვირეულად ან სხვა\":\"or enter number of days verbally, for example: regularly, weekly, or other\",\"მონიშნეთ თუ სახეზე არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია)\":\"mark if does not exist, haven't accepted this control and you'll be accepting it in future (required whenever possible)\"}");
 
 /***/ }),
 
@@ -68682,7 +68507,7 @@ var httpService = {
               _context2.next = 2;
               return run('post', url, params, options)["catch"](function (err) {
                 if (httpService.redirect) {
-                  alert('დაფიქსირდა შეცდომა. სცადეთ გვერდის დარეფრეშება');
+                  alert('There was a problem. Try reloading the page');
                   return;
                 } else {
                   errorHandler({

@@ -31,7 +31,7 @@ export class Form {
             return data;
 
         } else {
-            alert('დაფიქსირდა შეცდომა. სცადეთ გვერდის დარეფრეშება');
+            alert('There was a problem. Try reloading the page');
             throw new Error('Error occurred');
         }
     }
@@ -93,7 +93,7 @@ export class Form {
                   resolve(res.data)
               })
               .catch((errors) => {
-                  alert('სამწუხაროდ, დაფიქსირდა შეცდომა. სცადეთ თავიდან')
+                  alert('There was a problem. Try reloading the page')
                   console.log(errors.response.data)
                   reject(errors.response.data)
                   if (fn) (fn(errors.response.data))

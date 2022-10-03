@@ -40,7 +40,7 @@ const httpService = {
     post: async (url, params, options) => {
         const {status, data} = await run('post', url, params, options).catch(err => {
             if (httpService.redirect) {
-                alert('დაფიქსირდა შეცდომა. სცადეთ გვერდის დარეფრეშება');
+                alert('There was a problem. Try reloading the page');
                 return;
             } else {
                 errorHandler({status, data});

@@ -23,7 +23,7 @@
                         <div class="card-body text-center">
                             <p class="text-lg text-primary m-1 user-select-none">
                                 <i class="fa fa-plus mr-2"> </i>
-                                ახალი დოკუმენტის შექმნა
+                                {{ $i18n.t("ახალი დოკუმენტის შექმნა") }}
                             </p>
                         </div>
                     </div>
@@ -32,7 +32,7 @@
                         <div class="card-body border-0 text-center">
                             <p class="text-lg text-danger m-1 user-select-none">
                                 <i class="nc-icon nc-paper mr-2"></i>
-                                არსებულის კოპირება
+                                {{ $i18n.t("არსებულის კოპირება") }}
                             </p>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
 
                             <!-- Modal Header -->
                             <div class="modal-header">
-                                <h4 class="modal-title"> აირჩიეთ დოკუმენტი </h4>
+                                <h4 class="modal-title"> {{ $i18n.t("აირჩიეთ დოკუმენტი") }} </h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
 
@@ -68,7 +68,7 @@
                                                 <input type="text"
                                                        class="form-control"
                                                        v-model="queryWord"
-                                                       style="font-size: 1.1rem;" placeholder="ძებნა">
+                                                       style="font-size: 1.1rem;" :placeholder="$i18n.t('ძებნა')">
                                                 <div class="input-group-append">
                                                     <button class="btn btn-secondary m-0" type="submit">
                                                         <i class="fa fa-search"></i>
@@ -92,7 +92,7 @@
                                         </template>
 
                                         <div class="col-12 text-center" v-if="filteredDocs.length < 1">
-                                            <h5 class="m-5 text-muted"> ასეთი დოკუმენტი არ მოიძებნა </h5>
+                                            <h5 class="m-5 text-muted"> {{ $i18n.t("ასეთი დოკუმენტი არ მოიძებნა") }} </h5>
                                         </div>
 
                                     </div>
@@ -117,7 +117,7 @@
             <div class="row justify-content-center">
                 <div class="col-xl-6 col-lg-9 col-md-11 col-12">
                     <div class="m-auto text-center mb-5" style="">
-                        <p> აირჩიეთ ობიექტი </p>
+                        <p> {{ $i18n.t("აირჩიეთ ობიექტი") }} </p>
                         <div v-for="object in objects">
                             <div class="card card-hover border-0 partial-shadow rounded-10" @click="chooseDocObject(object.id)">
                                 <div class="card-body d-flex ">
@@ -140,12 +140,12 @@
                 <div class="col-xl-6 col-lg-9 col-md-11 col-12" :class="{'go-upper' : shouldGoUpper }"  style="max-width: 700px" >
                     <div class="card rounded-5 border-0 w-100" style="">
                         <div class="card-body">
-                            <p class="my-4"> დაარქვით დოკუმენტს სახელი </p>
+                            <p class="my-4"> {{ $i18n.t("დაარქვით დოკუმენტს სახელი") }} </p>
                             <div class='card-body ns-input-container pl-4 pb-3 mt-0 pt-0'>
                         <textarea type="text"
                                   rows='1'
                                   class="form-control border-0 border-bottom-dotted"
-                                  placeholder='სახელი'
+                                  :placeholder='$i18n.t("სახელი")'
                                   v-model="filename"
                                   onclick="$(this).next().addClass('ns-test-underline');"
                                   onblur="$(this).next().removeClass('ns-test-underline');"
@@ -157,7 +157,7 @@
                             <button class="btn btn-primary border-0 rounded-0 px-4 my-4" id="create-doc-button"
                                     @click="nameDocument()">
                                 <span class="spinner-border spinner-border-sm d-none" id="create-doc-spinner"></span>
-                                შემდეგი
+                                {{ $i18n.t("შემდეგი") }}
                             </button>
                         </div>
                     </div>
@@ -170,7 +170,7 @@
             <div class="row justify-content-center">
                 <div class="col-xl-6 col-lg-9 col-md-11 col-12">
                     <div class="m-auto text-center">
-                        <p> აირჩიეთ სფერო </p>
+                        <p> {{ $i18n.t("აირჩიეთ სფერო") }} </p>
                         <div v-for="field in fields">
                             <div class="card card-hover border-0 partial-shadow rounded-10"
                                  @click="chooseField(field.id)">
@@ -190,7 +190,7 @@
                 <div class="col-xl-6 col-lg-9 col-md-11 col-12">
                     <div class="m-auto text-center" style="max-width: 700px">
                         <div class="card rounded-5 border-0 w-100">
-                            <p class="mt-4 mb-0 text-center"> შეავსეთ მონაცემები </p>
+                            <p class="mt-4 mb-0 text-center"> {{ $i18n.t("შეავსეთ მონაცემები") }} </p>
                             <div class="card-body">
                                 <template v-for="obj in docAboutProperties">
                                     <p class="mt-4 mb-3 text-left ml-4 text-sm" :class="{'text-danger' : obj.hasError}">
@@ -213,7 +213,7 @@
                                 <button class="btn btn-primary border-0 px-4 my-4" id="doc-about-button"
                                         @click="validateDocAbout()">
                                     <span class="spinner-border spinner-border-sm d-none" id="doc-about-spinner"></span>
-                                    შემდეგი
+                                    {{ $i18n.t("შემდეგი") }}
                                 </button>
                             </div>
                         </div>
@@ -328,7 +328,7 @@ export default {
             this.showDocObjects = true;
             this.breadcrumb.push({
                 route: 'objects',
-                name: 'ობიექტის არჩევა',
+                name: this.$i18n.t('ობიექტის არჩევა'),
                 color: 'text-primary'
             });
             this.current = 'objects';
@@ -365,21 +365,21 @@ export default {
             this.showDocumentName = true;
             this.breadcrumb.push({
                 route: 'documentName',
-                name: 'დოკუმენტის სახელი',
+                name: this.$i18n.t('დოკუმენტის სახელი'),
                 color: 'text-success'
             });
             this.current = 'documentName';
         },
         nameDocument() {
             if (!this.filename) {
-                alert("გთხოვთ, შეიყვანოთ სახელი");
+                alert(this.$i18n.t("გთხოვთ, შეიყვანოთ სახელი"));
                 return;
             }
             this.showDocumentName = false;
             this.showFields = true;
             this.breadcrumb.push({
                 route: 'field',
-                name: 'სფეროს არჩევა',
+                name: this.$i18n.t('სფეროს არჩევა'),
                 color: 'text-orange'
             });
             this.current = 'field';
@@ -390,7 +390,7 @@ export default {
             this.showDocAbout = true;
             this.breadcrumb.push({
                 route: 'docAbout',
-                name: 'დოკუმენტის შესახებ',
+                name: this.$i18n.t('დოკუმენტის შესახებ'),
                 color: 'text-purple'
             });
             this.current = 'docAbout';
@@ -435,7 +435,7 @@ export default {
                 data['isNew'] = true;
 
                 const res = await httpService.post('/user/docs/prepare-doc', data).catch(err => {
-                    alert('სამწუხაროდ შეცდომა დაფიქსირდა. სცადეთ თავიდან');
+                    alert(this.$i18n.t('სამწუხაროდ შეცდომა დაფიქსირდა. სცადეთ თავიდან'));
                     stop();
                 });
                 if (res) {
@@ -446,7 +446,7 @@ export default {
                 data['docId'] = parseInt(this.docId);
 
                 const res = await httpService.post('/user/docs/prepare-doc', data).catch(err => {
-                    alert('სამწუხაროდ შეცდომა დაფიქსირდა. სცადეთ თავიდან');
+                    alert(this.$i18n.t('სამწუხაროდ შეცდომა დაფიქსირდა. სცადეთ თავიდან'));
                     stop();
                 })
 
@@ -482,7 +482,7 @@ export default {
         initBreadcrumb() {
             this.breadcrumb.push({
                 route: 'home',
-                name: 'მთავარი',
+                name: this.$i18n.t('მთავარი'),
                 color: 'text-danger'
             });
 
@@ -537,39 +537,39 @@ export default {
 
         this.docAboutProperties = [
             {
-                name: '1. შემფასებლის/ების სახელი და გვარი:',
-                placeholder: 'სახელი, გვარი',
+                name: `1. ${this.$i18n.t("შემფასებლის/ების სახელი და გვარი")}:`,
+                placeholder: this.$i18n.t('სახელი, გვარი'),
                 property: 'authorNames',
                 hasError: false,
             },
             {
-                name: ' 2. სამუშაო ობიექტის დასახელება და მისამართი:',
-                placeholder: 'დასახელება და მისამართი',
+                name: ` 2. ${this.$i18n.t("სამუშაო ობიექტის დასახელება და მისამართი")}:`,
+                placeholder: this.$i18n.t('დასახელება და მისამართი'),
                 property: 'address',
                 hasError: false,
             },
             {
-                name: '3. სამუშაოს მოკლე აღწერა:',
-                placeholder: 'აღწერა',
+                name: `3. ${this.$i18n.t("სამუშაოს მოკლე აღწერა")}:`,
+                placeholder: this.$i18n.t('აღწერა'),
                 property: 'description',
                 hasError: false,
                 rows: 2,
                 class: 'hovered-bg',
             },
             {
-                name: '4. რისკების შეფასების თარიღი:',
-                placeholder: 'თარიღი',
+                name: `4. ${this.$i18n.t("რისკების შეფასების თარიღი")}:`,
+                placeholder: this.$i18n.t('თარიღი'),
                 property: 'first_date',
                 hasError: false,
             },
             {
-                name: '5. დოკუმენტის გადახედვის სავარაუდო თარიღი:',
-                placeholder: 'თარიღი',
+                name: `5. ${this.$i18n.t("დოკუმენტის გადახედვის სავარაუდო თარიღი")}:`,
+                placeholder: this.$i18n.t('თარიღი'),
                 property: 'second_date',
                 hasError: false,
             },
             {
-                name: '6. დოკუმენტის N:',
+                name: `6. ${this.$i18n.t("დოკუმენტის")} N:`,
                 placeholder: 'N: ',
                 property: 'number',
                 hasError: false,
@@ -655,6 +655,12 @@ export default {
 .underline-on-hover:hover {
     text-decoration: underline;
     cursor: pointer;
+}
+.go-upper {
+    margin-top: -100px;
+}
+</style>
+: pointer;
 }
 .go-upper {
     margin-top: -100px;

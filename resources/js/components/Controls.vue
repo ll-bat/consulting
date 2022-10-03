@@ -6,7 +6,7 @@
                       width:50%;
                       border-top-left-radius: 8px;
                       color: #9999ff;
-                      border-right:1px solid #d3d3d3;'>კონტროლის ზომები
+                      border-right:1px solid #d3d3d3;'>{{ $i18n.t("კონტროლის ზომები") }}
             </th>
             <th class="text-center align-middle" v-for="answer in controlAnswers"
                 v-html="answer.text"
@@ -45,7 +45,6 @@
 
 <script>
 import {createNamespacedHelpers} from "vuex/dist/vuex.mjs";
-import {toggleControl, checkControl, chboxId, checkedId} from "../helpers/fns";
 
 const {mapState, mapActions} = createNamespacedHelpers('questions');
 
@@ -75,16 +74,16 @@ export default {
 
         init() {
             this.controlAnswers = [{
-                text: 'არსებული <br/><i class="text-muted">(საწყის ეტაპზე)</i>',
-                label: 'მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა'
+                text: `${this.$i18n.t('არსებული')} <br/><i class="text-muted">(${this.$i18n.t("საწყის ეტაპზე")})</i>`,
+                label: this.$i18n.t('მონიშნეთ თუ სახეზეა, იცავთ, იყენებთ, მიღებულია ეს ზომა')
             }, {
-                text: 'დამატებითი <br/> <i class="text-muted">(გატარებული ან/და მიმდინარე)</i>',
-                label: 'მონიშნეთ თუ სახეზე არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია)'
+                text: `${this.$i18n.t('დამატებითი')} <br/> <i class="text-muted">(${this.$i18n.t("გატარებული ან/და მიმდინარე")})</i>`,
+                label: this.$i18n.t('მონიშნეთ თუ სახეზე არ არის, არ გაქვთ მიღებულია ეს ზომა და შემდგომში მიიღებთ ამ ზომას (შეძლებისდაგვარად აუცილებელია)')
             }, {
-                text: 'გასატარებელი პრევენციული ღონისძიება',
+                text: this.$i18n.t('გასატარებელი პრევენციული ღონისძიება'),
                 label: '',
             }, {
-                text: 'არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება',
+                text: this.$i18n.t('არ არის აუცილებელი ან შესაძლებელი არ არის გამოყენება'),
                 label: ''
             }];
         },
@@ -126,3 +125,4 @@ export default {
 }
 
 </style>
+yle>

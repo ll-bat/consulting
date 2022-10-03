@@ -21,18 +21,18 @@
                     <span class="spinner-border spinner-border-sm text-sm pr-1 d-none" id='data-processing'
                           style="margin-left: -.5rem !important;">
                     </span>
-                        დასრულება
+                        {{ $i18n.t("დასრულება") }}
                     </button>
                 </template>
 
                 <template v-if="showControls">
                     <button v-if="!isUpdate" class='btn btn-primary rounded border-0 text-sm'
                             @click='next()'>
-                        შემდეგი
+                        {{ $i18n.t("შემდეგი") }}
                     </button>
                     <button v-else class="btn btn-danger rounded border-0 text-sm"
                             @click="updateDanger()">
-                        განახლება
+                        {{ $i18n.t("განახლება") }}
                     </button>
                 </template>
             </div>
@@ -137,7 +137,7 @@ export default {
             }
 
             if (!ok) {
-                alert('აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 არსებითი ან დამატებითი კონტროლის ზომა.')
+                alert(this.$i18n.t('აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 არსებითი ან დამატებითი კონტროლის ზომა'))
                 return false;
             }
 
@@ -149,7 +149,7 @@ export default {
                 ok = !!data.newPloss.find(validateString);
             }
             if (!ok) {
-                alert('აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 პოტენციური ზიანი.')
+                alert(this.$i18n.t('აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 პოტენციური ზიანი'))
                 return false;
             }
 
@@ -161,7 +161,7 @@ export default {
                 ok = !!data.newUdangers.find(validateString);
             }
             if (!ok) {
-                alert('აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 "ვინ იმყოფება საფრთხის ქვეშ".')
+                alert(this.$i18n.t("აუცილებელია მონიშნოთ ან დაამატოთ, მინიმუმ 1 'ვინ იმყოფება საფრთხის ქვეშ'"))
                 return false;
             }
 
@@ -170,7 +170,7 @@ export default {
              */
             ok = !!data.rpersons.find(validateString);
             if (!ok) {
-                alert('გთხოვთ დაამატოთ პასუხისმგებელი პირი.')
+                alert(this.$i18n.t('გთხოვთ დაამატოთ პასუხისმგებელი პირი'))
                 return false;
             }
 
@@ -182,7 +182,7 @@ export default {
                 ok = !!data.etimes.time.find(validateString);
             }
             if (!ok) {
-                alert('გთხოვთ, მიუთითოთ შესრულების ვადა.');
+                alert(this.$i18n.t('გთხოვთ, მიუთითოთ შესრულების ვადა'));
                 return false;
             }
 
@@ -260,7 +260,7 @@ export default {
             });
 
             if (!data.length) {
-                alert('გთხოვთ, შეავსოთ მონაცემები')
+                alert(this.$i18n.t('გთხოვთ, შეავსოთ მონაცემები'))
                 end();
                 return;
             }
@@ -280,7 +280,7 @@ export default {
             }
 
             const res = await httpService.post('docs/submit', formData).catch(err => {
-                alert("დაფიქსირდა შეცდომა. გთხოვთ, სცადოთ თავიდან.");
+                alert(this.$i18n.t("დაფიქსირდა შეცდომა. გთხოვთ, სცადოთ თავიდან"));
                 console.log(err);
             });
 
@@ -298,17 +298,17 @@ export default {
 
         init() {
             this.rpersons = {
-                title: 'პასუხისმგებელი პირი',
-                smTitle: '1. გთხოვთ დაამატოთ პასუხისმგებელი პირი',
+                title: this.$i18n.t('პასუხისმგებელი პირი'),
+                smTitle: `1. ${this.$i18n.t("გთხოვთ დაამატოთ პასუხისმგებელი პირი")}`,
                 data: [],
                 ref: 'rpersons'
             };
 
             this.etimes = {
-                title: 'შესრულების ვადა',
+                title: this.$i18n.t('შესრულების ვადა'),
                 smTitle: [
-                    '1. გთხოვთ, აირჩიოთ თარიღი',
-                    '2. ან შეიყვანოთ დღეების რაოდენობა სიტყვიერად, მაგალითად: რეგულარულად, ყოველკვირეულად ან სხვა'
+                    `1. ${this.$i18n.t("გთხოვთ, აირჩიოთ თარიღი")}`,
+                    `2. ${this.$i18n.t("ან შეიყვანოთ დღეების რაოდენობა სიტყვიერად, მაგალითად: რეგულარულად, ყოველკვირეულად ან სხვა")}`
                 ],
                 data: {},
                 ref: 'etimes',
@@ -368,5 +368,8 @@ export default {
     width: 7rem;
     height: 7rem;
     border-width: 1rem;
+}
+</style>
+em;
 }
 </style>

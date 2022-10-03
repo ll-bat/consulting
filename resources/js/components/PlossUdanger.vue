@@ -71,24 +71,24 @@ export default {
             this.combined = [{
                 class: 'mb-4 rounded-8 test-shadow',
                 style: 'border-radius:0;border-bottom:0;',
-                text: 'აირჩიეთ პოტენციური ზიანი',
+                text: this.$i18n.t('აირჩიეთ პოტენციური ზიანი'),
                 data: this.ploss,
                 type: 'ploss',
                 userInput: {
-                    title: 'პოტენციური ზიანის დამატება',
-                    smTitle: 'საჭიროების შემთხვევაში დაამატეთ პოტენციური ზიანი',
+                    title: this.$i18n.t('პოტენციური ზიანის დამატება'),
+                    smTitle: this.$i18n.t('საჭიროების შემთხვევაში დაამატეთ პოტენციური ზიანი'),
                     data: [],
                     ref: 'newPloss'
                 }
             }, {
                 class: 'pb-0 mb-4 rounded-8 test-shadow',
                 style: 'border-radius:0;padding-bottom:0 !important; ',
-                text: 'ვინ იმყოფება საფრთხის ქვეშ',
+                text: this.$i18n.t('ვინ იმყოფება საფრთხის ქვეშ'),
                 data: this.udanger,
                 type: 'udanger',
                 userInput: {
-                    title: 'საფრთხის-ქვეშ მყოფი პირის დამატება',
-                    smTitle: 'საჭიროების შემთხვევაში დაამატეთ ვინ იმყოფება საფრთხის ქვეშ',
+                    title: this.$i18n.t('საფრთხის-ქვეშ მყოფი პირის დამატება'),
+                    smTitle: this.$i18n.t('საჭიროების შემთხვევაში დაამატეთ ვინ იმყოფება საფრთხის ქვეშ'),
                     data: [],
                     ref: 'newUdangers'
                 }

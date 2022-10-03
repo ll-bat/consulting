@@ -2,8 +2,8 @@
     <div class=''>
         <div class='card test-shadow rounded-8 pl-4' style="padding-top: 30px !important;border-left: 8px solid #6957b8;">
             <p class='text-lg mb-0'>
-                ატვირთეთ საფრთხის ამსახველი ფოტო
-                <span class='text-muted text-sm'>(არასავალდებულო)</span>
+                {{ $i18n.t("ატვირთეთ საფრთხის ამსახველი ფოტო") }}
+                <span class='text-muted text-sm'>({{ $i18n.t("არასავალდებულო") }})</span>
             </p>
 
             <div class='card-body pb-5 px-2' style="padding-top: 30px">
@@ -75,5 +75,7 @@ export default {
 </script>
 
 <style scoped>
+
+</style>
 
 </style>

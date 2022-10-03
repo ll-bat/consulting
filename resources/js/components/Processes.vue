@@ -3,7 +3,7 @@
         <div class='card test-shadow rounded-8 modified-animation' id='edit-process'
              style='border-bottom-left-radius: 0; border-bottom-right-radius: 0; border-top: 8px solid rgb(105, 87, 184)'>
             <div class='card-body ml-2 pl-2'>
-                <p class='size-13 py-2 px-2'> აირჩიეთ პროცესი </p>
+                <p class='size-13 py-2 px-2'> {{ $i18n.t("აირჩიეთ პროცესი") }} </p>
                 <div class="px-4 my-0 py-0" v-for="process in getCompletedProcesses">
                     <p class="text-success" @mousedown="chooseProcess(process.id)">
                         <i class="nc-icon nc-check-2 px-2 mt-1"></i>
@@ -79,7 +79,7 @@ export default {
             this.setDanger(-1);
             const process = this.processes.find(p => p.id === id);
             if (!process) {
-                alert('სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი პროცესი წაშლილია...');
+                alert(this.$i18n.t('სამწუხაროდ, ამ დოკუმენტში შემავალი ზოგიერთი პროცესი წაშლილია'));
                 this.showDangerLoaderM(false);
                 this.showDangersM(false);
                 return;
@@ -116,3 +116,4 @@ export default {
     text-decoration: underline;
 }
 </style>
+yle>
