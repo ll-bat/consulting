@@ -72,9 +72,11 @@ use App\Objects;
 
     $('#doc-rename-a').on('click', e => {
         e.preventDefault();
-        $('#modal-input').val("{{ $filename }}").removeClass('is-invalid');
-        $('#modal-doc-object-id').val("{{ $objectId }}").removeClass('is-invalid')
-        $('#modal-button').click();
+        const filename = `<?= $filename ?>`
+        const objectId = `<?= $objectId ?>`
+       $('#modal-input').val(filename).removeClass('is-invalid');
+       $('#modal-doc-object-id').val(objectId).removeClass('is-invalid')
+       $('#modal-button').click();
     })
 
     $('#modal-submit-button').on('click', async e => {
