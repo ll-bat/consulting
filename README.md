@@ -1,6 +1,10 @@
 # Risk Assessment Consulting Website
 ### Here is the [demo url](https://test-consulting.herokuapp.com)
 
+### admin user credentials: 
+    - login: admin@example.com
+    - pass: password
+
 ## important 
 data can be categorized into: `processes`, `dangers`, `controls`, `potential damages` and `who-is-under-danger` groups
 - Usually, one `process` includes several dangers 
