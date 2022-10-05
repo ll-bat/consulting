@@ -6,7 +6,7 @@
     "გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები" : "Please, delete all data of this field",
     "პროცესები" : "processes",
     "პოტენციური ზიანი" : "potential damage",
-    "ვინ იმყოფება საფრთხის ქვეშ" : "who is under danger",
+    "ვინ იმყოფება საფრთხის ქვეშ" : "who-is-under-danger",
     "საფრთხეები" : "dangers",
     "კონტროლის ზომები" : "controls",
     "მომხმარებლების მიერ დამატებული კონტროლის ზომები" : "The controls added by the users",
@@ -141,7 +141,7 @@
     "ავტორიზაცია" : "authorization",
     "რეგისტრაცია" : "registration",
     "საფრთ.ამს.ფოტო" : "image of the danger",
-    "ვინ იმყოფება რისკის ქვეშ" : "who is under danger",
+    "ვინ იმყოფება რისკის ქვეშ" : "who-is-under-danger",
     "არსებული კონტროლის ზომები" : "existing controls",
     "საწყისი რისკი" : "starting risk",
     "გასატარებელ. ღონისძიებები. დამატებითი კონტროლის ზომები" : "events to be held. extra controls",
@@ -235,8 +235,8 @@
     "გატარებული ან/და მიმდინარე" : "processed or/and in progress",
     "გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(პროცესები)": "please, delete all data of this field(processed)",
     "გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(პოტენციური ზიანი)": "please, delete all data of this field(potential danger)",
-    "გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(ვინ იმყოფება საფრთხის ქვეშ)": "please, delete all data of this field(who is under danger)",
+    "გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(ვინ იმყოფება საფრთხის ქვეშ)": "please, delete all data of this field(who-is-under-danger)",
     "გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(საფრთხეები)": "please, delete all data of this field(processed)(dangers)",
     "გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(კონტროლის ზომები)": "please, delete all data of this field(controls)",
-    "გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(მომხმარებლების მიერ დამატებული კონტროლის ზომები/ვინ იმყოფება საფრთხის ქვეშ)" : "please, delete all data of this field(controls added by the users/who is under danger)"
+    "გთხოვთ, წაშალოთ ამ სფეროში არსებული მონაცემები(მომხმარებლების მიერ დამატებული კონტროლის ზომები/ვინ იმყოფება საფრთხის ქვეშ)" : "please, delete all data of this field(controls added by the users/who-is-under-danger)"
 }
